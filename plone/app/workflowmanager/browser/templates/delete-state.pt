@@ -1,0 +1,40 @@
+<div class="dialog-box" id="prompt" tal:define="state view/selected_state"> 
+    <h2>Confirm Delete '<tal:replace tal:replace="state/title" />'</h2> 
+ 
+    <p class='discreet'> 
+        Are you sure you want to delete this state?
+    </p> 
+ 
+    <form action="@@workflowmanager-delete-state" method="POST">
+        
+        <input type="hidden" name="selected-workflow" tal:attributes="value view/selected_workflow/id" />
+        <input type="hidden" name="selected-state" tal:attributes="value state/id" />
+        
+        <div class="field error Archetypestitlefield"
+            tal:condition="view/is_using_state"
+            tal:define="field_name string:replacement-state;
+                        has_error python: field_name in view.errors;
+                        error python: view.errors.get(field_name, None);"
+            tal:attributes="class python: has_error and 'field error' or 'field'">
+            
+            <label class="formQuestion" tal:attributes="for field_name">Replacement State</label>
+            <select tal:attributes="id field_name; name field_name">
+              <tal:workflows tal:repeat="s python: [s for s in view.available_states if s.id != state.id]">
+                  <option tal:attributes="value s/id; selected python: repeat['s'].index == 0 and 'yes' or ''" 
+                      tal:content="s/title"></option>
+              </tal:workflows>
+            </select>
+            <div id="title_help" class="formHelp">
+                You are deleting a state that could currently be in use. Please specify which
+                state should replace it on current objects and in transition destination states.
+            </div>
+
+        </div>
+        
+        <input type="submit" name="form.actions.delete" value="Delete" class="context" />
+        <input type="submit" name="form.actions.cancel" value="Cancel" class="standalone" />
+        
+    </form> 
+    <br /> 
+ 
+</div>

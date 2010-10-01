@@ -1,0 +1,30 @@
+<div class="dialog-box" id="prompt" tal:define="workflow view/selected_workflow"> 
+    <h2>Confirm Delete '<tal:replace tal:replace="workflow/title" />'</h2> 
+ 
+    <p class='discreet'> 
+        Are you sure you want to delete this workflow?
+    </p> 
+ 
+    <form action="@@workflowmanager-delete-workflow" method="POST">
+        
+        <input type="hidden" name="selected-workflow" tal:attributes="value view/selected_workflow/id" />
+        
+        <tal:condition tal:condition="not: view/can_delete">
+            <dl class="portalMessage error">
+                <dt>Warning</dt>
+                <dd>You can not delete this workflow until no content types are specified to use this workflow.
+                You can go into the <a tal:attributes="href string:${view/context_state/portal_url}/@@types-controlpanel" target="_blank">types control panel</a>
+                to reassign workflows or click on each of the listed types at the bottom and reassign those type's workflows individually.
+                </dd>
+            </dl>
+        </tal:condition>
+        
+        <tal:condition tal:condition="view/can_delete">
+            <input type="submit" name="form.actions.delete" value="Delete" class="context" />
+        </tal:condition>
+        <input type="submit" name="form.actions.cancel" value="Cancel" class="standalone" />
+        
+    </form> 
+    <br /> 
+ 
+</div>

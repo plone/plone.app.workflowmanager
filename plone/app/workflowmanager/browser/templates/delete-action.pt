@@ -1,0 +1,25 @@
+<div class="dialog-box" id="prompt" 
+    tal:define="transition view/selected_transition;
+                rule python: view.actions.get_rule(transition);
+                action_index python: int(request.get('action_index'));
+                action python: rule.get_action(action_index)"> 
+                
+    <h2>Confirm Delete '<tal:replace tal:replace="action/summary" />'</h2> 
+ 
+    <p class='discreet'> 
+        Are you sure you want to delete this Action?
+    </p> 
+ 
+    <form action="@@workflowmanager-deleteaction" method="POST">
+        
+        <input type="hidden" name="selected-workflow" tal:attributes="value view/selected_workflow/id" />
+        <input type="hidden" name="selected-transition" tal:attributes="value transition/id" />
+        <input type="hidden" name="action_index" tal:attributes="value action_index" />
+        
+        <input type="submit" name="form.actions.delete" value="Delete" class="context" /> 
+        <input type="submit" name="form.actions.cancel" value="Cancel" class="standalone" />
+        
+    </form> 
+    <br /> 
+ 
+</div>

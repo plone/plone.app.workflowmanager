@@ -1,0 +1,19 @@
+<div class="dialog-box" id="prompt" tal:define="transition view/selected_transition"> 
+    <h2>Confirm Delete '<tal:replace tal:replace="transition/title" />'</h2> 
+ 
+    <p class='discreet'> 
+        Are you sure you want to delete this transition?
+    </p> 
+ 
+    <form action="@@workflowmanager-delete-transition" method="POST">
+        
+        <input type="hidden" name="selected-workflow" tal:attributes="value view/selected_workflow/id" />
+        <input type="hidden" name="selected-transition" tal:attributes="value transition/id" />
+        
+        <input type="submit" name="form.actions.delete" value="Delete" class="context" /> 
+        <input type="submit" name="form.actions.cancel" value="Cancel" class="standalone" />
+        
+    </form> 
+    <br /> 
+ 
+</div>

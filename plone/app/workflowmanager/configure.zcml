@@ -1,0 +1,13 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    i18n_domain="plone.app.workflowmanager">
+    
+    <permission id="plone.app.workflowmanager.ManageWorkflows"
+        title="plone.app.workflowmanager: Manage Workflows"
+    />
+        
+    <include package=".browser" />
+
+</configure>

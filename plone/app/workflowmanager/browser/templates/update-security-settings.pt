@@ -1,0 +1,14 @@
+<div class="dialog-box" id="prompt"> 
+  <h2>Update Security Settings</h2> 
+ 
+  <p class='discreet'>Are you sure you want to update the security settings for all objects using this workflow in the portal?</p> 
+ 
+  <form action="@@workflowmanager-update-security-settings" method="POST"
+        tal:define="errors view/errors">
+    <input type="hidden" name="selected-workflow" tal:attributes="value view/selected_workflow/id" />
+    <input name="form.actions.confirm" type="submit" class="context" value="Yes" />  
+    <input name="form.actions.cancel" type="submit" class="context" value="Cancel" />
+    
+  </form> 
+  <br /> 
+</div>

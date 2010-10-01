@@ -1,0 +1,138 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    i18n_domain="plone.app.workflowmanager">
+
+    <browser:pages
+        for="*"
+        permission="plone.app.workflowmanager.ManageWorkflows"
+        class=".controlpanel.ControlPanel">
+
+       <browser:page name="workflowmanager" />
+       <browser:page attribute="render_content_template"  name="workflowmanager-content" />
+       <browser:page name="workflowmanager-workflow-states" attribute="render_states_template" />
+       <browser:page name="workflowmanage-item" attribute="retrieve_item" />       
+
+    </browser:pages>
+    
+
+    <browser:page
+        for="*"
+        name="workflowmanager-save-state"
+        class=".state.SaveState"
+        permission="plone.app.workflowmanager.ManageWorkflows"
+    />
+    <browser:page
+        for="*"
+        name="workflowmanager-save-transition"
+        class=".transition.SaveTransition"
+        permission="plone.app.workflowmanager.ManageWorkflows"
+    />
+        
+    <browser:page
+        for="*"
+        name="workflowmanager-add-new-transition"
+        class=".transition.AddTransition"
+        permission="plone.app.workflowmanager.ManageWorkflows"
+    />
+    
+    <browser:page
+        for="*"
+        name="workflowmanager-add-new-workflow"
+        class=".workflow.AddWorkflow"
+        permission="plone.app.workflowmanager.ManageWorkflows"
+    />
+    
+    <browser:page
+        for="*"
+        name="workflowmanager-add-new-state"
+        class=".state.AddState"
+        permission="plone.app.workflowmanager.ManageWorkflows"
+    />
+        
+    <browser:page
+        for="*"
+        name="workflowmanager-delete-state"
+        class=".state.DeleteState"
+        permission="plone.app.workflowmanager.ManageWorkflows"
+    />
+    
+    <browser:page
+        for="*"
+        name="workflowmanager-delete-transition"
+        class=".transition.DeleteTransition"
+        permission="plone.app.workflowmanager.ManageWorkflows"
+    />
+    
+    <browser:page
+        for="*"
+        name="workflowmanager-delete-workflow"
+        class=".workflow.DeleteWorkflow"
+        permission="plone.app.workflowmanager.ManageWorkflows"
+    />
+    
+    <browser:page
+        for="*"
+        name="workflowmanager-sanity-check"
+        class=".workflow.SanityCheck"
+        permission="plone.app.workflowmanager.ManageWorkflows"
+    />
+    
+    <browser:page
+        for="*"
+        name="workflowmanager-assign"
+        class=".workflow.Assign"
+        permission="plone.app.workflowmanager.ManageWorkflows"
+    />
+        
+    <browser:page
+        for="*"
+        name="workflowmanager-update-security-settings"
+        class=".workflow.UpdateSecuritySettings"
+        permission="plone.app.workflowmanager.ManageWorkflows"
+    />
+    
+    <browser:page
+        for="*"
+        name="workflowmanager-view-graph.gif"
+        class=".workflow.Graph"
+        attribute="image"
+        permission="plone.app.workflowmanager.ManageWorkflows"
+    />
+    
+    <browser:page
+        for="*"
+        name="workflowmanager-view-graph"
+        class=".workflow.Graph"
+        permission="plone.app.workflowmanager.ManageWorkflows"
+    />
+    
+    <browser:page
+      for="*"
+      name="workflowmanager-addaction"
+      class=".actions.AddActionView"
+      permission="plone.app.workflowmanager.ManageWorkflows"
+    />
+    
+    <browser:page
+      for="*"
+      name="workflowmanager-deleteaction"
+      class=".actions.DeleteActionView"
+      permission="plone.app.workflowmanager.ManageWorkflows"
+    />
+
+    <browser:resource
+        name="white_arrow.png"
+        file="resources/white_arrow.png"
+    />
+    <browser:resource
+        name="workflowmanager.css"
+        file="resources/workflowmanager.css"
+    />
+    <browser:resource
+        name="workflowmanager.js"
+        file="resources/workflowmanager.js"
+    />
+	
+</configure>

@@ -1,0 +1,8 @@
+<div class="dialog-box" id="prompt" tal:define="url python: view.get_url('@@workflowmanager-view-graph.gif') + '&randomize=' + view.random_number"> 
+  <h2>Diagram</h2> 
+ 
+  <p class='discreet'><a tal:attributes="href url">view full size</a></p> 
+ 
+  <img tal:attributes="src url" />
+
+</div>

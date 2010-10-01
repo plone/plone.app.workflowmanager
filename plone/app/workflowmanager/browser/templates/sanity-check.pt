@@ -1,0 +1,37 @@
+<div class="dialog-box" id="prompt"> 
+    <h2>Sanity Check</h2> 
+ 
+    <p class='discreet'> 
+        This just points out potential issues with your workflow. For instance,
+        it wouldn't make sense to have unused transitions or states and
+        transitions that do not bring you to any states.
+    </p> 
+ 
+    <ul id="checks" tal:condition="view/has_errors">
+        <dl class="portalMessage error" tal:condition="not: view/has_errors">
+            <dt>Warning</dt>
+            <dd>You have errors that you should fix!
+            </dd>
+        </dl>
+        <li tal:repeat="state view/errors/state-errors">
+            The 
+            <a tal:attributes="href python: view.get_url(state=state)" tal:content="state/title" class="goto-link" />
+            state is not connected with any transition. Either delete it or use it with a transition.
+        </li>
+        <li tal:repeat="transition view/errors/transition-errors">
+            The 
+            <a tal:attributes="href python: view.get_url(transition=transition)" tal:content="transition/title" class="goto-link" />
+            transition does not have a destination state. Please specify one.
+        </li>
+        <li tal:condition="python: view.errors.has_key('initial-state-error')">
+            You must specify an initial state.
+        </li>
+    </ul>
+
+    <dl class="portalMessage info" tal:condition="not: view/has_errors">
+        <dt>Info</dt>
+        <dd>Great. It seems like everything has checked out fine. 
+        </dd>
+    </dl>
+ 
+</div>

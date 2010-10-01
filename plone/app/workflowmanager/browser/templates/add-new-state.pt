@@ -1,0 +1,52 @@
+<div class="dialog-box" id="prompt"> 
+  <h2>Create New State</h2> 
+ 
+  <p class='discreet'>This will add a new state to the workflow.</p> 
+ 
+  <form action="@@workflowmanager-add-new-state" method="POST"
+        tal:define="errors view/errors">
+    <input type="hidden" name="selected-workflow" tal:attributes="value view/selected_workflow/id" />
+    <input type="hidden" name="referenced-transition" tal:attributes="value view/request/reference" 
+        tal:condition="python: view.request.has_key('reference')"/>
+    
+    <div class="field error Archetypestitlefield"
+        tal:define="field_name string:clone-from-state;
+                    has_error python: field_name in errors;
+                    error python: errors.get(field_name, None);"
+        tal:attributes="class python: has_error and 'field error' or 'field'">
+            
+        <label class="formQuestion" tal:attributes="for field_name">Clone from</label>
+        <select tal:attributes="name field_name; id field_name">
+            <option value="">...</option>
+            <tal:states tal:repeat="state view/available_states">
+                <option tal:attributes="value state/id; selected python: request.get(field_name, None) == state.id;" tal:content="state/title">
+                </option>
+            </tal:states>
+        </select>
+        <div id="title_help" class="formHelp">
+            Select the state you'd like to use as the basis for the new state you're creating.
+        </div>
+    </div>
+        
+    <div class="field error Archetypestitlefield"
+        tal:define="field_name string:state-name;
+                    has_error python: field_name in errors;
+                    error python: errors.get(field_name, None);"
+        tal:attributes="class python: has_error and 'field error' or 'field'">
+            
+        <label tal:attributes="for field_name" class="formQuestion">State Name</label>
+        <span title="Required" class="fieldRequired">(Required)</span>
+        <div id="title_help" class="formHelp">An id will be generated from the title.</div>
+            <div class="fieldErrorBox" 
+                tal:condition="has_error"
+                tal:content="error">
+                State Name Error
+            </div>
+            <input class="firstToFocus" type="text" tal:attributes="name field_name" id="state-name" value="" /> 
+        </div>
+        
+        <input name="form.actions.add" type="submit" class="context" value="Add" />
+        <input name="form.actions.cancel" type="submit" class="context" value="Cancel" />
+    </form> 
+    <br /> 
+</div>

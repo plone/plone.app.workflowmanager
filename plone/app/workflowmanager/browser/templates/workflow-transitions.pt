@@ -1,0 +1,10 @@
+<div id="workflow-transitions" class="workflow-list" 
+    tal:define="available_states options/available_states;
+                available_transitions options/available_transitions;">
+
+    <a name="fieldsetlegend-transitions-anchor" class="doc-link">fieldsetlegend-transitions-anchor</a>
+  
+  <tal:transitions tal:repeat="transition available_transitions"
+        tal:content="structure python: view.workflow_transition_template(transition=transition, available_states=available_states)" />
+
+</div>

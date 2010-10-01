@@ -1,0 +1,24 @@
+<div id="workflow-content">
+    
+    <fieldset id="fieldset-states" class="formPanel workflow-manager-panel" 
+          tal:content="structure view/render_states_template"> 
+
+    </fieldset>
+
+    <fieldset id="fieldset-transitions" class="formPanel workflow-manager-panel"
+          tal:content="structure view/render_transitions_template"> 
+
+    </fieldset>
+    
+    <div id="assigned-types" class="inline">
+        <p class="discreet">
+            Assigned Types: 
+            <span tal:repeat="type_ view/assigned_types">
+                <a tal:attributes="href string:${view/context_state/portal_url}/@@types-controlpanel?type_id=${type_/id}" 
+                    tal:content="type_/title" target="_blank" />, 
+            </span>
+            | <span class="initial-state">*</span> denotes initial state of this workflow
+        </p>
+    </div>
+    
+</div>

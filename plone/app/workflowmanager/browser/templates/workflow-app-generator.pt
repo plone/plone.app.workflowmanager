@@ -1,0 +1,132 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="plone.app.workflowmanager">
+
+  <metal:override fill-slot="column_one_slot" />
+  <metal:override fill-slot="column_two_slot" />
+  <metal:block fill-slot="top_slot" tal:define="dummy python:request.set('disable_border',1)" />
+      
+  <metal:css fill-slot="style_slot">
+  </metal:css>
+  <metal:javascript fill-slot="javascript_head_slot">
+  </metal:javascript>
+    
+  <body>
+    <div metal:fill-slot="main">
+      <h1 class="documentFirstHeading" i18n:translate="title_manage_contentrules">Workflow App Generator</h1>
+    
+      <p class="documentDescription">
+          From here you can create workflow applications. You decide which types to export and this tool
+          packages your types and workflows together.
+      </p>
+
+      <a href=""
+         class="link-parent"
+         tal:attributes="href string:$portal_url/plone_control_panel"
+         i18n:translate="label_up_to_plone_setup">
+      Up to Site Setup
+      </a>
+
+      <div id="workflowmanager-nothing-to-see" tal:condition="not: view/can_use">
+	There is nothing to see here, for one or more of the following reasons:
+	<ul>
+	  <li>you have no PloneFormGen forms on this site</li>
+	  <li>you have no custom Dexterity content types on this site</li>
+	  <li>you do not have ZopeSkel and Paste installed in your Zope</li>
+	</ul>
+      </div>
+    
+      <form action="@@workflowmanager-app-generator" method="POST" tal:condition="view/can_use">
+          <input type="hidden" name="form.submitted" value="true" />
+
+          <div class="field Archetypestitlefield">
+              <label class="formQuestion">Project Title</label>
+              <div id="title_help" class="formHelp">The name of the project.</div>
+              <input class="firstToFocus" type="text" name="project-title" value="My Content Type Project" />
+          </div>
+  
+          <div class="field Archetypestitlefield">
+              <label class="formQuestion">Namespace Package</label>
+              <div id="title_help" class="formHelp">For instance, in plone.dexterity, plone would be the namespace package.</div>
+              <input type="text" name="namespace-package" value="collective" />
+          </div>
+          <div class="field Archetypestitlefield">
+              <label class="formQuestion">Package</label>
+              <div id="title_help" class="formHelp">The package contained namespace package. For instance, in plone.dexterity, dexterity would be the contained namespace package.</div>
+              <input type="text" name="contained-namespace-package" value="types" />
+          </div>
+          <div class="field Archetypestitlefield">
+              <label class="formQuestion">Version</label>
+              <div id="title_help" class="formHelp">The package version number given.</div>
+              <input type="text" name="package-version" value="0.1" />
+          </div>
+          <br />
+          <table summary="Types to export" class="listing" tal:condition="view/ploneformgen_installed">
+            <thead>
+              <tr>
+                <th class="nosort">Export</th>
+                <th class="nosort">Type Name</th>
+                <th class="nosort">Assigned Workflow</th>
+              </tr>
+            </thead>
+            <tbody>
+            
+              <tal:types tal:repeat="type view/type_generator/types">
+                <td>
+                  <input type="checkbox" tal:attributes="name string:export-${type/UID};" />
+                </td>
+                <td>
+                  <p tal:content="type/Title" />
+                </td>
+                <td>
+                  <select tal:attributes="name string:workflow-${type/UID};">
+                      <tal:states tal:repeat="workflow view/workflows">
+                          <option tal:attributes="value workflow/id;" tal:content="workflow/title"></option>
+                      </tal:states>
+                  </select>
+                </td>
+              </tal:types>
+            </tbody>
+          </table>
+          
+          <table summary="Types to export" class="listing" tal:condition="view/dexterity_installed">
+            <thead>
+              <tr>
+                <th class="nosort">Export</th>
+                <th>Type Name</th>
+                <th>Assigned Workflow</th>
+              </tr>
+            </thead>
+            <tbody>
+            
+              <tal:types tal:repeat="type view/type_generator/types">
+                <tr tal:define="oddrow repeat/type/odd;"
+                    tal:attributes="class python: oddrow and 'even' or 'odd'">
+                  <td class="field">
+                    <input type="checkbox" tal:attributes="name string:export-${type/id};" />
+                  </td>
+                  <td class="field">
+                    <p tal:content="type/Title" />
+                  </td>
+                  <td class="field">
+                    <tal:notag tal:replace="python: view.type_generator.get_workflow_for(type)" />
+                  </td>
+                </tr>
+              </tal:types>
+            </tbody>
+          </table>
+          
+          <div class="formControls">
+            <span class="actionButtons">
+                <input type="submit" class="context" value="Create" class="form.actions.save" name="form.buttons.create" />
+            </span>
+          </div>
+      </form>
+    </div>
+  </body>
+</html>
+

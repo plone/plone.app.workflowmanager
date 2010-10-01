@@ -1,0 +1,54 @@
+from Products.DCWorkflow.Guard import Guard        
+
+def generate_id(id, ids):
+    count = 1
+    org_id = id
+    while id in ids:
+        id = org_id + '-' + str(count)
+        count += 1
+        
+    return id
+
+
+def clone_transition(transition, clone):
+    transition.description = clone.description
+    transition.new_state_id = clone.new_state_id
+    transition.trigger_type = clone.trigger_type
+
+    if clone.guard:
+        guard = Guard()
+        guard.permissions = clone.guard.permissions[:]
+        guard.roles = clone.guard.roles[:]
+        guard.groups = clone.guard.groups[:]
+        transition.guard = guard
+
+    transition.actbox_name = clone.actbox_name
+    transition.actbox_url = clone.actbox_url.replace(clone.id, transition.id)
+    transition.actbox_category = clone.actbox_category
+    transition.var_exprs = clone.var_exprs
+    transition.script_name = clone.script_name
+    transition.after_script_name = clone.after_script_name
+
+def clone_state(state, clone):
+    state.transitions = clone.transitions[:]
+    state.permission_roles = clone.permission_roles and clone.permission_roles.copy() or None
+    state.group_roles = clone.group_roles and clone.group_roles.copy() or None
+    state.var_values = clone.var_values and clone.var_values.copy() or None
+    state.description = clone.description
+    
+def json(d):
+
+    def convert_type(value):
+        if type(value) == bool:
+            return str(value).lower()
+        elif type(value) in (str, unicode):
+            return '"%s"' % value.replace('"', '\\"')
+        elif type(value) == dict:
+            return json(value)
+        elif type(value) in (list, tuple, set):
+            return "[%s]" % ','.join([convert_type(v) for v in value])
+        else:
+            return value
+
+    return "{%s}" % (', '.join(["\"%s\" : %s" % (name, convert_type(value)) for name, value in d.items()]))
+    

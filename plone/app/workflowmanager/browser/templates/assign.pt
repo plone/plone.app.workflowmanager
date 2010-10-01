@@ -1,0 +1,36 @@
+<div class="dialog-box" id="prompt"> 
+    <h2>Assign This Workflow</h2> 
+ 
+    <p class='discreet'> 
+        Select which type you'd like to assign this workflow to. This form will assist you in setting up a workflow for a type. If you don't use the form as is, it'll forward you on to the full blown Types control panel so don't be alarmed if that occurs.
+    </p> 
+ 
+    <form action="@@workflowmanager-assign" method="POST">
+        <input type="hidden" name="selected-workflow" tal:attributes="value view/selected_workflow/id" />
+        <input type="hidden" name="new_workflow" tal:attributes="value view/selected_workflow/id" />
+        
+        <div class="field error Archetypestitlefield"
+            tal:define="field_name string:type_id;
+                        has_error python: field_name in request;
+                        error python: view.errors.get(field_name, None);"
+            tal:attributes="class python: has_error and 'field error' or 'field'">
+            
+            <label class="formQuestion" tal:attributes="for field_name">Type</label>
+            <select tal:attributes="name field_name; id field_name">
+                <tal:types tal:repeat="type view/assignable_types">
+                    <option tal:attributes="value type/id;" tal:content="type/title"></option>
+                </tal:types>
+            </select>
+            <div id="title_help" class="formHelp">
+                The type you would like to assign this workflow.
+            </div>
+
+        </div>
+        
+        <input name="form.actions.next" type="submit" class="context" value="Next Step" />
+        <input name="form.actions.cancel" type="submit" class="context" value="Cancel" />
+        
+    </form> 
+    <br /> 
+ 
+</div>

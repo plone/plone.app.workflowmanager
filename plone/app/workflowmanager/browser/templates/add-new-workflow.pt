@@ -1,0 +1,52 @@
+<div class="dialog-box" id="prompt"> 
+    <h2>Create New Workflow</h2> 
+ 
+    <p class='discreet'> 
+        This will add a new transition to the workflow.
+    </p> 
+ 
+    <form action="@@workflowmanager-add-new-workflow" method="POST">
+        
+        <div class="field error Archetypestitlefield"
+            tal:define="field_name string:clone-from-workflow;
+                        has_error python: field_name in request;
+                        error python: view.errors.get(field_name, None);"
+            tal:attributes="class python: has_error and 'field error' or 'field'">
+            
+            <label class="formQuestion" tal:attributes="for field_name">Clone from</label>
+            <select tal:attributes="name field_name; id field_name">
+                <tal:states tal:repeat="workflow view/workflows">
+                    <option tal:attributes="value workflow/id;" tal:content="workflow/title"></option>
+                </tal:states>
+            </select>
+            <div id="title_help" class="formHelp">
+                Select the workflow you'd like to use as the basis for the new workflow you're creating.
+            </div>
+
+        </div>
+        
+        <div class="field error Archetypestitlefield"
+            tal:define="has_error python: 'workflow-name' in request;
+                        error python: view.errors.get('workflow-name', None);"
+            tal:attributes="class python: has_error and 'field error' or 'field'">
+            
+            <label for="transition-name" class="formQuestion">Workflow Name</label>
+            <span title="Required" class="fieldRequired">
+                (Required)
+            </span>
+            <div id="title_help" class="formHelp">An id will be generated from the title.</div>
+
+            <div class="fieldErrorBox" 
+                tal:condition="has_error"
+                tal:content="error">Workflow Name Error
+            </div>
+            <input class="firstToFocus" type="text" name="workflow-name" value="" /> 
+        </div>
+        
+        <input name="form.actions.add" type="submit" class="context" value="Add" />
+        <input name="form.actions.cancel" type="submit" class="context" value="Cancel" />
+        
+    </form> 
+    <br /> 
+ 
+</div>
