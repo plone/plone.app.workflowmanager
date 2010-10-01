@@ -1,16 +1,6 @@
 from controlpanel import Base
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from plone.memoize.instance import memoize
-from zope.component import getUtility, getMultiAdapter, queryUtility
-from plone.contentrules.engine.interfaces import IRuleStorage, \
-    IRuleAssignmentManager
-from zope.schema.interfaces import IVocabularyFactory
-from Products.CMFCore.interfaces._events import IActionSucceededEvent
-from plone.app.contentrules.conditions.wftransition import \
-    IWorkflowTransitionCondition, WorkflowTransitionCondition
-from plone.contentrules.engine import utils
-from plone.app.contentrules.rule import Rule, get_assignments
-from Products.CMFCore.utils import getToolByName
+from plone.app.contentrules.rule import Rule
 from plone.app.workflowmanager.actionmanager import RuleAdapter, ActionManager
 from urllib import urlencode
 from Products.CMFPlone import PloneMessageFactory as _

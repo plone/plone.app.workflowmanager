@@ -1,7 +1,7 @@
 from plone.memoize.instance import memoize
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from zope.component import getUtility, getMultiAdapter, queryUtility
+from zope.component import getUtility, getMultiAdapter
 from Products.CMFCore.utils import getToolByName
 from plone.app.workflowmanager.permissions import managed_permissions, \
     allowed_guard_permissions
