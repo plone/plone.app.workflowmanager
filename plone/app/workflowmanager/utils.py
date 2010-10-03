@@ -48,7 +48,6 @@ def json(d):
         elif type(value) in (list, tuple, set):
             return "[%s]" % ','.join([convert_type(v) for v in value])
         else:
-            return value
+            return str(value)
 
     return "{%s}" % (', '.join(["\"%s\" : %s" % (name, convert_type(value)) for name, value in d.items()]))
-    

@@ -49,6 +49,12 @@ Let's start by creating a new workflow. We'll clone it from the
 Simple publication workflow and call it "My Simple Publication Workflow".
 
     >>> browser.getControl("Create new workflow").click()
+    >>> browser.getControl(name='form.actions.add').click()
+
+Should give you an error if no name specified
+    >>> 'Invalid workflow name. Please try another.' in browser.contents
+    True
+
     >>> browser.getControl(name='clone-from-workflow').value = ['simple_publication_workflow']
     >>> browser.getControl(name='workflow-name').value = "My Simple Publication Workflow"
     >>> browser.getControl(name='form.actions.add').click()
@@ -59,6 +65,14 @@ It should have been created
     >>> "My Simple Publication Workflow" in browser.contents
     True
     
+Try a sanity check
+
+    >>> browser.open(portal_url + '/@@workflowmanager-sanity-check?selected-workflow=my-simple-publication-workflow')
+    >>> 'It seems like everything has checked out fine.' in browser.contents
+    True
+
+    >>> browser.open(portal_url + '/@@workflowmanager?selected-workflow=my-simple-publication-workflow')
+
 
 The id should have also been created
 
@@ -186,6 +200,11 @@ Now, we'll modify some properties
     >>> browser.getControl(name='transition-retract-display-name').value
     'My New Name'
     
+    >>> browser.getControl(name='transition-retract-state-published-selected').value = False
+    >>> browser.getControl(name='save-transition-retract-button').click()
+    >>> browser.getControl(name='transition-retract-state-published-selected').value
+    []
+    
     
 We'll even add a state that uses this transition from here.
 
@@ -223,7 +242,44 @@ Should now be added
     >>> "My New State" in browser.contents
     True
 
-Now the same thing for a transition
+And try adding a state from a transition
+
+    >>> '@@workflowmanager-add-new-state?selected-workflow=my-simple-publication-workflow&amp;reference=reject' in browser.contents
+    True
+    
+    >>> browser.open(portal_url + '/@@workflowmanager-add-new-state?selected-workflow=my-simple-publication-workflow&amp;reference=reject')
+    >>> browser.getControl(name='state-name').value = 'foobar state'
+    >>> browser.getControl(name='form.actions.add').click()
+
+    >>> 'foobar state' in browser.contents
+    True
+    
+And test editing a state's permissions
+
+    >>> browser.getControl(name='permission-List-role-Authenticated-state-foobar-state').value = True
+    >>> browser.getControl(name='save-state-foobar-state-button').click()
+    >>> browser.getControl(name='permission-List-role-Authenticated-state-foobar-state').value
+    True
+
+Test removing transition from set of transitions
+
+    >>> browser.getControl(name='transition-reject-state-pending').value
+    True
+    >>> browser.getControl(name='transition-reject-state-pending').value = False
+    >>> browser.getControl(name='save-state-pending-button').click()
+    >>> browser.getControl(name='transition-reject-state-pending').value
+    []
+    
+
+Now the same thing for a transition. First add one without being cloned
+
+    >>> browser.getControl(name='add-new-transition-button').click()
+    >>> browser.getControl(name='transition-name').value = "foobar Transition"
+    >>> browser.getControl(name='form.actions.add').click()
+    >>> 'foobar Transition' in browser.contents
+    True
+
+And add the cloning...
 
     >>> browser.getControl(name='add-new-transition-button').click()
     >>> browser.getControl(name='clone-from-transition').value = ['retract']
@@ -242,14 +298,75 @@ Should show error
 Should now be added
 
     >>> "My New Transition" in browser.contents
+    True    
+    
+Add from state area.
+
+    >>> '@@workflowmanager-add-new-transition?selected-workflow=my-simple-publication-workflow&amp;reference=foobar-state' in browser.contents
     True
     
+    >>> browser.open(portal_url + '/@@workflowmanager-add-new-transition?selected-workflow=my-simple-publication-workflow&amp;reference=foobar-state')
+    >>> browser.getControl(name='transition-name').value = 'foobar 2 transition'
+    >>> browser.getControl(name='form.actions.add').click()
+    >>> 'foobar 2 transition' in browser.contents
+    True
+            
+Now graph it
+
+    >>> browser.open(portal_url + '/@@workflowmanager-view-graph?selected-workflow=my-simple-publication-workflow')
+    >>> 'view full size' in browser.contents
+    True
+    
+    >>> browser.getLink('Up to Workflow Editor').click()
+    
+Try call to update security settings
+
+    >>> browser.open(portal_url + '/@@workflowmanager-update-security-settings?selected-workflow=my-simple-publication-workflow')
+    >>> browser.getControl(name='form.actions.confirm').click()
+    
+    
+Try deleting a state
+    
+    >>> '@@workflowmanager-delete-state?selected-workflow=my-simple-publication-workflow&amp;selected-state=private' in browser.contents
+    True
+    
+    >>> browser.open(portal_url + '/@@workflowmanager-delete-state?selected-workflow=my-simple-publication-workflow&amp;selected-state=private')
+    >>> browser.getControl(name='form.actions.delete').click()
+    >>> 'state-private-delete-button' in browser.contents
+    False
+    
+Delete another, but back out first...
+
+    >>> '@@workflowmanager-delete-state?selected-workflow=my-simple-publication-workflow&amp;selected-state=pending' in browser.contents
+    True
+    
+    >>> browser.open(portal_url + '/@@workflowmanager-delete-state?selected-workflow=my-simple-publication-workflow&amp;selected-state=pending')
+    >>> browser.getControl(name='form.actions.cancel').click()
+    >>> 'state-pending-delete-button' in browser.contents
+    True
+    
+Delete a transition
+
+    >>> delete_url = portal_url + '/@@workflowmanager-delete-transition?selected-workflow=my-simple-publication-workflow&amp;selected-transition=reject'
+    >>> delete_url in browser.contents
+    True
+    >>> browser.open(delete_url)
+    
+Cancel first to make sure it doesn't delete
+
+    >>> browser.getControl(name='form.actions.cancel').click()
+    >>> delete_url in browser.contents
+    True
+    
+    >>> browser.open(delete_url)
+    >>> browser.getControl(name='form.actions.delete').click()
+    >>> delete_url not in browser.contents
+    True
     
 Let's now delete the workflow we've been playing with.
 
     >>> browser.getControl(name='delete-workflow-button').click()
     >>> browser.getControl(name='form.actions.delete').click()
-    
+
     >>> "My Simple Publication Workflow" in browser.contents
     False
-

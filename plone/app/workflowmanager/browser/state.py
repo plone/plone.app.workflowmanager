@@ -3,7 +3,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.app.workflowmanager.utils import clone_state, generate_id
 from plone.app.workflow.remap import remap_workflow
 import validators
-from Globals import PersistentMapping
+from Persistence import PersistentMapping
 from plone.app.workflowmanager.permissions import managed_permissions
 from Products.CMFPlone import PloneMessageFactory as _
 

@@ -343,9 +343,4 @@ class ControlPanel(Base):
                 available_transitions=self.available_transitions)
         elif transition:
             return self.workflow_transition_template(transition=transition, 
-                available_states=self.available_states)            
-           
-
-          
-          
-        
+                available_states=self.available_states)        

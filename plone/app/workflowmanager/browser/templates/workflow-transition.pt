@@ -196,7 +196,7 @@
                 </p>
                 <a class="dialog-box save-first" rel="#pb_99999"
                     tal:attributes="href python: view.get_url('@@workflowmanager-addaction', transition=transition)">
-                    <input type="submit" class="context allowMultiSubmit" name="addaction" value="Add Action" />
+                    <input type="submit" class="context allowMultiSubmit" tal:attributes="name string:${transition/id}-addaction" value="Add Action" />
                 </a>
             </div>
             

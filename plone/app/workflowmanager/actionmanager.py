@@ -119,5 +119,4 @@ class ActionManager(object):
     def delete_rule_for(self, transition):
         rule = self.get_rule(transition)
         if rule is not None:
-            del self.storage[rule.rule.__name__]
-        
+            del self.storage[rule.rule.__name__]        

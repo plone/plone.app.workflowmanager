@@ -15,7 +15,7 @@
             Assigned Types: 
             <span tal:repeat="type_ view/assigned_types">
                 <a tal:attributes="href string:${view/context_state/portal_url}/@@types-controlpanel?type_id=${type_/id}" 
-                    tal:content="type_/title" target="_blank" />, 
+                    tal:content="type_/title" target="_blank" /><tal:comma tal:replace="string:," tal:condition="repeat/type_/end" />
             </span>
             | <span class="initial-state">*</span> denotes initial state of this workflow
         </p>

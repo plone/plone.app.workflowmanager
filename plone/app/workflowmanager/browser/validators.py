@@ -32,4 +32,3 @@ def parse_set_value(form, key):
     else:
         return set(())
     return val
-    
