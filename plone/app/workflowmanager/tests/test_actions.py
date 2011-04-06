@@ -9,9 +9,10 @@ from plone.app.workflowmanager.browser.actions import AddActionView, DeleteActio
 from plone.app.workflowmanager.actionmanager import ActionManager
 from plone.app.workflowmanager.tests import TestResponse
 
+
 class TestActions(unittest.TestCase):
 
-    layer = INTEGRATION_MANAGER_TESTING    
+    layer = INTEGRATION_MANAGER_TESTING
 
     def test_adding_action(self):
         portal = self.layer['portal']
@@ -26,13 +27,13 @@ class TestActions(unittest.TestCase):
         am = ActionManager()
         rule = am.get_rule(view.selected_transition)
         self.assertTrue(rule is not None)
-        
+
     def test_adding_action(self):
         portal = self.layer['portal']
         login(portal, TEST_USER_NAME)
         req = TestRequest(form={
-            'selected-transition' : 'retract',
-            'selected-workflow' : 'workflow-1'
+            'selected-transition': 'retract',
+            'selected-workflow': 'workflow-1'
         })
         view = AddActionView(portal, req)
         try:
@@ -42,15 +43,14 @@ class TestActions(unittest.TestCase):
         am = ActionManager()
         rule = am.get_rule(view.selected_transition)
         self.assertTrue(rule is None)
-    
 
     def test_accessing_adding_action(self):
         portal = self.layer['portal']
         login(portal, TEST_USER_NAME)
 
         req = TestRequest(form={
-            'selected-transition' : 'publish',
-            'selected-workflow' : 'workflow-1'
+            'selected-transition': 'publish',
+            'selected-workflow': 'workflow-1'
         })
         view = DeleteActionView(portal, req)
         try:
@@ -60,16 +60,16 @@ class TestActions(unittest.TestCase):
         am = ActionManager()
         rule = am.get_rule(view.selected_transition)
         self.assertTrue(len(rule.actions) == 1)
-    
+
     def test_removing_action(self):
         portal = self.layer['portal']
         login(portal, TEST_USER_NAME)
-                
+
         req = TestRequest(form={
-            'form.actions.delete' : 'Delete',
-            'selected-transition' : 'publish',
-            'selected-workflow' : 'workflow-1',
-            'action_index' : '0'
+            'form.actions.delete': 'Delete',
+            'selected-transition': 'publish',
+            'selected-workflow': 'workflow-1',
+            'action_index': '0'
         })
         view = DeleteActionView(portal, req)
         res = view()
@@ -80,18 +80,18 @@ class TestActions(unittest.TestCase):
     def test_cancel_removing_action(self):
         portal = self.layer['portal']
         login(portal, TEST_USER_NAME)
-                
+
         req = TestRequest(form={
-            'form.actions.cancel' : 'Cancel',
-            'selected-transition' : 'publish',
-            'selected-workflow' : 'workflow-1',
+            'form.actions.cancel': 'Cancel',
+            'selected-transition': 'publish',
+            'selected-workflow': 'workflow-1',
         })
         view = DeleteActionView(portal, req)
         res = view()
         am = ActionManager()
         rule = am.get_rule(view.selected_transition)
         self.assertTrue(len(rule.actions) == 1)
-        
-    
+
+
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)

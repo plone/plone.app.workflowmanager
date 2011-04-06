@@ -2,12 +2,11 @@
 # This code is directly adapted from
 # DCWorkflowGraph and isn't change much at all.
 #
+import os
 
 from Products.CMFCore.utils import getToolByName
 from tempfile import mktemp
-import os
-import sys
-from os.path import basename, splitext, join
+from os.path import join
 
 
 DOT_EXE = 'dot'
@@ -17,8 +16,8 @@ if os.name == 'nt':
     DOT_EXE = 'dot.exe'
 
     # patch from Joachim Bauch bauch@struktur.de
-    # on Windows, the path to the ATT Graphviz installation 
-    # is read from the registry. 
+    # on Windows, the path to the ATT Graphviz installation
+    # is read from the registry.
     try:
         import win32api, win32con
         # make sure that "key" is defined in our except block
@@ -26,9 +25,10 @@ if os.name == 'nt':
         try:
             key = win32api.RegOpenKeyEx(win32con.HKEY_LOCAL_MACHINE, r'SOFTWARE\ATT\Graphviz')
             value, type = win32api.RegQueryValueEx(key, 'InstallPath')
-            bin_search_path = [os.path.join(str(value), 'bin')]
+            bin_search_path = [join(str(value), 'bin')]
         except:
-            if key: win32api.RegCloseKey(key)
+            if key:
+                win32api.RegCloseKey(key)
             # key doesn't exist
             pass
     except ImportError:
@@ -41,15 +41,17 @@ else:
     bin_search_path = path.split(":")
 
 
-# following 2 method is copied form PortalTranforms 
+# following 2 method is copied form PortalTranforms
 # Owners of PortalTransforms own the copyright of these 2 functions
-class MissingBinary(Exception): pass
+class MissingBinary(Exception):
+    pass
+
 
 def bin_search(binary):
     """search the bin_search_path  for a given binary
     returning its fullname or None"""
     result = None
-    mode   = os.R_OK | os.X_OK
+    mode = os.R_OK | os.X_OK
     for p in bin_search_path:
         path = join(p, binary)
         if os.access(path, mode) == 1:
@@ -66,6 +68,7 @@ except MissingBinary:
     HAS_GRAPHVIZ = False
     bin = None
 
+
 def getObjectTitle(object):
     """Get a state/transition title to be displayed in the graph
     """
@@ -78,6 +81,7 @@ def getObjectTitle(object):
     else:
         title = '%s\\n(%s)'%(title, id)
     return title
+
 
 def getPOT(wf):
     """ get the pot, copy from:
@@ -132,6 +136,7 @@ def getPOT(wf):
     out.append('}')
     return '\n'.join(out)
 
+
 def getGraph(workflow, format="gif"):
     """show a workflow as a graph, copy from:
 "OpenFlowEditor":http://www.openflow.it/wwwopenflow/Download/OpenFlowEditor_0_4.tgz
@@ -152,8 +157,5 @@ def getGraph(workflow, format="gif"):
     out.close()
     os.remove(outfile)
     os.remove(infile)
-    
+
     return result
-
-
-

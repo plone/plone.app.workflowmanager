@@ -1,15 +1,16 @@
 from controlpanel import Base
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from plone.app.workflowmanager.utils import clone_state, generate_id
+from plone.app.workflowmanager.utils import clone_state
 from plone.app.workflow.remap import remap_workflow
 import validators
 from Persistence import PersistentMapping
 from plone.app.workflowmanager.permissions import managed_permissions
 from Products.CMFPlone import PloneMessageFactory as _
 
+
 class AddState(Base):
     template = ViewPageTemplateFile('templates/add-new-state.pt')
-    
+
     def __call__(self):
         self.errors = {}
 
@@ -35,147 +36,146 @@ class AddState(Base):
                 # if added from transition screen
                 referenced_transition = self.request.get('referenced-transition', None)
                 if referenced_transition:
-                    new_state.transitions = new_state.transitions + (referenced_transition,)
+                    new_state.transitions = new_state.transitions + (referenced_transition, )
 
-                msg = _(u'"${state_id}" state successfully created.',  
-                    mapping={'state_id' : new_state.id})
+                msg = _(u'"${state_id}" state successfully created.',
+                    mapping={'state_id': new_state.id})
                 return self.handle_response(
                     message = msg,
                     slideto=True,
-                    state=new_state
-                )
+                    state=new_state)
             else:
-                return self.handle_response(tmpl=self.template, 
+                return self.handle_response(tmpl=self.template,
                     justdoerrors=True)
+
 
 class DeleteState(Base):
     template = ViewPageTemplateFile('templates/delete-state.pt')
-    
+
     def __call__(self):
         self.errors = {}
         state = self.selected_state
         transitions = self.available_transitions
         id = state.id
-        
+
         self.is_using_state = False
         for transition in transitions:
             if transition.new_state_id == id:
                 self.is_using_state = True
                 break
-        
+
         if self.request.get('form.actions.delete', False) == 'Delete':
             if self.is_using_state:
-                replacement = self.request.get('replacement-state', 
+                replacement = self.request.get('replacement-state',
                     self.available_states[0].id)
                 for transition in self.available_transitions:
                     if id == transition.new_state_id:
                         transition.new_state_id = replacement
-                        
+
                 chains = self.portal_workflow.listChainOverrides()
                 types_ids = [c[0] for c in chains if self.selected_workflow.id in c[1]]
-                remap_workflow(self.context, types_ids, 
-                    (self.selected_workflow.id,), {id : replacement})
-                
+                remap_workflow(self.context, types_ids,
+                    (self.selected_workflow.id, ), {id: replacement})
+
             self.selected_workflow.states.deleteStates([id])
-                
+
             return self.handle_response(
-                message=_(u'"${id}" state has been successfully deleted.', mapping={'id' : id}))
+                message=_(u'"${id}" state has been successfully deleted.', mapping={'id': id}))
         elif self.request.get('form.actions.cancel', False) == 'Cancel':
             return self.handle_response(
-                message=_('Deleting the "${id}" state has been canceled.', mapping={'id' : id}))
+                message=_('Deleting the "${id}" state has been canceled.', mapping={'id': id}))
         else:
             return self.handle_response(tmpl=self.template)
-       
-       
+
+
 class SaveState(Base):
-    
+
     def update_selected_transitions(self):
         wf = self.selected_workflow
         state = wf.states[self.request.get('selected-state')]
-        
+
         transitions = wf.transitions.objectIds()
         selected_transitions = []
-        
+
         for transition in transitions:
             key = 'transition-%s-state-%s' % (transition, state.id)
-            if self.request.has_key(key):
+            if key in self.request:
                 selected_transitions.append(transition)
-                
+
         state.transitions = tuple(selected_transitions)
-        
+
     def update_state_permissions(self):
         wf = self.selected_workflow
         state = wf.states[self.request.get('selected-state')]
-        
+
         perm_roles = PersistentMapping()
         available_roles = state.getAvailableRoles()
         for managed_perm in managed_permissions:
             selected_roles = []
-            
+
             for role in available_roles:
                 key = 'permission-%s-role-%s-state-%s' % (
                     managed_perm['name'], role, state.id)
-                if self.request.has_key(key):
+                if key in self.request:
                     selected_roles.append(role)
-            
+
             if len(selected_roles) > 0:
                 perm_roles[managed_perm['perm']] = tuple(selected_roles)
-                
+
                 if managed_perm['perm'] not in wf.permissions:
-                    wf.permissions = wf.permissions + (managed_perm['perm'],)
-            
-            
+                    wf.permissions = wf.permissions + (managed_perm['perm'], )
+
+
         state.permission_roles = perm_roles
-        
+
     def update_state_properties(self):
-        
+
         wf = self.selected_workflow
         state = wf.states[self.request.get('selected-state')]
-        
-        if self.request.has_key('state-%s-initial-state' % state.id):
+
+        if ('state-%s-initial-state' % state.id) in self.request:
             wf.initial_state = state.id
-            
+
         title = self.request.get('state-%s-title' % state.id, False)
         if title:
             state.title = title
-            
+
         description = self.request.get('state-%s-description' % state.id, False)
         if description:
             state.description = description
-            
-    
+
     def update_state_group_roles(self):
         wf = self.selected_workflow
         state = wf.states[self.request.get('selected-state')]
-        
+
         group_roles = PersistentMapping()
         available_roles = state.getAvailableRoles()
         groups = self.getGroups()
-        
+
         for group in groups:
             selected_roles = []
-            
+
             for role in available_roles:
                 key = "group-%s-role-%s-state-%s" % (group['id'], role, state.id)
-                if self.request.has_key(key):
+                if key in self.request:
                     selected_roles.append(role)
-                    
-                    
+
+
             if len(selected_roles) > 0:
                 group_roles[group['id']] = tuple(selected_roles)
 
                 if group['id'] not in wf.groups:
-                    wf.groups = wf.groups + (group['id'],)
-                    
-            
+                    wf.groups = wf.groups + (group['id'], )
+
+
         state.group_roles = group_roles
-    
+
     def __call__(self):
         self.errors = {}
-        
+
         self.update_selected_transitions()
         self.update_state_permissions()
         self.update_state_group_roles()
         self.update_state_properties()
-        
+
         return self.handle_response()

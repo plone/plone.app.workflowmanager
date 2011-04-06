@@ -1,4 +1,5 @@
-from Products.DCWorkflow.Guard import Guard        
+from Products.DCWorkflow.Guard import Guard
+
 
 def generate_id(id, ids):
     count = 1
@@ -6,7 +7,7 @@ def generate_id(id, ids):
     while id in ids:
         id = org_id + '-' + str(count)
         count += 1
-        
+
     return id
 
 
@@ -29,13 +30,15 @@ def clone_transition(transition, clone):
     transition.script_name = clone.script_name
     transition.after_script_name = clone.after_script_name
 
+
 def clone_state(state, clone):
     state.transitions = clone.transitions[:]
     state.permission_roles = clone.permission_roles and clone.permission_roles.copy() or None
     state.group_roles = clone.group_roles and clone.group_roles.copy() or None
     state.var_values = clone.var_values and clone.var_values.copy() or None
     state.description = clone.description
-    
+
+
 def json(d):
 
     def convert_type(value):
