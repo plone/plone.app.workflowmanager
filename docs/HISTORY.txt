@@ -1,7 +1,14 @@
 Changelog
 =========
 
-1.0a1 (2010-12-12)
+1.0a2 - Unrelased
+-----------------
+
+- Add MANIFEST.in.
+  [WouterVH]
+
+
+1.0a1 - 2010-12-12
 ------------------
 
-* Initial release
+- Initial release
