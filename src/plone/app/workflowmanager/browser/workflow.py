@@ -6,7 +6,8 @@ from DateTime import DateTime
 from random import randint
 import validators
 from urllib import urlencode
-from Products.CMFPlone import PloneMessageFactory as _
+from zope.i18nmessageid import MessageFactory
+_ = MessageFactory(u"plone")
 
 
 class DeleteWorkflow(Base):
@@ -23,6 +24,7 @@ class DeleteWorkflow(Base):
                 message=_(u'You can not delete this workflow until no content '
                           u'types are specified to use this workflow.'))
         elif self.request.get('form.actions.delete', False) == 'Delete':
+            self.authorize()
             #delete all rules also.
             for transition in self.available_transitions:
                 self.actions.delete_rule_for(transition)
@@ -48,6 +50,7 @@ class AddWorkflow(Base):
         elif self.errors:
             return self.handle_response(tmpl=self.template, justdoerrors=True)
         else:
+            self.authorize()
             # must have state to go on
             cloned_from_workflow = \
                 self.portal_workflow[self.request.get('clone-from-workflow')]
@@ -66,6 +69,7 @@ class UpdateSecuritySettings(Base):
 
     def __call__(self):
         if self.request.get('form.actions.confirm', False):
+            self.authorize()
             count = self.portal_workflow._recursiveUpdateRoleMappings(self.portal,
                 {self.selected_workflow.id: self.selected_workflow})
             return self.handle_response(message=_("Updated ${count} objects.",
@@ -81,6 +85,7 @@ class Assign(Base):
         self.errors = {}
 
         if self.request.get('form.actions.next', False):
+            self.authorize()
             params = urlencode({'type_id': self.request.get('type_id'),
                 'new_workflow': self.selected_workflow.id})
             return self.handle_response(load=self.context_state.portal_url() +

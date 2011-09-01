@@ -18,6 +18,7 @@ from AccessControl import Unauthorized
 
 from zope.i18nmessageid import MessageFactory
 _ = MessageFactory(u"plone")
+import zope.i18n
 
 plone_shipped_workflows = [
     'folder_workflow',
@@ -301,9 +302,10 @@ class Base(BrowserView):
             status['status'] = 'ok'
 
         if message:
-            status['message'] = message
+            status['message'] = zope.i18n.translate(message)
 
         if ajax:
+            self.request.response.setHeader('X-Theme-Disabled', 'True')
             if tmpl and not justdoerrors:
                 return tmpl.__of__(self.context)(**kwargs)
             else:

@@ -6,8 +6,8 @@
     </p> 
  
     <form action="@@workflowmanager-delete-workflow" method="POST">
-        
         <input type="hidden" name="selected-workflow" tal:attributes="value view/selected_workflow/id" />
+        <input tal:replace="structure context/@@authenticator/authenticator"/>
         
         <tal:condition tal:condition="not: view/can_delete">
             <dl class="portalMessage error">

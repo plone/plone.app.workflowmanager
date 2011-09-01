@@ -4,7 +4,8 @@ from Products.DCWorkflow.Transitions import TRIGGER_AUTOMATIC, TRIGGER_USER_ACTI
 from plone.app.workflowmanager.utils import clone_transition
 import validators
 from plone.app.workflowmanager.permissions import allowed_guard_permissions
-from Products.CMFPlone import PloneMessageFactory as _
+from zope.i18nmessageid import MessageFactory
+_ = MessageFactory(u"plone")
 
 
 class AddTransition(Base):
@@ -16,6 +17,7 @@ class AddTransition(Base):
         if not self.request.get('form.actions.add', False):
             return self.handle_response(tmpl=self.template)
         else:
+            self.authorize()
             transition = validators.not_empty(self, 'transition-name')
             transition_id = validators.id(self, 'transition-name',
                 self.selected_workflow)
@@ -116,6 +118,7 @@ class SaveTransition(Base):
                     state.transitions = transitions
 
     def __call__(self):
+        self.authorize()
         self.errors = {}
 
         self.update_guards()
@@ -133,6 +136,7 @@ class DeleteTransition(Base):
         id = transition.id
 
         if self.request.get('form.actions.delete', False) == 'Delete':
+            self.authorize()
             #delete any associated rules also.
             self.actions.delete_rule_for(self.selected_transition)
 

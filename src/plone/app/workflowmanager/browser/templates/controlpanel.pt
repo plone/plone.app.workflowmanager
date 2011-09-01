@@ -58,6 +58,7 @@
             
                         <form class="inline">
                             <input type="submit" id="save-all-button" class="inline context allowMultiSubmit" value="Save" />
+                            <input tal:replace="structure context/@@authenticator/authenticator"/>
                         </form>
                         <input id="selected-workflow" type="hidden" name="selected-workflow" tal:attributes="value selected_workflow/id" />
                         <form class="inline" tal:attributes="action string:${context/absolute_url}/@@workflowmanager-add-new-state" method="POST">
@@ -101,7 +102,7 @@
                             </dl>
                         </div>
               
-                        <form class="inline tooltip advanced" tal:attributes="action python: view.get_url('@@workflowmanager-update-security-settings')" method="POST">
+                        <form class="inline tooltip advanced" tal:attributes="action python: view.get_url('@@workflowmanager-update-security-settings')" method="POST"> 
                             <a class="dialog-box save-first" rel="#pb_99999"
                                 tal:attributes="href python: view.get_url('@@workflowmanager-update-security-settings')">
                                 <input type="submit" class="context allowMultiSubmit" name="update-security-settings" value="Update security" />

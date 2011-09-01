@@ -4,6 +4,8 @@ Introduction
 
 This package provides a GUI for managing custom workflows in Plone.
 
+This is the successor of uwosh.northstar.
+
 Features
 --------
 

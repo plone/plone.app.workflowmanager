@@ -8,6 +8,7 @@
     <input type="hidden" name="selected-workflow" tal:attributes="value view/selected_workflow/id" />
     <input type="hidden" name="referenced-transition" tal:attributes="value view/request/reference" 
         tal:condition="python: view.request.has_key('reference')"/>
+    <input tal:replace="structure context/@@authenticator/authenticator"/>
     
     <div class="field error Archetypestitlefield"
         tal:define="field_name string:clone-from-state;

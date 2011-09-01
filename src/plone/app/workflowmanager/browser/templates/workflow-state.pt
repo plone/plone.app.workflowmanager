@@ -27,6 +27,7 @@
     	     tal:attributes="action string:${context/absolute_url}/@@workflowmanager-save-state">
 	        <input type="hidden" name="selected-state" tal:attributes="value state/id">
           <input type="hidden" name="selected-workflow" tal:attributes="value view/selected_workflow/id" />
+          <input tal:replace="structure context/@@authenticator/authenticator"/>
             
             <div class="selected-transitions item-properties">
             <fieldset>

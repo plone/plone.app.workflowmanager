@@ -6,20 +6,15 @@ can test in these functional tests.
 Let's do some setup and log in...
 
     >>> from plone.testing.z2 import Browser
+    >>> from plone.app.workflowmanager.testing import browserLogin
     >>> app = layer['app']
     >>> browser = Browser(app)
     >>> browser.handleErrors = False
     >>> portal = layer['portal']
-    >>> import transaction	
+    >>> portal_url = portal.absolute_url()
     
-    >>> portal_url = portal.absolute_url()    
+    >>> browserLogin(portal, browser)
     
-    >>> from plone.app.testing import SITE_OWNER_NAME, SITE_OWNER_PASSWORD
-    >>> browser.open(portal.absolute_url() + '/login_form')
-    >>> browser.getControl(name='__ac_name').value = SITE_OWNER_NAME
-    >>> browser.getControl(name='__ac_password').value = SITE_OWNER_PASSWORD
-    >>> browser.getControl(name='submit').click()
-
 Open up the workflow manager
 
     >>> browser.open(portal.absolute_url() + '/@@workflowmanager')

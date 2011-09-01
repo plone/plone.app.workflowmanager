@@ -3,8 +3,8 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.app.contentrules.rule import Rule
 from plone.app.workflowmanager.actionmanager import RuleAdapter, ActionManager
 from urllib import urlencode
-from Products.CMFPlone import PloneMessageFactory as _
-
+from zope.i18nmessageid import MessageFactory
+_ = MessageFactory(u"plone")
 
 class DeleteActionView(Base):
     template = ViewPageTemplateFile('templates/delete-action.pt')
@@ -13,6 +13,7 @@ class DeleteActionView(Base):
         self.errors = {}
 
         if self.request.get('form.actions.delete', False) == 'Delete':
+            self.authorize()
             rule = self.actions.get_rule(self.selected_transition)
             rule.delete_action(int(self.request.get('action_index')))
             return self.handle_response(
@@ -32,6 +33,7 @@ class AddActionView(Base):
         self.errors = {}
 
         if self.request.get('form.actions.add', False) == 'Add':
+            self.authorize()
             am = ActionManager()
             rule = am.get_rule(self.selected_transition)
             if rule is None:

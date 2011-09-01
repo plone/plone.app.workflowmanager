@@ -6,9 +6,9 @@
     </p> 
  
     <form action="@@workflowmanager-delete-transition" method="POST">
-        
         <input type="hidden" name="selected-workflow" tal:attributes="value view/selected_workflow/id" />
         <input type="hidden" name="selected-transition" tal:attributes="value transition/id" />
+        <input tal:replace="structure context/@@authenticator/authenticator"/>
         
         <input type="submit" name="form.actions.delete" value="Delete" class="context" /> 
         <input type="submit" name="form.actions.cancel" value="Cancel" class="standalone" />

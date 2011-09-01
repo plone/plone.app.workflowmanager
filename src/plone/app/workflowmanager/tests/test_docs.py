@@ -1,7 +1,7 @@
 import doctest
 from plone.testing import layered
 import unittest2 as unittest
-from layer import INTEGRATION_MANAGER_TESTING
+from plone.app.workflowmanager.testing import FUNCTIONAL_MANAGER_TESTING
 import pprint
 import interlude
 
@@ -23,5 +23,5 @@ def test_suite():
             globs={'interact': interlude.interact,
                    'pprint': pprint.pprint},
         ),
-        layer=INTEGRATION_MANAGER_TESTING)])
+        layer=FUNCTIONAL_MANAGER_TESTING)])
     return suite

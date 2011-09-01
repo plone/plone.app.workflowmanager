@@ -1,11 +1,11 @@
 import unittest2 as unittest
 
-from layer import INTEGRATION_MANAGER_TESTING
+from plone.app.workflowmanager.testing import INTEGRATION_MANAGER_TESTING, BaseTest
 
 from plone.app.workflowmanager.utils import generate_id
 
 
-class TestUtils(unittest.TestCase):
+class TestUtils(BaseTest):
 
     layer = INTEGRATION_MANAGER_TESTING
 

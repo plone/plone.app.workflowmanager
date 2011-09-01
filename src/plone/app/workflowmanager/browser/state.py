@@ -5,8 +5,8 @@ from plone.app.workflow.remap import remap_workflow
 import validators
 from Persistence import PersistentMapping
 from plone.app.workflowmanager.permissions import managed_permissions
-from Products.CMFPlone import PloneMessageFactory as _
-
+from zope.i18nmessageid import MessageFactory
+_ = MessageFactory(u"plone")
 
 class AddState(Base):
     template = ViewPageTemplateFile('templates/add-new-state.pt')
@@ -17,6 +17,7 @@ class AddState(Base):
         if not self.request.get('form.actions.add', False):
             return self.handle_response(tmpl=self.template)
         else:
+            self.authorize()
             state = validators.not_empty(self, 'state-name')
             state_id = validators.id(self, 'state-name', self.selected_workflow)
 
@@ -65,6 +66,7 @@ class DeleteState(Base):
                 break
 
         if self.request.get('form.actions.delete', False) == 'Delete':
+            self.authorize()
             if self.is_using_state:
                 replacement = self.request.get('replacement-state',
                     self.available_states[0].id)
@@ -171,6 +173,7 @@ class SaveState(Base):
         state.group_roles = group_roles
 
     def __call__(self):
+        self.authorize()
         self.errors = {}
 
         self.update_selected_transitions()
