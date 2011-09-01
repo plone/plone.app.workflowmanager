@@ -7,11 +7,17 @@ from plone.app.workflowmanager.permissions import managed_permissions, \
     allowed_guard_permissions
 from Acquisition import aq_get
 from urllib import urlencode
-from plone.app.workflowmanager.utils import json
+try:
+    import json
+except:
+    import simplejson as json
 from zope.schema.interfaces import IVocabularyFactory
 from plone.app.workflowmanager.graphviz import HAS_GRAPHVIZ
 from plone.app.workflowmanager.actionmanager import ActionManager
-#from Products.CMFPlone import PloneMessageFactory as _
+from AccessControl import Unauthorized
+
+from zope.i18nmessageid import MessageFactory
+_ = MessageFactory(u"plone")
 
 plone_shipped_workflows = [
     'folder_workflow',
@@ -19,7 +25,8 @@ plone_shipped_workflows = [
     'intranet_workflow',
     'one_state_workflow',
     'plone_workflow',
-    'simple_publication_workflow']
+    'simple_publication_workflow',
+    'comment_review_workflow']
 
 
 class Base(BrowserView):
@@ -144,6 +151,11 @@ class Base(BrowserView):
         else:
             return []
 
+    def authorize(self):
+        authenticator = getMultiAdapter((self.context, self.request), name=u"authenticator")
+        if not authenticator.verify():
+            raise Unauthorized
+
     def render_transitions_template(self):
         return self.workflow_transitions_template(
             available_states=self.available_states,
@@ -261,9 +273,8 @@ class Base(BrowserView):
         return HAS_GRAPHVIZ
 
     def handle_response(self, message=None, tmpl=None, redirect=None,
-     load=None, justdoerrors=False, slideto=False, **kwargs):
+                        load=None, justdoerrors=False, slideto=False, **kwargs):
         ajax = self.request.get('ajax', None)
-
         status = {'status': 'ok'}
         if len(self.errors) > 0:
             status['status'] = 'error'
@@ -296,7 +307,7 @@ class Base(BrowserView):
             if tmpl and not justdoerrors:
                 return tmpl.__of__(self.context)(**kwargs)
             else:
-                return json(status)
+                return json.dumps(status)
         else:
             if redirect:
                 return self.request.response.redirect(status['location'])

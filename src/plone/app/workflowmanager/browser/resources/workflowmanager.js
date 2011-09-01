@@ -251,48 +251,41 @@ $(document).ready(function(){
     var retrieve_form_data = function(form){
         form = $(form);
 
-        var input_tags = form.find('input');
+        var input_tags = form.find(':input');
         var data = {};
 
         for(var i=0; i < input_tags.length; i++){
-            var input = $(input_tags[i]);
+            var el = input_tags[i];
+            var input = $(el);
             
-            var type = input[0].type;
-            if(type != undefined){
-                type = type.toLowerCase();
-                if(['checkbox', 'radio'].contains(type) && input[0].checked){
-                    data[input.attr('name')] = input.val();
-                }else if(type == "text" || type == "hidden"){
-                    data[input.attr('name')] = input.val();
-                }
-            }
-        }
-        
-        var option_tags = form.find('select');
-        
-        for(var i=0; i < option_tags.size(); i++){
-            var tag = option_tags.eq(i);
-            var options = tag.find('option:selected');
-            var res = '';
-            
-            for(var j=0; j < options.size(); j++){
-                var option = options.eq(j);
-                res += option.attr('value') + ',';
-            }
-            
-            if(res.length > 0){
-                res = res.substring(0, res.length-1); //remove comma
-                data[tag.attr('name')] = res;
-            }
-            
-        }
-        
-        var textarea_tags = form.find('textarea')
-        for(var i=0; i < textarea_tags.size(); i++){
-            var tag = textarea_tags.eq(i);
-            data[tag.attr('name')] = tag.val();
-        }
+            if(el.tagName == "INPUT"){
+              var type = el.type;
+              if(type != undefined){
+                  type = type.toLowerCase();
+                  if(['checkbox', 'radio'].contains(type) && input[0].checked){
+                      data[input.attr('name')] = input.val();
+                  }else if(type == "text" || type == "hidden"){
+                      data[input.attr('name')] = input.val();
+                  }
+              }
+            }else if(el.tagName == "SELECT"){
+              var options = input.find('option:selected');
+              var res = '';
 
+              for(var j=0; j < options.size(); j++){
+                  var option = options.eq(j);
+                  res += option.attr('value') + ',';
+              }
+
+              if(res.length > 0){
+                  res = res.substring(0, res.length-1); //remove comma
+                  data[input.attr('name')] = res;
+              }
+            }else{
+              data[input.attr('name')] = input.val();
+            }
+        }
+              
         if(data['selected-workflow'] == undefined){
             data['selected-workflow'] = retrieve_selected_workflow();
         }
@@ -532,14 +525,17 @@ $(document).ready(function(){
                     /*
                     No ajax reponse. Handle it like an actual page response.
                     Cases:
-                    1. Action submit button used to submit = close overlay
+                    1. Action submit button used to submit is again in response and  
+                        there are errors in the response = load overlay
                     2. Resulting form does not have an action button = close overlay
                     3. Result did not use a form action to submit and there is
                         an action button in the response = load overlay
                     */
-                    var submitvalue = form.find('input.submitvalue');
+                    var submitvalue = form.find(':input.submitvalue');
                     var content = $(data);
-                    if(!submitvalue.attr('name').match(/^(form\.actions|form\.button)/) && has_action_submit(content)){
+                    if(has_action_submit(content) && content.find('#content div.field.error,#region-content div.field.error').size() > 0){
+                        load_overlay(content, '#content,#region-content');
+                    }else if(!submitvalue.attr('name').match(/^(form\.actions|form\.button)/) && has_action_submit(content)){
                         load_overlay(content, '#content,#region-content');
                     }else{
                         callback(data);
@@ -592,10 +588,10 @@ $(document).ready(function(){
     $("div.dialog-box form input[type='submit'],#content form fieldset div input[type='submit']").live('click', function(e){
         var submit = $(this);
         var form = submit.parents('form');
-        var hidden_value = form.find('input.submitvalue');
+        var hidden_value = form.find(':input.submitvalue');
         if(hidden_value.size() == 0){
-            form.append('<input type="hidden" class="submitvalue" />');
-            hidden_value = form.find('input.submitvalue');
+            hidden_value = $('<input type="hidden" class="submitvalue" />');
+            form.prepend(hidden_value);
         }
         
         hidden_value.attr('name', submit.attr('name'));

@@ -38,19 +38,3 @@ def clone_state(state, clone):
     state.var_values = clone.var_values and clone.var_values.copy() or None
     state.description = clone.description
 
-
-def json(d):
-
-    def convert_type(value):
-        if type(value) == bool:
-            return str(value).lower()
-        elif type(value) in (str, unicode):
-            return '"%s"' % value.replace('"', '\\"')
-        elif type(value) == dict:
-            return json(value)
-        elif type(value) in (list, tuple, set):
-            return "[%s]" % ','.join([convert_type(v) for v in value])
-        else:
-            return str(value)
-
-    return "{%s}" % (', '.join(["\"%s\" : %s" % (name, convert_type(value)) for name, value in d.items()]))

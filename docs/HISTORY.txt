@@ -7,6 +7,14 @@ Changelog
 - Add MANIFEST.in.
   [WouterVH]
 
+- use json library and just advertise that 
+  plone 3 users need to install simplejson
+  [vangheem]
+
+- Fix js to work correctly with all versions of
+  jquery in selecting input tags correctly.
+  [vangheem]
+
 
 1.0a1 - 2010-12-12
 ------------------

@@ -21,3 +21,9 @@ The inspiration for this piece was pretty much taken from DCWorkflowGraph.
 
 In order to enable this feature, you'll need to install the Graphviz library.
 Information can be found at http://www.graphviz.org
+
+
+Plone 3 Support
+---------------
+
+You must also have simplejson installed.
