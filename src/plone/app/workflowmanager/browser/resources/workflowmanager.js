@@ -212,10 +212,15 @@ $(document).ready(function(){
       
       url = strip_vars(url);
       
-      if(trigger.hasClass('save-first') && has_dirty_items() && confirm("You have unsaved changes. Would you like to save them before you preceed?")){
-        save(function(){
-          status_message("The workflow been successfully updated.");
-        });
+      var open = true;
+      if(trigger.hasClass('save-first') && has_dirty_items()){
+        if(confirm("You have unsaved changes. Would you like to save them and continue?")){
+          save(function(){
+            status_message("The workflow been successfully updated.");
+          });
+        }else{
+          return false;
+        }
       }
       
       $.ajax({ url : url, data : data, type : 'POST',

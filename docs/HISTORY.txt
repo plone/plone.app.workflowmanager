@@ -1,6 +1,18 @@
 Changelog
 =========
 
+1.0a2 - unreleased
+------------------
+
+- cloned transition now sets display name to new
+  title also.
+  [vangheem]
+
+- cancel on confirm save now prevents dialog from
+  opening.
+  [vangheem]
+  
+
 1.0a2 - 2011-09-01
 ------------------
 
@@ -20,3 +32,4 @@ Changelog
 ------------------
 
 - Initial release
+
