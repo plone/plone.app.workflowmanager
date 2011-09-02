@@ -1,15 +1,20 @@
-from controlpanel import Base
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+
 from Products.DCWorkflow.Transitions import TRIGGER_AUTOMATIC, TRIGGER_USER_ACTION
+
+from plone.app.workflowmanager.browser.controlpanel import Base
 from plone.app.workflowmanager.utils import clone_transition
-import validators
+from plone.app.workflowmanager.browser import validators
 from plone.app.workflowmanager.permissions import allowed_guard_permissions
+
+
 from zope.i18nmessageid import MessageFactory
 _ = MessageFactory(u"plone")
 
 
 class AddTransition(Base):
     template = ViewPageTemplateFile('templates/add-new-transition.pt')
+
 
     def __call__(self):
         self.errors = {}
@@ -58,6 +63,7 @@ class AddTransition(Base):
 
 class SaveTransition(Base):
 
+
     def update_guards(self):
         wf = self.selected_workflow
         transition = self.selected_transition
@@ -81,6 +87,7 @@ class SaveTransition(Base):
         guard.groups = tuple(groups & okay_groups)
 
         transition.guard = guard
+
 
     def update_transition_properties(self):
         transition = self.selected_transition
@@ -117,6 +124,7 @@ class SaveTransition(Base):
                     transitions.remove(transition.id)
                     state.transitions = transitions
 
+
     def __call__(self):
         self.authorize()
         self.errors = {}
@@ -129,6 +137,7 @@ class SaveTransition(Base):
 
 class DeleteTransition(Base):
     template = ViewPageTemplateFile('templates/delete-transition.pt')
+
 
     def __call__(self):
         self.errors = {}

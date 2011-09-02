@@ -1,15 +1,21 @@
-from controlpanel import Base
+from Persistence import PersistentMapping
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+
 from plone.app.workflowmanager.utils import clone_state
 from plone.app.workflow.remap import remap_workflow
-import validators
-from Persistence import PersistentMapping
+
+from plone.app.workflowmanager.browser import validators
 from plone.app.workflowmanager.permissions import managed_permissions
+from plone.app.workflowmanager.browser.controlpanel import Base
+
+
 from zope.i18nmessageid import MessageFactory
 _ = MessageFactory(u"plone")
 
+
 class AddState(Base):
     template = ViewPageTemplateFile('templates/add-new-state.pt')
+
 
     def __call__(self):
         self.errors = {}
@@ -53,6 +59,7 @@ class AddState(Base):
 class DeleteState(Base):
     template = ViewPageTemplateFile('templates/delete-state.pt')
 
+
     def __call__(self):
         self.errors = {}
         state = self.selected_state
@@ -95,7 +102,6 @@ class SaveState(Base):
     def update_selected_transitions(self):
         wf = self.selected_workflow
         state = wf.states[self.request.get('selected-state')]
-
         transitions = wf.transitions.objectIds()
         selected_transitions = []
 
@@ -103,18 +109,17 @@ class SaveState(Base):
             key = 'transition-%s-state-%s' % (transition, state.id)
             if key in self.request:
                 selected_transitions.append(transition)
-
         state.transitions = tuple(selected_transitions)
+
 
     def update_state_permissions(self):
         wf = self.selected_workflow
         state = wf.states[self.request.get('selected-state')]
-
         perm_roles = PersistentMapping()
         available_roles = state.getAvailableRoles()
+        
         for managed_perm in managed_permissions:
             selected_roles = []
-
             for role in available_roles:
                 key = 'permission-%s-role-%s-state-%s' % (
                     managed_perm['name'], role, state.id)
@@ -123,12 +128,10 @@ class SaveState(Base):
 
             if len(selected_roles) > 0:
                 perm_roles[managed_perm['perm']] = tuple(selected_roles)
-
                 if managed_perm['perm'] not in wf.permissions:
                     wf.permissions = wf.permissions + (managed_perm['perm'], )
-
-
         state.permission_roles = perm_roles
+
 
     def update_state_properties(self):
 
@@ -146,6 +149,7 @@ class SaveState(Base):
         if description:
             state.description = description
 
+
     def update_state_group_roles(self):
         wf = self.selected_workflow
         state = wf.states[self.request.get('selected-state')]
@@ -161,16 +165,13 @@ class SaveState(Base):
                 key = "group-%s-role-%s-state-%s" % (group['id'], role, state.id)
                 if key in self.request:
                     selected_roles.append(role)
-
-
             if len(selected_roles) > 0:
                 group_roles[group['id']] = tuple(selected_roles)
 
                 if group['id'] not in wf.groups:
                     wf.groups = wf.groups + (group['id'], )
-
-
         state.group_roles = group_roles
+
 
     def __call__(self):
         self.authorize()

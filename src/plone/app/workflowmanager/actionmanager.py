@@ -1,21 +1,27 @@
-from plone.memoize.instance import memoize
 from zope.component import queryUtility
-from plone.contentrules.engine.interfaces import IRuleStorage, \
-    IRuleAssignmentManager
-from Products.CMFCore.interfaces._events import IActionSucceededEvent
-from plone.app.contentrules.conditions.wftransition import \
-    IWorkflowTransitionCondition, WorkflowTransitionCondition
+
+from plone.memoize.instance import memoize
+from plone.contentrules.engine.interfaces import IRuleStorage
+from plone.contentrules.engine.interfaces import IRuleAssignmentManager
+from plone.app.contentrules.conditions.wftransition import IWorkflowTransitionCondition
+from plone.app.contentrules.conditions.wftransition import WorkflowTransitionCondition
 from plone.contentrules.engine import utils
 from plone.app.contentrules.rule import Rule, get_assignments
-from Products.CMFCore.utils import getToolByName
 from plone.contentrules.engine.assignments import RuleAssignment
+from Products.CMFCore.interfaces._events import IActionSucceededEvent
+from Products.CMFCore.utils import getToolByName
+
+from zope.i18nmessageid import MessageFactory
+_ = MessageFactory(u"plone")
 
 
 class RuleAdapter(object):
 
+
     def __init__(self, rule, transition):
         self.rule = rule
         self.transition = transition
+
 
     @property
     def valid(self):
@@ -28,10 +34,12 @@ class RuleAdapter(object):
                 transitions |= condition.wf_transitions
         return transitions
 
+
     @property
     @memoize
     def portal(self):
         return getToolByName(self.transition, 'portal_url').getPortalObject()
+
 
     def activate(self):
         """
@@ -51,19 +59,24 @@ class RuleAdapter(object):
         if not path in assignments:
             assignments.insert(path)
 
+
     @property
     def name(self):
         return self.rule.__name__
-
+        
+        
     @property
     def id(self):
         return self.rule.id
 
+
     def get_action(self, index):
         return self.rule.actions[index]
 
+
     def action_index(self, action):
         return self.rule.actions.index(action)
+
 
     def action_url(self, action):
         return '%s/%s/++action++%d/edit' % (
@@ -71,8 +84,10 @@ class RuleAdapter(object):
             self.rule.id,
             self.action_index(action), )
 
+
     def delete_action(self, index):
         self.rule.actions.remove(self.rule.actions[index])
+
 
     @property
     def actions(self):
@@ -81,14 +96,15 @@ class RuleAdapter(object):
 
 class ActionManager(object):
 
+
     def get_rule(self, transition):
         rules = []
         if self.storage is not None:
             for rule in self.storage.values():
                 if rule.__name__ == '--workflowmanager--' + transition.id:
                     return RuleAdapter(rule, transition)
-
         return None
+
 
     def create(self, transition):
         rule = self.get_rule(transition)
@@ -96,24 +112,27 @@ class ActionManager(object):
             id = '--workflowmanager--%s' % transition.id
             r = Rule()
             r.title = u"%s transition content rule" % transition.id
-            r.description = u"""This content rule was automatically created
-    the workflow manager to create actions on workflow events. If you want the
-    behavior to work as expected, do not modify this out of the workflow manager."""
+            r.description = _(u"This content rule was automatically created "
+                              u"the workflow manager to create actions on workflow "
+                              u"events. If you want the behavior to work as expected, "
+                              u"do not modify this out of the workflow manager.")
             self.storage[id] = r
             rule = RuleAdapter(r, transition)
             rule.activate()
-
         return rule
+
 
     @property
     @memoize
     def storage(self):
         return queryUtility(IRuleStorage)
 
+
     @property
     @memoize
     def available_actions(self):
         return utils.allAvailableActions(IActionSucceededEvent)
+
 
     def delete_rule_for(self, transition):
         rule = self.get_rule(transition)

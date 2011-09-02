@@ -1,17 +1,21 @@
-from controlpanel import Base
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-#from plone.app.workflowmanager.utils import generate_id
-from plone.app.workflowmanager.graphviz import getGraph
-from DateTime import DateTime
 from random import randint
-import validators
 from urllib import urlencode
+
+from DateTime import DateTime
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+
+from plone.app.workflowmanager.browser.controlpanel import Base
+from plone.app.workflowmanager.graphviz import getGraph
+from plone.app.workflowmanager.browser import validators
+
+
 from zope.i18nmessageid import MessageFactory
 _ = MessageFactory(u"plone")
 
 
 class DeleteWorkflow(Base):
     template = ViewPageTemplateFile('templates/delete-workflow.pt')
+
 
     def __call__(self):
         self.errors = {}
@@ -40,6 +44,7 @@ class DeleteWorkflow(Base):
 class AddWorkflow(Base):
     template = ViewPageTemplateFile('templates/add-new-workflow.pt')
 
+
     def __call__(self):
         self.errors = {}
         workflow = validators.not_empty(self, 'workflow-name')
@@ -67,6 +72,7 @@ class AddWorkflow(Base):
 class UpdateSecuritySettings(Base):
     template = ViewPageTemplateFile('templates/update-security-settings.pt')
 
+
     def __call__(self):
         if self.request.get('form.actions.confirm', False):
             self.authorize()
@@ -80,6 +86,7 @@ class UpdateSecuritySettings(Base):
 
 class Assign(Base):
     template = ViewPageTemplateFile('templates/assign.pt')
+
 
     def __call__(self):
         self.errors = {}
@@ -96,6 +103,7 @@ class Assign(Base):
 
 class SanityCheck(Base):
     template = ViewPageTemplateFile('templates/sanity-check.pt')
+
 
     def __call__(self):
         self.errors = {}
@@ -146,10 +154,12 @@ class SanityCheck(Base):
 class Graph(Base):
     template = ViewPageTemplateFile('templates/diagram.pt')
 
+
     def __call__(self):
         # generate a random number ot prevent browser from caching this...
         self.random_number = str(randint(0, 999999999))
         return self.handle_response(tmpl=self.template)
+
 
     def image(self):
         resp = self.request.response

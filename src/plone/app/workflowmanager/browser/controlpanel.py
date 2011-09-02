@@ -1,24 +1,31 @@
-from plone.memoize.instance import memoize
-from Products.Five.browser import BrowserView
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from zope.component import getUtility, getMultiAdapter
-from Products.CMFCore.utils import getToolByName
-from plone.app.workflowmanager.permissions import managed_permissions, \
-    allowed_guard_permissions
-from Acquisition import aq_get
 from urllib import urlencode
 try:
     import json
 except:
     import simplejson as json
+
+from Acquisition import aq_get
+from AccessControl import Unauthorized
+from Products.Five.browser import BrowserView
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+
+from zope.component import getUtility
+from zope.component import getMultiAdapter
 from zope.schema.interfaces import IVocabularyFactory
+import zope.i18n
+
+from Products.CMFCore.utils import getToolByName
+from plone.memoize.instance import memoize
+
+from plone.app.workflowmanager.permissions import managed_permissions
+from plone.app.workflowmanager.permissions import allowed_guard_permissions
 from plone.app.workflowmanager.graphviz import HAS_GRAPHVIZ
 from plone.app.workflowmanager.actionmanager import ActionManager
-from AccessControl import Unauthorized
+
 
 from zope.i18nmessageid import MessageFactory
 _ = MessageFactory(u"plone")
-import zope.i18n
+
 
 plone_shipped_workflows = [
     'folder_workflow',
@@ -51,23 +58,23 @@ class Base(BrowserView):
 
     errors = {}
     next_id = None # the id of the next workflow to be viewed
-
-    label = u'Workflow Manager'
-    description = u'Manage your custom workflows TTW.'
-
+    label = _(u'Workflow Manager')
+    description = _(u'Manage your custom workflows TTW.')
     wrapped_dialog_template = ViewPageTemplateFile('templates/wrapped-dialog.pt')
-
     managed_permissions = managed_permissions
+
 
     @property
     @memoize
     def actions(self):
         return ActionManager()
 
+
     @property
     @memoize
     def allowed_guard_permissions(self):
         return allowed_guard_permissions
+
 
     @property
     @memoize
@@ -75,24 +82,26 @@ class Base(BrowserView):
         utool = getToolByName(self.context, 'portal_url')
         return utool.getPortalObject()
 
+
     @property
     @memoize
     def portal_workflow(self):
         return getToolByName(self.context, 'portal_workflow')
+
 
     @property
     @memoize
     def available_workflows(self):
         return [w for w in self.workflows if w.id not in plone_shipped_workflows]
 
+
     @property
     @memoize
     def workflows(self):
         pw = self.portal_workflow
-
         ids = pw.portal_workflow.listWorkflows()
-
         return [pw[id] for id in sorted(ids)]
+
 
     @property
     @memoize
@@ -106,6 +115,7 @@ class Base(BrowserView):
         else:
             return None
 
+
     @property
     @memoize
     def selected_state(self):
@@ -117,6 +127,7 @@ class Base(BrowserView):
             return self.selected_workflow.states[state]
 
         return None
+
 
     @property
     @memoize
@@ -130,6 +141,7 @@ class Base(BrowserView):
 
         return None
 
+
     @property
     @memoize
     def available_states(self):
@@ -140,6 +152,7 @@ class Base(BrowserView):
             return states
         else:
             return []
+
 
     @property
     @memoize
@@ -152,21 +165,25 @@ class Base(BrowserView):
         else:
             return []
 
+
     def authorize(self):
         authenticator = getMultiAdapter((self.context, self.request), name=u"authenticator")
         if not authenticator.verify():
             raise Unauthorized
+
 
     def render_transitions_template(self):
         return self.workflow_transitions_template(
             available_states=self.available_states,
             available_transitions=self.available_transitions)
 
+
     def get_transition(self, id):
         if id in self.selected_workflow.transition.objectIds():
             return self.selected_workflow.transitions[id]
         else:
             return None
+
 
     @property
     @memoize
@@ -182,6 +199,7 @@ class Base(BrowserView):
 
         types.sort(key=_key)
         return types
+
 
     @property
     def assigned_types(self):
@@ -199,9 +217,11 @@ class Base(BrowserView):
 
         return types
 
+
     def get_transition_list(self, state):
         transitions = state.getTransitions()
         return [t for t in self.available_transitions if t.id in transitions]
+
 
     def get_state(self, id):
         if id in self.selected_workflow.states.objectIds():
@@ -209,13 +229,15 @@ class Base(BrowserView):
         else:
             return None
 
+
     @property
     @memoize
     def next_url(self):
         return self.get_url()
 
+
     def get_url(self, relative=None, workflow=None, transition=None,
-     state=None, **kwargs):
+                state=None, **kwargs):
         url = self.context.absolute_url()
         if relative:
             url = url + '/' + relative.lstrip('/')
@@ -244,6 +266,7 @@ class Base(BrowserView):
 
         return url
 
+
     @memoize
     def getGroups(self):
         gf = aq_get(self.context, '__allow_groups__', None, 1)
@@ -256,11 +279,13 @@ class Base(BrowserView):
         else:
             return groups
 
+
     @property
     @memoize
     def context_state(self):
         return getMultiAdapter((self.context, self.request),
             name=u'plone_portal_state')
+
 
     def wrap_template(self, tmpl, **options):
         ajax = self.request.get('ajax', None)
@@ -269,9 +294,11 @@ class Base(BrowserView):
         else:
             return self.wrapped_dialog_template(content=tmpl, options=options)
 
+
     @property
     def has_graphviz(self):
         return HAS_GRAPHVIZ
+
 
     def handle_response(self, message=None, tmpl=None, redirect=None,
                         load=None, justdoerrors=False, slideto=False, **kwargs):
@@ -324,27 +351,29 @@ class Base(BrowserView):
 class ControlPanel(Base):
     template = ViewPageTemplateFile('templates/controlpanel.pt')
     content_template = ViewPageTemplateFile('templates/content.pt')
-
     workflow_states_template = \
         ViewPageTemplateFile('templates/workflow-states.pt')
     workflow_state_template = \
         ViewPageTemplateFile('templates/workflow-state.pt')
-
     workflow_transitions_template = \
         ViewPageTemplateFile('templates/workflow-transitions.pt')
     workflow_transition_template = \
         ViewPageTemplateFile('templates/workflow-transition.pt')
 
+
     def __call__(self):
         return self.template()
 
+
     def render_content_template(self):
         return self.content_template()
+
 
     def render_states_template(self):
         return self.workflow_states_template(
             available_states=self.available_states,
             available_transitions=self.available_transitions)
+
 
     def retrieve_item(self):
         state = self.selected_state

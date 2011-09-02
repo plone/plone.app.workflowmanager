@@ -1,37 +1,39 @@
+from zope.i18nmessageid import MessageFactory
+_ = MessageFactory(u"plone")
 
 managed_permissions = [
     {'perm': 'Add portal content',
-     'name': 'Add',
-     'description': 'Add content in this container.'
+     'name': _(u'Add'),
+     'description': _(u'Add content in this container.')
     },
 
     {'perm': 'Modify portal content',
-     'name': 'Edit',
-     'description': 'Allows changing the content of an item.'
+     'name': _(u'Edit'),
+     'description': _(u'Allows changing the content of an item.')
     },
 
     {'perm': 'View',
-     'name': 'View',
-     'description': 'Not only means view HTML, but also FTP, WebDAV and other forms of access.'
+     'name': _(u'View'),
+     'description': _(u'Not only means view HTML, but also FTP, WebDAV and other forms of access.')
     },
 
     {'perm': 'Review portal content',
-     'name': 'Review',
-     'description': 'Allowed to review the content.'
+     'name': _(u'Review'),
+     'description': _(u'Allowed to review the content.')
     },
 
     {'perm': 'List folder contents',
-     'name': 'List',
-     'description': "List the contents of a folder. This doesn't check if you have access to view the actual object listed."
+     'name': _(u'List'),
+     'description': _(u"List the contents of a folder. This doesn't check if you have access to view the actual object listed.")
     },
 
     {'perm': 'Access contents information',
-     'name': 'Access',
-     'description': 'Allow access to content without necessarily viewing the object. For example, in a list of results.'
+     'name': _(u'Access'),
+     'description': _(u'Allow access to content without necessarily viewing the object. For example, in a list of results.')
     }]
 
 allowed_guard_permissions = {
-    'rr': 'Request review',
-    'rpc': 'Review portal content',
-    'mpc': 'Modify portal content'
+    'rr': _(u'Request review'),
+    'rpc': _(u'Review portal content'),
+    'mpc': _(u'Modify portal content')
 }

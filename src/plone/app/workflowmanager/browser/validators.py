@@ -1,6 +1,8 @@
+from OFS.ObjectManager import checkValidId
 from Products.CMFCore.utils import getToolByName
 from plone.app.workflowmanager.utils import generate_id
-from OFS.ObjectManager import checkValidId
+
+
 from zope.i18nmessageid import MessageFactory
 _ = MessageFactory(u"plone")
 
@@ -10,7 +12,6 @@ def not_empty(form, name):
     if v is None or (type(v) in (str, unicode) and \
      len(v) == 0) or (type(v) in (tuple, set, list) and len(v) == 0):
         form.errors[name] = _(u'This field is required.')
-
     return v
 
 
@@ -22,7 +23,6 @@ def id(form, name, container):
         checkValidId(container, id)
     except:
         form.errors[name] = _(u'Invalid workflow name. Please try another.')
-
     return id
 
 

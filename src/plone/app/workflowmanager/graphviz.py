@@ -3,11 +3,10 @@
 # DCWorkflowGraph and isn't change much at all.
 #
 import os
-
-from Products.CMFCore.utils import getToolByName
 from tempfile import mktemp
 from os.path import join
 
+from Products.CMFCore.utils import getToolByName
 
 DOT_EXE = 'dot'
 bin_search_path = ''
