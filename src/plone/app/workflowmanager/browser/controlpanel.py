@@ -112,8 +112,6 @@ class Base(BrowserView):
 
         if selected and selected in self.portal_workflow.objectIds():
             return self.portal_workflow[selected]
-        else:
-            return None
 
 
     @property
@@ -126,8 +124,6 @@ class Base(BrowserView):
         if state in self.selected_workflow.states.objectIds():
             return self.selected_workflow.states[state]
 
-        return None
-
 
     @property
     @memoize
@@ -138,8 +134,6 @@ class Base(BrowserView):
 
         if transition in self.selected_workflow.transitions.objectIds():
             return self.selected_workflow.transitions[transition]
-
-        return None
 
 
     @property
@@ -179,10 +173,8 @@ class Base(BrowserView):
 
 
     def get_transition(self, id):
-        if id in self.selected_workflow.transition.objectIds():
+        if id in self.selected_workflow.transitions.objectIds():
             return self.selected_workflow.transitions[id]
-        else:
-            return None
 
 
     @property

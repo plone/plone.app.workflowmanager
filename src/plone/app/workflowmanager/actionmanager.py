@@ -24,18 +24,6 @@ class RuleAdapter(object):
 
 
     @property
-    def valid(self):
-        """
-        check if rule is activated and has the right condition set.
-        """
-        transitions = set([])
-        for condition in self.rule.conditions:
-            if IWorkflowTransitionCondition.providedBy(condition):
-                transitions |= condition.wf_transitions
-        return transitions
-
-
-    @property
     @memoize
     def portal(self):
         return getToolByName(self.transition, 'portal_url').getPortalObject()
@@ -58,11 +46,6 @@ class RuleAdapter(object):
         assignments = get_assignments(self.rule)
         if not path in assignments:
             assignments.insert(path)
-
-
-    @property
-    def name(self):
-        return self.rule.__name__
         
         
     @property

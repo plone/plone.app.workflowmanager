@@ -90,10 +90,11 @@ class BaseTest(unittest.TestCase):
         if authentic:
             form['_authenticator'] = self.genAuthString()
             
-        return TestRequest(form=form, environ={
+        req = TestRequest(form=form, environ={
             'SERVER_URL' : 'http://nohost',
             'HTTP_HOST' : 'nohost'
         })
+        return req
         
     def genAuthString(self):
         manager=getUtility(IKeyManager)
