@@ -34,6 +34,8 @@ class AddTransition(Base):
                 workflow.transitions.addTransition(transition_id)
                 new_transition = workflow.transitions[transition_id]
                 clone_of_id = self.request.get('clone-from-transition')
+                new_transition.title = transition
+                
                 if clone_of_id:
                     # manage_copy|paste|clone doesn't work?
                     clone_transition(new_transition,
@@ -44,7 +46,6 @@ class AddTransition(Base):
                         "%(content_url)s/content_status_modify?workflow_action=" + transition_id
                     new_transition.actbox_category = 'workflow'
 
-                new_transition.title = transition
 
                 # if added from state screen
                 referenced_state = self.request.get('referenced-state', None)

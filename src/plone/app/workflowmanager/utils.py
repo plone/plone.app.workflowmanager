@@ -23,7 +23,7 @@ def clone_transition(transition, clone):
         guard.groups = clone.guard.groups[:]
         transition.guard = guard
 
-    transition.actbox_name = clone.actbox_name
+    transition.actbox_name = transition.title
     transition.actbox_url = clone.actbox_url.replace(clone.id, transition.id)
     transition.actbox_category = clone.actbox_category
     transition.var_exprs = clone.var_exprs

@@ -99,5 +99,4 @@ class BaseTest(unittest.TestCase):
         manager=getUtility(IKeyManager)
         secret=manager.secret()
         user=TEST_USER_NAME
-        return hmac.new(secret, user, sha).hexdigest()
-        
+        return hmac.new(secret, user, sha).hexdigest()        
