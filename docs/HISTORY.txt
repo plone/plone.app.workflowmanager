@@ -12,6 +12,9 @@ Changelog
   opening.
   [vangheem]
   
+- fix error with changing source transitions if transitions
+  are stored as a tuple or list.
+  [vangheem]
 
 1.0a2 - 2011-09-01
 ------------------

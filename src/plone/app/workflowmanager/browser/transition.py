@@ -51,7 +51,7 @@ class AddTransition(Base):
                 referenced_state = self.request.get('referenced-state', None)
                 if referenced_state:
                     state = self.selected_workflow.states[referenced_state]
-                    state.transitions = state.transitions + (new_transition.id, )
+                    state.transitions += (new_transition.id, )
 
                 return self.handle_response(
                     message=_(u'"${transition_id}" transition successfully created.',
@@ -118,7 +118,7 @@ class SaveTransition(Base):
             key = 'transition-%s-state-%s-selected' % (transition.id, state.id)
             if key in self.request:
                 if transition.id not in state.transitions:
-                    state.transitions = state.transitions + (transition.id, )
+                    state.transitions += (transition.id, )
             else:
                 if transition.id in state.transitions:
                     transitions = list(state.transitions)
