@@ -38,6 +38,8 @@ a custom workflow in Workflow Manager, you should see a new "Diagram"
 button. When you click on it, it generates a GIF depicting the
 workflow's states and transitions.
 
+You may get better results if your state and transition IDs do not include hyphens.
+
 Plone 3 Support
 ---------------
 
