@@ -24,6 +24,19 @@ The inspiration for this piece was pretty much taken from DCWorkflowGraph.
 In order to enable this feature, you'll need to install the Graphviz library.
 Information can be found at http://www.graphviz.org
 
+Once you've built Graphviz and have installed it, make sure the "dot"
+executable it creates is in your PATH, e.g.
+
+export PATH=$PATH:/usr/local/bin
+
+assuming "make install" placed the Graphviz executables into
+/usr/local/bin. You can test that your PATH is set correctly if "which
+dot" finds the "dot" executable.
+
+Then restart your Zope or ZEO client. The next time you are looking at
+a custom workflow in Workflow Manager, you should see a new "Diagram"
+button. When you click on it, it generates a GIF depicting the
+workflow's states and transitions.
 
 Plone 3 Support
 ---------------
