@@ -38,7 +38,10 @@ a custom workflow in Workflow Manager, you should see a new "Diagram"
 button. When you click on it, it generates a GIF depicting the
 workflow's states and transitions.
 
-You may get better results if your state and transition IDs do not include hyphens.
+You may get better results if your state and transition IDs do not include 
+hyphens.  Graphviz' "dot" executable will issue warning messages that you 
+can find in your instance log if it has trouble understanding the state
+and transition names and labels.
 
 Plone 3 Support
 ---------------
