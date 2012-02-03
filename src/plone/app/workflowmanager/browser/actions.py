@@ -40,9 +40,9 @@ class AddActionView(Base):
                 id = '--workflowmanager--%s' % self.selected_transition.id
                 r = Rule()
                 r.title = u"%s transition content rule" % self.selected_transition.id
-                r.description = u"This content rule was automatically created" + \
-                                u"the workflow manager to create actions on workflow events. If you want the " + \
-                                u"behavior to work as expected, do not modify this out of the workflow manager."
+                r.description = u"This content rule was automatically created by " + \
+                                u"the workflow manager to support actions on workflow transitions. If you want the " + \
+                                u"behavior to work as expected, do not modify this outside of the workflow manager."
                 am.storage[id] = r
                 rule = RuleAdapter(r, self.selected_transition)
                 rule.activate()
