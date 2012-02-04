@@ -35,7 +35,7 @@ class RuleAdapter(object):
         2) enable at root and bubble to item below
         """
         c = WorkflowTransitionCondition()
-        c.wf_transitions = self.transition.id
+        c.wf_transitions = [self.transition.id]
         self.rule.conditions = [c]
         self.rule.event = IActionSucceededEvent
 
