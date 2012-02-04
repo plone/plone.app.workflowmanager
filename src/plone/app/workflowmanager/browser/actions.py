@@ -37,7 +37,7 @@ class AddActionView(Base):
             am = ActionManager()
             rule = am.get_rule(self.selected_transition)
             if rule is None:
-                id = '--workflowmanager--%s' % self.selected_transition.id
+                id = '--workflowmanager--%s--%s' % (self.selected_workflow.id, self.selected_transition.id)
                 r = Rule()
                 r.title = u"%s transition content rule" % self.selected_transition.id
                 r.description = u"This content rule was automatically created by " + \
