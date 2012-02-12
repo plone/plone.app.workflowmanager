@@ -4,7 +4,7 @@ Introduction
 
 This package provides a GUI for managing custom workflows in Plone.
 
-This is the successor of uwosh.northstar.
+This is the successor of uwosh.northstar's workflow design tool (North* continues on as a file system product generator, given either a PloneFormGen or Dexterity prototype).
 
 Features
 --------
