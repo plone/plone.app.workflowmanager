@@ -92,7 +92,7 @@ class ActionManager(object):
     def create(self, transition):
         rule = self.get_rule(transition)
         if rule is None:
-           id = '--workflowmanager--%s--%s' % (transition.getWorkflow().id, transition.id)
+            id = '--workflowmanager--%s--%s' % (transition.getWorkflow().id, transition.id)
             r = Rule()
             r.title = u"%s transition content rule" % transition.id
             r.description = _(u"This content rule was automatically created "
