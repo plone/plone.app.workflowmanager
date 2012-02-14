@@ -637,7 +637,7 @@ $(document).ready(function(){
     //enable advanced mode on page load
     //so it isn't available for non-js users--oh well.
     var toppanel = $("#tabs-menu ul.formTabs");
-    toppanel.append('<div id="advanced-mode" class="widget"><input type="checkbox" name="advanced-mode" class="checkboxType"><label for="advanced-mode">Advanced mode</label></div>');
+    toppanel.append('<div id="advanced-mode" class="widget"><input type="checkbox" name="advanced-mode" class="checkboxType"> <label for="advanced-mode">Advanced mode</label></div>');
     
     toppanel.find("div#advanced-mode input").change(function(){
       set_advanced_mode(this.checked);

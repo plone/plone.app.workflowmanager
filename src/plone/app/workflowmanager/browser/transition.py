@@ -1,6 +1,7 @@
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
-from Products.DCWorkflow.Transitions import TRIGGER_AUTOMATIC, TRIGGER_USER_ACTION
+from Products.DCWorkflow.Transitions import TRIGGER_AUTOMATIC
+from Products.DCWorkflow.Transitions import TRIGGER_USER_ACTION
 
 from plone.app.workflowmanager.browser.controlpanel import Base
 from plone.app.workflowmanager.utils import clone_transition
@@ -14,7 +15,6 @@ _ = MessageFactory(u"plone")
 
 class AddTransition(Base):
     template = ViewPageTemplateFile('templates/add-new-transition.pt')
-
 
     def __call__(self):
         self.errors = {}
@@ -35,7 +35,7 @@ class AddTransition(Base):
                 new_transition = workflow.transitions[transition_id]
                 clone_of_id = self.request.get('clone-from-transition')
                 new_transition.title = transition
-                
+
                 if clone_of_id:
                     # manage_copy|paste|clone doesn't work?
                     clone_transition(new_transition,
@@ -43,9 +43,8 @@ class AddTransition(Base):
                 else:
                     new_transition.actbox_name = transition
                     new_transition.actbox_url = \
-                        "%(content_url)s/content_status_modify?workflow_action=" + transition_id
+    "%(content_url)s/content_status_modify?workflow_action=" + transition_id
                     new_transition.actbox_category = 'workflow'
-
 
                 # if added from state screen
                 referenced_state = self.request.get('referenced-state', None)
@@ -54,16 +53,17 @@ class AddTransition(Base):
                     state.transitions += (new_transition.id, )
 
                 return self.handle_response(
-                    message=_(u'"${transition_id}" transition successfully created.',
-                                mapping={'transition_id': new_transition.id}),
+                    message=_(
+                        u'"${transition_id}" transition successfully created.',
+                        mapping={'transition_id': new_transition.id}),
                     slideto=True,
                     transition=new_transition)
             else:
-                return self.handle_response(tmpl=self.template, justdoerrors=True)
+                return self.handle_response(tmpl=self.template,
+                                            justdoerrors=True)
 
 
 class SaveTransition(Base):
-
 
     def update_guards(self):
         wf = self.selected_workflow
@@ -82,13 +82,13 @@ class SaveTransition(Base):
         okay_roles = set(wf.getAvailableRoles())
         guard.roles = tuple(roles & okay_roles)
 
-        groups = validators.parse_set_value(self, 'transition-%s-guard-groups' %
-            transition.id)
+        groups = validators.parse_set_value(self,
+            'transition-%s-guard-groups' %
+                transition.id)
         okay_groups = set([g['id'] for g in self.getGroups()])
         guard.groups = tuple(groups & okay_groups)
 
         transition.guard = guard
-
 
     def update_transition_properties(self):
         transition = self.selected_transition
@@ -125,7 +125,6 @@ class SaveTransition(Base):
                     transitions.remove(transition.id)
                     state.transitions = transitions
 
-
     def __call__(self):
         self.authorize()
         self.errors = {}
@@ -138,7 +137,6 @@ class SaveTransition(Base):
 
 class DeleteTransition(Base):
     template = ViewPageTemplateFile('templates/delete-transition.pt')
-
 
     def __call__(self):
         self.errors = {}

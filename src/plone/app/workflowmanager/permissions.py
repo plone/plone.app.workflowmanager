@@ -14,7 +14,8 @@ managed_permissions = [
 
     {'perm': 'View',
      'name': _(u'View'),
-     'description': _(u'Not only means view HTML, but also FTP, WebDAV and other forms of access.')
+     'description': _(u'Not only means view HTML, but also FTP, WebDAV '
+                      u'and other forms of access.')
     },
 
     {'perm': 'Review portal content',
@@ -24,12 +25,14 @@ managed_permissions = [
 
     {'perm': 'List folder contents',
      'name': _(u'List'),
-     'description': _(u"List the contents of a folder. This doesn't check if you have access to view the actual object listed.")
+     'description': _(u"List the contents of a folder. This doesn't check "
+                      u"if you have access to view the actual object listed.")
     },
 
     {'perm': 'Access contents information',
      'name': _(u'Access'),
-     'description': _(u'Allow access to content without necessarily viewing the object. For example, in a list of results.')
+     'description': _(u'Allow access to content without necessarily viewing '
+                      u'the object. For example, in a list of results.')
     }]
 
 allowed_guard_permissions = {

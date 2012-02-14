@@ -33,8 +33,14 @@ def clone_transition(transition, clone):
 
 def clone_state(state, clone):
     state.transitions = clone.transitions[:]
-    state.permission_roles = clone.permission_roles and clone.permission_roles.copy() or None
+    state.permission_roles = clone.permission_roles and \
+        clone.permission_roles.copy() or None
     state.group_roles = clone.group_roles and clone.group_roles.copy() or None
     state.var_values = clone.var_values and clone.var_values.copy() or None
     state.description = clone.description
 
+
+def generateRuleName(transition):
+    return '--workflowmanager--%s--%s' % (
+        transition.getWorkflow().id,
+        transition.id)

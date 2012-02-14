@@ -18,11 +18,13 @@ if os.name == 'nt':
     # on Windows, the path to the ATT Graphviz installation
     # is read from the registry.
     try:
-        import win32api, win32con
+        import win32api
+        import win32con
         # make sure that "key" is defined in our except block
         key = None
         try:
-            key = win32api.RegOpenKeyEx(win32con.HKEY_LOCAL_MACHINE, r'SOFTWARE\ATT\Graphviz')
+            key = win32api.RegOpenKeyEx(
+                win32con.HKEY_LOCAL_MACHINE, r'SOFTWARE\ATT\Graphviz')
             value, type = win32api.RegQueryValueEx(key, 'InstallPath')
             bin_search_path = [join(str(value), 'bin')]
         except:
@@ -78,13 +80,14 @@ def getObjectTitle(object):
     if not title:
         title = id
     else:
-        title = '%s\\n(%s)'%(title, id)
+        title = '%s\\n(%s)' % (title, id)
     return title
 
 
 def getPOT(wf):
     """ get the pot, copy from:
-         "dcworkfow2dot.py":http://awkly.org/Members/sidnei/weblog_storage/blog_27014
+         "dcworkfow2dot.py":
+         http://awkly.org/Members/sidnei/weblog_storage/blog_27014
         and Sidnei da Silva owns the copyright of the this function
     """
     out = []
@@ -95,7 +98,9 @@ def getPOT(wf):
     for s in wf.states.objectValues():
         s_id = s.getId()
         s_title = getObjectTitle(s)
-        out.append('%s [shape=box,label="%s",style="filled",fillcolor="#ffcc99"];' % (s_id, s_title))
+        out.append(
+            '%s [shape=box,label="%s",style="filled",fillcolor="#ffcc99"];' % (
+                s_id, s_title))
         for t_id in s.transitions:
             transitions_with_init_state.append(t_id)
             try:
@@ -138,11 +143,13 @@ def getPOT(wf):
 
 def getGraph(workflow, format="gif"):
     """show a workflow as a graph, copy from:
-"OpenFlowEditor":http://www.openflow.it/wwwopenflow/Download/OpenFlowEditor_0_4.tgz
+        "OpenFlowEditor":
+        http://www.openflow.it/wwwopenflow/Download/OpenFlowEditor_0_4.tgz
     """
     pot = getPOT(workflow)
     portal_properties = getToolByName(workflow, 'portal_properties')
-    encoding = portal_properties.site_properties.getProperty('default_charset', 'utf-8')
+    encoding = portal_properties.site_properties.getProperty(
+        'default_charset', 'utf-8')
     pot = pot.encode(encoding)
     infile = mktemp('.dot')
     f = open(infile, 'w')

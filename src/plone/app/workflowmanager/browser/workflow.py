@@ -16,7 +16,6 @@ _ = MessageFactory(u"plone")
 class DeleteWorkflow(Base):
     template = ViewPageTemplateFile('templates/delete-workflow.pt')
 
-
     def __call__(self):
         self.errors = {}
 
@@ -44,11 +43,11 @@ class DeleteWorkflow(Base):
 class AddWorkflow(Base):
     template = ViewPageTemplateFile('templates/add-new-workflow.pt')
 
-
     def __call__(self):
         self.errors = {}
         workflow = validators.not_empty(self, 'workflow-name')
-        workflow_id = validators.id(self, 'workflow-name', self.portal_workflow)
+        workflow_id = validators.id(self, 'workflow-name',
+                                    self.portal_workflow)
 
         if not self.request.get('form.actions.add', False):
             return self.handle_response(tmpl=self.template)
@@ -72,11 +71,11 @@ class AddWorkflow(Base):
 class UpdateSecuritySettings(Base):
     template = ViewPageTemplateFile('templates/update-security-settings.pt')
 
-
     def __call__(self):
         if self.request.get('form.actions.confirm', False):
             self.authorize()
-            count = self.portal_workflow._recursiveUpdateRoleMappings(self.portal,
+            count = self.portal_workflow._recursiveUpdateRoleMappings(
+                self.portal,
                 {self.selected_workflow.id: self.selected_workflow})
             return self.handle_response(message=_("Updated ${count} objects.",
                 mapping={'count': count}))
@@ -86,7 +85,6 @@ class UpdateSecuritySettings(Base):
 
 class Assign(Base):
     template = ViewPageTemplateFile('templates/assign.pt')
-
 
     def __call__(self):
         self.errors = {}
@@ -103,7 +101,6 @@ class Assign(Base):
 
 class SanityCheck(Base):
     template = ViewPageTemplateFile('templates/sanity-check.pt')
-
 
     def __call__(self):
         self.errors = {}
@@ -154,12 +151,10 @@ class SanityCheck(Base):
 class Graph(Base):
     template = ViewPageTemplateFile('templates/diagram.pt')
 
-
     def __call__(self):
         # generate a random number ot prevent browser from caching this...
         self.random_number = str(randint(0, 999999999))
         return self.handle_response(tmpl=self.template)
-
 
     def image(self):
         resp = self.request.response
