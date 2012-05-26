@@ -1,6 +1,13 @@
 Changelog
 =========
 
+1.0a4 ~ unreleased
+------------------
+
+- show acquired permission setting
+  [vangheem]
+
+
 1.0a3 - 2011-09-02
 ------------------
 

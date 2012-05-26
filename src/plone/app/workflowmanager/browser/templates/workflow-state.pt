@@ -130,7 +130,21 @@
                             </th>
                             </tal:managed-permissions>
                           </tr>
-                          
+                            <tr class="advanced">
+                              <th>Acquired Permissions</th>
+                              <tal:permissions tal:repeat="perminfo view/managed_permissions">
+                              <td class="listingCheckbox" 
+                                  tal:define="info python: state.getPermissionInfo(perminfo['perm']);
+                                              checked info/acquired">
+                                  <input type="checkbox"
+                                      tal:attributes="name python: 'permission-acquire-%s-state-%s' % (perminfo['name'], state.id);
+                                                      checked python: checked and 'checked' or '';
+                                                      value python: checked and 'on' or '';" 
+                                      value="True" class="noborder" />
+
+                              </td>
+                              </tal:permissions>
+                            </tr>
                             <tal:roles tal:repeat="role view/selected_workflow/getAvailableRoles">
                             <tr class="even" tal:define="oddrow repeat/role/odd;"
                                   tal:attributes="class python: oddrow and 'odd' or 'even'">

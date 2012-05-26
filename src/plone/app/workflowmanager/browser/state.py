@@ -131,10 +131,30 @@ class SaveState(Base):
                 if key in self.request:
                     selected_roles.append(role)
 
+            acquire_key = 'permission-acquire-%s-state-%s' % (
+                managed_perm['name'], state.id)
+            if acquire_key in self.request:
+                acquired = True
+            else:
+                acquired = False
+
             if len(selected_roles) > 0:
-                perm_roles[managed_perm['perm']] = tuple(selected_roles)
+                if not acquired:
+                    selected_roles = tuple(selected_roles)
+                perm_roles[managed_perm['perm']] = selected_roles
                 if managed_perm['perm'] not in wf.permissions:
                     wf.permissions = wf.permissions + (managed_perm['perm'], )
+            elif managed_perm['perm'] in wf.permissions:
+                # it's managed, no perms set, but still could save acquired
+                if acquired:
+                    perm_roles[managed_perm['perm']] = []
+                else:
+                    perm_roles[managed_perm['perm']] = ()
+            elif not acquired:
+                # not already managing perms, but no longer acquire permissions
+                if managed_perm['perm'] not in wf.permissions:
+                    wf.permissions = wf.permissions + (managed_perm['perm'], )
+                perm_roles[managed_perm['perm']] = ()
         state.permission_roles = perm_roles
 
     def update_state_properties(self):

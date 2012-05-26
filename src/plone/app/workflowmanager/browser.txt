@@ -94,6 +94,13 @@ Now uncheck that same one
     >>> browser.getControl(name="permission-Edit-role-Reviewer-state-private").value
     []
     
+Check the acquire permissions setting
+
+    >>> browser.getControl(name="permission-acquire-Add-state-pending").value = True
+    >>> browser.getControl(name="save-state-private-button").click()
+    >>> browser.getControl(name="permission-acquire-Add-state-pending").value
+    True
+
 Let's try some group role stuff now.
 First, let's check one.
 
