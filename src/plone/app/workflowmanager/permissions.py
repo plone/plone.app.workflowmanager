@@ -23,6 +23,11 @@ managed_permissions = [
      'description': _(u'Allowed to review the content.')
     },
 
+    {'perm': 'Change portal events',
+     'name': _(u'Change Events'),
+     'description': _(u'Allow to update events')
+    },
+
     {'perm': 'List folder contents',
      'name': _(u'List'),
      'description': _(u"List the contents of a folder. This doesn't check "
