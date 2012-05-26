@@ -161,9 +161,10 @@
                                             checked python: checked and 'checked' or ''"
                             class="checkboxType" />
 
-                        <label tal:content="state/title"
-                            tal:attributes="for field_name">
-                            State Title
+                        <label tal:attributes="for field_name">
+                            <a class="goto-link" 
+                                tal:attributes="href python: view.get_url(state=state);"
+                            tal:content="state/title">State Title</a>
                         </label>
                     </div>
                     </tal:states>

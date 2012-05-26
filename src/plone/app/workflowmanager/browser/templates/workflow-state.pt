@@ -46,9 +46,11 @@
                         class="checkboxType" />
                      
                     <label 
-                        tal:attributes="for field_name" 
-                        tal:content="transition/title">
-                        Transition Title
+                        tal:attributes="for field_name">
+                        <a class="goto-link" 
+                          tal:attributes="href python: view.get_url(transition=transition);"
+                          tal:content="transition/title">
+                          Transition Title</a>
                     </label>
                 </div>
                 </tal:transitions>

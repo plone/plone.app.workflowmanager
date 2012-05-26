@@ -134,5 +134,9 @@
         name="workflowmanager.js"
         file="resources/workflowmanager.js"
     />
+    <browser:resource
+        name="wfmbootstrap.css"
+        file="resources/bootstrap.css"
+    />
 	
 </configure>
