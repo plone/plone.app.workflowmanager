@@ -636,15 +636,14 @@ $(document).ready(function(){
 
     //enable advanced mode on page load
     //so it isn't available for non-js users--oh well.
-    var toppanel = $("#tabs-menu ul.formTabs");
-    toppanel.append('<div id="advanced-mode" class="widget"><input type="checkbox" name="advanced-mode" class="checkboxType"> <label for="advanced-mode">Advanced mode</label></div>');
+    var toppanel = $("#tabs-menu ul.tabs");
     
     toppanel.find("div#advanced-mode input").change(function(){
       set_advanced_mode(this.checked);
     });
 
     if(is_advanced_mode() && toppanel.size() == 1){
-      $("#tabs-menu ul.formTabs div#advanced-mode input")[0].checked = true;
+      $("#tabs-menu ul.tabs div#advanced-mode input")[0].checked = true;
     }else{
       $(".advanced").hide();
     }
@@ -661,13 +660,12 @@ $(document).ready(function(){
     $(input_selector).live(theevent, input_change_handler);
 
     //Set some things up only if js is enabled here
-    $("#save-all-button").css('display', 'inline');
-    $("#tabs-menu ul.formTabs").addClass('enabled');
+    $("#tabs-menu ul.tabs").addClass('enabled');
     
     $('#portal-column-content')[0].className = 'cell width-full position-0';
           
     $(window).scroll(function(e){
-      var menu_container = $('div#tabs-menu');
+      var menu_container = $('div#menu-container');
       var container_offset = menu_container.offset();
       if(container_offset == null){
         //it's possible that scroll is happening with overlay
@@ -675,19 +673,13 @@ $(document).ready(function(){
         return;
       }
         
-      var tabs_menu = menu_container.find("ul.formTabs");
+      var tabs_menu = $("#tabs-menu");
       var offset = tabs_menu.offset();
       
       if(window.pageYOffset > container_offset.top){
-        if(tabs_menu.css('position') != 'fixed'){
-          tabs_menu.css('position', 'fixed');
-          tabs_menu.css('width', '98%');
-        }
+        tabs_menu.addClass('fixed');
       }else{
-        if(tabs_menu.css('position') == 'fixed'){
-          tabs_menu.css('position', 'inherit');
-          tabs_menu.css('width', '');
-        }
+        tabs_menu.removeClass('fixed');
       }
     });
     setup_tooltips();
