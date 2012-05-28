@@ -40,11 +40,12 @@
     " workflow.
   </p>
 
-  <a href="" class="link-parent"
+  <div id="workflowmanager-container" class="wm">
+    <div class="alert">
+      <a href="" class="link-parent"
                 tal:attributes="href string:$portal_url/@@workflowmanager"
                 i18n:translate="label_up_to_plone_setup">Select or create a new workflow</a>
-
-  <div id="workflowmanager-container" class="wm">
+    </div>
     <div id="menu-container">
       <div id="tabs-menu" class="subnav">
         <input id="selected-workflow" type="hidden" name="selected-workflow" tal:attributes="value selected_workflow/id" />
