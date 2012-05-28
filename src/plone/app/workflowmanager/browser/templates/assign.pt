@@ -28,8 +28,8 @@
 
         </div>
         
-        <input name="form.actions.next" type="submit" class="context" value="Next Step" />
-        <input name="form.actions.cancel" type="submit" class="context" value="Cancel" />
+        <input name="form.actions.next" type="submit" class="context btn btn-primary" value="Next Step" />
+        <input name="form.actions.cancel" type="submit" class="context btn" value="Cancel" />
         
     </form> 
     <br /> 

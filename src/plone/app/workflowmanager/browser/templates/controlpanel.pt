@@ -11,9 +11,11 @@
   <metal:block fill-slot="top_slot" tal:define="dummy python:request.set('disable_border',1)" />
 
   <metal:css fill-slot="style_slot">
+    <link rel="stylesheet" type="text/css" href="++resource++wfmbootstrap.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="++resource++workflowmanager.css" media="screen" />
   </metal:css>
   <metal:javascript fill-slot="javascript_head_slot">
+    <script type="text/javascript" src="++resource++wfmbootstrap-popover.js"></script>
     <script type="text/javascript" src="++resource++workflowmanager.js"></script>
   </metal:javascript>
 
@@ -27,7 +29,6 @@
   </div>
   <div class="pb-ajax"></div>
 </div>
-<div id="status-messages"></div>
 
 <h1 class="documentFirstHeading" i18n:translate="title_manage_contentrules">Workflow Manager</h1>
 
@@ -43,11 +44,11 @@
                 tal:attributes="href string:$portal_url/@@workflowmanager"
                 i18n:translate="label_up_to_plone_setup">Select or create a new workflow</a>
 
-  <div id="workflowmanager-container">
+  <div id="workflowmanager-container" class="wm">
     <div id="menu-container">
-      <div id="tabs-menu">
+      <div id="tabs-menu" class="subnav">
         <input id="selected-workflow" type="hidden" name="selected-workflow" tal:attributes="value selected_workflow/id" />
-        <ul class="tabs">
+        <ul class="tabs nav nav-pills">
           <li>
             <a id="fieldsetlegend-states" href="@@workflowmanager#fieldsetlegend-states-anchor" class="selected">
               <span>States</span>
@@ -60,7 +61,8 @@
           </li>
           <li>
             <form class="navbar-form">
-              <input type="submit" id="save-all-button" class="btn btn-warning context allowMultiSubmit" value="Save" />
+              <input type="submit" id="save-all-button" class="btn context allowMultiSubmit" value="Save"
+                title="Saving.." />
               <input tal:replace="structure context/@@authenticator/authenticator"/>
             </form>
           </li>
@@ -84,88 +86,65 @@
             </form>
           </li>
           <li>
-            <form class="navbar-form tooltip" tal:attributes="action python: view.get_url('@@workflowmanager-sanity-check')" method="POST">
+            <form class="navbar-form" 
+              tal:attributes="action python: view.get_url('@@workflowmanager-sanity-check')"
+              method="POST">
               <a class="dialog-box" rel="#pb_99999"
-                                      tal:attributes="href python: view.get_url('@@workflowmanager-sanity-check')">
-                <input type="submit" class="btn context allowMultiSubmit" name="sanity-check-button" value="Sanity check" />
+                  tal:attributes="href python: view.get_url('@@workflowmanager-sanity-check')">
+                <input type="submit" rel="popover"
+                  class="btn context allowMultiSubmit" 
+                  name="sanity-check-button" value="Sanity check"
+                    title="Sanity Check"
+                    data-content="Check to make sure that all your states are connected with transitions and that there isn't anything missing or left behind." />
               </a>
             </form>
-            <div class="tooltip-contents">
-              <dl>
-                <dt>Sanity Check</dt>
-                <dd>
-                  Check to make sure that all your states are connected with transitions and that there isn't anything missing or left behind.
-                </dd>
-              </dl>
-            </div>
           </li>
           <li>
-            <form class="navbar-form tooltip" tal:attributes="action python: view.get_url('@@workflowmanager-assign')" method="POST">
+            <form class="navbar-form" tal:attributes="action python: view.get_url('@@workflowmanager-assign')" method="POST">
               <a class="dialog-box save-first" rel="#pb_99999"
-                                      tal:attributes="href python: view.get_url('@@workflowmanager-assign')">
-                <input type="submit" class="btn context allowMultiSubmit" name="assign-workflow" value="Assign" />
+                  tal:attributes="href python: view.get_url('@@workflowmanager-assign')">
+                <input type="submit" class="btn context allowMultiSubmit" name="assign-workflow" value="Assign"
+                  rel="popover" title="Assign"
+                  data-content="Assign this workflow to a content type so that your content can utilize it." />
               </a>
             </form>
-            <div class="tooltip-contents">
-              <dl>
-                <dt>Assign</dt>
-                <dd>
-                  Assign this workflow to a content type so that your content can utilize it.
-                </dd>
-              </dl>
-            </div>
           </li>
           <li>
-            <form class="navbar-form tooltip advanced" tal:attributes="action python: view.get_url('@@workflowmanager-update-security-settings')" method="POST">
+            <form class="navbar-form advanced" tal:attributes="action python: view.get_url('@@workflowmanager-update-security-settings')" method="POST">
               <a class="dialog-box save-first" rel="#pb_99999"
                                       tal:attributes="href python: view.get_url('@@workflowmanager-update-security-settings')">
-                <input type="submit" class="btn context allowMultiSubmit" name="update-security-settings" value="Update security" />
+                <input type="submit" class="btn context allowMultiSubmit" name="update-security-settings" value="Update security"
+                  rel="popover" title="Update Security"
+                  data-content="Update the security settings for all objects using this workflow in the portal." />
               </a>
             </form>
-            <div class="tooltip-contents">
-              <dl>
-                <dt>Update Security</dt>
-                <dd>
-                  Update the security settings for all objects using this workflow in the portal.
-                </dd>
-              </dl>
-            </div>
           </li>
-          <li>
-            <form class="navbar-form tooltip" tal:condition="view/has_graphviz" 
+          <li tal:condition="view/has_graphviz">
+            <form class="navbar-form"
                                   tal:attributes="action string:${context/absolute_url}/@@workflowmanager-view-graph" method="GET">
               <input type="hidden" name="selected-workflow" tal:attributes="value view/selected_workflow/id" />
               <a rel="#pb_99999" class="dialog-box" tal:attributes="href python: view.get_url('@@workflowmanager-view-graph')">
-                <input type="submit" class="btn standalone allowMultiSubmit" name="view-graph" value="Diagram" />
+                <input type="submit" class="btn standalone allowMultiSubmit" name="view-graph" value="Diagram"
+                  rel="popover" title="Diagram"
+                  data-content="Get a visual representation of your the workflow you've designed." />
               </a>
             </form>
-            <div class="tooltip-contents" tal:condition="view/has_graphviz">
-              <dl>
-                <dt>Diagram</dt>
-                <dd>
-                  Get a visual representation of your the workflow you've designed.
-                </dd>
-              </dl>
-            </div>
           </li>
           <li>
             <form class="navbar-form" tal:attributes="action string:${context/absolute_url}/@@workflowmanager-delete-workflow" method="POST">
               <input type="hidden" name="selected-workflow" tal:attributes="value view/selected_workflow/id" />
               <a class="dialog-box" rel="#pb_99999"
                                       tal:attributes="href python: view.get_url('@@workflowmanager-delete-workflow')">
-                <input type="submit" class="btn btn-inverse standalone allowMultiSubmit" name="delete-workflow-button" value="Delete" />
+                <input type="submit" class="btn btn-inverse standalone allowMultiSubmit" name="delete-workflow-button"
+                  value="Delete"/>
               </a>
             </form>
           </li>
           <li>
-            <p class="discreet hidden" id="unsaved-warning">
-              | <b>unsaved changes</b>
-            </p>
-          </li>
-          <li class="right">
-            <div id="advanced-mode" class="widget">
-              <input type="checkbox" name="advanced-mode" class="checkboxType">
-              <label for="advanced-mode">Advanced mode</label>
+            <div id="advanced-mode">
+              <label class="checkbox">
+                <input type="checkbox" name="advanced-mode" class="checkboxType"> Advanced mode
+              </label>
             </div>
           </li>
         </ul>

@@ -123,16 +123,16 @@
     />
 
     <browser:resource
-        name="white_arrow.png"
-        file="resources/white_arrow.png"
-    />
-    <browser:resource
         name="workflowmanager.css"
         file="resources/workflowmanager.css"
     />
     <browser:resource
         name="workflowmanager.js"
         file="resources/workflowmanager.js"
+    />
+    <browser:resource
+        name="wfmbootstrap-popover.js"
+        file="resources/bootstrap-popover.js"
     />
     <browser:resource
         name="wfmbootstrap.css"

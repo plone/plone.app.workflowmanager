@@ -20,9 +20,9 @@
         </tal:condition>
         
         <tal:condition tal:condition="view/can_delete">
-            <input type="submit" name="form.actions.delete" value="Delete" class="context" />
+            <input type="submit" name="form.actions.delete" value="Delete" class="context btn btn-primary" />
         </tal:condition>
-        <input type="submit" name="form.actions.cancel" value="Cancel" class="standalone" />
+        <input type="submit" name="form.actions.cancel" value="Cancel" class="standalone btn" />
         
     </form> 
     <br /> 

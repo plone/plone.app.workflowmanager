@@ -46,8 +46,8 @@
             <input class="firstToFocus" type="text" tal:attributes="name field_name" id="state-name" value="" /> 
         </div>
         
-        <input name="form.actions.add" type="submit" class="context" value="Add" />
-        <input name="form.actions.cancel" type="submit" class="context" value="Cancel" />
+        <input name="form.actions.add" type="submit" class="context btn btn-primary" value="Add" />
+        <input name="form.actions.cancel" type="submit" class="context btn" value="Cancel" />
     </form> 
     <br /> 
 </div>

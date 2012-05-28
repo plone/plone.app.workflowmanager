@@ -51,8 +51,8 @@
             <input class="firstToFocus" type="text" tal:attributes="name field_name" value="" /> 
         </div>
         
-        <input type="submit" name="form.actions.add" value="Add" class="context" />
-        <input name="form.actions.cancel" type="submit" class="context" value="Cancel" />
+        <input type="submit" name="form.actions.add" value="Add" class="context btn btn-primary" />
+        <input name="form.actions.cancel" type="submit" class="context btn" value="Cancel" />
         
     </form> 
     <br /> 

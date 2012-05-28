@@ -8,8 +8,8 @@
     <input type="hidden" name="selected-workflow" tal:attributes="value view/selected_workflow/id" />
     <input tal:replace="structure context/@@authenticator/authenticator"/>
     
-    <input name="form.actions.confirm" type="submit" class="context" value="Yes" />  
-    <input name="form.actions.cancel" type="submit" class="context" value="Cancel" />
+    <input name="form.actions.confirm" type="submit" class="context btn btn-primary" value="Yes" />  
+    <input name="form.actions.cancel" type="submit" class="context btn" value="Cancel" />
     
   </form> 
   <br /> 

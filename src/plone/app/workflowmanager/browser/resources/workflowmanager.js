@@ -78,10 +78,6 @@ $(document).ready(function(){
     predelay: 300
   }
     
-  var setup_tooltips = function(){
-    $('.tooltip').tooltip(tool_tip_settings);
-  }
-    
   var set_advanced_mode = function(advanced){
     if(advanced){
       $(".advanced").show();
@@ -94,11 +90,12 @@ $(document).ready(function(){
     
   //display our status message in a pretty way.
   var status_message = function(msg){
-    var status = $('#status-messages');
-    status.html(msg);
-    status.fadeIn('slow', function(){
-      setTimeout("jQuery('#status-messages').fadeOut('slow');", 3000);
-    });
+    var status = $('#save-all-button');
+    status.attr('data-content', msg);
+    status.popover('show');
+    setTimeout(function(){
+      $('#save-all-button').popover('hide');
+    }, 1500);
   }
 
   //returns the url for a given workflow
@@ -300,14 +297,12 @@ $(document).ready(function(){
     
   var show_item = function(obj){
     obj = $(obj);
-    obj.find('.arrow').html('&#x2191;');
     obj.removeClass('collasped');
     obj.addClass('expanded');
   }
     
   var hide_item = function(obj){
     obj = $(obj);
-    obj.find('.arrow').html('&#x2193;');
     obj.removeClass('expanded');
     obj.addClass('collasped');
   }
@@ -362,9 +357,6 @@ $(document).ready(function(){
         $('#workflow-content').replaceWith(request.responseText);
         setup_overlays();
         
-        //manually setup tool tip here for the internal content
-        $('#workflow-content').find('.tooltip').tooltip(tool_tip_settings);
-        
         if(!is_advanced_mode()){
           $('.advanced').hide();
         }
@@ -399,8 +391,9 @@ $(document).ready(function(){
           transitions.css('display', 'none');
         }
           
-        handle_actions(data);
-        $("#unsaved-warning").addClass('hidden');
+        handle_actions(data); 
+        $('#save-all-button').removeClass('btn-danger');
+        $('[rel=popover]').popover({placement: 'bottom'});
       }
     });
   }
@@ -430,12 +423,12 @@ $(document).ready(function(){
     if(dirty_items.length == 0){
       //clear it out even if nothing is saved...
       spinner.hide();
-      $("#unsaved-warning").addClass('hidden');
+      $('#save-all-button').removeClass('btn-danger');
     }
   }
     
-  $('.workflow-item h3.header span.arrow').live('click', function(e){
-    var obj = $(this).parent().parent();
+  $('.workflow-item .dropdown').live('click', function(e){
+    var obj = $(this).parents('.workflow-item');
     if(obj.hasClass('collasped')){
       obj.find('.hidden-content').slideDown();
       show_item(obj);
@@ -652,7 +645,7 @@ $(document).ready(function(){
     var input_change_handler = function(){
       var obj = $(this);
       obj.parents('div.workflow-item').addClass('dirty');
-      $("#unsaved-warning").removeClass('hidden');
+      $('#save-all-button').addClass('btn-danger');
     }
     //need to use different event for IE of course...
     var theevent = ($.browser.msie) ? 'click' : 'change';
@@ -677,12 +670,14 @@ $(document).ready(function(){
       var offset = tabs_menu.offset();
       
       if(window.pageYOffset > container_offset.top){
-        tabs_menu.addClass('fixed');
+        tabs_menu.addClass('subnav-fixed');
       }else{
-        tabs_menu.removeClass('fixed');
+        tabs_menu.removeClass('subnav-fixed');
       }
     });
-    setup_tooltips();
+    $('#save-all-button').popover({trigger: 'manual', placement: 'bottom'});
+    $('[rel=popover]').popover({placement: 'bottom'});
+    $('#content').on('click', '.item-header li.related-items a', function(){ return false; });
   }
   init();
     

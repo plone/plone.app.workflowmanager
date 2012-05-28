@@ -1,11 +1,11 @@
 <div id="workflow-content">
     
-    <fieldset id="fieldset-states" class="formPanel workflow-manager-panel" 
+    <fieldset id="fieldset-states" class="workflow-manager-panel" 
           tal:content="structure view/render_states_template"> 
 
     </fieldset>
 
-    <fieldset id="fieldset-transitions" class="formPanel workflow-manager-panel"
+    <fieldset id="fieldset-transitions" class="workflow-manager-panel"
           tal:content="structure view/render_transitions_template"> 
 
     </fieldset>
