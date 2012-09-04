@@ -4,7 +4,7 @@
         xmlns:i18n="http://xml.zope.org/namespaces/i18n" 
         i18n:domain="plone.app.workflowmanager">
 
-	<configlet title="Workflow Manager" action_id="workflowmanager"
+	<configlet title="Workflow Manager" action_id="workflowmanager" i18n:attributes="title"
     appId="plone.app.workflowmanager" category="Plone" condition_expr=""
     url_expr="string:${portal_url}/@@workflowmanager"
     icon_expr="string:"

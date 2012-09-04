@@ -125,7 +125,7 @@
                                       id field_name; 
                                       checked python: perm[1] in guard.permissions and 'checked' or ''"
                       class="checkboxType" />
-                      <span i18n:domain="plone" i18n:translate="" tal:content="python: perm[1]" />
+                      <span  i18n:domain="plone" i18n:translate="" tal:content="python: perm[1]" />
                   </label>
                 </tal:field>
               </tal:perms>
