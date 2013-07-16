@@ -1,7 +1,15 @@
 Changelog
 =========
 
-1.0a4 ~ unreleased
+1.0a5 ~ unreleased
+------------------
+
+- replace remaining 'jq' names by 'jQuery' in javascript
+  for full Plone 4.3+ compatibility.
+  [thomasdesvenain]
+
+
+1.0a4 ~ 2012-05-28
 ------------------
 
 - show acquired permission setting
@@ -21,7 +29,7 @@ Changelog
 - cancel on confirm save now prevents dialog from
   opening.
   [vangheem]
-  
+
 - fix error with changing source transitions if transitions
   are stored as a tuple or list.
   [vangheem]
@@ -32,7 +40,7 @@ Changelog
 - Add MANIFEST.in.
   [WouterVH]
 
-- use json library and just advertise that 
+- use json library and just advertise that
   plone 3 users need to install simplejson
   [vangheem]
 
