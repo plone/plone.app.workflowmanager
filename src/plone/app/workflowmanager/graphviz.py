@@ -99,14 +99,14 @@ def getPOT(wf):
         s_id = s.getId()
         s_title = getObjectTitle(s)
         out.append(
-            '%s [shape=box,label="%s",style="filled",fillcolor="#ffcc99"];' % (
+            '"%s" [shape=box,label="%s",style="filled",fillcolor="#ffcc99"];' % (
                 s_id, s_title))
         for t_id in s.transitions:
             transitions_with_init_state.append(t_id)
             try:
                 t = wf.transitions[t_id]
             except KeyError:
-                out.append(('# transition %s from state %s '
+                out.append(('# transition "%s" from state "%s" '
                             'is missing' % (t_id, s_id)))
                 continue
 
@@ -134,7 +134,7 @@ def getPOT(wf):
             transitions[key] = value
 
     for k, v in transitions.items():
-        out.append('%s -> %s [label="%s"];' % (k[0], k[1],
+        out.append('"%s" -> "%s" [label="%s"];' % (k[0], k[1],
                                                ',\\n'.join(v)))
 
     out.append('}')
