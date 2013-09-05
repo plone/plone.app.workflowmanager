@@ -4,6 +4,9 @@ Changelog
 1.0a5 ~ unreleased
 ------------------
 
+- double-quote state and transition names in graph view
+  [erral]
+
 - replace remaining 'jq' names by 'jQuery' in javascript
   for full Plone 4.3+ compatibility.
   [thomasdesvenain]
