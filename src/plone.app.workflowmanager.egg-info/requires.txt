@@ -1,7 +1,0 @@
-Plone
-setuptools
-plone.app.jquery>=1.7
-
-[test]
-plone.app.testing
-interlude
