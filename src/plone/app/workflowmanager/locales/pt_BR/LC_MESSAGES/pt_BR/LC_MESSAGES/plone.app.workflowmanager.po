@@ -1,4 +1,4 @@
-msgid ""
+﻿msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2012-09-03 15:20+0000\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "Language-Code: pt-br\n"
-"Language-Name: PortuguÃªs do Brasil\n"
+"Language-Name: Português do Brasil\n"
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: plone.app.workflowmanager\n"
 
@@ -114,8 +114,6 @@ msgstr "Por favor selecione seu workflow."
 msgid "Create new workflow"
 msgstr "Criar um novo workflow"
 
-#: -------------//--------------------
-
 #: ./browser/workflow-state.pt:15
 msgid "Transitions &raquo;"
 msgstr "Transições &raquo;"
@@ -143,7 +141,6 @@ msgstr "Título deste Estado."
 #: ./browser/workflow-state.pt:90
 msgid "The description of this State."
 msgstr "Descrição deste Estado."
-
 
 #: ./browser/workflow-state.pt:102
 msgid "Permission Roles"
@@ -181,11 +178,6 @@ msgstr "Grupos"
 msgid "Save state"
 msgstr "Salvar estado"
 
-
-
-
-#: -------------//--------------------
-
 #: ./browser/add-new-workflow.pt:2
 msgid "Create New Workflow"
 msgstr "Criar um Novo Workflow"
@@ -193,10 +185,6 @@ msgstr "Criar um Novo Workflow"
 #: ./browser/add-new-workflow.pt:5
 msgid "This will add a new transition to the workflow."
 msgstr "Isto adicionará uma nova transição para o workflow."
-
-#: ./browser/add-new-workflow.pt:17
-msgid "Clone from"
-msgstr "Clonar de"
 
 #: ./browser/add-new-workflow.pt:17
 msgid "Clone from"
@@ -221,8 +209,6 @@ msgstr "Adicionar"
 #: ./browser/add-new-workflow.pt:48
 msgid "Cancel"
 msgstr "Cancelar"
-
-#: -------------//--------------------
 
 #: ./browser/workflow-transition.pt:16
 msgid "State &raquo;"
@@ -320,8 +306,6 @@ msgstr "Adicionar Ação."
 msgid "Save transition"
 msgstr "Salvar transição"
 
-#: -------------//--------------------
-
 #: ./browser/content.pt:15
 msgid "Assigned Types:"
 msgstr "Tipos Atribuídos:"
@@ -329,4 +313,3 @@ msgstr "Tipos Atribuídos:"
 #: ./browser/content.pt:20
 msgid "denotes initial state of this workflow"
 msgstr "indica o estado inicial do workflow"
-
