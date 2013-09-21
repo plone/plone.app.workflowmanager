@@ -328,5 +328,5 @@ msgstr "Tipos Atribuídos:"
 
 #: ./browser/content.pt:20
 msgid "denotes initial state of this workflow"
-msgstr "indica o estado inicial deste fluxo de trabalho"
+msgstr "indica o estado inicial do workflow"
 

@@ -25,7 +25,7 @@
                         show python: selected_workflow is not None;">
 <div id="pb_99999" class="overlay overlay-ajax">
   <div class="close">
-    <span i18n:translate="">Close</span>
+    <span>Close</span>
   </div>
   <div class="pb-ajax"></div>
 </div>
@@ -34,10 +34,9 @@
 
 <tal:manager tal:condition="show">
 
-  <p class="documentDescription"
-     i18n:translate="you_currently_woking">
+  <p class="documentDescription">
     You are currently working on the "
-    <tal:replace i18n:name="current_wf" tal:replace="view/selected_workflow/title" />
+    <tal:replace tal:replace="view/selected_workflow/title" />
     " workflow.
   </p>
 
@@ -53,18 +52,18 @@
         <ul class="tabs nav nav-pills">
           <li>
             <a id="fieldsetlegend-states" href="@@workflowmanager#fieldsetlegend-states-anchor" class="selected">
-              <span i18n:translate="">States</span>
+              <span>States</span>
             </a>
           </li>
           <li>
             <a id="fieldsetlegend-transitions" href="@@workflowmanager#fieldsetlegend-transitions-anchor" class="">
-              <span i18n:translate="">Transitions</span>
+              <span>Transitions</span>
             </a>
           </li>
           <li>
             <form class="navbar-form">
               <input type="submit" id="save-all-button" class="btn context allowMultiSubmit" value="Save"
-                title="Saving.." i18n:attributes="value;title" />
+                title="Saving.." />
               <input tal:replace="structure context/@@authenticator/authenticator"/>
             </form>
           </li>
@@ -74,7 +73,7 @@
               <a class="dialog-box save-first" rel="#pb_99999"
                                       tal:attributes="href python: view.get_url('@@workflowmanager-add-new-state');
                                                       id string:add-state-box-${view/selected_workflow/id}">
-                <input type="submit" class="btn context allowMultiSubmit" name="add-new-state-button" value="Add state" i18n:attributes="value" />
+                <input type="submit" class="btn context allowMultiSubmit" name="add-new-state-button" value="Add state" />
               </a>
             </form>
           </li>
@@ -82,8 +81,8 @@
             <form class="navbar-form" tal:attributes="action string:${context/absolute_url}/@@workflowmanager-add-new-transition" method="POST">
               <input type="hidden" name="selected-workflow" tal:attributes="value view/selected_workflow/id" />
               <a class="dialog-box save-first" rel="#pb_99999"
-                 tal:attributes="href python: view.get_url('@@workflowmanager-add-new-transition');">
-                <input type="submit" class="btn context allowMultiSubmit" name="add-new-transition-button" value="Add transition" i18n:attributes="value" />
+                                      tal:attributes="href python: view.get_url('@@workflowmanager-add-new-transition');">
+                <input type="submit" class="btn context allowMultiSubmit" name="add-new-transition-button" value="Add transition" />
               </a>
             </form>
           </li>
@@ -97,10 +96,7 @@
                   class="btn context allowMultiSubmit" 
                   name="sanity-check-button" value="Sanity check"
                     title="Sanity Check"
-                    data-content="Check to make sure that all your states are connected with transitions and that there isn't anything missing or left behind."
-                    i18n:attributes="value sanity_check;
-                                     title sanity_check;
-                                     data-content sanity_check_make_transitions" />
+                    data-content="Check to make sure that all your states are connected with transitions and that there isn't anything missing or left behind." />
               </a>
             </form>
           </li>
@@ -110,8 +106,7 @@
                   tal:attributes="href python: view.get_url('@@workflowmanager-assign')">
                 <input type="submit" class="btn context allowMultiSubmit" name="assign-workflow" value="Assign"
                   rel="popover" title="Assign"
-                  data-content="Assign this workflow to a content type so that your content can utilize it."
-                  i18n:attributes="value;title;data-content assign_workflow_content_types" />
+                  data-content="Assign this workflow to a content type so that your content can utilize it." />
               </a>
             </form>
           </li>
@@ -120,9 +115,8 @@
               <a class="dialog-box save-first" rel="#pb_99999"
                                       tal:attributes="href python: view.get_url('@@workflowmanager-update-security-settings')">
                 <input type="submit" class="btn context allowMultiSubmit" name="update-security-settings" value="Update security"
-                  rel="popover" title="Update security"
-                  data-content="Update the security settings for all objects using this workflow in the portal."
-                  i18n:attributes="value;title;data-content update_security_settings"  />
+                  rel="popover" title="Update Security"
+                  data-content="Update the security settings for all objects using this workflow in the portal." />
               </a>
             </form>
           </li>
@@ -133,8 +127,7 @@
               <a rel="#pb_99999" class="dialog-box" tal:attributes="href python: view.get_url('@@workflowmanager-view-graph')">
                 <input type="submit" class="btn standalone allowMultiSubmit" name="view-graph" value="Diagram"
                   rel="popover" title="Diagram"
-                  data-content="Get a visual representation of your the workflow you've designed."
-                  i18n:attributes="value;title;data-content visual_representation_designed" />
+                  data-content="Get a visual representation of your the workflow you've designed." />
               </a>
             </form>
           </li>
@@ -144,15 +137,14 @@
               <a class="dialog-box" rel="#pb_99999"
                                       tal:attributes="href python: view.get_url('@@workflowmanager-delete-workflow')">
                 <input type="submit" class="btn btn-inverse standalone allowMultiSubmit" name="delete-workflow-button"
-                       value="Delete"
-                       i18n:attributes="value" /> 
+                  value="Delete"/>
               </a>
             </form>
           </li>
           <li>
             <div id="advanced-mode">
               <label class="checkbox">
-                <input type="checkbox" name="advanced-mode" class="checkboxType"><span i18n:translate="">Advanced mode</span>
+                <input type="checkbox" name="advanced-mode" class="checkboxType"> Advanced mode
               </label>
             </div>
           </li>
@@ -171,17 +163,17 @@
                 i18n:translate="label_up_to_plone_setup">Up to Site Setup</a>
   <div id="workflow-selection">
     <br />
-    <p class="documentDescription" i18n:translate="">Please select your workflow.</p>
+    <p class="documentDescription">Please select your workflow.</p>
     <ul>
       <tal:workflows tal:repeat="workflow view/available_workflows">
         <li>
-          <a tal:attributes="href python: view.get_url('@@workflowmanager', workflow);" tal:content="workflow/title" i18n:domain="plone" i18n:translate=""></a>
+          <a tal:attributes="href python: view.get_url('@@workflowmanager', workflow);" tal:content="workflow/title"></a>
         </li>
       </tal:workflows>
     </ul>
     <form id="create-new-workflow" class="inline" tal:attributes="action python: view.get_url('@@workflowmanager-add-new-workflow')">
       <a class="dialog-box" rel="#pb_99999" tal:attributes="href python: view.get_url('@@workflowmanager-add-new-workflow')">
-        <input type="submit" class="standalone allowMultiSubmit" value="Create new workflow" i18n:attributes="value" />
+        <input type="submit" class="standalone allowMultiSubmit" value="Create new workflow" />
       </a>
     </form>
   </div>

@@ -1,30 +1,29 @@
 <div class="workflow-state collasped workflow-item well"
-     tal:attributes="id string:state-${state/id}"
-     tal:define="state options/state;
-                 available_transitions options/available_transitions" 
-    i18n:domain="plone.app.workflowmanager">
+    tal:attributes="id string:state-${state/id}"
+    tal:define="state options/state;
+                available_transitions options/available_transitions">
   <div class="subnav item-header">
     <ul class="nav nav-pills tabs">
       <li class="dropdown">
         <a href="#" class="dropdown-toggle">
           <b class="caret"></b>
           <span class="initial-state" tal:condition="python: view.selected_workflow.initial_state == state.id">*</span>
-          <tal:nothing tal:replace="python: state.title" i18n:domain="plone" i18n:translate="" >Title</tal:nothing> 
+          <tal:nothing tal:replace="python: state.title">Title</tal:nothing> 
         </a>
       </li>
       <li class="related-items">
-        <a href="#" class="btn-info" i18n:translate="">Transitions &raquo;</a>
+        <a href="#" class="btn-info">Transitions &raquo;</a>
       </li>
       <li tal:repeat="transition python: view.get_transition_list(state)" class="related">
         <a tal:attributes="href python: view.get_url(transition=transition)"
-          tal:content="transition/title" i18n:domain="plone" i18n:translate="" 
+          tal:content="transition/title"
           class="goto-link" />
       </li>
       <li class="right">
         <a class="dialog-box delete" rel="#pb_99999"
           tal:attributes="href python: view.get_url('@@workflowmanager-delete-state', state=state);">
           <input type="submit" class="standalone allowMultiSubmit btn btn-inverse"
-            tal:attributes="name string:state-${state/id}-delete-button" value="Delete" i18n:attributes="value" />
+            tal:attributes="name string:state-${state/id}-delete-button" value="Delete" />
         </a>
       </li>
     <ul>
@@ -38,8 +37,8 @@
           
       <div class="selected-transitions item-properties well">
         <fieldset>
-          <legend i18n:translate="">Transitions</legend>
-          <div class="alert alert-info" i18n:translate="">Transitions this state can use.</div>
+          <legend>Transitions</legend>
+          <div class="alert alert-info">Transitions this state can use.</div>
               
           <tal:transitions tal:repeat="transition available_transitions">
             <tal:trns
@@ -54,7 +53,7 @@
                     class="checkboxType" />
                 <a class="goto-link" 
                     tal:attributes="href python: view.get_url(transition=transition);"
-                    tal:content="transition/title" i18n:domain="plone" i18n:translate="">
+                    tal:content="transition/title">
                   Transition Title
                 </a>
               </label>
@@ -63,13 +62,13 @@
           <a class="dialog-box save-first" rel="#pb_99999"
               tal:attributes="href python: view.get_url('@@workflowmanager-add-new-transition', reference=state.id);">
             <input type="button" class="context btn"
-              name="add-new-transition-in-state-button" value="Add transition" i18n:attributes="value"  />
+              name="add-new-transition-in-state-button" value="Add transition" />
           </a>
         </fieldset>
       </div>
       <div class="state-properties item-properties well">
         <fieldset>
-          <legend i18n:translate="">Properties</legend>
+          <legend>Properties</legend>
           <tal:field
               tal:define="field_name string:state-${state/id}-initial-state;
                           checked python: state.id == view.selected_workflow.initial_state;">
@@ -80,33 +79,33 @@
                                   value python: checked and 'on' or '';
                                   checked python: checked and 'checked' or '';"
                   class="checkboxType" />
-               <span i18n:translate="">Initial State</span>
+              Initial State
             </label>
-            <div class="discreet" i18n:translate="">
+            <div class="discreet">
               Should this state be the initial state of the workflow?
             </div>
           </tal:field>
           <tal:field tal:define="field_name string:state-${state/id}-title">
-            <label tal:attributes="name field_name" i18n:translate="">The title of this State.</label>
-            <input type="text" size="25" tal:attributes="name field_name; value state/title;" i18n:domain="plone" i18n:attributes="value" />
+            <label tal:attributes="name field_name">The title of this State.</label>
+            <input type="text" size="25" tal:attributes="name field_name; value state/title;" />
           </tal:field>
           <tal:field tal:define="field_name string:state-${state/id}-description">
-            <label tal:attributes="name field_name" i18n:translate="">The description of this State.</label>
-            <textarea cols="30" rows="3" tal:attributes="name field_name;" tal:content="state/description" i18n:domain="plone" i18n:translate="">
+            <label tal:attributes="name field_name">The description of this State.</label>
+            <textarea cols="30" rows="3" tal:attributes="name field_name;" tal:content="state/description">
             </textarea>
           </tal:field>
         </fieldset>
       </div>  
         <div class="state-permissions item-properties well">
           <fieldset>
-            <legend i18n:translate="">Permission Roles</legend>
-            <div class="alert alert-info" i18n:translate="">Permissions these roles have in this state.</div>
+            <legend>Permission Roles</legend>
+            <div class="alert alert-info">Permissions these roles have in this state.</div>
             <table summary="State Permissions" class="table table-bordered table-striped"
                 tal:attributes="id string:state-${state/id}-permissions">
               <tbody id="state-permissions-settings">
                 <tr class="odd">
-                  <th rowspan="2" i18n:translate="">Roles</th>
-                  <th tal:attributes="colspan python: len(view.managed_permissions)" i18n:translate="">Permissions</th>
+                  <th rowspan="2">Roles</th>
+                  <th tal:attributes="colspan python: len(view.managed_permissions)">Permissions</th>
                 </tr>          
                 <tr class="odd">
                   <tal:managed-permissions tal:repeat="perminfo view/managed_permissions">
@@ -118,7 +117,7 @@
                   </tal:managed-permissions>
                 </tr>
                 <tr class="advanced">
-                  <th  i18n:translate="">Acquired Permissions</th>
+                  <th>Acquired Permissions</th>
                   <tal:permissions tal:repeat="perminfo view/managed_permissions">
                     <td class="listingCheckbox" 
                         tal:define="info python: state.getPermissionInfo(perminfo['perm']);
@@ -158,8 +157,8 @@
         </div>
         <div class="state-group-roles item-properties advanced well">
           <fieldset>
-            <legend i18n:translate="">Group Roles</legend>
-              <div class="alert alert-info" i18n:translate="">
+            <legend>Group Roles</legend>
+              <div class="alert alert-info">
                 The local role that are assigned to these groups in this state.
               </div>
               <table summary="State Group Roles" class="table table-bordered table-striped"
@@ -167,8 +166,8 @@
                 <tbody id="state-group-roles-settings"
                     tal:define="groups view/getGroups">
                   <tr class="odd">
-                    <th rowspan="2" i18n:translate="">Roles</th>
-                    <th tal:attributes="colspan python: len(groups)" i18n:translate="">Groups</th>
+                    <th rowspan="2">Roles</th>
+                    <th tal:attributes="colspan python: len(groups)">Groups</th>
                   </tr>
                   <tr class="odd">
                     <tal:managed-permissions tal:repeat="group groups">
@@ -203,7 +202,7 @@
           <br />
           <div class="formControls">
             <noscript>
-              <input type="submit" class="inline context allowMultiSubmit" value="Save state" i18n:attributes="value"
+              <input type="submit" class="inline context allowMultiSubmit" value="Save state" 
                 tal:attributes="name string:save-state-${state/id}-button" />
             </noscript>
           </div>            
