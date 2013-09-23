@@ -4,6 +4,9 @@ Changelog
 1.0a5 ~ unreleased
 ------------------
 
+- Added Spanish translation.
+  [hvelarde]
+
 - double-quote state and transition names in graph view
   [erral]
 

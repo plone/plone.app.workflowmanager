@@ -1,0 +1,14 @@
+*.egg-info
+*.mo
+*.pyc
+*~
+bin/
+coverage/
+develop-eggs/
+downloads/
+eggs/
+htmlcov/
+include/
+lib/
+parts/
+var/

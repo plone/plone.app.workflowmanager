@@ -1,0 +1,30 @@
+# Héctor Velarde <hector.velarde@gmail.com>, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: plone.app.workflowmanager\n"
+"POT-Creation-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"PO-Revision-Date: 2013-09-23 12:19-0300\n"
+"Last-Translator: Héctor Velarde <hector.velarde@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: DOMAIN\n"
+
+#: ./browser/add_type.py:15
+msgid "Add Content Type"
+msgstr "Adicione el tipo de contenido"
+
+#: ./browser/clone_type.py:28
+msgid "Please select your workflow"
+msgstr "Seleccione el flujo de trabajo"
+
+#. Default: "Select or create a new workflow"
+#: ./browser/controlpanel.pt:47
+msgid "label_up_to_plone_setup"
+msgstr "Seleccione o cree un nuevo flujo de trabajo"
+
