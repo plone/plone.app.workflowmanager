@@ -1,7 +1,7 @@
-<div class="dialog-box" id="prompt"> 
-    <h2>Assign This Workflow</h2> 
+<div class="dialog-box" id="prompt" i18n:domain="plone.app.workflowmanager"> 
+    <h2 i18n:translate="">Assign This Workflow</h2> 
  
-    <p class='discreet'> 
+    <p class='discreet' i18n:translate="select_witch_like_assign"> 
         Select which type you'd like to assign this workflow to. This form will assist you in setting up a workflow for a type. If you don't use the form as is, it'll forward you on to the full blown Types control panel so don't be alarmed if that occurs.
     </p> 
  
@@ -16,20 +16,22 @@
                         error python: view.errors.get(field_name, None);"
             tal:attributes="class python: has_error and 'field error' or 'field'">
             
-            <label class="formQuestion" tal:attributes="for field_name">Type</label>
+            <label class="formQuestion" tal:attributes="for field_name" i18n:translate="">Type</label>
             <select tal:attributes="name field_name; id field_name">
                 <tal:types tal:repeat="type view/assignable_types">
-                    <option tal:attributes="value type/id;" tal:content="type/title"></option>
+                    <option tal:attributes="value type/id;" i18n:domain="plone" i18n:translate="" tal:content="type/title"></option>
                 </tal:types>
             </select>
-            <div id="title_help" class="formHelp">
+            <div id="title_help" class="formHelp" i18n:translate="">
                 The type you would like to assign this workflow.
             </div>
 
         </div>
         
-        <input name="form.actions.next" type="submit" class="context btn btn-primary" value="Next Step" />
-        <input name="form.actions.cancel" type="submit" class="context btn" value="Cancel" />
+        <input name="form.actions.next" type="submit" class="context btn btn-primary" value="Next Step" 
+               i18n:attributes="value" />
+        <input name="form.actions.cancel" type="submit" class="context btn" value="Cancel" 
+               i18n:domain="plone" i18n:attributes="value" />
         
     </form> 
     <br /> 

@@ -2,7 +2,7 @@
      tal:attributes="id string:state-${state/id}"
      tal:define="state options/state;
                  available_transitions options/available_transitions" 
-    i18n:domain="plone.app.workflowmanager">
+     i18n:domain="plone.app.workflowmanager">
   <div class="subnav item-header">
     <ul class="nav nav-pills tabs">
       <li class="dropdown">

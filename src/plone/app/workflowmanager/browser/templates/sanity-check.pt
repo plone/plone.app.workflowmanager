@@ -1,7 +1,7 @@
-<div class="dialog-box" id="prompt"> 
-    <h2>Sanity Check</h2> 
+<div class="dialog-box" id="prompt" i18n:domain="plone.app.workflowmanager"> 
+    <h2 i18n:translate="">Sanity Check</h2> 
  
-    <p class='discreet'> 
+    <p class="discreet" i18n:translate=""> 
         This just points out potential issues with your workflow. For instance,
         it wouldn't make sense to have unused transitions or states and
         transitions that do not bring you to any states.
@@ -30,7 +30,7 @@
 
     <dl class="portalMessage info" tal:condition="not: view/has_errors">
         <dt>Info</dt>
-        <dd>Great. It seems like everything has checked out fine. 
+        <dd>Great. It seems like everything has checked out fine.
         </dd>
     </dl>
  

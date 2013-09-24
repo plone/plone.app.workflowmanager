@@ -20,7 +20,7 @@
                     <option tal:attributes="value workflow/id;" i18n:domain="plone" i18n:translate="" tal:content="workflow/title"></option>
                 </tal:states>
             </select>
-            <div id="title_help" class="formHelp" i18n:translate="">
+            <div id="title_help" class="formHelp" i18n:translate="select_workflow_base_creating">
                 Select the workflow you'd like to use as the basis for the new workflow you're creating.
             </div>
 
@@ -32,7 +32,7 @@
             tal:attributes="class python: has_error and 'field error' or 'field'">
             
             <label for="transition-name" class="formQuestion" i18n:translate="">Workflow Name</label>
-            <span title="Required" class="fieldRequired" i18n:domain="plone" i18n:translate="">
+            <span title="Required" class="fieldRequired" i18n:domain="plone" i18n:translate="label_required">
                 (Required)
             </span>
             <div id="title_help" class="formHelp" i18n:translate="">An id will be generated from the title.</div>
@@ -44,8 +44,8 @@
             <input class="firstToFocus" type="text" name="workflow-name" value="" /> 
         </div>
         
-        <input name="form.actions.add" type="submit" class="context btn btn-primary" value="Add" i18n:attributes="value" />
-        <input name="form.actions.cancel" type="submit" class="context btn" value="Cancel" i18n:attributes="value" />
+        <input name="form.actions.add" type="submit" class="context btn btn-primary" i18n:attributes="value" value="Add" />
+        <input name="form.actions.cancel" type="submit" class="context btn" i18n:attributes="value" value="Cancel" />
         
     </form> 
     <br /> 

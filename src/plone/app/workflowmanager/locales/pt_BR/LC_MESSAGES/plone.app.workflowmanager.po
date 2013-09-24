@@ -1,0 +1,384 @@
+﻿msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2012-09-03 15:20+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language-Code: pt-br\n"
+"Language-Name: Português do Brasil\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: plone.app.workflowmanager\n"
+
+# ./profiles/default/controlpanel.xml
+msgid "Workflow Manager"
+msgstr "Gerenciamento de Workflow"
+
+#: ./browser/templates/controlpanel.pt:28
+msgid "Close"
+msgstr "Fechar"
+
+#. Default: "Workflow Manager"
+#: ./browser/templates/controlpanel.pt:33
+msgid "title_manage_contentrules"
+msgstr "Gerenciador de Workflow"
+
+#. Default: "You are currently working on the \"${current_wf}\" workflow."
+#: ./browser/templates/controlpanel.pt:39
+msgid "you_currently_woking"
+msgstr "Você está gerenciando o workflow \"${current_wf}\"."
+
+#. Default: "Select or create a new workflow"
+#: ./browser/templates/controlpanel.pt:47
+msgid "label_up_to_plone_setup"
+msgstr "Selecione ou crie um novo workflow"
+
+#: ./browser/templates/controlpanel.pt:55
+msgid "States"
+msgstr "Estados"
+
+#: ./browser/templates/controlpanel.pt:60
+msgid "Transitions"
+msgstr "Transições"
+
+#: ./browser/templates/controlpanel.pt:66
+msgid "Save"
+msgstr "Salvar"
+
+#: ./browser/templates/controlpanel.pt:67
+msgid "Saving.."
+msgstr "Salvando..."
+
+#: ./browser/templates/controlpanel.pt:76
+msgid "Add state"
+msgstr "Adicionar estado"
+
+#: ./browser/templates/controlpanel.pt:86
+msgid "Add transition"
+msgstr "Adicionar transição"
+
+#. Default: "Sanity check"
+#: ./browser/templates/controlpanel.pt:101
+msgid "sanity_check"
+msgstr "Verificação de integridade"
+
+#. Default: "Check to make sure that all your states are connected with transitions and that there isn't anything missing or left behind."
+#: ./browser/templates/controlpanel.pt:103
+msgid "sanity_check_make_transitions"
+msgstr "Certifique-se de que todos os seus estados estão conectados com as transições e que não está faltando nenhuma configuração."
+
+#: ./browser/templates/controlpanel.pt:110
+msgid "Assign"
+msgstr "Atribuir"
+
+#. Default: "Assign this workflow to a content type so that your content can utilize it."
+#: ./browser/templates/controlpanel.pt:110
+msgid "assign_workflow_content_types"
+msgstr "Atribuir esse fluxo de trabalho a um tipo de conteúdo, de modo que o seu conteúdo possa utilizá-lo."
+
+#: ./browser/templates/controlpanel.pt:125
+msgid "Update security"
+msgstr "Atualizar segurança"
+
+#. Default: "Update the security settings for all objects using this workflow in the portal."
+#: ./browser/templates/controlpanel.pt:125
+msgid "update_security_settings"
+msgstr "Atualiza as configurações de segurança para todos os objetos do porta que estejam unsando este workflow."
+
+#: ./browser/templates/controlpanel.pt:135
+msgid "Diagram"
+msgstr "Diagrama"
+
+#. Default: "Get a visual representation of your the workflow you've designed."
+#: ./browser/templates/controlpanel.pt:135
+msgid "visual_representation_designed"
+msgstr "Obtenha uma representação visual do workflow que você desenhou."
+
+#: ./browser/templates/controlpanel.pt:147
+msgid "Delete"
+msgstr "Apagar"
+
+#: ./browser/templates/controlpanel.pt:155
+msgid "Advanced mode"
+msgstr "Modo avançado"
+
+#: ./browser/templates/controlpanel.pt:174
+msgid "Please select your workflow."
+msgstr "Por favor selecione seu workflow."
+
+#: ./browser/templates/controlpanel.pt:174
+msgid "Create new workflow"
+msgstr "Criar um novo workflow"
+
+#: ./browser/templates/workflow-state.pt:15
+msgid "Transitions &raquo;"
+msgstr "Transições &raquo;"
+
+#: ./browser/templates/workflow-state.pt:42
+msgid "Transitions this state can use."
+msgstr "Transições que este estado pode utilizar."
+
+#: ./browser/templates/workflow-state.pt:72
+msgid "Properties"
+msgstr "Propriedades"
+
+#: ./browser/templates/workflow-state.pt:83
+msgid "Initial State"
+msgstr "Estado inicial"
+
+#: ./browser/templates/workflow-state.pt:86
+msgid "Should this state be the initial state of the workflow?"
+msgstr "Gostaria que este seja o estado inicial do seu workflow?"
+
+#: ./browser/templates/workflow-state.pt:90
+msgid "The title of this State."
+msgstr "Título deste Estado."
+
+#: ./browser/templates/workflow-state.pt:90
+msgid "The description of this State."
+msgstr "Descrição deste Estado."
+
+#: ./browser/templates/workflow-state.pt:102
+msgid "Permission Roles"
+msgstr "Permissão de Papéis"
+
+#: ./browser/templates/workflow-state.pt:102
+msgid "Permissions these roles have in this state."
+msgstr "Esses papéis têm permissões neste estado."
+
+#: ./browser/templates/workflow-state.pt:108
+msgid "Roles"
+msgstr "Papéis"
+
+#: ./browser/templates/workflow-state.pt:109
+msgid "Permissions"
+msgstr "Permissões"
+
+#: ./browser/templates/workflow-state.pt:109
+msgid "Acquired Permissions"
+msgstr "Permissões adquiridas"
+
+#: ./browser/templates/workflow-state.pt:109
+msgid "Group Roles"
+msgstr "Papéis de Grupos"
+
+#: ./browser/templates/workflow-state.pt:109
+msgid "The local role that are assigned to these groups in this state."
+msgstr "O papel local que será atribuído a esses grupos neste Estado."
+
+#: ./browser/templates/workflow-state.pt:109
+msgid "Groups"
+msgstr "Grupos"
+
+#: ./browser/templates/workflow-state.pt:109
+msgid "Save state"
+msgstr "Salvar estado"
+
+#: ./browser/templates/add-new-workflow.pt:2
+msgid "Create New Workflow"
+msgstr "Criar um Novo Workflow"
+
+#: ./browser/templates/add-new-workflow.pt:5
+msgid "This will add a new transition to the workflow."
+msgstr "Isto adicionará uma nova transição para o workflow."
+
+#: ./browser/templates/add-new-workflow.pt:17
+#: ./browser/templates/add-new-state.pt:19
+msgid "Clone from"
+msgstr "Clonar de"
+
+#: Default: "Select the workflow you'd like to use as the basis for the new workflow you're creating."
+#: ./browser/templates/add-new-workflow.pt:24
+#: ./browser/templates/add-new-state.pt:38
+msgid "select_workflow_base_creating"
+msgstr "Selecione o worflow que você gostaria de usar como base para o novo workflow que você está criando."
+
+#: ./browser/templates/add-new-workflow.pt:34
+msgid "Workflow Name"
+msgstr "Nome do Workflow"
+
+#: ./browser/templates/add-new-workflow.pt:38
+#: ./browser/templates/add-new-state.pt:40
+msgid "An id will be generated from the title."
+msgstr "Um ID será gerado a partir do título."
+
+#: ./browser/templates/add-new-workflow.pt:47
+msgid "Add"
+msgstr "Adicionar"
+
+#: ./browser/templates/add-new-workflow.pt:48
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: ./browser/templates/workflow-transition.pt:16
+msgid "State &raquo;"
+msgstr "Estado &raquo;"
+
+#: ./browser/templates/workflow-transition.pt:41
+msgid "Various properties for this transition."
+msgstr "Várias propriedades para esta transição."
+
+#: ./browser/templates/workflow-transition.pt:44
+msgid "Destination State"
+msgstr "Estado de destino"
+
+#: Default: "The state this transition will move the content into."
+#: ./browser/templates/workflow-transition.pt:66
+msgid "state_will_move_content_into"
+msgstr "O estado da transição para o qual o conteúdo será alterado."
+
+#: ./browser/templates/workflow-transition.pt:64
+msgid "Auto Trigger"
+msgstr "Iniciado automáticamente"
+
+#: Default: "Automatically initiate this transition. You should normally not have this checked."
+#: ./browser/templates/workflow-transition.pt:66
+msgid "automatically_initiate_transition"
+msgstr "Fará com que a transição seja iniciada automaticamente. Normalmente esta opção não é marcada."
+
+#: ./browser/templates/workflow-transition.pt:69
+msgid "Title"
+msgstr "Título"
+
+#: ./browser/templates/workflow-transition.pt:71
+msgid "The title of the transition."
+msgstr "Título da transição"
+
+#: ./browser/templates/workflow-transition.pt:76
+msgid "Description"
+msgstr "Descrição"
+
+#: ./browser/templates/workflow-transition.pt:78
+msgid "A description of the transition."
+msgstr "Descrição da transição"
+
+#: ./browser/templates/workflow-transition.pt:84
+msgid "Display Name"
+msgstr "Nome de Exibição"
+
+#: ./browser/templates/workflow-transition.pt:86
+msgid "This is the name that will be displayed to the user when selecting actions on a content item."
+msgstr "Este é o nome que será exibido para o usuário ao selecionar ações em um item de conteúdo."
+
+#: ./browser/templates/workflow-transition.pt:94
+msgid "Guards"
+msgstr "Restrições de Segurança"
+
+#: ./browser/templates/workflow-transition.pt:95
+#: Default: "Guards can restrict this transition to being run by only certain people.."
+msgid "guards_restrict_transition"
+msgstr "As restrições de segurança pode restringir a transição para ser executada por apenas algumas pessoas .."
+
+#: ./browser/templates/workflow-transition.pt:138
+msgid "Source States"
+msgstr "Estados de Origem"
+
+#: ./browser/templates/workflow-transition.pt:138
+msgid "Source States"
+msgstr "Estados de Origem"
+
+#: ./browser/templates/workflow-transition.pt:138
+msgid "Source States"
+msgstr "Estados de Origem"
+
+#: Default: "Select which states should enable this transition."
+#: ./browser/templates/workflow-transition.pt:139
+msgid "select_states_enable_transition"
+msgstr "Selecione os estados que permitem essa transição"
+
+#: ./browser/templates/workflow-transition.pt:158
+msgid "Add state"
+msgstr "Adicionar Estado"
+
+#: ./browser/templates/workflow-transition.pt:166
+msgid "Actions"
+msgstr "Ações"
+
+#: ./browser/templates/workflow-transition.pt:184
+msgid "You do not have any actions defined for this state."
+msgstr "Você não tem nenhuma ação definida para este estado."
+
+#: ./browser/templates/workflow-transition.pt:188
+msgid "Add Action"
+msgstr "Adicionar Ação."
+
+#: ./browser/templates/workflow-transition.pt:197
+msgid "Save transition"
+msgstr "Salvar transição"
+
+#: ./browser/templates/content.pt:15
+msgid "Assigned Types:"
+msgstr "Tipos Atribuídos:"
+
+#: ./browser/templates/content.pt:20
+msgid "denotes initial state of this workflow"
+msgstr "indica o estado inicial do workflow"
+
+# --------------------------------
+
+#: ./browser/templates/add-new-state.pt:2
+msgid "Create New State"
+msgstr "Criar Novo Estado"
+
+#: ./browser/templates/add-new-state.pt:4
+msgid "This will add a new state to the workflow."
+msgstr "Esta ação criará um novo estado de informação para um fluxo de trabalho (workflow)."
+
+#: ./browser/templates/add-new-state.pt:4
+msgid "State Name"
+msgstr "Nome do Estado"
+
+#: ./browser/templates/add-new-state.pt:44
+#: ./browser/templates/add-new-transition.pt:49
+msgid "Invalid workflow name. Please try another."
+msgstr "Nome do workflow inválido, Por favor tente outro nome."
+
+#: Default: "Select the transition you'd like to use as the basis for the new transition you're creating."
+#: ./browser/templates/add-new-transition.pt:30
+msgid "select_transition_base_creating"
+msgstr "Selecione a transição que você gostaria de usar como base para o nova transição que você está criando."
+
+#: ./browser/templates/add-new-transition.pt:41
+msgid "Transition Name"
+msgstr "Nome da Transição"
+
+#: ./browser/templates/assign.pt:2
+msgid "Assign This Workflow"
+msgstr "Atribuir a este Workflow"
+
+#: Default: "Select which type you'd like to assign this workflow to. This form will assist you in setting up a workflow for a type. If you don't use the form as is, it'll forward you on to the full blown Types control panel so don't be alarmed if that occurs."
+#: ./browser/templates/assign.pt:4
+msgid "select_witch_like_assign"
+msgstr "Selecione o tipo que você gostaria de atribuir este fluxo de trabalho (workflow). Este formulário irá ajuda-lo na criação de um fluxo de trabalho para um determinado tipo. Se você não utilizar este formulário neste formato, você será encaminhado ao painel de controle dos tipos de conteúdo."
+
+#: ./browser/templates/assign.pt:19
+msgid "Type"
+msgstr "Tipo"
+
+#: ./browser/templates/assign.pt:26
+msgid "The type you would like to assign this workflow."
+msgstr "O tipo que você gostaria de atribuir este fluxo de trabalho (workflow)."
+
+#: ./browser/templates/assign.pt:31
+msgid "Next Step"
+msgstr "Próximo Passo"
+
+#: ./browser/templates/sanity-check.pt:2
+msgid "Sanity Check"
+msgstr "Verficação de Integridade"
+
+#: ./browser/templates/sanity-check.pt:2
+msgid "Sanity Check"
+msgstr "Verficação de Integridade"
+
+#: Default: "This just points out potential issues with your workflow. For instance, it wouldn't make sense to have unused transitions or states and transitions that do not bring you to any states."
+#: ./browser/templates/sanity-check.pt:5
+msgid "this_just_points_out_potential"
+msgstr "Verficação de Integridade"
+
+
+

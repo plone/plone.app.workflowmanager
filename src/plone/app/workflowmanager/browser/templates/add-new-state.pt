@@ -1,7 +1,7 @@
-<div class="dialog-box" id="prompt"> 
-  <h2>Create New State</h2> 
+<div class="dialog-box" id="prompt" i18n:domain="plone.app.workflowmanager"> 
+  <h2 i18n:translate="">Create New State</h2> 
  
-  <p class='discreet'>This will add a new state to the workflow.</p> 
+  <p class='discreet' i18n:translate="">This will add a new state to the workflow.</p> 
  
   <form action="@@workflowmanager-add-new-state" method="POST"
         tal:define="errors view/errors">
@@ -16,15 +16,16 @@
                     error python: errors.get(field_name, None);"
         tal:attributes="class python: has_error and 'field error' or 'field'">
             
-        <label class="formQuestion" tal:attributes="for field_name">Clone from</label>
+        <label class="formQuestion" tal:attributes="for field_name" i18n:translate="">Clone from</label>
         <select tal:attributes="name field_name; id field_name">
             <option value="">...</option>
             <tal:states tal:repeat="state view/available_states">
-                <option tal:attributes="value state/id; selected python: request.get(field_name, None) == state.id;" tal:content="state/title">
+                <option tal:attributes="value state/id; selected python: request.get(field_name, None) == state.id;" 
+                        i18n:domain="plone" i18n:translate="" tal:content="state/title">
                 </option>
             </tal:states>
         </select>
-        <div id="title_help" class="formHelp">
+        <div id="title_help" class="formHelp" i18n:translate="select_workflow_base_creating">
             Select the state you'd like to use as the basis for the new state you're creating.
         </div>
     </div>
@@ -35,19 +36,21 @@
                     error python: errors.get(field_name, None);"
         tal:attributes="class python: has_error and 'field error' or 'field'">
             
-        <label tal:attributes="for field_name" class="formQuestion">State Name</label>
-        <span title="Required" class="fieldRequired">(Required)</span>
-        <div id="title_help" class="formHelp">An id will be generated from the title.</div>
+        <label tal:attributes="for field_name" class="formQuestion" i18n:attributes="for" i18n:translate="">State Name</label>
+        <span title="Required" class="fieldRequired" i18n:domain="plone" i18n:translate="label_required" >(Required)</span>
+        <div id="title_help" class="formHelp" i18n:translate="">An id will be generated from the title.</div>
             <div class="fieldErrorBox" 
                 tal:condition="has_error"
-                tal:content="error">
+                tal:content="error" i18n:translate="">
                 State Name Error
             </div>
             <input class="firstToFocus" type="text" tal:attributes="name field_name" id="state-name" value="" /> 
         </div>
         
-        <input name="form.actions.add" type="submit" class="context btn btn-primary" value="Add" />
-        <input name="form.actions.cancel" type="submit" class="context btn" value="Cancel" />
+        <input name="form.actions.add" type="submit" class="context btn btn-primary" value="Add" 
+               i18n:domain="plone" i18n:attributes="value" />
+        <input name="form.actions.cancel" type="submit" class="context btn" value="Cancel" 
+               i18n:domain="plone" i18n:attributes="value" />
     </form> 
     <br /> 
 </div>

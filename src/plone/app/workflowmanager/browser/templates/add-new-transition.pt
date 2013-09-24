@@ -1,7 +1,7 @@
-<div class="dialog-box" id="prompt"> 
-    <h2>Create New Transition</h2> 
+<div class="dialog-box" id="prompt" i18n:domain="plone.app.workflowmanager"> 
+    <h2 i18n:translate="">Create New Transition</h2> 
  
-    <p class='discreet'> 
+    <p class='discreet' i18n:translate=""> 
         This will add a new transition to the workflow.
     </p> 
  
@@ -18,15 +18,15 @@
                         error python: errors.get(field_name, None);"
             tal:attributes="class python: has_error and 'field error' or 'field'">
             
-            <label class="formQuestion" tal:attributes="for field_name">Clone from</label>
+            <label class="formQuestion" tal:attributes="for field_name" i18n:translate="">Clone from</label>
             <select tal:attributes="name field_name; id field_name">
                 <option value="">...</option>
                 <tal:states tal:repeat="transition view/available_transitions">
                     <option tal:attributes="value transition/id; selected python: request.get(field_name, None) == transition.id;" 
-                            tal:content="transition/title"></option>
+                            i18n:domain="plone" i18n:translate="" tal:content="transition/title"></option>
                 </tal:states>
             </select>
-            <div id="title_help" class="formHelp">
+            <div id="title_help" class="formHelp" i18n:translate="select_transition_base_creating">
                 Select the transition you'd like to use as the basis for the new transition you're creating.
             </div>
 
@@ -38,21 +38,23 @@
                         error python: errors.get(field_name, None);"
             tal:attributes="class python: has_error and 'field error' or 'field'">
             
-            <label tal:attributes="for field_name" class="formQuestion">Transition Name</label>
-            <span title="Required" class="fieldRequired">
+            <label tal:attributes="for field_name" class="formQuestion" i18n:translate="">Transition Name</label>
+            <span title="Required" class="fieldRequired" i18n:domain="plone" i18n:translate="label_required">
                 (Required)
             </span>
-            <div id="title_help" class="formHelp">An id will be generated from the title.</div>
+            <div id="title_help" class="formHelp" i18n:translate="">An id will be generated from the title.</div>
 
             <div class="fieldErrorBox" 
                 tal:condition="has_error"
-                tal:content="error">Transition Name Error
+                tal:content="error" i18n:translate="">Transition Name Error
             </div>
             <input class="firstToFocus" type="text" tal:attributes="name field_name" value="" /> 
         </div>
         
-        <input type="submit" name="form.actions.add" value="Add" class="context btn btn-primary" />
-        <input name="form.actions.cancel" type="submit" class="context btn" value="Cancel" />
+        <input type="submit" name="form.actions.add" value="Add" class="context btn btn-primary" 
+               i18n:domain="plone" i18n:attributes="value" />
+        <input name="form.actions.cancel" type="submit" class="context btn" value="Cancel"
+               i18n:domain="plone" i18n:attributes="value" />
         
     </form> 
     <br /> 
