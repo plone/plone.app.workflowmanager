@@ -1,7 +1,7 @@
-<div class="dialog-box" id="prompt" tal:define="transition view/selected_transition"> 
-    <h2>Confirm Delete '<tal:replace tal:replace="transition/title" />'</h2> 
+<div i18n:domain="plone.app.workflowmanager" class="dialog-box" id="prompt" tal:define="transition view/selected_transition"> 
+    <h2><span i18n:translate="" tal:omit-tag="">Confirm Delete</span> '<tal:replace i18n:domain="plone" i18n:translate="" tal:replace="transition/title" />'</h2> 
  
-    <p class='discreet'> 
+    <p class='discreet' i18n:translate="sure_delete_transition"> 
         Are you sure you want to delete this transition?
     </p> 
  
@@ -10,8 +10,8 @@
         <input type="hidden" name="selected-transition" tal:attributes="value transition/id" />
         <input tal:replace="structure context/@@authenticator/authenticator"/>
         
-        <input type="submit" name="form.actions.delete" value="Delete" class="context btn btn-primary" /> 
-        <input type="submit" name="form.actions.cancel" value="Cancel" class="standalone btn" />
+        <input type="submit" name="form.actions.delete" value="Delete" class="context btn btn-primary" i18n:attributes="value label_delete" /> 
+        <input type="submit" name="form.actions.cancel" value="Cancel" class="standalone btn" i18n:attributes="value label_cancel" />
         
     </form> 
     <br /> 

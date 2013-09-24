@@ -1,12 +1,13 @@
 <div class="dialog-box" id="prompt" 
+    i18n:domain="plone.app.workflowmanager"
     tal:define="transition view/selected_transition;
                 rule python: view.actions.get_rule(transition);
                 action_index python: int(request.get('action_index'));
                 action python: rule.get_action(action_index)"> 
                 
-    <h2>Confirm Delete '<tal:replace tal:replace="action/summary" />'</h2> 
+    <h2><span i18n:translate="" tal:omit-tag="">Confirm Delete</span> '<tal:replace i18n:domain="plone" i18n:translate="" tal:replace="action/summary" />'</h2> 
  
-    <p class='discreet'> 
+    <p class='discreet' i18n:translate=""> 
         Are you sure you want to delete this Action?
     </p> 
  
@@ -17,8 +18,8 @@
         
         <input type="hidden" name="action_index" tal:attributes="value action_index" />
         
-        <input type="submit" name="form.actions.delete" value="Delete" class="context btn btn-primary" /> 
-        <input type="submit" name="form.actions.cancel" value="Cancel" class="standalone btn" />
+        <input type="submit" name="form.actions.delete" value="Delete" class="context btn btn-primary" i18n:attributes="value label_delete" /> 
+        <input type="submit" name="form.actions.cancel" value="Cancel" class="standalone btn" i18n:attributes="value label_cancel" />
         
     </form> 
     <br /> 

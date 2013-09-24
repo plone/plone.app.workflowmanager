@@ -1,7 +1,7 @@
-<div class="dialog-box" id="prompt" tal:define="state view/selected_state"> 
-    <h2>Confirm Delete '<tal:replace tal:replace="state/title" />'</h2> 
+<div i18n:domain="plone.app.workflowmanager" class="dialog-box" id="prompt" tal:define="state view/selected_state"> 
+    <h2><span i18n:translate="" tal:omit-tag="">Confirm Delete</span> '<tal:replace i18n:domain="plone" i18n:translate="" tal:replace="state/title" />'</h2> 
  
-    <p class='discreet'> 
+    <p class='discreet' i18n:translate="sure_delete_state"> 
         Are you sure you want to delete this state?
     </p> 
  
@@ -17,22 +17,21 @@
                         error python: view.errors.get(field_name, None);"
             tal:attributes="class python: has_error and 'field error' or 'field'">
             
-            <label class="formQuestion" tal:attributes="for field_name">Replacement State</label>
+            <label class="formQuestion" tal:attributes="for field_name" i18n:translate="">Replacement State</label>
             <select tal:attributes="id field_name; name field_name">
               <tal:workflows tal:repeat="s python: [s for s in view.available_states if s.id != state.id]">
                   <option tal:attributes="value s/id; selected python: repeat['s'].index == 0 and 'yes' or ''" 
-                      tal:content="s/title"></option>
+                      i18n:domain="plone" i18n:translate="" tal:content="s/title"></option>
               </tal:workflows>
             </select>
-            <div id="title_help" class="formHelp">
-                You are deleting a state that could currently be in use. Please specify which
-                state should replace it on current objects and in transition destination states.
+            <div id="title_help" class="formHelp" i18n:translate="">
+                You are deleting a state that could currently be in use. Please specify which state should replace it on current objects and in transition destination states.
             </div>
 
         </div>
         
-        <input type="submit" name="form.actions.delete" value="Delete" class="context btn btn-primary" />
-        <input type="submit" name="form.actions.cancel" value="Cancel" class="standalone btn" />
+        <input type="submit" name="form.actions.delete" value="Delete" class="context btn btn-primary" i18n:attributes="value label_delete" />
+        <input type="submit" name="form.actions.cancel" value="Cancel" class="standalone btn" i18n:attributes="value label_cancel" />
         
     </form> 
     <br /> 

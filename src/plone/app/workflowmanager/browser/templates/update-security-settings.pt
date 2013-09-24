@@ -1,7 +1,7 @@
-<div class="dialog-box" id="prompt"> 
-  <h2>Update Security Settings</h2> 
+<div class="dialog-box" id="prompt" i18n:domain="plone.app.workflowmanager"> 
+  <h2 i18n:translate="">Update Security Settings</h2> 
  
-  <p class='discreet'>Are you sure you want to update the security settings for all objects using this workflow in the portal?</p> 
+  <p class='discreet' i18n:translate="">Are you sure you want to update the security settings for all objects using this workflow in the portal?</p> 
  
   <form action="@@workflowmanager-update-security-settings" method="POST"
         tal:define="errors view/errors">

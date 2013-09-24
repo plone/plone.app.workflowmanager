@@ -1,7 +1,7 @@
-<div class="dialog-box" id="prompt" tal:define="url python: view.get_url('@@workflowmanager-view-graph.gif') + '&randomize=' + view.random_number"> 
-  <h2>Diagram</h2> 
+<div class="dialog-box" id="prompt" i18n:domain="plone.app.workflowmanager" tal:define="url python: view.get_url('@@workflowmanager-view-graph.gif') + '&randomize=' + view.random_number"> 
+  <h2 i18n:translate="">Diagram</h2> 
  
-  <p class='discreet'><a tal:attributes="href url">view full size</a></p> 
+  <p class='discreet'><a tal:attributes="href url" i18n:translate="">view full size</a></p> 
  
   <img tal:attributes="src url" />
 

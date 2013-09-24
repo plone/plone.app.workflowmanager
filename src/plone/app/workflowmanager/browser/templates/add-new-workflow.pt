@@ -45,7 +45,7 @@
         </div>
         
         <input name="form.actions.add" type="submit" class="context btn btn-primary" i18n:attributes="value" value="Add" />
-        <input name="form.actions.cancel" type="submit" class="context btn" i18n:attributes="value" value="Cancel" />
+        <input name="form.actions.cancel" type="submit" class="context btn" i18n:attributes="value label_cancel" value="Cancel" />
         
     </form> 
     <br /> 

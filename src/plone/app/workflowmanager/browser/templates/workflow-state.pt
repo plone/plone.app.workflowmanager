@@ -105,13 +105,13 @@
                 tal:attributes="id string:state-${state/id}-permissions">
               <tbody id="state-permissions-settings">
                 <tr class="odd">
-                  <th rowspan="2" i18n:translate="">Roles</th>
+                  <th rowspan="2" i18n:domain="plone" i18n:translate="">Roles</th>
                   <th tal:attributes="colspan python: len(view.managed_permissions)" i18n:translate="">Permissions</th>
                 </tr>          
                 <tr class="odd">
                   <tal:managed-permissions tal:repeat="perminfo view/managed_permissions">
                     <th class="nosort">
-                      <span tal:content="perminfo/name" rel="popover"
+                      <span i18n:attributes="data-content;title" i18n:translate="" tal:content="perminfo/name" rel="popover"
                             tal:attributes="title perminfo/perm;
                                             data-content perminfo/description" />
                     </th>
@@ -127,7 +127,7 @@
                           tal:attributes="name python: 'permission-acquire-%s-state-%s' % (perminfo['name'], state.id);
                                           checked python: checked and 'checked' or '';
                                           value python: checked and 'on' or '';" 
-                          value="True" class="noborder" />
+                          value="True" class="noborder" i18n:domain="plone" i18n:translate="" />
                     </td>
                   </tal:permissions>
                 </tr>
@@ -135,7 +135,7 @@
                   <tr class="even" tal:define="oddrow repeat/role/odd;"
                       tal:attributes="class python: oddrow and 'odd' or 'even'">
                     <td>
-                      <tal:content tal:replace="role" />
+                      <tal:content i18n:translate="" tal:replace="role" />
                       <input type="hidden" value="AuthenticatedUsers" name="entries.id:records">
                       <input type="hidden" value="group" name="entries.type:records">
                     </td>      
@@ -167,12 +167,12 @@
                 <tbody id="state-group-roles-settings"
                     tal:define="groups view/getGroups">
                   <tr class="odd">
-                    <th rowspan="2" i18n:translate="">Roles</th>
+                    <th rowspan="2" i18n:domain="plone" i18n:translate="">Roles</th>
                     <th tal:attributes="colspan python: len(groups)" i18n:translate="">Groups</th>
                   </tr>
                   <tr class="odd">
                     <tal:managed-permissions tal:repeat="group groups">
-                      <th class="nosort" tal:content="group/id"></th>
+                      <th class="nosort" tal:content="group/id" i18n:domain="plone" i18n:translate=""></th>
                     </tal:managed-permissions>
                   </tr>      
                   <tal:roles tal:repeat="role view/selected_workflow/getAvailableRoles">

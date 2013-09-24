@@ -97,7 +97,7 @@
               <h4 i18n:translate="">Roles</h4>
               <select multiple="multiple" size="4" tal:attributes="name string:transition-${transition/id}-guard-roles">
                 <tal:roles tal:repeat="role view/selected_workflow/getAvailableRoles">
-                  <option tal:content="role"
+                  <option i18n:domain="plone" i18n:translate="" tal:content="role"
                     tal:attributes="value role;
                                     selected python: role in guard.roles and 'selected' or ''" />                    
                 </tal:roles>

@@ -25,7 +25,7 @@
                         show python: selected_workflow is not None;">
 <div id="pb_99999" class="overlay overlay-ajax">
   <div class="close">
-    <span i18n:translate="">Close</span>
+    <span i18n:translate="label_close">Close</span>
   </div>
   <div class="pb-ajax"></div>
 </div>
@@ -45,7 +45,7 @@
     <div class="alert">
       <a href="" class="link-parent"
                 tal:attributes="href string:$portal_url/@@workflowmanager"
-                i18n:translate="label_up_to_plone_setup">Select or create a new workflow</a>
+                i18n:translate="">Select or create a new workflow</a>
     </div>
     <div id="menu-container">
       <div id="tabs-menu" class="subnav">
