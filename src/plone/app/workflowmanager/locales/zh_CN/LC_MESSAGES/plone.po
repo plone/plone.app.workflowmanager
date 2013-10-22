@@ -1,0 +1,29 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: plone.app.workflowmanager\n"
+"POT-Creation-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"PO-Revision-Date: 2013-10-22 09:03+0800\n"
+"Last-Translator: Jian Aijun <jianaijun@gmail.com>\n"
+"Language-Team: Plone i18n <plone-i18n@lists.sf.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: zh_CN\n"
+"Language-Name: Chinese Simplified\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: plone\n"
+
+#: ./browser/add_type.py:15
+msgid "Add Content Type"
+msgstr "添加内容类型"
+
+#: ./browser/clone_type.py:28
+msgid "Please select your workflow"
+msgstr "请选择您的工作流"
+
+#. Default: "Select or create a new workflow"
+#: ./browser/controlpanel.pt:47
+msgid "label_up_to_plone_setup"
+msgstr "选择或创建一个新的工作流"
+
