@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.workflowmanager\n"
-"POT-Creation-Date: 2013-09-23 15:03+0000\n"
+"POT-Creation-Date: 2013-10-28 21:05+0000\n"
 "PO-Revision-Date: 2013-09-23 12:28-0300\n"
 "Last-Translator: Héctor Velarde <hector.velarde@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,400 +15,539 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
 
-#: plone/app/workflowmanager/browser/state.py:94
-msgid "\"${id}\" state has been successfully deleted."
-msgstr "El estado '${id}'' ha sido eliminado."
-
-#: plone/app/workflowmanager/browser/transition.py:159
-msgid "\"${id}\" transition has been successfully deleted."
-msgstr "La transición '${id}' ha sido eliminada."
-
-#: plone/app/workflowmanager/browser/state.py:50
-msgid "\"${state_id}\" state successfully created."
-msgstr "El estado '${state_id}' ha sido creado con éxito."
-
-#: plone/app/workflowmanager/browser/transition.py:56
-msgid "\"${transition_id}\" transition successfully created."
-msgstr "La transición '${transition_id}' ha sido creada con éxito."
-
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:77
+#: ./browser/templates/workflow-transition.pt:77
 msgid "A description of the transition."
 msgstr "Descripción de la transición."
 
-#: plone/app/workflowmanager/permissions.py:38
+#: ./permissions.py:38
 msgid "Access"
 msgstr "Acceso"
 
-#: plone/app/workflowmanager/browser/templates/workflow-state.pt:121
+#: ./browser/templates/workflow-state.pt:121
 msgid "Acquired Permissions"
 msgstr "Permisos adquiridos"
 
-#: plone/app/workflowmanager/browser/actions.py:22
+#: ./browser/templates/add-action.pt:19
+msgid "Action Type"
+msgstr ""
+
+#: ./browser/actions.py:22
 msgid "Action has been deleted successfully."
 msgstr "La acción ha sido eliminada."
 
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:166
+#: ./browser/templates/workflow-transition.pt:166
 msgid "Actions"
 msgstr "Acciones"
 
-#: plone/app/workflowmanager/browser/templates/add-new-workflow.pt:47
-#: plone/app/workflowmanager/permissions.py:6
+#: ./browser/templates/add-action.pt:32
+#: ./browser/templates/add-new-state.pt:50
+#: ./browser/templates/add-new-transition.pt:54
 msgid "Add"
 msgstr "Adicionar"
 
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:188
+#: ./browser/templates/workflow-transition.pt:188
 msgid "Add Action"
 msgstr "Adicionar acción."
 
-#: plone/app/workflowmanager/permissions.py:7
+#: ./browser/templates/add-action.pt:2
+msgid "Add New Action"
+msgstr ""
+
+#: ./permissions.py:7
 msgid "Add content in this container."
 msgstr "Adicionar contenido a este contenedor."
 
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:77
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:158
+#: ./browser/templates/controlpanel.pt:77
+#: ./browser/templates/workflow-transition.pt:158
 msgid "Add state"
 msgstr "Adicionar estado"
 
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:86
-#: plone/app/workflowmanager/browser/templates/workflow-state.pt:65
+#: ./browser/templates/controlpanel.pt:86
+#: ./browser/templates/workflow-state.pt:65
 msgid "Add transition"
 msgstr "Adicionar transición"
 
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:155
+#: ./browser/templates/controlpanel.pt:154
 msgid "Advanced mode"
 msgstr "Modo avanzado"
 
-#: plone/app/workflowmanager/permissions.py:39
+#: ./permissions.py:39
 msgid "Allow access to content without necessarily viewing the object. For example, in a list of results."
 msgstr "Permitir el acceso al contenido sin necesariamente ver el objeto. Por ejemplo, en una lista de resultados."
 
-#: plone/app/workflowmanager/permissions.py:28
+#: ./permissions.py:28
 msgid "Allow to update events"
 msgstr "Permitir actualizar eventos"
 
-#: plone/app/workflowmanager/permissions.py:23
+#: ./permissions.py:23
 msgid "Allowed to review the content."
 msgstr "Autorizado para revisar el contenido."
 
-#: plone/app/workflowmanager/permissions.py:12
+#: ./permissions.py:12
 msgid "Allows changing the content of an item."
 msgstr "Permite cambiar el contenido de un ítem."
 
-#: plone/app/workflowmanager/browser/templates/add-new-workflow.pt:38
+#: ./browser/templates/add-new-state.pt:40
+#: ./browser/templates/add-new-transition.pt:45
+#: ./browser/templates/add-new-workflow.pt:38
 msgid "An id will be generated from the title."
 msgstr "Un identificador será generado para el título."
 
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:111
+#: ./browser/templates/delete-action.pt:11
+msgid "Are you sure you want to delete this Action?"
+msgstr ""
+
+#: ./browser/templates/delete-transition.pt:5
+msgid "Are you sure you want to delete this transition?"
+msgstr ""
+
+#: ./browser/templates/controlpanel.pt:110
 msgid "Assign"
 msgstr "Asignar"
 
-#: plone/app/workflowmanager/browser/templates/content.pt:15
+#: ./browser/templates/assign.pt:2
+msgid "Assign This Workflow"
+msgstr ""
+
+#: ./browser/templates/content.pt:15
 msgid "Assigned Types:"
 msgstr "Tipos asignados:"
 
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:64
+#: ./browser/templates/workflow-transition.pt:64
 msgid "Auto Trigger"
 msgstr "Iniciado automáticamente"
 
-#: plone/app/workflowmanager/browser/templates/add-new-workflow.pt:48
+#: ./browser/templates/add-action.pt:34
+#: ./browser/templates/add-new-state.pt:52
+#: ./browser/templates/add-new-transition.pt:56
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: plone/app/workflowmanager/permissions.py:27
+#: ./permissions.py:27
 msgid "Change Events"
 msgstr "Cambiar eventos"
 
-#: plone/app/workflowmanager/browser/templates/add-new-workflow.pt:17
+#: ./browser/templates/add-new-workflow.pt:17
 msgid "Clone from"
 msgstr "Clonar de"
 
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:28
+#: ./browser/templates/controlpanel.pt:28
 msgid "Close"
 msgstr "Cerrar"
+
+#: ./browser/templates/add-new-state.pt:2
+msgid "Create New State"
+msgstr ""
+
+#: ./browser/templates/add-new-transition.pt:2
+msgid "Create New Transition"
+msgstr ""
 
 #: plone/app/workflowmanager/browser/templates/add-new-workflow.pt:2
 msgid "Create New Workflow"
 msgstr "Crear un nuevo flujo de trabajo"
 
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:184
+#: ./browser/templates/add-action.pt:4
+msgid "Create a new workflow action that will happen on this transition."
+msgstr ""
+
+#: ./browser/templates/add-new-workflow.pt:2
+#: ./browser/templates/controlpanel.pt:183
 msgid "Create new workflow"
 msgstr "Crear un nuevo flujo de trabajo"
 
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:146
-#: plone/app/workflowmanager/browser/templates/workflow-state.pt:26
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:25
+#: ./browser/templates/controlpanel.pt:145
+#: ./browser/templates/delete-action.pt:22
+#: ./browser/templates/delete-state.pt:36
 msgid "Delete"
 msgstr "Eliminar"
 
-#: plone/app/workflowmanager/browser/state.py:99
-msgid "Deleting the \"${id}\" state has been canceled."
-msgstr "La eliminación del estado '${id}' ha sido cancelada."
-
-#: plone/app/workflowmanager/browser/transition.py:163
-msgid "Deleting the \"$${id}\" transition has been canceled."
-msgstr "La eliminación de la transición '${id}' ha sido cancelada."
-
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:76
+#: ./browser/templates/workflow-transition.pt:76
 msgid "Description"
 msgstr "Descripción"
 
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:44
+#: ./browser/templates/workflow-transition.pt:44
 msgid "Destination State"
 msgstr "Estado de destino"
 
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:134
+#: ./browser/templates/controlpanel.pt:133
+#: ./browser/templates/diagram.pt:4
 msgid "Diagram"
 msgstr "Diagrama"
 
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:84
+#: ./browser/templates/workflow-transition.pt:84
 msgid "Display Name"
 msgstr "Nombre a mostrar"
 
-#: plone/app/workflowmanager/permissions.py:11
+#: ./permissions.py:11
 msgid "Edit"
 msgstr "Editar"
 
-#: plone/app/workflowmanager/browser/templates/workflow-state.pt:161
+#: ./browser/templates/sanity-check.pt:40
+msgid "Great. It seems like everything has checked out fine."
+msgstr ""
+
+#: ./browser/templates/workflow-state.pt:161
 msgid "Group Roles"
 msgstr "Roles de grupo"
 
-#: plone/app/workflowmanager/browser/templates/workflow-state.pt:171
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:107
+#: ./browser/templates/workflow-state.pt:171
+#: ./browser/templates/workflow-transition.pt:107
 msgid "Groups"
 msgstr "Grupos"
 
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:94
+#: ./browser/templates/workflow-transition.pt:94
 msgid "Guards"
 msgstr "Resgurados"
 
-#: plone/app/workflowmanager/browser/templates/workflow-state.pt:83
+#: ./browser/templates/workflow-state.pt:83
 msgid "Initial State"
 msgstr "Estado inicial"
 
-#: plone/app/workflowmanager/browser/validators.py:25
+#: ./browser/validators.py:22
 msgid "Invalid workflow name. Please try another."
 msgstr "Nombre de flujo de trabajo inválido. Por favor intente otro."
 
-#: plone/app/workflowmanager/permissions.py:32
+#: ./permissions.py:32
 msgid "List"
 msgstr "Listar"
 
-#: plone/app/workflowmanager/permissions.py:33
+#: ./permissions.py:33
 msgid "List the contents of a folder. This doesn't check if you have access to view the actual object listed."
 msgstr "Lista los contendios de una carpeta."
 
-#: plone/app/workflowmanager/browser/controlpanel.py:62
+#: ./browser/controlpanel.py:59
 msgid "Manage your custom workflows TTW."
 msgstr "Administrar los flujos de trabajo personalizados TTW."
 
-#: plone/app/workflowmanager/permissions.py:46
+#: ./permissions.py:46
 msgid "Modify portal content"
 msgstr "Modificar contenido del portal"
 
-#: plone/app/workflowmanager/permissions.py:17
+#: ./browser/templates/assign.pt:31
+msgid "Next Step"
+msgstr ""
+
+#: ./permissions.py:17
 msgid "Not only means view HTML, but also FTP, WebDAV and other forms of access."
 msgstr "No implica sólo ver el HTML, sino también permitir acceso por FTP, WebDAV y otros."
 
-#: plone/app/workflowmanager/browser/templates/workflow-state.pt:102
+#: ./browser/templates/workflow-state.pt:102
 msgid "Permission Roles"
 msgstr "Roles de permiso"
 
-#: plone/app/workflowmanager/browser/templates/workflow-state.pt:109
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:119
+#: ./browser/templates/workflow-state.pt:109
+#: ./browser/templates/workflow-transition.pt:119
 msgid "Permissions"
 msgstr "Permisos"
 
-#: plone/app/workflowmanager/browser/templates/workflow-state.pt:103
+#: ./browser/templates/workflow-state.pt:103
 msgid "Permissions these roles have in this state."
 msgstr "Permisos que estos roles tienen en este estado."
 
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:174
+#: ./browser/templates/controlpanel.pt:173
 msgid "Please select your workflow."
 msgstr "Por favor selecciones su flujo de trabajo."
 
-#: plone/app/workflowmanager/browser/templates/workflow-state.pt:72
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:40
+#: ./browser/templates/workflow-state.pt:72
+#: ./browser/templates/workflow-transition.pt:40
 msgid "Properties"
 msgstr "Propiedades"
 
-#: plone/app/workflowmanager/permissions.py:44
+#: ./permissions.py:44
 msgid "Request review"
 msgstr "Solicitar revisión"
 
-#: plone/app/workflowmanager/permissions.py:22
+#: ./permissions.py:22
 msgid "Review"
 msgstr "Revisión"
 
-#: plone/app/workflowmanager/permissions.py:45
+#: ./permissions.py:45
 msgid "Review portal content"
 msgstr "Revisar contendo del portal"
 
-#: plone/app/workflowmanager/browser/templates/workflow-state.pt:108
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:97
+#: ./browser/templates/workflow-state.pt:108
+#: ./browser/templates/workflow-transition.pt:97
 msgid "Roles"
 msgstr "Roles"
 
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:66
+#: ./browser/templates/controlpanel.pt:96
+#: ./browser/templates/sanity-check.pt:3
+msgid "Sanity check"
+msgstr ""
+
+#: ./browser/templates/controlpanel.pt:66
 msgid "Save"
 msgstr "Guardar"
 
-#: plone/app/workflowmanager/browser/templates/workflow-state.pt:206
+#: ./browser/templates/workflow-state.pt:206
 msgid "Save state"
 msgstr "Guardar estado"
 
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:196
+#: ./browser/templates/workflow-transition.pt:196
 msgid "Save transition"
 msgstr "Guardar transición"
 
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:66
+#: ./browser/templates/controlpanel.pt:66
 msgid "Saving.."
 msgstr "Guardando..."
 
-#: plone/app/workflowmanager/browser/templates/add-new-workflow.pt:23
+#: ./browser/templates/controlpanel.pt:46
+msgid "Select or create a new workflow"
+msgstr ""
+
+#: ./browser/templates/add-action.pt:26
+msgid "Select the action you'd like to add."
+msgstr ""
+
+#: ./browser/templates/add-new-state.pt:27
+msgid "Select the state you'd like to use as the basis for the new state you're creating."
+msgstr ""
+
+#: ./browser/templates/add-new-transition.pt:29
+msgid "Select the transition you'd like to use as the basis for the new transition you're creating."
+msgstr ""
+
+#: ./browser/templates/add-new-workflow.pt:23
 msgid "Select the workflow you'd like to use as the basis for the new workflow you're creating."
 msgstr "Seleccione el flujo de trabajo que le gustaría usar como base del nuevo flujo de trabajo que está creando."
 
-#: plone/app/workflowmanager/browser/templates/workflow-state.pt:85
+#: ./browser/templates/workflow-state.pt:85
 msgid "Should this state be the initial state of the workflow?"
 msgstr "¿Debería este estado ser el estado iniciarl del flujo de trabajo?"
 
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:138
+#: ./browser/templates/workflow-transition.pt:138
 msgid "Source States"
 msgstr "Estado de origen"
 
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:17
+#: ./browser/templates/workflow-transition.pt:17
 msgid "State &raquo;"
 msgstr "Estado &raquo;"
 
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:56
+#: ./browser/templates/add-new-state.pt:38
+msgid "State Name"
+msgstr ""
+
+#: ./browser/templates/controlpanel.pt:56
 msgid "States"
 msgstr "Estados"
 
-#: plone/app/workflowmanager/browser/templates/workflow-state.pt:94
+#: ./browser/templates/workflow-state.pt:94
 msgid "The description of this State."
 msgstr "La descripción de este estado."
 
-#: plone/app/workflowmanager/browser/templates/workflow-state.pt:162
+#: ./browser/templates/workflow-state.pt:162
 msgid "The local role that are assigned to these groups in this state."
 msgstr "El rol local que será asignado a este grupo en este estado."
 
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:70
+#: ./browser/templates/workflow-transition.pt:70
 msgid "The title of the transition."
 msgstr "El título de la transición."
 
-#: plone/app/workflowmanager/browser/templates/workflow-state.pt:90
+#: ./browser/templates/workflow-state.pt:90
 msgid "The title of this State."
 msgstr "El título de este estado."
 
-#: plone/app/workflowmanager/actionmanager.py:88
+#: ./browser/templates/assign.pt:25
+msgid "The type you would like to assign this workflow."
+msgstr ""
+
+#: ./actionmanager.py:88
 msgid "This content rule was automatically created the workflow manager to create actions on workflow events. If you want the behavior to work as expected, do not modify this out of the workflow manager."
 msgstr ""
 
-#: plone/app/workflowmanager/browser/validators.py:14
+#: ./browser/validators.py:11
 msgid "This field is required."
 msgstr "Este campo es requerido"
 
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:85
+#: ./browser/templates/workflow-transition.pt:85
 msgid "This is the name that will be displayed to the user when selecting actions on a content item."
 msgstr "Este es el nombre que se mostrará al usuario cuándo se seleccionen acciones en un ítem de contenido."
 
-#: plone/app/workflowmanager/browser/templates/add-new-workflow.pt:4
+#: ./browser/templates/add-new-state.pt:4
+msgid "This will add a new state to the workflow."
+msgstr ""
+
+#: ./browser/templates/add-new-transition.pt:4
+#: ./browser/templates/add-new-workflow.pt:4
 msgid "This will add a new transition to the workflow."
 msgstr "Esto adicionará una nueva transición al flujo de trabajo."
 
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:69
+#: ./browser/templates/workflow-transition.pt:69
 msgid "Title"
 msgstr "Título"
 
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:61
-#: plone/app/workflowmanager/browser/templates/workflow-state.pt:41
+#: ./browser/templates/controlpanel.pt:61
+#: ./browser/templates/workflow-state.pt:41
 msgid "Transitions"
 msgstr "Transiciones"
 
-#: plone/app/workflowmanager/browser/templates/workflow-state.pt:16
+#: ./browser/templates/workflow-state.pt:16
 msgid "Transitions &raquo;"
 msgstr "Transiciones &raquo;"
 
-#: plone/app/workflowmanager/browser/templates/workflow-state.pt:42
+#: ./browser/templates/workflow-state.pt:42
 msgid "Transitions this state can use."
 msgstr "Transiciones que este estado puede utilizar."
 
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:122
+#: ./browser/templates/wrapped-dialog.pt:34
+msgid "Up to Workflow Editor"
+msgstr ""
+
+#: ./browser/templates/update-security-settings.pt:2
+msgid "Update Security Settings"
+msgstr ""
+
+#: ./browser/templates/controlpanel.pt:121
 msgid "Update security"
 msgstr "Actualizar seguridad"
 
-#: plone/app/workflowmanager/browser/workflow.py:80
-msgid "Updated ${count} objects."
-msgstr "${count} objetos fueron actualizados."
-
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:41
+#: ./browser/templates/workflow-transition.pt:41
 msgid "Various properties for this transition."
 msgstr "Varias propiedades para esta transición."
 
-#: plone/app/workflowmanager/permissions.py:16
+#: ./permissions.py:16
 msgid "View"
 msgstr "Ver"
 
+#: ./browser/templates/diagram.pt:7
+msgid "View full size"
+msgstr ""
+
 # ./profiles/default/controlpanel.xml
-#: plone/app/workflowmanager/browser/controlpanel.py:61
-#: plone/app/workflowmanager/profiles/default/controlpanel.xml
+#: ./browser/controlpanel.py:58
+#: ./browser/templates/controlpanel.pt:33
+#: ./browser/templates/wrapped-dialog.pt:30
 msgid "Workflow Manager"
 msgstr "Administración del flujo de trabajo"
 
-#: plone/app/workflowmanager/browser/templates/add-new-workflow.pt:34
+#: ./browser/templates/add-new-workflow.pt:34
 msgid "Workflow Name"
 msgstr "Nombre del flujo de trabajo"
 
-#: plone/app/workflowmanager/browser/workflow.py:27
+#: ./browser/templates/update-security-settings.pt:15
+msgid "Yes"
+msgstr ""
+
+#: ./browser/workflow.py:24
 msgid "You can not delete this workflow until no content types are specified to use this workflow."
 msgstr "No puede eliminar este flujo de trabajo mientras existan tipos de contenido asociados a él."
 
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:183
+#: ./browser/templates/workflow-transition.pt:183
 msgid "You do not have any actions defined for this state."
 msgstr "No tiene ninguna acción definida para este estado."
 
+#: ./browser/templates/sanity-check.pt:14
+msgid "You have errors that you should fix!"
+msgstr ""
+
+#: ./browser/templates/sanity-check.pt:32
+msgid "You must specify an initial state."
+msgstr ""
+
 #. Default: "Assign this workflow to a content type so that your content can utilize it."
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:111
+#: ./browser/templates/controlpanel.pt:110
 msgid "assign_workflow_content_types"
 msgstr "Asignar este flujo de trabajo a un tipo de contenido de modo que pueda utilizarlo."
 
 #. Default: "Automatically initiate this transition. You should normally not have this checked."
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:66
+#: ./browser/templates/workflow-transition.pt:66
 msgid "automatically_initiate_transition"
 msgstr ".Iniciar esta transición automáticamente. Normalmente esto no está seleccionado."
 
-#: plone/app/workflowmanager/browser/templates/content.pt:20
+#. Default: "Confirm Delete '${summary}'"
+#: ./browser/templates/delete-state.pt:4
+#: ./browser/templates/delete-transition.pt:3
+msgid "confirm_delete"
+msgstr ""
+
+#. Default: "Are you sure you want to update the security settings for all objects using this workflow in the portal?"
+#: ./browser/templates/update-security-settings.pt:4
+msgid "confirm_update_security_settings"
+msgstr ""
+
+#: ./browser/templates/content.pt:20
 msgid "denotes initial state of this workflow"
 msgstr "indica o estado inicial do workflow"
 
 #. Default: "Guards can restrict this transition to being run by only certain people."
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:95
+#: ./browser/templates/workflow-transition.pt:95
 msgid "guards_restrict_transition"
 msgstr "Los resguardos pueden restringir la ejecución de una transición a un grupo de personas."
 
-#. Default: "Select or create a new workflow"
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:46
-#: plone/app/workflowmanager/browser/templates/wrapped-dialog.pt:34
+#. Default: "This just points out potential issues with your workflow. For instance, it wouldn't make sense to have unused transitions or states and transitions that do not bring you to any states."
+#: ./browser/templates/sanity-check.pt:5
+msgid "help_sanity_check"
+msgstr ""
+
+#. Default: "Select which type you'd like to assign this workflow to. This form will assist you in setting up a workflow for a type. If you don't use the form as is, it'll forward you on to the full blown Types control panel so don't be alarmed if that occurs."
+#: ./browser/templates/assign.pt:4
+msgid "help_workflow_assign"
+msgstr ""
+
+#. Default: "Up to Site Setup"
+#: ./browser/templates/controlpanel.pt:168
+#, fuzzy
 msgid "label_up_to_plone_setup"
 msgstr "Selecciones o cree un nuevo flujo de trabajo"
 
-#. Default: "Sanity check"
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:96
-msgid "sanity_check"
-msgstr "Verificación de integridad"
+#. Default: "Deleting the \"${id}\" transition has been canceled."
+#: ./browser/transition.py:162
+msgid "msg_deleting_canceled"
+msgstr ""
+
+#. Default: "\"${state_id}\" state successfully created."
+#: ./browser/state.py:47
+msgid "msg_state_created"
+msgstr ""
+
+#. Default: "\"${id}\" state has been successfully deleted."
+#: ./browser/state.py:92
+msgid "msg_state_deleted"
+msgstr ""
+
+#. Default: "Deleting the \"${id}\" state has been canceled."
+#: ./browser/state.py:97
+msgid "msg_state_deletion_canceled"
+msgstr ""
+
+#. Default: "\"${transition_id}\" transition successfully created."
+#: ./browser/transition.py:54
+msgid "msg_transition_created"
+msgstr ""
+
+#. Default: "\"${id}\" transition has been successfully deleted."
+#: ./browser/transition.py:157
+msgid "msg_transition_deleted"
+msgstr ""
+
+#. Default: "Updated ${count} objects."
+#: ./browser/workflow.py:78
+msgid "msg_updated_objects"
+msgstr ""
+
+#. Default: "The ${state} state is not connected with any transition. Either delete it or use it with a transition."
+#: ./browser/templates/sanity-check.pt:19
+msgid "msg_warning_state_without_transition"
+msgstr ""
+
+#. Default: "The ${transition} transition does not have a destination state. Please specify one."
+#: ./browser/templates/sanity-check.pt:27
+msgid "msg_warning_transition_without_destination"
+msgstr ""
 
 #. Default: "Check to make sure that all your states are connected with transitions and that there isn't anything missing or left behind."
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:96
+#: ./browser/templates/controlpanel.pt:96
 msgid "sanity_check_make_transitions"
 msgstr "Asegurarse que todos los estados están conectados con transiciones y que no existe nada perdido u olvidado."
 
 #. Default: "Select which states should enable this transition."
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:139
+#: ./browser/templates/workflow-transition.pt:139
 msgid "select_states_enable_transition"
 msgstr "Seleccione qué estados deben permitir esta transición."
 
 #. Default: "The state this transition will move the content into."
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:45
+#: ./browser/templates/workflow-transition.pt:45
 msgid "state_will_move_content_into"
 msgstr "El estado al que esta transición moverá el contenido."
 
@@ -419,17 +558,17 @@ msgid "title_manage_contentrules"
 msgstr "Administrador de flujo de trabajo"
 
 #. Default: "Update the security settings for all objects using this workflow in the portal."
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:122
+#: ./browser/templates/controlpanel.pt:121
 msgid "update_security_settings"
 msgstr "Actualiza las configuraciones de  seguridad para todos lo objetos que utilizan este flujo de trabajo en el portal."
 
 #. Default: "Get a visual representation of your the workflow you've designed."
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:134
+#: ./browser/templates/controlpanel.pt:133
 msgid "visual_representation_designed"
 msgstr "Obtenga una representación visual del flujo de trabajo que ha diseñado."
 
 #. Default: "You are currently working on the \" ${current_wf} \" workflow."
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:40
+#: ./browser/templates/controlpanel.pt:40
 msgid "you_currently_woking"
 msgstr "Usted está trabajando actualmente en el flujo de trabajo '${current_wf}'."
 

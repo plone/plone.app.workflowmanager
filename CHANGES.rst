@@ -4,6 +4,10 @@ Changelog
 1.0a5 ~ unreleased
 ------------------
 
+- Full internationalization.
+  French translation.
+  [thomasdesvenain]
+
 - Added Spanish translation.
   [hvelarde]
 

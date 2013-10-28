@@ -30,7 +30,7 @@
   <div class="pb-ajax"></div>
 </div>
 
-<h1 class="documentFirstHeading" i18n:translate="title_manage_contentrules">Workflow Manager</h1>
+<h1 class="documentFirstHeading" i18n:translate="">Workflow Manager</h1>
 
 <tal:manager tal:condition="show">
 
@@ -45,7 +45,7 @@
     <div class="alert">
       <a href="" class="link-parent"
                 tal:attributes="href string:$portal_url/@@workflowmanager"
-                i18n:translate="label_up_to_plone_setup">Select or create a new workflow</a>
+                i18n:translate="">Select or create a new workflow</a>
     </div>
     <div id="menu-container">
       <div id="tabs-menu" class="subnav">
@@ -88,18 +88,17 @@
             </form>
           </li>
           <li>
-            <form class="navbar-form" 
+            <form class="navbar-form"
               tal:attributes="action python: view.get_url('@@workflowmanager-sanity-check')"
               method="POST">
               <a class="dialog-box" rel="#pb_99999"
                   tal:attributes="href python: view.get_url('@@workflowmanager-sanity-check')">
                 <input type="submit" rel="popover"
-                  class="btn context allowMultiSubmit" 
+                  class="btn context allowMultiSubmit"
                   name="sanity-check-button" value="Sanity check"
-                    title="Sanity Check"
+                    title="Sanity check"
                     data-content="Check to make sure that all your states are connected with transitions and that there isn't anything missing or left behind."
-                    i18n:attributes="value sanity_check;
-                                     title sanity_check;
+                    i18n:attributes="value; title;
                                      data-content sanity_check_make_transitions" />
               </a>
             </form>
@@ -145,7 +144,7 @@
                                       tal:attributes="href python: view.get_url('@@workflowmanager-delete-workflow')">
                 <input type="submit" class="btn btn-inverse standalone allowMultiSubmit" name="delete-workflow-button"
                        value="Delete"
-                       i18n:attributes="value" /> 
+                       i18n:attributes="value" />
               </a>
             </form>
           </li>
@@ -167,8 +166,8 @@
 <tal:select-workflow tal:condition="not: show">
 
   <a href="" class="link-parent"
-                tal:attributes="href string:$portal_url/plone_control_panel"
-                i18n:translate="label_up_to_plone_setup">Up to Site Setup</a>
+     tal:attributes="href string:$portal_url/plone_control_panel"
+     i18n:translate="label_up_to_plone_setup">Up to Site Setup</a>
   <div id="workflow-selection">
     <br />
     <p class="documentDescription" i18n:translate="">Please select your workflow.</p>

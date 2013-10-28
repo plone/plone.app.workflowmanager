@@ -1,37 +1,40 @@
-<div class="dialog-box" id="prompt"> 
-    <h2>Add New Action</h2> 
- 
-    <p class='discreet'> 
+<div class="dialog-box" id="prompt" i18n:domain="plone.app.workflowmanager">
+    <h2 i18n:translate="">Add New Action</h2>
+
+    <p class="discreet" i18n:translate="">
         Create a new workflow action that will happen on this transition.
-    </p> 
- 
+    </p>
+
     <form action="@@workflowmanager-addaction" method="POST">
         <input type="hidden" name="selected-workflow" tal:attributes="value view/selected_workflow/id" />
         <input type="hidden" name="selected-transition" tal:attributes="value view/selected_transition/id" />
         <input tal:replace="structure context/@@authenticator/authenticator"/>
-        
+
         <div class="field error Archetypestitlefield"
             tal:define="field_name string:action-type;
                         has_error python: field_name in request;
                         error python: view.errors.get(field_name, None);"
             tal:attributes="class python: has_error and 'field error' or 'field'">
-            
-            <label class="formQuestion" tal:attributes="for field_name">Action Type</label>
+
+            <label class="formQuestion" tal:attributes="for field_name"
+                   i18n:translate="">Action Type</label>
             <select tal:attributes="name field_name; id field_name">
                 <tal:states tal:repeat="action view/actions/available_actions">
                     <option tal:attributes="value action/addview;" tal:content="action/title"></option>
                 </tal:states>
             </select>
-            <div id="title_help" class="formHelp">
+            <div id="title_help" class="formHelp" i18n:translate="">
                 Select the action you'd like to add.
             </div>
 
         </div>
-        
-        <input name="form.actions.add" type="submit" class="context btn btn-primary" value="Add" />
-        <input name="form.actions.cancel" type="submit" class="context btn" value="Cancel" />
-        
-    </form> 
-    <br /> 
- 
+
+        <input name="form.actions.add" type="submit" class="context btn btn-primary"
+               value="Add" i18n:attributes="value" />
+        <input name="form.actions.cancel" type="submit" class="context btn"
+               value="Cancel" i18n:attributes="value" />
+
+    </form>
+    <br />
+
 </div>

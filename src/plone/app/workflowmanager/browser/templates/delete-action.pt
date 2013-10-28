@@ -1,26 +1,30 @@
-<div class="dialog-box" id="prompt" 
+<div class="dialog-box" id="prompt"
     tal:define="transition view/selected_transition;
                 rule python: view.actions.get_rule(transition);
                 action_index python: int(request.get('action_index'));
-                action python: rule.get_action(action_index)"> 
-                
-    <h2>Confirm Delete '<tal:replace tal:replace="action/summary" />'</h2> 
- 
-    <p class='discreet'> 
+                action python: rule.get_action(action_index)"
+    i18n:domain="plone.app.workflowmanager">
+
+    <h2 i18n:domain="confirm_delete" i18n:translate="confirm_delete">
+    	Confirm Delete '<tal:replace i18n:name="summary" tal:replace="action/summary" />'</h2>
+
+    <p class="discreet" i18n:translate="">
         Are you sure you want to delete this Action?
-    </p> 
- 
+    </p>
+
     <form action="@@workflowmanager-deleteaction" method="POST">
         <input type="hidden" name="selected-workflow" tal:attributes="value view/selected_workflow/id" />
         <input type="hidden" name="selected-transition" tal:attributes="value transition/id" />
         <input tal:replace="structure context/@@authenticator/authenticator"/>
-        
+
         <input type="hidden" name="action_index" tal:attributes="value action_index" />
-        
-        <input type="submit" name="form.actions.delete" value="Delete" class="context btn btn-primary" /> 
-        <input type="submit" name="form.actions.cancel" value="Cancel" class="standalone btn" />
-        
-    </form> 
-    <br /> 
- 
+
+        <input type="submit" name="form.actions.delete" value="Delete" class="context btn btn-primary"
+               i18n:attributes="value" />
+        <input type="submit" name="form.actions.cancel" value="Cancel" class="standalone btn"
+        	   i18n:attributes="value" />
+
+    </form>
+    <br />
+
 </div>

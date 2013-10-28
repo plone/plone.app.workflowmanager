@@ -9,7 +9,7 @@
     <metal:override fill-slot="column_one_slot" />
     <metal:override fill-slot="column_two_slot" />
     <metal:block fill-slot="top_slot" tal:define="dummy python:request.set('disable_border',1)" />
-      
+
     <metal:css fill-slot="style_slot">
         <link rel="stylesheet" type="text/css" href="++resource++workflowmanager.css" media="screen" />
     </metal:css>
@@ -17,29 +17,29 @@
         <script type="text/javascript" src="++resource++workflowmanager.js"></script>
     </metal:javascript>
     <body>
-        <div metal:fill-slot="main" 
+        <div metal:fill-slot="main"
             tal:define="selected_workflow view/selected_workflow;
-                        content python: options['content']; 
+                        content python: options['content'];
                         tmpl_options options/options">
-                        
+
   	        <div id="pb_99999" class="overlay overlay-ajax">
   	            <div class="close"><span>Close</span></div>
   	            <div class="pb-ajax"></div>
   	        </div>
 
-            <h1 class="documentFirstHeading" i18n:translate="title_manage_contentrules">Workflow Manager</h1>
-    
+            <h1 class="documentFirstHeading" i18n:translate="">Workflow Manager</h1>
+
             <div id="status-messages"></div>
 
             <a href=""
                 class="link-parent"
                 tal:attributes="href python: view.get_url('@@workflowmanager')"
-                i18n:translate="label_up_to_plone_setup">
+                i18n:translate="">
                 Up to Workflow Editor
             </a>
-    
+
             <tal:replace tal:replace="structure python: content(**tmpl_options)" />
-    
+
         </div>
     </body>
 </html>

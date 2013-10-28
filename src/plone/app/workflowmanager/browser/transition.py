@@ -8,9 +8,7 @@ from plone.app.workflowmanager.utils import clone_transition
 from plone.app.workflowmanager.browser import validators
 from plone.app.workflowmanager.permissions import allowed_guard_permissions
 
-
-from zope.i18nmessageid import MessageFactory
-_ = MessageFactory(u"plone")
+from plone.app.workflowmanager import WMMessageFactory as _
 
 
 class AddTransition(Base):
@@ -53,8 +51,8 @@ class AddTransition(Base):
                     state.transitions += (new_transition.id, )
 
                 return self.handle_response(
-                    message=_(
-                        u'"${transition_id}" transition successfully created.',
+                    message=_('msg_transition_created',
+                        default=u'"${transition_id}" transition successfully created.',
                         mapping={'transition_id': new_transition.id}),
                     slideto=True,
                     transition=new_transition)
@@ -156,12 +154,14 @@ class DeleteTransition(Base):
                     transitions.remove(id)
                     state.transitions = tuple(transitions)
 
-            msg = _(u'"${id}" transition has been successfully deleted.',
-                mapping={'id': id})
+            msg = _('msg_transition_deleted',
+                    default=u'"${id}" transition has been successfully deleted.',
+                    mapping={'id': id})
             return self.handle_response(message=msg)
         elif self.request.get('form.actions.cancel', False) == 'Cancel':
-            msg = _(u'Deleting the "${id}" transition has been canceled.',
-                mapping={'id': id})
+            msg = _('msg_deleting_canceled',
+                    default=u'Deleting the "${id}" transition has been canceled.',
+                    mapping={'id': id})
             return self.handle_response(message=msg)
         else:
             return self.handle_response(tmpl=self.template)

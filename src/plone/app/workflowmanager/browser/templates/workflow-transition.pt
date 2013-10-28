@@ -10,7 +10,7 @@
       <li class="dropdown">
         <a href="#" class="dropdown-toggle">
           <b class="caret"></b>
-          <tal:nothing tal:replace="python: transition.title">Title</tal:nothing> 
+          <tal:nothing tal:replace="python: transition.title">Title</tal:nothing>
         </a>
       </li>
       <li class="related-items">
@@ -23,23 +23,24 @@
         <a class="dialog-box delete" rel="#pb_99999"
           tal:attributes="href python: view.get_url('@@workflowmanager-delete-transition', transition=transition);">
           <input type="button" class="standalone allowMultiSubmit btn btn-inverse"
-              tal:attributes="name string:transition-${transition/id}-delete-button" value="Delete" i18n:attributes="value" />
+              tal:attributes="name string:transition-${transition/id}-delete-button"
+              value="Delete" i18n:attributes="value" />
         </a>
       </li>
     </ul>
   </div>
   <div class="hidden-content">
-    <form method="POST" 
+    <form method="POST"
         tal:attributes="action string:${context/absolute_url}/@@workflowmanager-save-transition">
       <input type="hidden" name="selected-transition" tal:attributes="value transition/id">
       <input type="hidden" name="selected-workflow" tal:attributes="value view/selected_workflow/id" />
       <input tal:replace="structure context/@@authenticator/authenticator"/>
-            
+
       <div class="transition-properties item-properties well">
         <fieldset>
           <legend i18n:translate="">Properties</legend>
           <div class="alert alert-info" i18n:translate="">Various properties for this transition.</div>
-                    
+
           <tal:field tal:define="field_name string:transition-${transition/id}-new-state">
             <label tal:attributes="name field_name" i18n:translate="">Destination State</label>
             <div class="discreet" i18n:translate="state_will_move_content_into">
@@ -49,7 +50,7 @@
               <option></option>
               <tal:states tal:repeat="state available_states">
                 <option tal:attributes="value state/id;
-                                        selected python: state.id == transition.new_state_id and 'yes' or ''" 
+                                        selected python: state.id == transition.new_state_id and 'yes' or ''"
                   tal:content="state/title"></option>
               </tal:states>
             </select>
@@ -57,14 +58,14 @@
           <div class="advanced" tal:define="field_name string:transition-${transition/id}-autotrigger">
             <label tal:attributes="for field_name" class="checkbox">
               <input type="checkbox" value="0"
-                tal:attributes="name field_name; 
-                                id field_name; 
+                tal:attributes="name field_name;
+                                id field_name;
                                 checked python: transition.trigger_type == 0 and 'checked' or ''"
                 class="checkbox" />
               <span i18n:translate="">Auto Trigger</span>
             </label>
             <div class="discreet" i18n:translate="automatically_initiate_transition">Automatically initiate this transition. You should normally not have this checked.</div>
-          </div>  
+          </div>
           <tal:field tal:define="field_name string:transition-${transition/id}-title">
             <label tal:attributes="name field_name" i18n:translate="">Title</label>
             <div class="discreet" i18n:translate="">
@@ -99,7 +100,9 @@
                 <tal:roles tal:repeat="role view/selected_workflow/getAvailableRoles">
                   <option tal:content="role"
                     tal:attributes="value role;
-                                    selected python: role in guard.roles and 'selected' or ''" />                    
+                                    selected python: role in guard.roles and 'selected' or ''"
+                    i18n:domain="plone"
+                    i18n:translate="" />
                 </tal:roles>
               </select>
             </div>
@@ -108,46 +111,46 @@
               <select multiple="multiple" size="4"
                   tal:attributes="name string:transition-${transition/id}-guard-groups">
                 <tal:groups tal:repeat="group view/getGroups">
-                  <option tal:content="group/title" 
-                      tal:attributes="value group/id; 
+                  <option tal:content="group/title"
+                      tal:attributes="value group/id;
                                       selected python: group['id'] in guard.groups and 'selected' or ''"
                       i18n:domain="plone" i18n:translate="" />
                 </tal:groups>
               </select>
-            </div>  
+            </div>
             <div class="sub-form advanced">
               <h4 i18n:translate="">Permissions</h4>
               <tal:perms tal:repeat="perm python: view.allowed_guard_permissions.items()">
                 <tal:field tal:define="field_name python: 'transition-' + transition.id + '-guard-permission-' + perm[0]">
                   <label class="checkbox" tal:attributes="for field_name">
                     <input type="checkbox" value="on"
-                      tal:attributes="name field_name; 
-                                      id field_name; 
-                                      checked python: perm[1] in guard.permissions and 'checked' or ''"
+                      tal:attributes="name field_name;
+                                      id field_name;
+                                      checked python:perm[1] in guard.permissions and 'checked' or ''"
                       class="checkboxType" />
-                      <span i18n:domain="plone" i18n:translate="" tal:content="python: perm[1]" />
+                      <span i18n:domain="plone" i18n:translate="" tal:content="python:perm[1]" />
                   </label>
                 </tal:field>
               </tal:perms>
             </div>
           </fieldset>
         </div>
-      
+
       <div class="transition-states-selection item-properties well">
         <fieldset>
           <legend i18n:translate="">Source States</legend>
-          <div class="alert alert-info" i18n:translate="select_states_enable_transition">Select which states should enable this transition.</div>    
+          <div class="alert alert-info" i18n:translate="select_states_enable_transition">Select which states should enable this transition.</div>
           <tal:states tal:repeat="state available_states">
             <tal:field
                 tal:define="field_name string:transition-${transition/id}-state-${state/id}-selected;
                             checked python: transition.id in state.transitions;">
               <label tal:attributes="for field_name" class="checkbox">
                 <input type="checkbox"
-                    tal:attributes="name field_name; 
-                                    id field_name; 
+                    tal:attributes="name field_name;
+                                    id field_name;
                                     value python: checked and 'on' or '';
                                     checked python: checked and 'checked' or ''" />
-                  <a class="goto-link" 
+                  <a class="goto-link"
                       tal:attributes="href python: view.get_url(state=state);"
                     tal:content="state/title" i18n:domain="plone" i18n:translate="">State Title</a>
               </label>
@@ -159,7 +162,7 @@
           </a>
         </fieldset>
       </div>
-      
+
       <div class="transition-content-rules item-properties well"
           tal:define="rule python: view.actions.get_rule(transition)">
         <fieldset>
@@ -170,12 +173,12 @@
                               editurl python: rule.action_url(action);
                               deleteurl python: view.get_url('@@workflowmanager-deleteaction', action_index=index, transition=transition);">
                 <a class="dialog-box save-first" rel="#pb_99999" target="#content,#region-content"
-                    tal:content="action/summary" 
+                    tal:content="action/summary"
                     tal:attributes="href editurl" i18n:domain="plone" i18n:translate="">summary
-                </a> ( 
+                </a> (
                 <a class="dialog-box save-first" rel="#pb_99999" tal:attributes="href deleteurl" i18n:translate="">
                   Delete
-                </a> 
+                </a>
                 )
               </li>
             </tal:rep>
@@ -189,15 +192,16 @@
           </a>
         </fieldset>
       </div>
-      
+
       <br />
       <div class="formControls">
         <noscript>
-          <input type="submit" class="inline context allowMultiSubmit" value="Save transition" i18n:attributes="value"
-            tal:attributes="name string:save-transition-${transition/id}-button" />
+          <input type="submit" class="inline context allowMultiSubmit"
+                 value="Save transition" i18n:attributes="value"
+                 tal:attributes="name string:save-transition-${transition/id}-button" />
         </noscript>
       </div>
-      
+
   </form>
 </div>
 

@@ -15,16 +15,13 @@ from zope.schema.interfaces import IVocabularyFactory
 import zope.i18n
 
 from Products.CMFCore.utils import getToolByName
-from plone.memoize.instance import memoize
+from plone.memoize.view import memoize
 
 from plone.app.workflowmanager.permissions import managed_permissions
 from plone.app.workflowmanager.permissions import allowed_guard_permissions
 from plone.app.workflowmanager.graphviz import HAS_GRAPHVIZ
 from plone.app.workflowmanager.actionmanager import ActionManager
-
-
-from zope.i18nmessageid import MessageFactory
-_ = MessageFactory(u"plone")
+from plone.app.workflowmanager import WMMessageFactory as _
 
 
 plone_shipped_workflows = [

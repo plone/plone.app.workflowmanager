@@ -7,10 +7,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.app.workflowmanager.browser.controlpanel import Base
 from plone.app.workflowmanager.graphviz import getGraph
 from plone.app.workflowmanager.browser import validators
-
-
-from zope.i18nmessageid import MessageFactory
-_ = MessageFactory(u"plone")
+from plone.app.workflowmanager import WMMessageFactory as _
 
 
 class DeleteWorkflow(Base):
@@ -77,8 +74,10 @@ class UpdateSecuritySettings(Base):
             count = self.portal_workflow._recursiveUpdateRoleMappings(
                 self.portal,
                 {self.selected_workflow.id: self.selected_workflow})
-            return self.handle_response(message=_("Updated ${count} objects.",
-                mapping={'count': count}))
+            return self.handle_response(
+                        message=_('msg_updated_objects',
+                                  default="Updated ${count} objects.",
+                                  mapping={'count': count}))
         else:
             return self.handle_response(tmpl=self.template)
 

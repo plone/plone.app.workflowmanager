@@ -1,60 +1,64 @@
-<div class="dialog-box" id="prompt"> 
-    <h2>Create New Transition</h2> 
- 
-    <p class='discreet'> 
+<div class="dialog-box" id="prompt" i18n:domain="plone.app.workflowmanager">
+    <h2 i18n:translate="">Create New Transition</h2>
+
+    <p class="discreet" i18n:translate="">
         This will add a new transition to the workflow.
-    </p> 
- 
+    </p>
+
     <form action="@@workflowmanager-add-new-transition" method="POST"
             tal:define="errors view/errors">
         <input type="hidden" name="selected-workflow" tal:attributes="value view/selected_workflow/id" />
-        <input type="hidden" name="referenced-state" tal:attributes="value view/request/reference" 
+        <input type="hidden" name="referenced-state" tal:attributes="value view/request/reference"
           tal:condition="python: view.request.has_key('reference')"/>
         <input tal:replace="structure context/@@authenticator/authenticator"/>
-        
+
         <div class="field error Archetypestitlefield"
             tal:define="field_name string:clone-from-transition;
                         has_error python: field_name in errors;
                         error python: errors.get(field_name, None);"
             tal:attributes="class python: has_error and 'field error' or 'field'">
-            
-            <label class="formQuestion" tal:attributes="for field_name">Clone from</label>
+
+            <label class="formQuestion" tal:attributes="for field_name"
+                   i18n:translate="">Clone from</label>
             <select tal:attributes="name field_name; id field_name">
                 <option value="">...</option>
                 <tal:states tal:repeat="transition view/available_transitions">
-                    <option tal:attributes="value transition/id; selected python: request.get(field_name, None) == transition.id;" 
+                    <option tal:attributes="value transition/id; selected python: request.get(field_name, None) == transition.id;"
                             tal:content="transition/title"></option>
                 </tal:states>
             </select>
-            <div id="title_help" class="formHelp">
+            <div id="title_help" class="formHelp" i18n:translate="">
                 Select the transition you'd like to use as the basis for the new transition you're creating.
             </div>
 
         </div>
-        
+
         <div class="field error Archetypestitlefield"
             tal:define="field_name string:transition-name;
                         has_error python: field_name in errors;
                         error python: errors.get(field_name, None);"
             tal:attributes="class python: has_error and 'field error' or 'field'">
-            
-            <label tal:attributes="for field_name" class="formQuestion">Transition Name</label>
-            <span title="Required" class="fieldRequired">
+
+            <label tal:attributes="for field_name" class="formQuestion"
+                   i18n:translate="">Transition Name</label>
+            <span title="Required" class="fieldRequired" i18n:domain="plone" i18n:translate="">
                 (Required)
             </span>
-            <div id="title_help" class="formHelp">An id will be generated from the title.</div>
+            <div id="title_help" class="formHelp" i18n:translate="">An id will be generated from the title.</div>
 
-            <div class="fieldErrorBox" 
+            <div class="fieldErrorBox"
                 tal:condition="has_error"
-                tal:content="error">Transition Name Error
+                tal:content="error" i18n:translate="">Transition Name Error
             </div>
-            <input class="firstToFocus" type="text" tal:attributes="name field_name" value="" /> 
+            <input class="firstToFocus" type="text" tal:attributes="name field_name" value="" />
         </div>
-        
-        <input type="submit" name="form.actions.add" value="Add" class="context btn btn-primary" />
-        <input name="form.actions.cancel" type="submit" class="context btn" value="Cancel" />
-        
-    </form> 
-    <br /> 
- 
+
+        <input type="submit" name="form.actions.add"
+               value="Add" class="context btn btn-primary" i18n:attributes="value" />
+        <input name="form.actions.cancel" type="submit"
+               class="context btn" value="Cancel" i18n:attributes="value" />
+
+    </form>
+    <br />
+
 </div>

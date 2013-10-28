@@ -7,10 +7,7 @@ from plone.app.workflow.remap import remap_workflow
 from plone.app.workflowmanager.browser import validators
 from plone.app.workflowmanager.permissions import managed_permissions
 from plone.app.workflowmanager.browser.controlpanel import Base
-
-
-from zope.i18nmessageid import MessageFactory
-_ = MessageFactory(u"plone")
+from plone.app.workflowmanager import WMMessageFactory as _
 
 
 class AddState(Base):
@@ -47,8 +44,9 @@ class AddState(Base):
                     new_state.transitions = \
                         new_state.transitions + (referenced_transition, )
 
-                msg = _(u'"${state_id}" state successfully created.',
-                    mapping={'state_id': new_state.id})
+                msg = _('msg_state_created',
+                        default=u'"${state_id}" state successfully created.',
+                        mapping={'state_id': new_state.id})
                 return self.handle_response(
                     message=msg,
                     slideto=True,
@@ -91,13 +89,13 @@ class DeleteState(Base):
             self.selected_workflow.states.deleteStates([id])
 
             return self.handle_response(
-                message=_(
-                    u'"${id}" state has been successfully deleted.',
+                message=_('msg_state_deleted',
+                    default=u'"${id}" state has been successfully deleted.',
                     mapping={'id': id}))
         elif self.request.get('form.actions.cancel', False) == 'Cancel':
             return self.handle_response(
-                message=_(
-                    u'Deleting the "${id}" state has been canceled.',
+                message=_('msg_state_deletion_canceled',
+                    default=u'Deleting the "${id}" state has been canceled.',
                     mapping={'id': id}))
         else:
             return self.handle_response(tmpl=self.template)

@@ -1,10 +1,7 @@
-# --- PLEASE EDIT THE LINES BELOW CORRECTLY ---
-# SOME DESCRIPTIVE TITLE.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-09-03 15:20+0000\n"
+"POT-Creation-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,17 +12,18 @@ msgstr ""
 "Language-Code: en\n"
 "Language-Name: English\n"
 "Preferred-Encodings: utf-8 latin1\n"
-"Domain: plone.app.workflowmanager\n"
+"Domain: DOMAIN\n"
 
 #: ./browser/add_type.py:15
 msgid "Add Content Type"
-msgstr ""
+msgstr "Ajouter un type de contenu"
 
 #: ./browser/clone_type.py:28
 msgid "Please select your workflow"
-msgstr ""
+msgstr "Choisissez le workflow"
 
 #. Default: "Select or create a new workflow"
 #: ./browser/controlpanel.pt:47
 msgid "label_up_to_plone_setup"
-msgstr ""
+msgstr "Choisissez ou créez un workflow"
+

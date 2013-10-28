@@ -1,10 +1,7 @@
 from OFS.ObjectManager import checkValidId
 from Products.CMFCore.utils import getToolByName
 from plone.app.workflowmanager.utils import generate_id
-
-
-from zope.i18nmessageid import MessageFactory
-_ = MessageFactory(u"plone")
+from plone.app.workflowmanager import WMMessageFactory as _
 
 
 def not_empty(form, name):
