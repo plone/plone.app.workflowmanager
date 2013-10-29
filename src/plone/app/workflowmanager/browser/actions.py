@@ -34,7 +34,7 @@ class AddActionView(Base):
     def __call__(self):
         self.errors = {}
 
-        if self.request.get('form.actions.add', False) == 'Add':
+        if self.request.get('form.actions.add', False):
             self.authorize()
             am = ActionManager()
             rule = am.get_rule(self.selected_transition)
