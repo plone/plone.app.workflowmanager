@@ -213,7 +213,7 @@ $(document).ready(function(){
       if(trigger.hasClass('save-first') && has_dirty_items()){
         if(confirm("You have unsaved changes. Would you like to save them and continue?")){
           save(function(){
-            status_message("The workflow been successfully updated.");
+            status_message("The workflow has been successfully updated.");
           });
         }else{
           return false;
@@ -486,7 +486,7 @@ $(document).ready(function(){
   $('#save-all-button,input.save-all').live('click', function(e){
       spinner.show();
       save(function(){
-        status_message("The workflow been successfully updated.");
+        status_message("The workflow has been successfully updated.");
         spinner.hide();
       });
       return e.preventDefault();
