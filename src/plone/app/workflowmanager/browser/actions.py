@@ -39,7 +39,7 @@ class AddActionView(Base):
             am = ActionManager()
             rule = am.get_rule(self.selected_transition)
             if rule is None:
-                id = generateRuleName(self.selected_transition)
+                rule_id = generateRuleName(self.selected_transition)
                 r = Rule()
                 r.title = u"%s transition content rule" % (
                     self.selected_transition.id)
@@ -47,7 +47,7 @@ class AddActionView(Base):
 by the workflow manager to support actions on workflow transitions. If you want
 the behavior to work as expected, do not modify this outside of the workflow
 manager."""
-                am.storage[id] = r
+                am.storage[rule_id] = r
                 rule = RuleAdapter(r, self.selected_transition)
                 rule.activate()
 

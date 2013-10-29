@@ -23,7 +23,7 @@
                         tmpl_options options/options">
 
   	        <div id="pb_99999" class="overlay overlay-ajax">
-  	            <div class="close"><span>Close</span></div>
+  	            <div class="close"><span i18n:translate="">Close</span></div>
   	            <div class="pb-ajax"></div>
   	        </div>
 

@@ -1,4 +1,4 @@
-This file serves as a testing overview for the North * project. 
+This file serves as a testing overview for the North * project.
 It will only go over non-ajax functionality as that is all we
 can test in these functional tests.
 
@@ -12,34 +12,34 @@ Let's do some setup and log in...
     >>> browser.handleErrors = False
     >>> portal = layer['portal']
     >>> portal_url = portal.absolute_url()
-    
+
     >>> browserLogin(portal, browser)
-    
+
 Open up the workflow manager
 
     >>> browser.open(portal.absolute_url() + '/@@workflowmanager')
-    
+
 There should not be any plone workflows by default listed.
 
     >>> 'folder_workflow' in browser.contents
     False
-    
+
     >>> 'plone_workflow' in browser.contents
     False
-    
+
     >>> 'intranet_workflow' in browser.contents
     False
-    
+
     >>> 'intranet_folder_workflow' in browser.contents
     False
-    
+
     >>> 'one_state_workflow' in browser.contents
     False
-    
+
     >>> 'simple_publication_workflow' in browser.contents
     False
-        
-    
+
+
 Let's start by creating a new workflow. We'll clone it from the
 Simple publication workflow and call it "My Simple Publication Workflow".
 
@@ -53,13 +53,13 @@ Should give you an error if no name specified
     >>> browser.getControl(name='clone-from-workflow').value = ['simple_publication_workflow']
     >>> browser.getControl(name='workflow-name').value = "My Simple Publication Workflow"
     >>> browser.getControl(name='form.actions.add').click()
-    
-    
+
+
 It should have been created
-    
+
     >>> "My Simple Publication Workflow" in browser.contents
     True
-    
+
 Try a sanity check
 
     >>> browser.open(portal_url + '/@@workflowmanager-sanity-check?selected-workflow=my-simple-publication-workflow')
@@ -73,27 +73,27 @@ The id should have also been created
 
     >>> "my-simple-publication-workflow" in browser.contents
     True
-    
+
 Test modifying a permission role
 
     >>> browser.getControl(name="permission-Edit-role-Reviewer-state-private").value
     []
     >>> browser.getControl(name="permission-Edit-role-Reviewer-state-private").value = True
-    
+
     >>> browser.getControl(name="save-state-private-button").click()
-    
+
 Now see if it worked
 
     >>> browser.getControl(name="permission-Edit-role-Reviewer-state-private").value
     True
-    
+
 Now uncheck that same one
 
     >>> browser.getControl(name="permission-Edit-role-Reviewer-state-private").value = False
     >>> browser.getControl(name="save-state-private-button").click()
     >>> browser.getControl(name="permission-Edit-role-Reviewer-state-private").value
     []
-    
+
 Check the acquire permissions setting
 
     >>> browser.getControl(name="permission-acquire-Add-state-pending").value = True
@@ -110,14 +110,14 @@ First, let's check one.
     >>> browser.getControl(name="save-state-private-button").click()
     >>> browser.getControl(name="group-Administrators-role-Reviewer-state-private").value
     True
-    
+
 And uncheck it now
 
     >>> browser.getControl(name="group-Administrators-role-Reviewer-state-private").value = False
     >>> browser.getControl(name="save-state-private-button").click()
     >>> browser.getControl(name="group-Administrators-role-Reviewer-state-private").value
     []
-    
+
 Let's say we don't want the member to be able to submit content for publication here.
 
     >>> browser.getControl(name="transition-submit-state-private").value
@@ -126,7 +126,7 @@ Let's say we don't want the member to be able to submit content for publication 
     >>> browser.getControl(name="save-state-private-button").click()
     >>> browser.getControl(name="transition-submit-state-private").value
     []
-    
+
 Let's practice re-adding again
 
     >>> browser.getControl(name="transition-submit-state-private").value
@@ -135,7 +135,7 @@ Let's practice re-adding again
     >>> browser.getControl(name="save-state-private-button").click()
     >>> browser.getControl(name="transition-submit-state-private").value
     True
-    
+
 Suppose we'd like the initial state to be published now...
 
     >>> browser.getControl(name='state-published-initial-state').value
@@ -144,23 +144,23 @@ Suppose we'd like the initial state to be published now...
     True
     >>> browser.getControl(name='state-published-initial-state').value = True
     >>> browser.getControl(name='save-state-published-button').click()
-    
+
     >>> browser.getControl(name='state-published-initial-state').value
     True
     >>> browser.getControl(name='state-private-initial-state').value
     []
-    
+
 Let's edit the title and description now.
 
     >>> browser.getControl(name='state-private-title').value = "My New Title"
     >>> browser.getControl(name='state-private-description').value = "My New Description"
     >>> browser.getControl(name="save-state-private-button").click()
-    
+
     >>> browser.getControl(name='state-private-title').value
     'My New Title'
     >>> browser.getControl(name='state-private-description').value
     'My New Description'
-    
+
 
 We'll move onto editing Transitions now
 Let's edit the guards first
@@ -175,7 +175,7 @@ Let's edit the guards first
     []
     >>> browser.getControl(name='transition-retract-guard-groups').value = ['Reviewers']
     >>> browser.getControl(name='save-transition-retract-button').click()
-    
+
     >>> browser.getControl(name='transition-retract-guard-permission-rpc').value
     True
     >>> browser.getControl(name='transition-retract-guard-roles').value
@@ -194,27 +194,27 @@ Now, we'll modify some properties
     >>> browser.getControl(name='transition-retract-autotrigger').value = True
     >>> browser.getControl(name='transition-retract-display-name').value = 'My New Name'
     >>> browser.getControl(name='save-transition-retract-button').click()
-    
+
     >>> browser.getControl(name='transition-retract-new-state').value
     ['published']
     >>> browser.getControl(name='transition-retract-autotrigger').value
     ['0']
     >>> browser.getControl(name='transition-retract-display-name').value
     'My New Name'
-    
+
     >>> browser.getControl(name='transition-retract-state-published-selected').value = False
     >>> browser.getControl(name='save-transition-retract-button').click()
     >>> browser.getControl(name='transition-retract-state-published-selected').value
     []
-    
-    
+
+
 We'll even add a state that uses this transition from here.
 
     >>> browser.getControl(name='transition-retract-state-private-selected').value
     []
     >>> browser.getControl(name='transition-retract-state-private-selected').value = True
     >>> browser.getControl(name='save-transition-retract-button').click()
-    
+
 Should add it in two places, the state and the transition
 
     >>> browser.getControl(name='transition-retract-state-private-selected').value
@@ -222,23 +222,23 @@ Should add it in two places, the state and the transition
     >>> browser.getControl(name='transition-retract-state-private').value
     True
 
-    
+
 Let's test adding a new state and test error handling.
 
     >>> browser.getControl(name='add-new-state-button').click()
     >>> browser.getControl(name='clone-from-state').value = ['private']
     >>> browser.getControl(name='form.actions.add').click()
-    
+
 Should show error
-    
+
     >>> "Invalid workflow name. Please try another." in browser.contents
     True
     >>> browser.getControl(name='clone-from-state').value
     ['private']
-    
+
     >>> browser.getControl(name='state-name').value = "My New State"
     >>> browser.getControl(name='form.actions.add').click()
-    
+
 Should now be added
 
     >>> "My New State" in browser.contents
@@ -248,14 +248,14 @@ And try adding a state from a transition
 
     >>> '@@workflowmanager-add-new-state?selected-workflow=my-simple-publication-workflow&amp;reference=reject' in browser.contents
     True
-    
+
     >>> browser.open(portal_url + '/@@workflowmanager-add-new-state?selected-workflow=my-simple-publication-workflow&amp;reference=reject')
     >>> browser.getControl(name='state-name').value = 'foobar state'
     >>> browser.getControl(name='form.actions.add').click()
 
     >>> 'foobar state' in browser.contents
     True
-    
+
 And test editing a state's permissions
 
     >>> browser.getControl(name='permission-List-role-Authenticated-state-foobar-state').value = True
@@ -271,7 +271,7 @@ Test removing transition from set of transitions
     >>> browser.getControl(name='save-state-pending-button').click()
     >>> browser.getControl(name='transition-reject-state-pending').value
     []
-    
+
 
 Now the same thing for a transition. First add one without being cloned
 
@@ -300,71 +300,71 @@ Should show error
 Should now be added
 
     >>> "My New Transition" in browser.contents
-    True    
-    
+    True
+
 Add from state area.
 
     >>> '@@workflowmanager-add-new-transition?selected-workflow=my-simple-publication-workflow&amp;reference=foobar-state' in browser.contents
     True
-    
+
     >>> browser.open(portal_url + '/@@workflowmanager-add-new-transition?selected-workflow=my-simple-publication-workflow&amp;reference=foobar-state')
     >>> browser.getControl(name='transition-name').value = 'foobar 2 transition'
     >>> browser.getControl(name='form.actions.add').click()
     >>> 'foobar 2 transition' in browser.contents
     True
-            
+
 Now graph it
 
     >>> browser.open(portal_url + '/@@workflowmanager-view-graph?selected-workflow=my-simple-publication-workflow')
-    >>> 'view full size' in browser.contents
+    >>> 'View full size' in browser.contents
     True
-    
+
     >>> browser.getLink('Up to Workflow Editor').click()
-    
+
 Try call to update security settings
 
     >>> browser.open(portal_url + '/@@workflowmanager-update-security-settings?selected-workflow=my-simple-publication-workflow')
     >>> browser.getControl(name='form.actions.confirm').click()
-    
-    
+
+
 Try deleting a state
-    
+
     >>> '@@workflowmanager-delete-state?selected-workflow=my-simple-publication-workflow&amp;selected-state=private' in browser.contents
     True
-    
+
     >>> browser.open(portal_url + '/@@workflowmanager-delete-state?selected-workflow=my-simple-publication-workflow&amp;selected-state=private')
     >>> browser.getControl(name='form.actions.delete').click()
     >>> 'state-private-delete-button' in browser.contents
     False
-    
+
 Delete another, but back out first...
 
     >>> '@@workflowmanager-delete-state?selected-workflow=my-simple-publication-workflow&amp;selected-state=pending' in browser.contents
     True
-    
+
     >>> browser.open(portal_url + '/@@workflowmanager-delete-state?selected-workflow=my-simple-publication-workflow&amp;selected-state=pending')
     >>> browser.getControl(name='form.actions.cancel').click()
     >>> 'state-pending-delete-button' in browser.contents
     True
-    
+
 Delete a transition
 
     >>> delete_url = portal_url + '/@@workflowmanager-delete-transition?selected-workflow=my-simple-publication-workflow&amp;selected-transition=reject'
     >>> delete_url in browser.contents
     True
     >>> browser.open(delete_url)
-    
+
 Cancel first to make sure it doesn't delete
 
     >>> browser.getControl(name='form.actions.cancel').click()
     >>> delete_url in browser.contents
     True
-    
+
     >>> browser.open(delete_url)
     >>> browser.getControl(name='form.actions.delete').click()
     >>> delete_url not in browser.contents
     True
-    
+
 Let's now delete the workflow we've been playing with.
 
     >>> browser.getControl(name='delete-workflow-button').click()

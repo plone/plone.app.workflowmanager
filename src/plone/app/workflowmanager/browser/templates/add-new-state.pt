@@ -37,7 +37,7 @@
         tal:attributes="class python: has_error and 'field error' or 'field'">
 
         <label tal:attributes="for field_name" class="formQuestion" i18n:translate="">State Name</label>
-        <span title="Required" class="fieldRequired" i18n:domain="plone" i18n:domain="plone" i18n:translate="">(Required)</span>
+        <span title="Required" class="fieldRequired" i18n:domain="plone" i18n:translate="">(Required)</span>
         <div id="title_help" class="formHelp" i18n:translate="">An id will be generated from the title.</div>
             <div class="fieldErrorBox"
                 tal:condition="has_error"

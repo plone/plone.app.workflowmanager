@@ -3,14 +3,18 @@ from plone.app.testing import TEST_USER_NAME, PLONE_FIXTURE, login, \
     TEST_USER_ID, TEST_USER_PASSWORD, FunctionalTesting
 
 #from Products.CMFCore.utils import getToolByName
+from zope.interface.declarations import alsoProvides
+from zope.component import getUtility
 from zope.configuration import xmlconfig
 from zope.publisher.browser import TestRequest
+from zope.annotation.interfaces import IAttributeAnnotatable
+
 from plone.app.workflowmanager.browser.workflow import AddWorkflow
 from plone.app.workflowmanager.browser.actions import AddActionView
 from plone.app.workflowmanager.actionmanager import ActionManager
 from plone.app.contentrules.actions.notify import NotifyAction
+from plone.keyring.interfaces import IKeyManager
 
-from zope.component import getUtility
 import unittest2 as unittest
 
 try:
@@ -18,7 +22,6 @@ try:
 except ImportError:
     import sha
 import hmac
-from plone.keyring.interfaces import IKeyManager
 
 
 class ManagerFixture(PloneSandboxLayer):
@@ -68,6 +71,7 @@ class BaseTest(unittest.TestCase):
         req = self.getRequest({'workflow-name': 'workflow-1',
             'form.actions.add': 'create',
             'clone-from-workflow': 'simple_publication_workflow'}, True)
+        alsoProvides(req, IAttributeAnnotatable)
         AddWorkflow(portal, req)()
 
         # add some rules/actions
@@ -97,6 +101,7 @@ class BaseTest(unittest.TestCase):
             'SERVER_URL': 'http://nohost',
             'HTTP_HOST': 'nohost'
         })
+        alsoProvides(req, IAttributeAnnotatable)
         return req
 
     def genAuthString(self):
