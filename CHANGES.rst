@@ -18,6 +18,9 @@ Changelog
   for full Plone 4.3+ compatibility.
   [thomasdesvenain]
 
+- Added Chinese Simplified translation.
+  [Jian Aijun]
+
 
 1.0a4 ~ 2012-05-28
 ------------------
