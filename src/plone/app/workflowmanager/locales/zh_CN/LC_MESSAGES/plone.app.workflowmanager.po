@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.workflowmanager\n"
-"POT-Creation-Date: 2013-10-28 21:05+0000\n"
+"POT-Creation-Date: 2013-11-05 12:55+0000\n"
 "PO-Revision-Date: 2013-11-04 18:58+0800\n"
 "Last-Translator: Jian Aijun <jianaijun@gmail.com>\n"
 "Language-Team: Plone i18n <plone-i18n@lists.sf.net>\n"
@@ -14,555 +14,559 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: plone.app.workflowmanager\n"
 
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:78
+#: ./browser/templates/workflow-transition.pt:78
 msgid "A description of the transition."
 msgstr "转换的描述。"
 
-#: plone/app/workflowmanager/permissions.py:38
+#: ./permissions.py:38
 msgid "Access"
 msgstr "访问"
 
-#: plone/app/workflowmanager/browser/templates/workflow-state.pt:122
+#: ./browser/templates/workflow-state.pt:122
 msgid "Acquired Permissions"
 msgstr "从上层继承权限"
 
-#: plone/app/workflowmanager/browser/templates/add-action.pt:19
+#: ./browser/templates/add-action.pt:19
 msgid "Action Type"
 msgstr "操作类型"
 
-#: plone/app/workflowmanager/browser/actions.py:22
+#: ./browser/actions.py:22
 msgid "Action has been deleted successfully."
 msgstr "'操作'已被删除。"
 
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:169
+#: ./browser/templates/workflow-transition.pt:169
 msgid "Actions"
 msgstr "操作"
 
-#: plone/app/workflowmanager/browser/templates/add-action.pt:34
-#: plone/app/workflowmanager/browser/templates/add-new-state.pt:51
-#: plone/app/workflowmanager/browser/templates/add-new-transition.pt:56
+#: ./browser/templates/add-action.pt:34
+#: ./browser/templates/add-new-state.pt:51
+#: ./browser/templates/add-new-transition.pt:56
 msgid "Add"
 msgstr "添加"
 
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:191
+#: ./browser/templates/workflow-transition.pt:191
 msgid "Add Action"
 msgstr "添加操作"
 
-#: plone/app/workflowmanager/browser/templates/add-action.pt:2
+#: ./browser/templates/add-action.pt:2
 msgid "Add New Action"
 msgstr "添加新操作"
 
-#: plone/app/workflowmanager/permissions.py:7
+#: ./permissions.py:7
 msgid "Add content in this container."
 msgstr "在文件夹中添加内容。"
 
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:77
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:161
+#: ./browser/templates/controlpanel.pt:77
+#: ./browser/templates/workflow-transition.pt:161
 msgid "Add state"
 msgstr "添加状态"
 
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:86
-#: plone/app/workflowmanager/browser/templates/workflow-state.pt:65
+#: ./browser/templates/controlpanel.pt:86
+#: ./browser/templates/workflow-state.pt:65
 msgid "Add transition"
 msgstr "添加转换"
 
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:154
+#: ./browser/templates/controlpanel.pt:154
 msgid "Advanced mode"
 msgstr "高级模式"
 
-#: plone/app/workflowmanager/permissions.py:39
+#: ./permissions.py:39
 msgid "Allow access to content without necessarily viewing the object. For example, in a list of results."
 msgstr "允许访问到内容而不必查看对象。例如，在结果列表中。"
 
-#: plone/app/workflowmanager/permissions.py:28
+#: ./permissions.py:28
 msgid "Allow to update events"
 msgstr "允许更新事件"
 
-#: plone/app/workflowmanager/permissions.py:23
+#: ./permissions.py:23
 msgid "Allowed to review the content."
 msgstr "允许审查内容"
 
-#: plone/app/workflowmanager/permissions.py:12
+#: ./permissions.py:12
 msgid "Allows changing the content of an item."
 msgstr "允许更改内容"
 
-#: plone/app/workflowmanager/browser/templates/add-new-state.pt:41
-#: plone/app/workflowmanager/browser/templates/add-new-transition.pt:47
-#: plone/app/workflowmanager/browser/templates/add-new-workflow.pt:39
+#: ./browser/templates/add-new-state.pt:41
+#: ./browser/templates/add-new-transition.pt:47
+#: ./browser/templates/add-new-workflow.pt:39
 msgid "An id will be generated from the title."
 msgstr "将从标题生成 ID"
 
-#: plone/app/workflowmanager/browser/templates/delete-action.pt:11
+#: ./browser/templates/delete-action.pt:11
 msgid "Are you sure you want to delete this Action?"
 msgstr "您确定要删除这个'操作'吗？"
 
-#: plone/app/workflowmanager/browser/templates/delete-transition.pt:5
+#: ./browser/templates/delete-state.pt:6
+msgid "Are you sure you want to delete this state?"
+msgstr ""
+
+#: ./browser/templates/delete-transition.pt:5
 msgid "Are you sure you want to delete this transition?"
 msgstr "您确定要删除这个'转换'吗？"
 
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:110
+#: ./browser/templates/controlpanel.pt:110
 msgid "Assign"
 msgstr "分配"
 
-#: plone/app/workflowmanager/browser/templates/assign.pt:2
+#: ./browser/templates/assign.pt:2
 msgid "Assign This Workflow"
 msgstr "分配此工作流"
 
-#: plone/app/workflowmanager/browser/templates/content.pt:15
+#: ./browser/templates/content.pt:15
 msgid "Assigned Types:"
 msgstr "已分配的类型："
 
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:65
+#: ./browser/templates/workflow-transition.pt:65
 msgid "Auto Trigger"
 msgstr "自动触发"
 
-#: plone/app/workflowmanager/browser/templates/add-action.pt:36
-#: plone/app/workflowmanager/browser/templates/add-new-state.pt:53
-#: plone/app/workflowmanager/browser/templates/add-new-transition.pt:58
+#: ./browser/templates/add-action.pt:36
+#: ./browser/templates/add-new-state.pt:53
+#: ./browser/templates/add-new-transition.pt:58
 msgid "Cancel"
 msgstr "取消"
 
-#: plone/app/workflowmanager/permissions.py:27
+#: ./permissions.py:27
 msgid "Change Events"
 msgstr "更改事件"
 
-#: plone/app/workflowmanager/browser/templates/add-new-state.pt:19
-#: plone/app/workflowmanager/browser/templates/add-new-transition.pt:21
-#: plone/app/workflowmanager/browser/templates/add-new-workflow.pt:17
+#: ./browser/templates/add-new-state.pt:19
+#: ./browser/templates/add-new-transition.pt:21
+#: ./browser/templates/add-new-workflow.pt:17
 msgid "Clone from"
 msgstr "克隆"
 
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:28
-#: plone/app/workflowmanager/browser/templates/wrapped-dialog.pt:26
+#: ./browser/templates/controlpanel.pt:28
+#: ./browser/templates/wrapped-dialog.pt:26
 msgid "Close"
 msgstr "关闭"
 
-#: plone/app/workflowmanager/browser/templates/add-new-state.pt:2
+#: ./browser/templates/add-new-state.pt:2
 msgid "Create New State"
 msgstr "创建新状态"
 
-#: plone/app/workflowmanager/browser/templates/add-new-transition.pt:2
+#: ./browser/templates/add-new-transition.pt:2
 msgid "Create New Transition"
 msgstr "创建新转换"
 
-#: plone/app/workflowmanager/browser/templates/add-action.pt:4
+#: ./browser/templates/add-action.pt:4
 msgid "Create a new workflow action that will happen on this transition."
 msgstr "创建一个在此转换时，将执行的工作流操作。"
 
-#: plone/app/workflowmanager/browser/templates/add-new-workflow.pt:2
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:183
+#: ./browser/templates/add-new-workflow.pt:2
+#: ./browser/templates/controlpanel.pt:183
 msgid "Create new workflow"
 msgstr "创建新工作流"
 
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:145
-#: plone/app/workflowmanager/browser/templates/delete-action.pt:22
-#: plone/app/workflowmanager/browser/templates/delete-state.pt:36
+#: ./browser/templates/controlpanel.pt:145
+#: ./browser/templates/delete-action.pt:22
+#: ./browser/templates/delete-state.pt:36
 msgid "Delete"
 msgstr "删除"
 
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:77
+#: ./browser/templates/workflow-transition.pt:77
 msgid "Description"
 msgstr "描述"
 
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:45
+#: ./browser/templates/workflow-transition.pt:45
 msgid "Destination State"
 msgstr "目标状态"
 
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:133
-#: plone/app/workflowmanager/browser/templates/diagram.pt:4
+#: ./browser/templates/controlpanel.pt:133
+#: ./browser/templates/diagram.pt:4
 msgid "Diagram"
 msgstr "示意图"
 
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:85
+#: ./browser/templates/workflow-transition.pt:85
 msgid "Display Name"
 msgstr "显示名称"
 
-#: plone/app/workflowmanager/permissions.py:11
+#: ./permissions.py:11
 msgid "Edit"
 msgstr "编辑"
 
-#: plone/app/workflowmanager/browser/templates/sanity-check.pt:40
+#: ./browser/templates/sanity-check.pt:40
 msgid "Great. It seems like everything has checked out fine."
 msgstr "太好了，看起来一切正常。"
 
-#: plone/app/workflowmanager/browser/templates/workflow-state.pt:162
+#: ./browser/templates/workflow-state.pt:162
 msgid "Group Roles"
 msgstr "组角色"
 
-#: plone/app/workflowmanager/browser/templates/workflow-state.pt:172
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:110
+#: ./browser/templates/workflow-state.pt:172
+#: ./browser/templates/workflow-transition.pt:110
 msgid "Groups"
 msgstr "组"
 
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:95
+#: ./browser/templates/workflow-transition.pt:95
 msgid "Guards"
 msgstr "守卫"
 
-#: plone/app/workflowmanager/browser/templates/workflow-state.pt:83
+#: ./browser/templates/workflow-state.pt:83
 msgid "Initial State"
 msgstr "初始状态"
 
-#: plone/app/workflowmanager/browser/validators.py:22
+#: ./browser/validators.py:23
 msgid "Invalid workflow name. Please try another."
 msgstr "无效的工作流名称。请换一个再试。"
 
-#: plone/app/workflowmanager/permissions.py:32
+#: ./permissions.py:32
 msgid "List"
 msgstr "列表"
 
-#: plone/app/workflowmanager/permissions.py:33
+#: ./permissions.py:33
 msgid "List the contents of a folder. This doesn't check if you have access to view the actual object listed."
 msgstr "列出文件夹的内容。这不会检查您是否具有查看列出的实际对象的访问权限。"
 
-#: plone/app/workflowmanager/browser/controlpanel.py:59
+#: ./browser/controlpanel.py:59
 msgid "Manage your custom workflows TTW."
 msgstr "通过 Web 界面管理您的自定义工作流。"
 
-#: plone/app/workflowmanager/permissions.py:46
+#: ./permissions.py:46
 msgid "Modify portal content"
 msgstr "修改门户内容"
 
-#: plone/app/workflowmanager/browser/templates/assign.pt:31
+#: ./browser/templates/assign.pt:31
 msgid "Next Step"
 msgstr "下一步"
 
-#: plone/app/workflowmanager/permissions.py:17
+#: ./permissions.py:17
 msgid "Not only means view HTML, but also FTP, WebDAV and other forms of access."
 msgstr "不仅指 HTML 视图访问，也包括 FTP、WebDAV 和其它形式的访问。"
 
-#: plone/app/workflowmanager/browser/templates/workflow-state.pt:102
+#: ./browser/templates/workflow-state.pt:102
 msgid "Permission Roles"
 msgstr "权限角色"
 
-#: plone/app/workflowmanager/browser/templates/workflow-state.pt:109
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:122
+#: ./browser/templates/workflow-state.pt:109
+#: ./browser/templates/workflow-transition.pt:122
 msgid "Permissions"
 msgstr "权限"
 
-#: plone/app/workflowmanager/browser/templates/workflow-state.pt:103
+#: ./browser/templates/workflow-state.pt:103
 msgid "Permissions these roles have in this state."
 msgstr "在此状态角色拥有的权限。"
 
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:173
+#: ./browser/templates/controlpanel.pt:173
 msgid "Please select your workflow."
 msgstr "请选择您的工作流。"
 
-#: plone/app/workflowmanager/browser/templates/workflow-state.pt:72
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:41
+#: ./browser/templates/workflow-state.pt:72
+#: ./browser/templates/workflow-transition.pt:41
 msgid "Properties"
 msgstr "属性"
 
-#: plone/app/workflowmanager/permissions.py:44
+#: ./permissions.py:44
 msgid "Request review"
 msgstr "请求审核"
 
-#: plone/app/workflowmanager/permissions.py:22
+#: ./permissions.py:22
 msgid "Review"
 msgstr "审核"
 
-#: plone/app/workflowmanager/permissions.py:45
+#: ./permissions.py:45
 msgid "Review portal content"
 msgstr "审核门户内容"
 
-#: plone/app/workflowmanager/browser/templates/workflow-state.pt:108
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:98
+#: ./browser/templates/workflow-state.pt:108
+#: ./browser/templates/workflow-transition.pt:98
 msgid "Roles"
 msgstr "角色"
 
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:96
-#: plone/app/workflowmanager/browser/templates/sanity-check.pt:3
+#: ./browser/templates/controlpanel.pt:96
+#: ./browser/templates/sanity-check.pt:3
 msgid "Sanity check"
 msgstr "健全检查"
 
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:66
+#: ./browser/templates/controlpanel.pt:66
 msgid "Save"
 msgstr "保存"
 
-#: plone/app/workflowmanager/browser/templates/workflow-state.pt:207
+#: ./browser/templates/workflow-state.pt:207
 msgid "Save state"
 msgstr "保存状态"
 
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:199
+#: ./browser/templates/workflow-transition.pt:199
 msgid "Save transition"
 msgstr "保存转换"
 
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:66
+#: ./browser/templates/controlpanel.pt:66
 msgid "Saving.."
 msgstr "保存.."
 
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:46
+#: ./browser/templates/controlpanel.pt:46
 msgid "Select or create a new workflow"
 msgstr "选择或创建一个新工作流"
 
-#: plone/app/workflowmanager/browser/templates/add-action.pt:28
+#: ./browser/templates/add-action.pt:28
 msgid "Select the action you'd like to add."
 msgstr "选择您想要添加的操作。"
 
-#: plone/app/workflowmanager/browser/templates/add-new-state.pt:28
+#: ./browser/templates/add-new-state.pt:28
 msgid "Select the state you'd like to use as the basis for the new state you're creating."
 msgstr "选择新建状态的模板。"
 
-#: plone/app/workflowmanager/browser/templates/add-new-transition.pt:30
+#: ./browser/templates/add-new-transition.pt:30
 msgid "Select the transition you'd like to use as the basis for the new transition you're creating."
 msgstr "选择新建转换的模板。"
 
-#: plone/app/workflowmanager/browser/templates/add-new-workflow.pt:24
+#: ./browser/templates/add-new-workflow.pt:24
 msgid "Select the workflow you'd like to use as the basis for the new workflow you're creating."
 msgstr "选择新建工作流的模板。"
 
-#: plone/app/workflowmanager/browser/templates/workflow-state.pt:85
+#: ./browser/templates/workflow-state.pt:85
 msgid "Should this state be the initial state of the workflow?"
 msgstr "此状态是工作流的初始状态。"
 
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:141
+#: ./browser/templates/workflow-transition.pt:141
 msgid "Source States"
 msgstr "来源状态"
 
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:17
+#: ./browser/templates/workflow-transition.pt:17
 msgid "State &raquo;"
 msgstr "状态 &raquo;"
 
-#: plone/app/workflowmanager/browser/templates/add-new-state.pt:39
+#: ./browser/templates/add-new-state.pt:39
 msgid "State Name"
 msgstr "状态名称"
 
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:56
+#: ./browser/templates/controlpanel.pt:56
 msgid "States"
 msgstr "状态"
 
-#: plone/app/workflowmanager/browser/templates/workflow-state.pt:94
+#: ./browser/templates/workflow-state.pt:94
 msgid "The description of this State."
 msgstr "状态的描述。"
 
-#: plone/app/workflowmanager/browser/templates/workflow-state.pt:163
+#: ./browser/templates/workflow-state.pt:163
 msgid "The local role that are assigned to these groups in this state."
 msgstr "在此状态分配给组的本地角色。"
 
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:71
+#: ./browser/templates/workflow-transition.pt:71
 msgid "The title of the transition."
 msgstr "转换的标题。"
 
-#: plone/app/workflowmanager/browser/templates/workflow-state.pt:90
+#: ./browser/templates/workflow-state.pt:90
 msgid "The title of this State."
 msgstr "状态的标题。"
 
-#: plone/app/workflowmanager/browser/templates/assign.pt:25
+#: ./browser/templates/assign.pt:25
 msgid "The type you would like to assign this workflow."
 msgstr "您想分配此工作流程的类型。"
 
-#: plone/app/workflowmanager/actionmanager.py:88
+#: ./actionmanager.py:88
 msgid "This content rule was automatically created the workflow manager to create actions on workflow events. If you want the behavior to work as expected, do not modify this out of the workflow manager."
 msgstr "为了在工作流事件上创建操作，工作流管理器自动创建了此内容规则。如果您想要此行为按预期的方式工作，请不要在工作流管理器之外修改此规则。"
 
-#: plone/app/workflowmanager/browser/validators.py:11
+#: ./browser/validators.py:11
 msgid "This field is required."
 msgstr "此字段是必需的。"
 
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:86
+#: ./browser/templates/workflow-transition.pt:86
 msgid "This is the name that will be displayed to the user when selecting actions on a content item."
 msgstr "这是选择对内容项的操作时，向用户显示的名称。"
 
-#: plone/app/workflowmanager/browser/templates/add-new-state.pt:4
+#: ./browser/templates/add-new-state.pt:4
 msgid "This will add a new state to the workflow."
 msgstr "这将添加一个新的'状态'到此工作流。"
 
-#: plone/app/workflowmanager/browser/templates/add-new-transition.pt:4
-#: plone/app/workflowmanager/browser/templates/add-new-workflow.pt:4
+#: ./browser/templates/add-new-transition.pt:4
+#: ./browser/templates/add-new-workflow.pt:4
 msgid "This will add a new transition to the workflow."
 msgstr "这将添加一个新的'转换'到此工作流。"
 
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:70
+#: ./browser/templates/workflow-transition.pt:70
 msgid "Title"
 msgstr "标题"
 
-#: plone/app/workflowmanager/browser/templates/add-new-transition.pt:42
+#: ./browser/templates/add-new-transition.pt:42
 msgid "Transition Name"
 msgstr "转换名称"
 
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:61
-#: plone/app/workflowmanager/browser/templates/workflow-state.pt:41
+#: ./browser/templates/controlpanel.pt:61
+#: ./browser/templates/workflow-state.pt:41
 msgid "Transitions"
 msgstr "转换"
 
-#: plone/app/workflowmanager/browser/templates/workflow-state.pt:16
+#: ./browser/templates/workflow-state.pt:16
 msgid "Transitions &raquo;"
 msgstr "转换 &raquo;"
 
-#: plone/app/workflowmanager/browser/templates/workflow-state.pt:42
+#: ./browser/templates/workflow-state.pt:42
 msgid "Transitions this state can use."
 msgstr "此状态可以使用的转换。"
 
-#: plone/app/workflowmanager/browser/templates/wrapped-dialog.pt:34
+#: ./browser/templates/wrapped-dialog.pt:34
 msgid "Up to Workflow Editor"
 msgstr "返回 工作流编辑器"
 
-#: plone/app/workflowmanager/browser/templates/update-security-settings.pt:2
+#: ./browser/templates/update-security-settings.pt:2
 msgid "Update Security Settings"
 msgstr "更新安全设置"
 
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:121
+#: ./browser/templates/controlpanel.pt:121
 msgid "Update security"
 msgstr "安全更新"
 
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:42
+#: ./browser/templates/workflow-transition.pt:42
 msgid "Various properties for this transition."
 msgstr "此转换的各种属性。"
 
-#: plone/app/workflowmanager/permissions.py:16
+#: ./permissions.py:16
 msgid "View"
 msgstr "查看"
 
-#: plone/app/workflowmanager/browser/templates/diagram.pt:7
+#: ./browser/templates/diagram.pt:7
 msgid "View full size"
 msgstr "查看全尺寸"
 
-#: plone/app/workflowmanager/browser/controlpanel.py:58
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:33
-#: plone/app/workflowmanager/browser/templates/wrapped-dialog.pt:30
+#: ./browser/controlpanel.py:58
+#: ./browser/templates/controlpanel.pt:33
+#: ./browser/templates/wrapped-dialog.pt:30
 msgid "Workflow Manager"
 msgstr "工作流管理器"
 
-#: plone/app/workflowmanager/browser/templates/add-new-workflow.pt:35
+#: ./browser/templates/add-new-workflow.pt:35
 msgid "Workflow Name"
 msgstr "工作流名称"
 
-#: plone/app/workflowmanager/browser/templates/update-security-settings.pt:15
+#: ./browser/templates/update-security-settings.pt:15
 msgid "Yes"
 msgstr "确定"
 
-#: plone/app/workflowmanager/browser/workflow.py:24
+#: ./browser/workflow.py:24
 msgid "You can not delete this workflow until no content types are specified to use this workflow."
 msgstr "您不可以删除此工作流，直到没有内容类型指定使用此工作流。"
 
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:186
+#: ./browser/templates/workflow-transition.pt:186
 msgid "You do not have any actions defined for this state."
 msgstr "您并没有为此状态定义任何操作。"
 
-#: plone/app/workflowmanager/browser/templates/sanity-check.pt:14
+#: ./browser/templates/sanity-check.pt:14
 msgid "You have errors that you should fix!"
 msgstr "有错误，您应该修复它！"
 
-#: plone/app/workflowmanager/browser/templates/sanity-check.pt:32
+#: ./browser/templates/sanity-check.pt:32
 msgid "You must specify an initial state."
 msgstr "您必须指定一个初始状态。"
 
 #. Default: "Assign this workflow to a content type so that your content can utilize it."
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:110
+#: ./browser/templates/controlpanel.pt:110
 msgid "assign_workflow_content_types"
 msgstr "将此工作流分配给一个内容类型，以便您的内容能够使用它。"
 
 #. Default: "Automatically initiate this transition. You should normally not have this checked."
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:67
+#: ./browser/templates/workflow-transition.pt:67
 msgid "automatically_initiate_transition"
 msgstr "自动启动这个转换。您通常不应该选择这个。"
 
 #. Default: "Confirm Delete '${summary}'"
-#: plone/app/workflowmanager/browser/templates/delete-state.pt:4
-#: plone/app/workflowmanager/browser/templates/delete-transition.pt:3
+#: ./browser/templates/delete-state.pt:4
+#: ./browser/templates/delete-transition.pt:3
 msgid "confirm_delete"
 msgstr "确认删除 '${summary}'"
 
 #. Default: "Are you sure you want to update the security settings for all objects using this workflow in the portal?"
-#: plone/app/workflowmanager/browser/templates/update-security-settings.pt:4
+#: ./browser/templates/update-security-settings.pt:4
 msgid "confirm_update_security_settings"
 msgstr "您确定想要更新在门户网站中使用此工作流的所有对象的安全设置吗？"
 
-#: plone/app/workflowmanager/browser/templates/content.pt:20
+#: ./browser/templates/content.pt:20
 msgid "denotes initial state of this workflow"
 msgstr "表示此工作流的初始状态"
 
 #. Default: "Guards can restrict this transition to being run by only certain people."
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:96
+#: ./browser/templates/workflow-transition.pt:96
 msgid "guards_restrict_transition"
 msgstr "守卫可以限制只有某些人可以执行此转换。"
 
 #. Default: "This just points out potential issues with your workflow. For instance, it wouldn't make sense to have unused transitions or states and transitions that do not bring you to any states."
-#: plone/app/workflowmanager/browser/templates/sanity-check.pt:5
+#: ./browser/templates/sanity-check.pt:5
 msgid "help_sanity_check"
 msgstr "这只是指出了您工作流的潜在问题。例如，它无法判断无用的转换或状态，和转换无法转到哪个状态。"
 
 #. Default: "Select which type you'd like to assign this workflow to. This form will assist you in setting up a workflow for a type. If you don't use the form as is, it'll forward you on to the full blown Types control panel so don't be alarmed if that occurs."
-#: plone/app/workflowmanager/browser/templates/assign.pt:4
+#: ./browser/templates/assign.pt:4
 msgid "help_workflow_assign"
 msgstr "选择您想要分配此工作流的类型。此表单将帮助您设置内容类型的工作流。点击 下一步，转到 类型控制 面板。"
 
 #. Default: "Up to Site Setup"
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:168
+#: ./browser/templates/controlpanel.pt:168
 msgid "label_up_to_plone_setup"
 msgstr "网站设置"
 
 #. Default: "Deleting the \"${id}\" transition has been canceled."
-#: plone/app/workflowmanager/browser/transition.py:162
+#: ./browser/transition.py:162
 msgid "msg_deleting_canceled"
 msgstr "删除 “${id}” 转换 已取消。"
 
 #. Default: "\"${state_id}\" state successfully created."
-#: plone/app/workflowmanager/browser/state.py:47
+#: ./browser/state.py:47
 msgid "msg_state_created"
 msgstr "“${state_id}” 状态 已创建。"
 
 #. Default: "\"${id}\" state has been successfully deleted."
-#: plone/app/workflowmanager/browser/state.py:92
+#: ./browser/state.py:92
 msgid "msg_state_deleted"
 msgstr "“${id}” 状态 已删除。"
 
 #. Default: "Deleting the \"${id}\" state has been canceled."
-#: plone/app/workflowmanager/browser/state.py:97
+#: ./browser/state.py:97
 msgid "msg_state_deletion_canceled"
 msgstr "删除 “${id}” 转换 已取消。"
 
 #. Default: "\"${transition_id}\" transition successfully created."
-#: plone/app/workflowmanager/browser/transition.py:54
+#: ./browser/transition.py:54
 msgid "msg_transition_created"
 msgstr "“${transition_id}” 转换 已创建。"
 
 #. Default: "\"${id}\" transition has been successfully deleted."
-#: plone/app/workflowmanager/browser/transition.py:157
+#: ./browser/transition.py:157
 msgid "msg_transition_deleted"
 msgstr "“${id}” 转换 已删除。"
 
 #. Default: "Updated ${count} objects."
-#: plone/app/workflowmanager/browser/workflow.py:78
+#: ./browser/workflow.py:78
 msgid "msg_updated_objects"
 msgstr "更新了 ${count} 个对象。"
 
 #. Default: "The ${state} state is not connected with any transition. Either delete it or use it with a transition."
-#: plone/app/workflowmanager/browser/templates/sanity-check.pt:19
+#: ./browser/templates/sanity-check.pt:19
 msgid "msg_warning_state_without_transition"
 msgstr "${state} 状态 没有关联任何转换。请删除或使用它。"
 
 #. Default: "The ${transition} transition does not have a destination state. Please specify one."
-#: plone/app/workflowmanager/browser/templates/sanity-check.pt:27
+#: ./browser/templates/sanity-check.pt:27
 msgid "msg_warning_transition_without_destination"
 msgstr "${transition} 转换 没有目标状态。请指定一个。"
 
 #. Default: "Check to make sure that all your states are connected with transitions and that there isn't anything missing or left behind."
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:96
+#: ./browser/templates/controlpanel.pt:96
 msgid "sanity_check_make_transitions"
 msgstr "检查以确保您所有的'状态'都与'转换'相关联，没有任何多余的或丢失的东西。"
 
 #. Default: "Select which states should enable this transition."
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:142
+#: ./browser/templates/workflow-transition.pt:142
 msgid "select_states_enable_transition"
 msgstr "选择哪些状态应启用此转换。"
 
 #. Default: "The state this transition will move the content into."
-#: plone/app/workflowmanager/browser/templates/workflow-transition.pt:46
+#: ./browser/templates/workflow-transition.pt:46
 msgid "state_will_move_content_into"
 msgstr "此转换将把内容改更到的状态。"
 
 #. Default: "Update the security settings for all objects using this workflow in the portal."
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:121
+#: ./browser/templates/controlpanel.pt:121
 msgid "update_security_settings"
 msgstr "更新在门户中使用此工作流的所有对象的安全设置。"
 
 #. Default: "Get a visual representation of your the workflow you've designed."
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:133
+#: ./browser/templates/controlpanel.pt:133
 msgid "visual_representation_designed"
 msgstr "获得您设计的工作流的可视化表示。"
 
 #. Default: "You are currently working on the \" ${current_wf} \" workflow."
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:40
+#: ./browser/templates/controlpanel.pt:40
 msgid "you_currently_woking"
 msgstr "您当前工作在 \" ${current_wf} \" 工作流。"
 

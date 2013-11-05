@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.workflowmanager\n"
-"POT-Creation-Date: 2013-11-05 12:05+0000\n"
+"POT-Creation-Date: 2013-11-05 12:55+0000\n"
 "PO-Revision-Date: 2013-09-23 12:28-0300\n"
 "Last-Translator: Héctor Velarde <hector.velarde@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -150,10 +150,6 @@ msgstr ""
 msgid "Create New Transition"
 msgstr ""
 
-#: plone/app/workflowmanager/browser/templates/add-new-workflow.pt:2
-msgid "Create New Workflow"
-msgstr "Crear un nuevo flujo de trabajo"
-
 #: ./browser/templates/add-action.pt:4
 msgid "Create a new workflow action that will happen on this transition."
 msgstr ""
@@ -211,7 +207,7 @@ msgstr "Resgurados"
 msgid "Initial State"
 msgstr "Estado inicial"
 
-#: ./browser/validators.py:22
+#: ./browser/validators.py:23
 msgid "Invalid workflow name. Please try another."
 msgstr "Nombre de flujo de trabajo inválido. Por favor intente otro."
 
@@ -561,12 +557,6 @@ msgstr "Seleccione qué estados deben permitir esta transición."
 #: ./browser/templates/workflow-transition.pt:46
 msgid "state_will_move_content_into"
 msgstr "El estado al que esta transición moverá el contenido."
-
-#. Default: "Workflow Manager"
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:33
-#: plone/app/workflowmanager/browser/templates/wrapped-dialog.pt:30
-msgid "title_manage_contentrules"
-msgstr "Administrador de flujo de trabajo"
 
 #. Default: "Update the security settings for all objects using this workflow in the portal."
 #: ./browser/templates/controlpanel.pt:121

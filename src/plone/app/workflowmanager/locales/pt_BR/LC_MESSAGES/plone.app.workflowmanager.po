@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2013-11-05 12:05+0000\n"
+"POT-Creation-Date: 2013-11-05 12:55+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -149,10 +149,6 @@ msgstr ""
 msgid "Create New Transition"
 msgstr ""
 
-#: plone/app/workflowmanager/browser/templates/add-new-workflow.pt:2
-msgid "Create New Workflow"
-msgstr "Criar um Novo Workflow"
-
 #: ./browser/templates/add-action.pt:4
 msgid "Create a new workflow action that will happen on this transition."
 msgstr ""
@@ -210,7 +206,7 @@ msgstr "Restrições de Segurança"
 msgid "Initial State"
 msgstr "Estado inicial"
 
-#: ./browser/validators.py:22
+#: ./browser/validators.py:23
 msgid "Invalid workflow name. Please try another."
 msgstr ""
 
@@ -560,12 +556,6 @@ msgstr "Selecione os estados que permitem essa transição"
 #: ./browser/templates/workflow-transition.pt:46
 msgid "state_will_move_content_into"
 msgstr "O estado da transição para o qual o conteúdo será alterado."
-
-#. Default: "Workflow Manager"
-#: plone/app/workflowmanager/browser/templates/controlpanel.pt:33
-#: plone/app/workflowmanager/browser/templates/wrapped-dialog.pt:30
-msgid "title_manage_contentrules"
-msgstr "Gerenciador de Workflow"
 
 #. Default: "Update the security settings for all objects using this workflow in the portal."
 #: ./browser/templates/controlpanel.pt:121
