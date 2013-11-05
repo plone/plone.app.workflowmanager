@@ -14,14 +14,14 @@ class DeleteActionView(Base):
     def __call__(self):
         self.errors = {}
 
-        if self.request.get('form.actions.delete', False) == 'Delete':
+        if self.request.get('form.actions.delete', False):
             self.authorize()
             rule = self.actions.get_rule(self.selected_transition)
             rule.delete_action(int(self.request.get('action_index')))
             return self.handle_response(
                 message=_(u"Action has been deleted successfully."))
 
-        elif self.request.get('form.actions.cancel', False) == 'Cancel':
+        elif self.request.get('form.actions.cancel', False):
             return self.handle_response()
         else:
             return self.handle_response(tmpl=self.template)

@@ -141,7 +141,7 @@ class DeleteTransition(Base):
         transition = self.selected_transition
         transition_id = transition.id
 
-        if self.request.get('form.actions.delete', False) == 'Delete':
+        if self.request.get('form.actions.delete', False):
             self.authorize()
             #delete any associated rules also.
             self.actions.delete_rule_for(self.selected_transition)

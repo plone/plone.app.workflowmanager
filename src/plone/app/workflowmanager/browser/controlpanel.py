@@ -301,7 +301,7 @@ class Base(BrowserView):
             status['status'] = 'ok'
 
         if message:
-            status['message'] = zope.i18n.translate(message)
+            status['message'] = zope.i18n.translate(message, context=self.request)
 
         if ajax:
             self.request.response.setHeader('X-Theme-Disabled', 'True')

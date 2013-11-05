@@ -63,40 +63,40 @@ class DeleteState(Base):
         self.errors = {}
         state = self.selected_state
         transitions = self.available_transitions
-        id = state.id
+        state_id = state.id
 
         self.is_using_state = False
         for transition in transitions:
-            if transition.new_state_id == id:
+            if transition.new_state_id == state_id:
                 self.is_using_state = True
                 break
 
-        if self.request.get('form.actions.delete', False) == 'Delete':
+        if self.request.get('form.actions.delete', False):
             self.authorize()
             if self.is_using_state:
                 replacement = self.request.get('replacement-state',
                     self.available_states[0].id)
                 for transition in self.available_transitions:
-                    if id == transition.new_state_id:
+                    if state_id == transition.new_state_id:
                         transition.new_state_id = replacement
 
                 chains = self.portal_workflow.listChainOverrides()
                 types_ids = [c[0] for c in chains
                                 if self.selected_workflow.id in c[1]]
                 remap_workflow(self.context, types_ids,
-                    (self.selected_workflow.id, ), {id: replacement})
+                    (self.selected_workflow.id, ), {state_id: replacement})
 
-            self.selected_workflow.states.deleteStates([id])
+            self.selected_workflow.states.deleteStates([state_id])
 
             return self.handle_response(
                 message=_('msg_state_deleted',
                     default=u'"${id}" state has been successfully deleted.',
-                    mapping={'id': id}))
+                    mapping={'id': state_id}))
         elif self.request.get('form.actions.cancel', False) == 'Cancel':
             return self.handle_response(
                 message=_('msg_state_deletion_canceled',
                     default=u'Deleting the "${id}" state has been canceled.',
-                    mapping={'id': id}))
+                    mapping={'id': state_id}))
         else:
             return self.handle_response(tmpl=self.template)
 

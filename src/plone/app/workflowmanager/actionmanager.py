@@ -82,7 +82,7 @@ class ActionManager(object):
     def create(self, transition):
         rule = self.get_rule(transition)
         if rule is None:
-            id = generateRuleName(transition)
+            rule_id = generateRuleName(transition)
             r = Rule()
             r.title = u"%s transition content rule" % transition.id
             r.description = _(u"This content rule was automatically created "
@@ -90,9 +90,10 @@ class ActionManager(object):
                               u"workflow events. If you want the behavior to "
                               u"work as expected, do not modify this out of "
                               u"the workflow manager.")
-            self.storage[id] = r
+            self.storage[rule_id] = r
             rule = RuleAdapter(r, transition)
             rule.activate()
+
         return rule
 
     @property

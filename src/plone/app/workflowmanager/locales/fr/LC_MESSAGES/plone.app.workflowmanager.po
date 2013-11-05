@@ -522,12 +522,12 @@ msgstr "La suppression de l'état \"${state_id}\" a été annulée."
 #. Default: "\"${transition_id}\" transition successfully created."
 #: ./browser/transition.py:54
 msgid "msg_transition_created"
-msgstr "La transition \"${id}\" a été créée."
+msgstr "La transition \"${transition_id}\" a été créée."
 
 #. Default: "\"${id}\" transition has been successfully deleted."
 #: ./browser/transition.py:157
 msgid "msg_transition_deleted"
-msgstr "La transition ${id} a été créée."
+msgstr "La transition \"${id}\" a été supprimée."
 
 #. Default: "Updated ${count} objects."
 #: ./browser/workflow.py:78
