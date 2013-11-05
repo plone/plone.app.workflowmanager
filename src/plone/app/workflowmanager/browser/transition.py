@@ -139,29 +139,29 @@ class DeleteTransition(Base):
     def __call__(self):
         self.errors = {}
         transition = self.selected_transition
-        id = transition.id
+        transition_id = transition.id
 
         if self.request.get('form.actions.delete', False) == 'Delete':
             self.authorize()
             #delete any associated rules also.
             self.actions.delete_rule_for(self.selected_transition)
 
-            self.selected_workflow.transitions.deleteTransitions([id])
+            self.selected_workflow.transitions.deleteTransitions([transition_id])
             # now check if we have any dangling references
             for state in self.available_states:
-                if id in state.transitions:
+                if transition_id in state.transitions:
                     transitions = list(state.transitions)
-                    transitions.remove(id)
+                    transitions.remove(transition_id)
                     state.transitions = tuple(transitions)
 
             msg = _('msg_transition_deleted',
                     default=u'"${id}" transition has been successfully deleted.',
-                    mapping={'id': id})
+                    mapping={'id': transition_id})
             return self.handle_response(message=msg)
         elif self.request.get('form.actions.cancel', False) == 'Cancel':
             msg = _('msg_deleting_canceled',
                     default=u'Deleting the "${id}" transition has been canceled.',
-                    mapping={'id': id})
+                    mapping={'id': transition_id})
             return self.handle_response(message=msg)
         else:
             return self.handle_response(tmpl=self.template)

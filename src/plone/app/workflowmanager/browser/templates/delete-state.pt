@@ -3,7 +3,7 @@
     <h2 i18n:translate="confirm_delete">
     	Confirm Delete '<tal:replace i18n:name="summary" tal:replace="state/title" />'</h2>
 
-    <p class="discreet" i18n:domain="">
+    <p class="discreet" i18n:translate="">
         Are you sure you want to delete this state?
     </p>
 

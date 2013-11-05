@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1\n"
-"POT-Creation-Date: 2013-10-28 21:05+0000\n"
+"POT-Creation-Date: 2013-11-05 12:05+0000\n"
 "PO-Revision-Date: 2013-10-28 22:05+0100\n"
 "Last-Translator: Thomas Desvenain <thomasdesvenain@ecreall.com>\n"
 "Language-Team: Thomas Desvenain <thomasdesvenain@ecreall.com>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Domain: plone.app.workflowmanager\n"
 "X-Generator: Poedit 1.5.4\n"
 
-#: ./browser/templates/workflow-transition.pt:77
+#: ./browser/templates/workflow-transition.pt:78
 msgid "A description of the transition."
 msgstr "Le descriptif de la transition."
 
@@ -26,7 +26,7 @@ msgstr "Le descriptif de la transition."
 msgid "Access"
 msgstr "Accès"
 
-#: ./browser/templates/workflow-state.pt:121
+#: ./browser/templates/workflow-state.pt:122
 msgid "Acquired Permissions"
 msgstr "Permissions acquises"
 
@@ -38,17 +38,17 @@ msgstr "Type d'action"
 msgid "Action has been deleted successfully."
 msgstr "L'action a été supprimée."
 
-#: ./browser/templates/workflow-transition.pt:166
+#: ./browser/templates/workflow-transition.pt:169
 msgid "Actions"
 msgstr "Actions"
 
-#: ./browser/templates/add-action.pt:32
-#: ./browser/templates/add-new-state.pt:50
-#: ./browser/templates/add-new-transition.pt:54
+#: ./browser/templates/add-action.pt:34
+#: ./browser/templates/add-new-state.pt:51
+#: ./browser/templates/add-new-transition.pt:56
 msgid "Add"
 msgstr "Ajouter"
 
-#: ./browser/templates/workflow-transition.pt:188
+#: ./browser/templates/workflow-transition.pt:191
 msgid "Add Action"
 msgstr "Ajouter une action"
 
@@ -61,7 +61,7 @@ msgid "Add content in this container."
 msgstr "Ajouter un contenu à ce conteneur"
 
 #: ./browser/templates/controlpanel.pt:77
-#: ./browser/templates/workflow-transition.pt:158
+#: ./browser/templates/workflow-transition.pt:161
 msgid "Add state"
 msgstr "Ajouter un état"
 
@@ -90,19 +90,23 @@ msgstr "Autorise la modération du contenu"
 msgid "Allows changing the content of an item."
 msgstr "Permet de modifier le contenu d'un élément."
 
-#: ./browser/templates/add-new-state.pt:40
-#: ./browser/templates/add-new-transition.pt:45
-#: ./browser/templates/add-new-workflow.pt:38
+#: ./browser/templates/add-new-state.pt:41
+#: ./browser/templates/add-new-transition.pt:47
+#: ./browser/templates/add-new-workflow.pt:39
 msgid "An id will be generated from the title."
 msgstr "Un identifiant sera généré à partir du titre."
 
 #: ./browser/templates/delete-action.pt:11
 msgid "Are you sure you want to delete this Action?"
-msgstr "Êtes vous certains de vouloir supprimer cette action ?"
+msgstr "Êtes vous certain de vouloir supprimer cette action ?"
+
+#: ./browser/templates/delete-state.pt:6
+msgid "Are you sure you want to delete this state?"
+msgstr "Êtes vous certain de vouloir supprimer cet état ?"
 
 #: ./browser/templates/delete-transition.pt:5
 msgid "Are you sure you want to delete this transition?"
-msgstr "Êtes vous certains de vouloir supprimer cette transition ?"
+msgstr "Êtes vous certain de vouloir supprimer cette transition ?"
 
 #: ./browser/templates/controlpanel.pt:110
 msgid "Assign"
@@ -116,13 +120,13 @@ msgstr "Assigner ce workflow"
 msgid "Assigned Types:"
 msgstr "Types assignés :"
 
-#: ./browser/templates/workflow-transition.pt:64
+#: ./browser/templates/workflow-transition.pt:65
 msgid "Auto Trigger"
 msgstr "Déclenchement automatique."
 
-#: ./browser/templates/add-action.pt:34
-#: ./browser/templates/add-new-state.pt:52
-#: ./browser/templates/add-new-transition.pt:56
+#: ./browser/templates/add-action.pt:36
+#: ./browser/templates/add-new-state.pt:53
+#: ./browser/templates/add-new-transition.pt:58
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -130,11 +134,14 @@ msgstr "Annuler"
 msgid "Change Events"
 msgstr "Mettre à jour les événements"
 
+#: ./browser/templates/add-new-state.pt:19
+#: ./browser/templates/add-new-transition.pt:21
 #: ./browser/templates/add-new-workflow.pt:17
 msgid "Clone from"
 msgstr "Cloner à partir de"
 
 #: ./browser/templates/controlpanel.pt:28
+#: ./browser/templates/wrapped-dialog.pt:26
 msgid "Close"
 msgstr "Fermer"
 
@@ -165,11 +172,11 @@ msgstr "Créer un nouveau workflow"
 msgid "Delete"
 msgstr "Supprimer"
 
-#: ./browser/templates/workflow-transition.pt:76
+#: ./browser/templates/workflow-transition.pt:77
 msgid "Description"
 msgstr "Descriptif"
 
-#: ./browser/templates/workflow-transition.pt:44
+#: ./browser/templates/workflow-transition.pt:45
 msgid "Destination State"
 msgstr "État de destination"
 
@@ -178,7 +185,7 @@ msgstr "État de destination"
 msgid "Diagram"
 msgstr "Diagramme"
 
-#: ./browser/templates/workflow-transition.pt:84
+#: ./browser/templates/workflow-transition.pt:85
 msgid "Display Name"
 msgstr "Afficher le nom"
 
@@ -190,16 +197,16 @@ msgstr "Modifier"
 msgid "Great. It seems like everything has checked out fine."
 msgstr "Parfait. Il semble que tout soit régulier."
 
-#: ./browser/templates/workflow-state.pt:161
+#: ./browser/templates/workflow-state.pt:162
 msgid "Group Roles"
 msgstr "Rôles des groupes"
 
-#: ./browser/templates/workflow-state.pt:171
-#: ./browser/templates/workflow-transition.pt:107
+#: ./browser/templates/workflow-state.pt:172
+#: ./browser/templates/workflow-transition.pt:110
 msgid "Groups"
 msgstr "Groupes"
 
-#: ./browser/templates/workflow-transition.pt:94
+#: ./browser/templates/workflow-transition.pt:95
 msgid "Guards"
 msgstr "Conditions"
 
@@ -240,7 +247,7 @@ msgid "Permission Roles"
 msgstr "Permissions des rôles"
 
 #: ./browser/templates/workflow-state.pt:109
-#: ./browser/templates/workflow-transition.pt:119
+#: ./browser/templates/workflow-transition.pt:122
 msgid "Permissions"
 msgstr "Permissions"
 
@@ -253,7 +260,7 @@ msgid "Please select your workflow."
 msgstr "Veuillez sélectionner le workflow."
 
 #: ./browser/templates/workflow-state.pt:72
-#: ./browser/templates/workflow-transition.pt:40
+#: ./browser/templates/workflow-transition.pt:41
 msgid "Properties"
 msgstr "Propriétés."
 
@@ -270,7 +277,7 @@ msgid "Review portal content"
 msgstr "Modérer le contenu"
 
 #: ./browser/templates/workflow-state.pt:108
-#: ./browser/templates/workflow-transition.pt:97
+#: ./browser/templates/workflow-transition.pt:98
 msgid "Roles"
 msgstr "Rôles"
 
@@ -283,11 +290,11 @@ msgstr "Vérifications d'intégrité"
 msgid "Save"
 msgstr "Enregistrer"
 
-#: ./browser/templates/workflow-state.pt:206
+#: ./browser/templates/workflow-state.pt:207
 msgid "Save state"
 msgstr "Enregistrer l'état"
 
-#: ./browser/templates/workflow-transition.pt:196
+#: ./browser/templates/workflow-transition.pt:199
 msgid "Save transition"
 msgstr "Enregistrer la transition"
 
@@ -299,19 +306,19 @@ msgstr "Enregistrement..."
 msgid "Select or create a new workflow"
 msgstr "Sélectionner ou créer un nouveau workflow"
 
-#: ./browser/templates/add-action.pt:26
+#: ./browser/templates/add-action.pt:28
 msgid "Select the action you'd like to add."
 msgstr "Choisissez l'action que vous souhaitez ajouter."
 
-#: ./browser/templates/add-new-state.pt:27
+#: ./browser/templates/add-new-state.pt:28
 msgid "Select the state you'd like to use as the basis for the new state you're creating."
 msgstr "Choisissez l'état qui servira de base au nouvel état que vous créez."
 
-#: ./browser/templates/add-new-transition.pt:29
+#: ./browser/templates/add-new-transition.pt:30
 msgid "Select the transition you'd like to use as the basis for the new transition you're creating."
 msgstr "Choisissez la transition qui servira de base à la nouvelle transition que vous créez."
 
-#: ./browser/templates/add-new-workflow.pt:23
+#: ./browser/templates/add-new-workflow.pt:24
 msgid "Select the workflow you'd like to use as the basis for the new workflow you're creating."
 msgstr "Choisissez le workflow qui servira de base au un nouveau workflow que vous souhaitez créer."
 
@@ -319,7 +326,7 @@ msgstr "Choisissez le workflow qui servira de base au un nouveau workflow que vo
 msgid "Should this state be the initial state of the workflow?"
 msgstr "Cet état doit-il être l'état initial du workflow ?"
 
-#: ./browser/templates/workflow-transition.pt:138
+#: ./browser/templates/workflow-transition.pt:141
 msgid "Source States"
 msgstr "États d'origine"
 
@@ -327,7 +334,7 @@ msgstr "États d'origine"
 msgid "State &raquo;"
 msgstr "État &raquo;"
 
-#: ./browser/templates/add-new-state.pt:38
+#: ./browser/templates/add-new-state.pt:39
 msgid "State Name"
 msgstr "Nom de l'état"
 
@@ -339,11 +346,11 @@ msgstr "États"
 msgid "The description of this State."
 msgstr "Le descriptif de l'état"
 
-#: ./browser/templates/workflow-state.pt:162
+#: ./browser/templates/workflow-state.pt:163
 msgid "The local role that are assigned to these groups in this state."
 msgstr "Les rôles locaux assignés à ces groupes à cet état."
 
-#: ./browser/templates/workflow-transition.pt:70
+#: ./browser/templates/workflow-transition.pt:71
 msgid "The title of the transition."
 msgstr "Le titre de la transition."
 
@@ -363,7 +370,7 @@ msgstr "Cette règle de contenu a été automatiquement créée par le gestionna
 msgid "This field is required."
 msgstr "Ce champ est requis."
 
-#: ./browser/templates/workflow-transition.pt:85
+#: ./browser/templates/workflow-transition.pt:86
 msgid "This is the name that will be displayed to the user when selecting actions on a content item."
 msgstr "Le nom qui sera affiché à l'utilisateur quand il choisit les actions sur un contenu."
 
@@ -376,9 +383,13 @@ msgstr "Cela ajoutera un nouvel état à ce workflow."
 msgid "This will add a new transition to the workflow."
 msgstr "Cela ajoutera une transition au workflow."
 
-#: ./browser/templates/workflow-transition.pt:69
+#: ./browser/templates/workflow-transition.pt:70
 msgid "Title"
 msgstr "Titre"
+
+#: ./browser/templates/add-new-transition.pt:42
+msgid "Transition Name"
+msgstr "Nom de la transition"
 
 #: ./browser/templates/controlpanel.pt:61
 #: ./browser/templates/workflow-state.pt:41
@@ -405,7 +416,7 @@ msgstr "Mettre à jour les paramètres de sécurité"
 msgid "Update security"
 msgstr "Mettre à jour la sécurité"
 
-#: ./browser/templates/workflow-transition.pt:41
+#: ./browser/templates/workflow-transition.pt:42
 msgid "Various properties for this transition."
 msgstr "Autres propriétés de cette transition."
 
@@ -423,7 +434,7 @@ msgstr "Voir en plein écran"
 msgid "Workflow Manager"
 msgstr "Gestionnaire de workflow"
 
-#: ./browser/templates/add-new-workflow.pt:34
+#: ./browser/templates/add-new-workflow.pt:35
 msgid "Workflow Name"
 msgstr "Nom du workflow"
 
@@ -435,7 +446,7 @@ msgstr "Oui"
 msgid "You can not delete this workflow until no content types are specified to use this workflow."
 msgstr "Vous ne pouvez pas supprimer ce workflow tant qu'il reste des types de contenus associés à celui-ci."
 
-#: ./browser/templates/workflow-transition.pt:183
+#: ./browser/templates/workflow-transition.pt:186
 msgid "You do not have any actions defined for this state."
 msgstr "Aucune action n'a été définie pour cet état."
 
@@ -453,7 +464,7 @@ msgid "assign_workflow_content_types"
 msgstr "Assignez ce workflow à un type de contenu pour pouvoir l'utiliser."
 
 #. Default: "Automatically initiate this transition. You should normally not have this checked."
-#: ./browser/templates/workflow-transition.pt:66
+#: ./browser/templates/workflow-transition.pt:67
 msgid "automatically_initiate_transition"
 msgstr "Applique automatiquement cette transition. En principe cela ne doit pas être sélectionné."
 
@@ -473,7 +484,7 @@ msgid "denotes initial state of this workflow"
 msgstr "Spécifie l'état initial de ce workflow"
 
 #. Default: "Guards can restrict this transition to being run by only certain people."
-#: ./browser/templates/workflow-transition.pt:95
+#: ./browser/templates/workflow-transition.pt:96
 msgid "guards_restrict_transition"
 msgstr "Les contraintes peuvent permettre de restreindre l'application de cette transition à certaines personnes seulement."
 
@@ -540,15 +551,15 @@ msgstr "La transition ${transition} n'a pas d'état de destination. Veuillez en 
 #. Default: "Check to make sure that all your states are connected with transitions and that there isn't anything missing or left behind."
 #: ./browser/templates/controlpanel.pt:96
 msgid "sanity_check_make_transitions"
-msgstr "Vériviez que tous vos états sont connectés avec des transitions et qu'aucun n'est laissé orphelin."
+msgstr "Vérifiez que tous vos états sont connectés avec des transitions et qu'aucun n'est laissé orphelin."
 
 #. Default: "Select which states should enable this transition."
-#: ./browser/templates/workflow-transition.pt:139
+#: ./browser/templates/workflow-transition.pt:142
 msgid "select_states_enable_transition"
 msgstr "Choisissez les états à partir desquels cette transition est disponible."
 
 #. Default: "The state this transition will move the content into."
-#: ./browser/templates/workflow-transition.pt:45
+#: ./browser/templates/workflow-transition.pt:46
 msgid "state_will_move_content_into"
 msgstr "L'état auquel mène cette transition."
 

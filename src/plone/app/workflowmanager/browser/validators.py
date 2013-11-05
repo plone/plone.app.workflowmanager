@@ -9,18 +9,20 @@ def not_empty(form, name):
     if v is None or (type(v) in (str, unicode) and \
      len(v) == 0) or (type(v) in (tuple, set, list) and len(v) == 0):
         form.errors[name] = _(u'This field is required.')
+
     return v
 
 
 def id(form, name, container):
-    id = form.request.get(name, '').strip()
+    elt_id = form.request.get(name, '').strip()
     putils = getToolByName(form.context, 'plone_utils')
-    id = generate_id(putils.normalizeString(id), container.objectIds())
+    elt_id = generate_id(putils.normalizeString(elt_id), container.objectIds())
     try:
-        checkValidId(container, id)
+        checkValidId(container, elt_id)
     except:
         form.errors[name] = _(u'Invalid workflow name. Please try another.')
-    return id
+
+    return elt_id
 
 
 def parse_set_value(form, key):
@@ -32,4 +34,5 @@ def parse_set_value(form, key):
             return set(val)
     else:
         return set(())
+
     return val
