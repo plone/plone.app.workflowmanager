@@ -512,12 +512,12 @@ msgstr "L'état \"${state_id}\" a été créé."
 #. Default: "\"${id}\" state has been successfully deleted."
 #: ./browser/state.py:92
 msgid "msg_state_deleted"
-msgstr "L'état \"${state_id}\" a été supprimé."
+msgstr "L'état \"${id}\" a été supprimé."
 
 #. Default: "Deleting the \"${id}\" state has been canceled."
 #: ./browser/state.py:97
 msgid "msg_state_deletion_canceled"
-msgstr "La suppression de l'état \"${state_id}\" a été annulée."
+msgstr "La suppression de l'état \"${id}\" a été annulée."
 
 #. Default: "\"${transition_id}\" transition successfully created."
 #: ./browser/transition.py:54
