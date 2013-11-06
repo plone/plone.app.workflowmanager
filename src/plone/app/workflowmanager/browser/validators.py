@@ -16,7 +16,8 @@ def not_empty(form, name):
 def id(form, name, container):
     elt_id = form.request.get(name, '').strip()
     putils = getToolByName(form.context, 'plone_utils')
-    elt_id = generate_id(putils.normalizeString(elt_id), container.objectIds())
+    elt_id = generate_id(putils.normalizeString(unicode(elt_id, encoding='utf-8')),
+                         container.objectIds())
     try:
         checkValidId(container, elt_id)
     except:

@@ -1,14 +1,14 @@
 from Products.DCWorkflow.Guard import Guard
 
 
-def generate_id(id, ids):
+def generate_id(org_id, ids):
     count = 1
-    org_id = id
+    new_id = org_id
     while id in ids:
-        id = org_id + '-' + str(count)
+        new_id = org_id + '-' + str(count)
         count += 1
 
-    return id
+    return new_id
 
 
 def clone_transition(transition, clone):
