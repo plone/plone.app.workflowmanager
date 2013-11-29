@@ -1,5 +1,5 @@
 <div class="dialog-box" id="prompt" tal:define="workflow view/selected_workflow"
-    i18n:domain="plone.app.workflow">
+    i18n:domain="plone.app.workflowmanager">
     <h2 i18n:translate="confirm_delete_workflow">
      Confirm Delete '<tal:replace i18n:name="title" tal:replace="workflow/title" />'</h2>
 
@@ -13,18 +13,18 @@
 
         <tal:condition tal:condition="not: view/can_delete">
             <dl class="portalMessage error">
-                <dt>Warning</dt>
-                <dd>You can not delete this workflow until no content types are specified to use this workflow.
-                You can go into the <a tal:attributes="href string:${view/context_state/portal_url}/@@types-controlpanel" target="_blank">types control panel</a>
-                to reassign workflows or click on each of the listed types at the bottom and reassign those type's workflows individually.
+                <dt i18n:translate="">Warning</dt>
+                <dd><span i18n:translate="">You can not delete this workflow until no content types are specified to use this workflow.
+                You can go into the</span> <a i18n:translate="" tal:attributes="href string:${view/context_state/portal_url}/@@types-controlpanel" target="_blank">types control panel</a>
+                <span i18n:translate="">to reassign workflows or click on each of the listed types at the bottom and reassign those type's workflows individually.</span>
                 </dd>
             </dl>
         </tal:condition>
 
         <tal:condition tal:condition="view/can_delete">
-            <input type="submit" name="form.actions.delete" value="Delete" class="context btn btn-primary" />
+            <input type="submit" name="form.actions.delete" i18n:attributes="value" value="Delete" class="context btn btn-primary" />
         </tal:condition>
-        <input type="submit" name="form.actions.cancel" value="Cancel" class="standalone btn" />
+        <input type="submit" name="form.actions.cancel" i18n:attributes="value" value="Cancel" class="standalone btn" />
 
     </form>
     <br />

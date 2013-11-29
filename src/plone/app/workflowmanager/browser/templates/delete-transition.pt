@@ -11,8 +11,8 @@
         <input type="hidden" name="selected-transition" tal:attributes="value transition/id" />
         <input tal:replace="structure context/@@authenticator/authenticator"/>
 
-        <input type="submit" name="form.actions.delete" value="Delete" class="context btn btn-primary" />
-        <input type="submit" name="form.actions.cancel" value="Cancel" class="standalone btn" />
+        <input type="submit" name="form.actions.delete" i18n:attributes="value" value="Delete" class="context btn btn-primary" />
+        <input type="submit" name="form.actions.cancel" i18n:attributes="value" value="Cancel" class="standalone btn" />
 
     </form>
     <br />

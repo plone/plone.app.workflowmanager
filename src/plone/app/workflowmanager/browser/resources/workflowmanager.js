@@ -211,8 +211,10 @@ $(document).ready(function(){
 
       var open = true;
       if(trigger.hasClass('save-first') && has_dirty_items()){
+        // #TODO Add support for i18n
         if(confirm("You have unsaved changes. Would you like to save them and continue?")){
           save(function(){
+            // #TODO Add support for i18n
             status_message("The workflow has been successfully updated.");
           });
         }else{
@@ -486,6 +488,7 @@ $(document).ready(function(){
   $('#save-all-button,input.save-all').live('click', function(e){
       spinner.show();
       save(function(){
+        // #TODO Add support for i18n
         status_message("The workflow has been successfully updated.");
         spinner.hide();
       });
@@ -548,6 +551,7 @@ $(document).ready(function(){
               input.parent().addClass('error');
             }
           }
+          // #TODO Add support for i18n
           status_message("You have errors that you need to correct.");
           spinner.hide();
         }else if(data.status == 'redirect'){

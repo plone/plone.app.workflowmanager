@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"POT-Creation-Date: 2013-11-29 17:57+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14,16 +14,115 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
 
-#: ./browser/add_type.py:15
-msgid "Add Content Type"
-msgstr "Ajouter un type de contenu"
+#: plone/app/workflowmanager/browser/templates/add-new-state.pt:40
+#: plone/app/workflowmanager/browser/templates/add-new-transition.pt:44
+#: plone/app/workflowmanager/browser/templates/add-new-workflow.pt:36
+msgid "(Required)"
+msgstr ""
 
-#: ./browser/clone_type.py:28
-msgid "Please select your workflow"
-msgstr "Choisissez le workflow"
+#: plone/app/workflowmanager/browser/actions.py:22
+msgid "Action has been deleted successfully."
+msgstr ""
 
-#. Default: "Select or create a new workflow"
-#: ./browser/controlpanel.pt:47
-msgid "label_up_to_plone_setup"
-msgstr "Choisissez ou créez un workflow"
+#. Default: "Administrators"
+#: plone/app/workflowmanager/browser/templates/workflow-state.pt
+msgid "Administrators"
+msgstr ""
+
+#: plone/app/workflowmanager/browser/templates/workflow-state.pt
+msgid "Anonymous"
+msgstr ""
+
+#: plone/app/workflowmanager/browser/templates/workflow-state.pt
+msgid "Authenticated"
+msgstr ""
+
+#. Default: "Authenticated Users (Virtual Group)"
+#: plone/app/workflowmanager/browser/templates/workflow-state.pt
+msgid "Authenticated Users (Virtual Group)"
+msgstr ""
+
+#. Default: "AuthenticatedUsers"
+#: plone/app/workflowmanager/browser/templates/workflow-state.pt
+msgid "AuthenticatedUsers"
+msgstr ""
+
+#: plone/app/workflowmanager/browser/templates/sanity-check.pt:39
+msgid "Info"
+msgstr ""
+
+#: plone/app/workflowmanager/browser/validators.py:24
+msgid "Invalid workflow name. Please try another."
+msgstr ""
+
+#: plone/app/workflowmanager/browser/controlpanel.py:59
+msgid "Manage your custom workflows TTW."
+msgstr ""
+
+#: plone/app/workflowmanager/browser/templates/add-new-state.pt:40
+#: plone/app/workflowmanager/browser/templates/add-new-transition.pt:44
+#: plone/app/workflowmanager/browser/templates/add-new-workflow.pt:36
+msgid "Required"
+msgstr ""
+
+#. Default: "Reviewers"
+#: plone/app/workflowmanager/browser/templates/workflow-state.pt
+msgid "Reviewers"
+msgstr ""
+
+#. Default: "Site Administrators"
+#: plone/app/workflowmanager/browser/templates/workflow-state.pt
+msgid "Site Administrators"
+msgstr ""
+
+#: plone/app/workflowmanager/browser/validators.py:11
+msgid "This field is required."
+msgstr ""
+
+#: plone/app/workflowmanager/browser/templates/sanity-check.pt:13
+msgid "Warning"
+msgstr ""
+
+#: plone/app/workflowmanager/browser/controlpanel.py:58
+msgid "Workflow Manager"
+msgstr ""
+
+#: plone/app/workflowmanager/browser/workflow.py:24
+msgid "You can not delete this workflow until no content types are specified to use this workflow."
+msgstr ""
+
+#. Default: "Deleting the \"${id}\" transition has been canceled."
+#: plone/app/workflowmanager/browser/transition.py:162
+msgid "msg_deleting_canceled"
+msgstr ""
+
+#. Default: "\"${state_id}\" state successfully created."
+#: plone/app/workflowmanager/browser/state.py:47
+msgid "msg_state_created"
+msgstr ""
+
+#. Default: "\"${id}\" state has been successfully deleted."
+#: plone/app/workflowmanager/browser/state.py:92
+msgid "msg_state_deleted"
+msgstr ""
+
+#. Default: "Deleting the \"${id}\" state has been canceled."
+#: plone/app/workflowmanager/browser/state.py:97
+msgid "msg_state_deletion_canceled"
+msgstr ""
+
+#. Default: "\"${transition_id}\" transition successfully created."
+#: plone/app/workflowmanager/browser/transition.py:54
+msgid "msg_transition_created"
+msgstr ""
+
+#. Default: "\"${id}\" transition has been successfully deleted."
+#: plone/app/workflowmanager/browser/transition.py:157
+msgid "msg_transition_deleted"
+msgstr ""
+
+#. Default: "Updated ${count} objects."
+#: plone/app/workflowmanager/browser/workflow.py:78
+msgid "msg_updated_objects"
+msgstr ""
 

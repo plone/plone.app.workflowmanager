@@ -16,7 +16,7 @@
                         error python: view.errors.get(field_name, None);"
             tal:attributes="class python: has_error and 'field error' or 'field'">
 
-            <label class="formQuestion" tal:attributes="for field_name">Type</label>
+            <label class="formQuestion" tal:attributes="for field_name" i18n:translate="">Type</label>
             <select tal:attributes="name field_name; id field_name">
                 <tal:types tal:repeat="type view/assignable_types">
                     <option tal:attributes="value type/id;" tal:content="type/title"></option>
