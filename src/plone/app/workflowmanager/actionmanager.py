@@ -84,7 +84,7 @@ class ActionManager(object):
         if rule is None:
             rule_id = generateRuleName(transition)
             r = Rule()
-            r.title = u"%s transition content rule" % transition.id
+            r.title = _(u"%s transition content rule") % transition.id
             r.description = _(u"This content rule was automatically created "
                               u"the workflow manager to create actions on "
                               u"workflow events. If you want the behavior to "

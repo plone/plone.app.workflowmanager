@@ -33,7 +33,8 @@
             tal:attributes="class python: has_error and 'field error' or 'field'">
 
             <label for="transition-name" class="formQuestion" i18n:translate="">Workflow Name</label>
-            <span title="Required" class="fieldRequired" i18n:domain="plone" i18n:translate="">
+            <span title="Required" class="fieldRequired"
+                  i18n:domain="plone" i18n:attributes="title" i18n:translate="">
                 (Required)
             </span>
             <div id="title_help" class="formHelp" i18n:translate="">An id will be generated from the title.</div>

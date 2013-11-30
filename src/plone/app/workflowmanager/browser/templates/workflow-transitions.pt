@@ -2,7 +2,7 @@
     tal:define="available_states options/available_states;
                 available_transitions options/available_transitions;">
 
-    <a name="fieldsetlegend-transitions-anchor" class="doc-link">fieldsetlegend-transitions-anchor</a>
+    <a name="fieldsetlegend-transitions-anchor" class="doc-link"><tal:comment replace="nothing">fieldsetlegend-transitions-anchor</tal:comment></a>
   
   <tal:transitions tal:repeat="transition available_transitions"
         tal:content="structure python: view.workflow_transition_template(transition=transition, available_states=available_states)" />

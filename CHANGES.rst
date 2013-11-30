@@ -4,6 +4,12 @@ Changelog
 1.0a5 ~ unreleased
 ------------------
 
+- Added more strings classifiers and metadata items for this packages
+  [macagua]
+
+- Added more improvements for internationalization.
+  [macagua]
+
 - Fix workflow, state and transition id generation 
   when we have accents in titles.
   [thomasdesvenain]
