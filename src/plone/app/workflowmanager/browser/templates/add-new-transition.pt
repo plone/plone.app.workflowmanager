@@ -47,7 +47,7 @@
             <div id="title_help" class="formHelp" i18n:translate="">An id will be generated from the title.</div>
 
             <div class="fieldErrorBox"
-                tal:condition="has_error"
+                tal:condition="has_error" i18n:domain="plone.app.workflowmanager"
                 tal:content="error" i18n:translate="">Transition Name Error
             </div>
             <input class="firstToFocus" type="text" tal:attributes="name field_name" value="" />
