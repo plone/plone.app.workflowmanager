@@ -10,7 +10,7 @@
       <li class="dropdown">
         <a href="#" class="dropdown-toggle">
           <b class="caret"></b>
-          <tal:nothing tal:replace="python: transition.title">Title</tal:nothing>
+          <tal:nothing tal:replace="python: transition.title" i18n:domain="plone" i18n:translate=""><tal:comment replace="nothing">Title</tal:comment></tal:nothing>
         </a>
       </li>
       <li class="related-items">
@@ -50,7 +50,7 @@
               <option></option>
               <tal:states tal:repeat="state available_states">
                 <option tal:attributes="value state/id;
-                                        selected python: state.id == transition.new_state_id and 'yes' or ''"
+                                        selected python: state.id == transition.new_state_id and 'yes' or ''" i18n:domain="plone" i18n:translate=""
                   tal:content="state/title"></option>
               </tal:states>
             </select>

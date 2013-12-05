@@ -19,14 +19,14 @@
                         error python: view.errors.get(field_name, None);"
             tal:attributes="class python: has_error and 'field error' or 'field'">
 
-            <label class="formQuestion" tal:attributes="for field_name" i18n:domain="">Replacement State</label>
+            <label class="formQuestion" tal:attributes="for field_name" i18n:translate="">Replacement State</label>
             <select tal:attributes="id field_name; name field_name">
               <tal:workflows tal:repeat="s python: [s for s in view.available_states if s.id != state.id]">
                   <option tal:attributes="value s/id; selected python: repeat['s'].index == 0 and 'yes' or ''"
                       tal:content="s/title"></option>
               </tal:workflows>
             </select>
-            <div id="title_help" class="formHelp" i18n:domain="help_delete_state">
+            <div id="title_help" class="formHelp" i18n:translate="help_delete_state">
                 You are deleting a state that could currently be in use. Please specify which
                 state should replace it on current objects and in transition destination states.
             </div>

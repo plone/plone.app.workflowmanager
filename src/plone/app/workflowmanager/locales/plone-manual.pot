@@ -1,0 +1,53 @@
+# --- PLEASE EDIT THE LINES BELOW CORRECTLY ---
+# SOME DESCRIPTIVE TITLE.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+msgid ""
+msgstr ""
+"Project-Id-Version: plone.app.workflowmanager\n"
+"POT-Creation-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: plone\n"
+
+#: plone/app/workflowmanager/browser/templates/workflow-state.pt
+msgid "Authenticated"
+msgstr ""
+
+#: plone/app/workflowmanager/browser/templates/workflow-state.pt
+msgid "Anonymous"
+msgstr ""
+
+#: plone/app/workflowmanager/browser/templates/workflow-state.pt
+#. Default: "Administrators"
+msgid "Administrators"
+msgstr ""
+
+#: plone/app/workflowmanager/browser/templates/workflow-state.pt
+#. Default: "Reviewers"
+msgid "Reviewers"
+msgstr ""
+
+#: plone/app/workflowmanager/browser/templates/workflow-state.pt
+#. Default: "Site Administrators"
+msgid "Site Administrators"
+msgstr ""
+
+#: plone/app/workflowmanager/browser/templates/workflow-state.pt
+#. Default: "AuthenticatedUsers"
+msgid "AuthenticatedUsers"
+msgstr ""
+
+
+#: plone/app/workflowmanager/browser/templates/workflow-state.pt
+#. Default: "Authenticated Users (Virtual Group)"
+msgid "Authenticated Users (Virtual Group)"
+msgstr ""
+

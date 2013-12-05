@@ -151,7 +151,7 @@
           <li>
             <div id="advanced-mode">
               <label class="checkbox">
-                <input type="checkbox" name="advanced-mode" class="checkboxType"><span i18n:translate="">Advanced mode</span>
+                <input type="checkbox" name="advanced-mode" class="checkboxType" /><span i18n:translate="">Advanced mode</span>
               </label>
             </div>
           </li>

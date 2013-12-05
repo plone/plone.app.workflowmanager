@@ -9,7 +9,7 @@
         <a href="#" class="dropdown-toggle">
           <b class="caret"></b>
           <span class="initial-state" tal:condition="python: view.selected_workflow.initial_state == state.id">*</span>
-          <tal:nothing tal:replace="python: state.title" i18n:domain="plone" i18n:translate="" >Title</tal:nothing>
+          <tal:nothing tal:replace="python: state.title" i18n:domain="plone" i18n:translate=""><tal:comment replace="nothing">Title</tal:comment></tal:nothing>
         </a>
       </li>
       <li class="related-items">
@@ -27,7 +27,7 @@
             tal:attributes="name string:state-${state/id}-delete-button" value="Delete" i18n:attributes="value" />
         </a>
       </li>
-    <ul>
+    </ul>
   </div>
   <div class="hidden-content" tal:define="selected_transitions python: state.getTransitions()">
     <form method="POST"
@@ -113,6 +113,7 @@
                   <tal:managed-permissions tal:repeat="perminfo view/managed_permissions">
                     <th class="nosort">
                       <span tal:content="perminfo/name" rel="popover"
+                            i18n:domain="plone" i18n:translate=""
                             tal:attributes="title perminfo/perm;
                                             data-content perminfo/description" />
                     </th>
@@ -137,8 +138,8 @@
                       tal:attributes="class python: oddrow and 'odd' or 'even'">
                     <td>
                       <tal:content tal:replace="role" i18n:translate="" i18n:domain="plone" />
-                      <input type="hidden" value="AuthenticatedUsers" name="entries.id:records">
-                      <input type="hidden" value="group" name="entries.type:records">
+                      <input type="hidden" value="AuthenticatedUsers" name="entries.id:records" />
+                      <input type="hidden" value="group" name="entries.type:records" />
                     </td>
                     <tal:permissions tal:repeat="perminfo view/managed_permissions">
                       <td class="listingCheckbox"
@@ -173,14 +174,15 @@
                   </tr>
                   <tr class="odd">
                     <tal:managed-permissions tal:repeat="group groups">
-                      <th class="nosort" tal:content="group/id"></th>
+                      <th class="nosort" tal:content="group/id" 
+                          i18n:domain="plone" i18n:translate=""></th>
                     </tal:managed-permissions>
                   </tr>
                   <tal:roles tal:repeat="role view/selected_workflow/getAvailableRoles">
                     <tr tal:define="oddrow repeat/role/odd;"
                         tal:attributes="class python: oddrow and 'odd' or 'even'">
                       <td>
-                        <tal:content tal:replace="role" />
+                        <tal:content tal:replace="role" i18n:domain="plone" i18n:translate=""/>
                         <input type="hidden" value="AuthenticatedUsers" name="entries.id:records" />
                         <input type="hidden" value="group" name="entries.type:records" />
                       </td>
@@ -204,8 +206,9 @@
           <br />
           <div class="formControls">
             <noscript>
-              <input type="submit" class="inline context allowMultiSubmit" value="Save state" i18n:attributes="value"
-                tal:attributes="name string:save-state-${state/id}-button" />
+              <input type="submit" class="inline context allowMultiSubmit" value="Save state"
+                     i18n:attributes="value"
+                     tal:attributes="name string:save-state-${state/id}-button" />
             </noscript>
           </div>
         </form>
