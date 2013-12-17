@@ -1,0 +1,8 @@
+<div id="workflow-graph" class="workflow-list collapsed" 
+    tal:define="states view/available_states; transitions view/available_transitions">
+
+    <a name="fieldsetlegend-graph-anchor" class="doc-link"><tal:comment replace="nothing">fieldsetlegend-graph-anchor</tal:comment></a>
+    
+    <div tal:repeat="state states" tal:content="state/description"></div>
+
+</div>

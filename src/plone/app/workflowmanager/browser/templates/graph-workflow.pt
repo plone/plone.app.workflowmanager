@@ -1,0 +1,25 @@
+<div i18n:domain="plone.app.workflowmanager">
+    <h2 i18n:translate="">Workflow graph</h2>
+
+    <p class="discreet" i18n:translate="help_workflow_assign">
+        The graph of the current workflow.
+    </p>
+
+    <form action="@@workflowmanager-graph" method="POST">
+        <div id="node2" class="error">
+            words
+        </div>
+
+        <div id="node2" class="error">
+            words
+        </div>
+
+        <input name="form.actions.next" type="submit" class="context btn btn-primary"
+               value="Save" i18n:attributes="value" />
+        <input name="form.actions.cancel" type="submit" class="context btn"
+               value="Cancel" i18n:attributes="value" />
+
+    </form>
+    <br />
+
+</div>

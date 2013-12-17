@@ -15,6 +15,8 @@
     </metal:css>
     <metal:javascript fill-slot="javascript_head_slot">
         <script type="text/javascript" src="++resource++workflowmanager.js"></script>
+        <script type="text/javascript" src="++resource++jquery.jsPlumb.js"></script>
+        <script type="text/javascript" src="++resource++workflow-graph.js"></script>
     </metal:javascript>
     <body>
         <div metal:fill-slot="main"

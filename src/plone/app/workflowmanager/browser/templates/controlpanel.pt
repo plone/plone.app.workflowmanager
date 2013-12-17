@@ -62,6 +62,11 @@
             </a>
           </li>
           <li>
+            <a id="fieldsetlegend-graph" href="@@workflowmanager#fieldsetlegend-graph-anchor" class="">
+              <span i18n:translate="">Graph</span>
+            </a>
+          </li>
+          <li>
             <form class="navbar-form">
               <input type="submit" id="save-all-button" class="btn context allowMultiSubmit" value="Save"
                 title="Saving.." i18n:attributes="value;title" />

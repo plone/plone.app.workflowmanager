@@ -331,12 +331,17 @@ class ControlPanel(Base):
         ViewPageTemplateFile('templates/workflow-transitions.pt')
     workflow_transition_template = \
         ViewPageTemplateFile('templates/workflow-transition.pt')
+    workflow_graph_template = \
+        ViewPageTemplateFile('templates/workflow-graph.pt')
 
     def __call__(self):
         return self.template()
 
     def render_content_template(self):
         return self.content_template()
+
+    def render_graph_template(self):
+        return self.workflow_graph_template()
 
     def render_states_template(self):
         return self.workflow_states_template(

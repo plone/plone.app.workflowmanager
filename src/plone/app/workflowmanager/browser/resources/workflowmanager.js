@@ -382,16 +382,8 @@ $(document).ready(function(){
           show_item(obj);
         });
 
-        var transitions = $("#fieldset-transitions");
-        var transitions_button = $("a#fieldsetlegend-transitions");
-        var states = $("#fieldset-states");
-        var states_button = $("a#fieldsetlegend-states");
-
-        if(transitions_button.hasClass('selected')){
-          states.css('display', 'none');
-        }else{
-          transitions.css('display', 'none');
-        }
+        //hides any fieldset that doesn't have the 'selected' class
+        $('#workflow-content > fieldset[id=^"fieldset-"]:not(.selected)').css('display', 'none');
 
         handle_actions(data);
         $('#save-all-button').removeClass('btn-danger');
@@ -429,7 +421,7 @@ $(document).ready(function(){
     }
   }
 
-  $('.workflow-item .dropdown').live('click', function(e){
+  $('.workflow-item .dropdown').click(function(e){
     var obj = $(this).parents('.workflow-item');
     if(obj.hasClass('collasped')){
       obj.find('.hidden-content').slideDown();
@@ -441,49 +433,42 @@ $(document).ready(function(){
     return e.preventDefault();
   });
 
-  $("a#fieldsetlegend-states").live('click', function(e){
-    var transitions = $("#fieldset-transitions");
-    var transitions_button = $("a#fieldsetlegend-transitions");
-    var states = $("#fieldset-states");
-    var states_button = $(this);
+    $('a[id^="fieldsetlegend-"]').click(function(e) {
+      var fields = {};
+      // this allows for new fields to be added easily
+      // just add them as fields[button ID] = fieldset ID
+      fields['fieldsetlegend-states'] = "fieldset-states";
+      fields['fieldsetlegend-transitions'] = "fieldset-transitions";
+      fields['fieldsetlegend-graph'] = "fieldset-graph";
 
-    if(transitions_button.hasClass('selected')){
-      transitions_button.removeClass('selected');
-      nortstar_container.css('height', nortstar_container.height());
-      transitions.fadeOut('fast', function(){
-        states.fadeIn('fast', function(){
-          nortstar_container.css('height', '');
+      clicked = $(this).attr("id");
+      hasSelected = $('a[id^="fieldsetlegend-"].selected');
+      selected = hasSelected.attr('id');
+      var oldButton, newButton, oldFieldset, newFieldset;
+
+      oldButton = $('#' + selected);
+      newButton = $('#' + clicked);
+      newFieldset = $('#' + fields[clicked]);
+      oldFieldset = $('#' + fields[selected]);
+
+      console.log(newFieldset);
+
+      if(selected != clicked){
+        oldButton.removeClass('selected');
+        nortstar_container.css('height', nortstar_container.height());
+        oldFieldset.fadeOut('fast', function() {
+          newFieldset.fadeIn('fast', function() {
+            newButton.addClass('selected');
+            nortstar_container.css('height', '');
+          })
         });
-        states_button.addClass('selected');
-      });
-    }else if(!states_button.hasClass('selected')){
-      states.fadeIn('fast');
-      states_button.addClass('selected');
-    }
-    return e.preventDefault();;
-  });
-
-  $("a#fieldsetlegend-transitions").live('click', function(e){
-    var transitions = $("#fieldset-transitions");
-    var transitions_button = $(this);
-    var states = $("#fieldset-states");
-    var states_button = $("a#fieldsetlegend-states");
-
-    if(states_button.hasClass('selected')){
-      states_button.removeClass('selected');
-      nortstar_container.css('height', nortstar_container.height());
-      states.fadeOut('fast', function(){
-        transitions.fadeIn('fast', function(){
-          nortstar_container.css('height', '');
-        });
-        transitions_button.addClass('selected');
-      });
-    }else if(!transitions_button.hasClass('selected')){
-      transitions.fadeIn('fast');
-      transtiions_button.addClass('selected');
-    }
-    return e.preventDefault();;
-  });
+      }
+      else if(!newButton.hasClass('selected')){
+        newButton.addClass('selected');
+        newFieldset.fadeIn('fast');
+      }
+      return e.preventDefault();
+    });
 
   $('#save-all-button,input.save-all').live('click', function(e){
       spinner.show();
@@ -625,6 +610,7 @@ $(document).ready(function(){
     setup_overlays();
     $('div.hidden-content').css('display', 'none'); // since we don't hide it by default for js disable browsers
     $("#fieldset-transitions").css('display', 'none');
+    $("#fieldset-graph").css('display', 'none');
     $("a#fieldsetlegend-states").addClass('selected');
 
     // check if the user wanted to go directly to a certain

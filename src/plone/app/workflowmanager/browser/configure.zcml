@@ -50,6 +50,13 @@
         class=".state.AddState"
         permission="plone.app.workflowmanager.ManageWorkflows"
     />
+
+    <browser:page
+        for="*"
+        name="workflowmanager-graph"
+        class=".graph.drawGraph"
+        permission="plone.app.workflowmanager.ManageWorkflows"
+    />
         
     <browser:page
         for="*"
@@ -138,5 +145,14 @@
         name="wfmbootstrap.css"
         file="resources/bootstrap.css"
     />
-	
+
+    <browser:resource
+        name="jquery.jsPlumb.js"
+        file="resources/jsPlumb/dist/js/jquery.jsPlumb-1.5.5-min.js"
+    />
+
+    <browser:resource
+        name="workflow-graph.js"
+        file="resources/workflow-graph.js"
+    />
 </configure>
