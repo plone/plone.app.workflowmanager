@@ -207,6 +207,19 @@ class Base(BrowserView):
         else:
             return None
 
+    def get_transition_paths(self):
+        states = self.available_states
+        paths = []
+        count = 0
+        transitions = self.available_transitions
+        for state in states:
+            for trans in state.transitions:
+                current_transition = self.get_transition(trans)
+                paths.append( Path(state.id, current_transition.id, current_transition.new_state_id) )
+                count += 1
+
+        return paths
+
     @property
     @memoize
     def next_url(self):
@@ -358,3 +371,16 @@ class ControlPanel(Base):
         elif transition:
             return self.workflow_transition_template(transition=transition,
                 available_states=self.available_states)
+
+class Path():
+    """Very simple class to represent a single path from state->transition->state"""
+
+    start = ''
+    transition = ''
+    end = ''
+
+    def __init__(self, start, transition, end):
+        self.start = start
+        self.transition = transition
+        self.end = end
+        

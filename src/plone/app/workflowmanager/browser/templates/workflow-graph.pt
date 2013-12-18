@@ -1,8 +1,39 @@
 <div id="workflow-graph" class="workflow-list collapsed" 
-    tal:define="states view/available_states; transitions view/available_transitions">
+    tal:define="states view/available_states; transitions view/available_transitions; paths view/get_transition_paths">
 
     <a name="fieldsetlegend-graph-anchor" class="doc-link"><tal:comment replace="nothing">fieldsetlegend-graph-anchor</tal:comment></a>
     
-    <div tal:repeat="state states" tal:content="state/description"></div>
-
+	<span style="display: none;" id="plumb-container"> 
+	    <div tal:repeat="transition transitions" class="plumb-transition">
+	    	<div class="plumb-transition-id" tal:content="transition/id">
+	    	</div>
+	    	<div class="plumb-transition-title" tal:content="transition/title">
+	    	</div>
+	    	<div class="plumb-transition-description" tal:content="transition/description">
+	    	</div>
+	    	<div class="plumb-transition-endpoint" tal:content="transition/new_state_id">
+	    	</div>
+	    </div>
+	    <div tal:repeat="path paths" class="plumb-path">
+	    	<div class="plumb-path-start" tal:content="path/start">
+	    	</div>
+	    	<div class="plumb-path-transition" tal:content="path/transition">
+	    	</div>
+	    	<div class="plumb-path-end" tal:content="path/end">
+	    	</div>
+	    </div>
+	</span>
+	<div id="plumb-canvas">
+		<div tal:repeat="state states" class="plumb-state" tal:attributes="id string:plumb-state-${state/id}" style="display: none;">
+	    	<div class="plumb-state-id" tal:content="state/id">
+	    	</div>
+	    	<div class="plumb-state-title" tal:content="state/title" style="display: none;">
+	    	</div>
+	    	<div class="plumb-state-description" tal:content="state/description" style="display: none;">
+	    	</div>
+	    </div>
+	</div>
+	<div id="plumb-button-container">
+		<input type="button" value="Draw graph." id="plumb-draw-button" />
+	</div>
 </div>

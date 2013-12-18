@@ -450,9 +450,7 @@ $(document).ready(function(){
       newButton = $('#' + clicked);
       newFieldset = $('#' + fields[clicked]);
       oldFieldset = $('#' + fields[selected]);
-
-      console.log(newFieldset);
-
+      
       if(selected != clicked){
         oldButton.removeClass('selected');
         nortstar_container.css('height', nortstar_container.height());

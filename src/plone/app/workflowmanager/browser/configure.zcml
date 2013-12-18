@@ -147,6 +147,11 @@
     />
 
     <browser:resource
+        name="workflow-graph.css"
+        file="resources/workflow-graph.css"
+    />
+
+    <browser:resource
         name="jquery.jsPlumb.js"
         file="resources/jsPlumb/dist/js/jquery.jsPlumb-1.5.5-min.js"
     />

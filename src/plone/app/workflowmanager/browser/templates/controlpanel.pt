@@ -13,10 +13,13 @@
   <metal:css fill-slot="style_slot">
     <link rel="stylesheet" type="text/css" href="++resource++wfmbootstrap.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="++resource++workflowmanager.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="++resource++workflow-graph.css" media="screen" />
   </metal:css>
   <metal:javascript fill-slot="javascript_head_slot">
     <script type="text/javascript" src="++resource++wfmbootstrap-popover.js"></script>
     <script type="text/javascript" src="++resource++workflowmanager.js"></script>
+    <script type="text/javascript" src="++resource++jquery.jsPlumb.js"></script>
+    <script type="text/javascript" src="++resource++workflow-graph.js"></script>
   </metal:javascript>
 
 <body>
