@@ -12,26 +12,147 @@ $(window).load(function() {
 		$('.plumb-state').css('display', 'inherit');
 		$('#plumb-button-container').css('display', 'none');
 
-		$('html, body').animate({
-	        scrollTop: $("#menu-container").offset().top
-	    }, 200);
+		scrollToElement('#menu-container');
 
 		//jsPlumb defaults;
 		jsPlumb.Defaults.Container = "plumb-canvas";
 
-		var states= $('#plumb-canvas > .plumb-state');
-		var transitions = $('#plumb-container > .plumb-transition');
+		var states = getStateDivs();
 		var paths = $('#plumb-container > .plumb-path');
+
+		makeDraggable(states);
 
 		distribute(states);
 
-				//makes the state boxes movable
+		buildConnections(paths);
+
+		setDesignMode(states);
+		$('#plumb-toolbox').show();
+
+	});
+
+	$('#plumb-mode-button').click(function() {
+
+		var states = $('#plumb-canvas > .plumb-state');
+
+		if($(this).hasClass('view')){
+
+			setDesignMode(states);
+		}else if($(this).hasClass('design')){
+
+			setViewMode(states);
+		}
+	})
+
+	$('#plumb-debug-button').click(function() {
+		distribute($('.plumb-state'));
+	})
+
+	$('#tabs-menu a[id^="fieldsetlegend-"]').click(function() {
+		setViewMode(getStateDivs());
+	})
+
+	function distribute(divs)
+	{
+		//this function simply places the divs randomly onto the canvas
+		//TODO? force-directed placement algorithm?
+		$(divs).each(function() {
+			var css_left = Math.ceil(Math.random() * ($('#content').width() - $(this).outerWidth(true)));
+			var css_top = Math.ceil(Math.random() * ($('#plumb-canvas').height() - $(this).outerHeight(true)));
+
+			$(this).css('top', css_top);
+			$(this).css('left', css_left);
+		});
+	}
+
+	function getStateDivs()
+	{
+
+		return $('#plumb-canvas .plumb-state');
+	}
+
+	function getStateObjects()
+	{
+
+	}
+
+	function setDesignMode(states)
+	{
+		var element = $('#plumb-mode-button');
+		//the class on the button is what mode we're in now
+		//the value is the class we would switch to by pressing the button
+		element.removeClass('view').addClass('design');
+		element.removeClass('btn-inverse').addClass('btn');
+		element.prop('value', 'Switch to view mode');
+
+		//lock page scrolling and move down to the
+		//graph canvas
+		scrollToElement('#menu-container');
+		lockScrolling();
+	    enableDragging(states);
+	}
+
+	function setViewMode(states)
+	{
+		var element = $('#plumb-mode-button');
+		element.removeClass('design').addClass('view');
+		element.removeClass('btn').addClass('btn-inverse');
+		element.prop('value', 'Switch to design mode');
+
+		unlockScrolling();
+		disableDragging(states);
+	}
+
+	function scrollToElement(element)
+	{
+		$('html, body').animate({
+		        scrollTop: $(element).offset().top
+		}, 200);
+	}
+
+	function unlockScrolling()
+	{
+
+		$('html, body').css('overflow', 'auto');
+	}
+
+	function lockScrolling()
+	{
+
+		$('html, body').css('overflow', 'hidden');
+	}
+
+	function disableDragging(states)
+	{
+		//this will work with either a single element
+		//or an array of them
 		$(states).each(function() {
-			jsPlumb.draggable($(this).attr('id'), {
+			jsPlumb.setDraggable($(this), false);
+		});
+	}
+
+	function enableDragging(states)
+	{
+		$(states).each(function() {
+			jsPlumb.setDraggable($(this), true);
+		});
+	}
+
+	function makeDraggable(states)
+	{
+		//this function is needed to set the 
+		//options since you can't pass them to the
+		// toggle/disable functions
+		$(states).each(function() {
+			jsPlumb.draggable($(this), {
 				containment: '#plumb-canvas',
+				scroll: false
 			});
 		});
+	}
 
+	function buildConnections(paths)
+	{
 		$(paths).each(function() {
 
 			var start_id = $(this).find('div.plumb-path-start').text();
@@ -46,27 +167,16 @@ $(window).load(function() {
 				source:e0,
 				target:e1,
 				connector:"StateMachine",
+				hoverPaintStyle:{ strokeStyle:"gold" },
 				overlays:[
 				["Arrow", {location:1, width:10}],
-				[ "Label", { label:path_label, location:0.2, cssClass:"plumb-label"} ]
+				["Label", { label:path_label, location:0.2, cssClass:"plumb-label"} ]
 				],
 				anchor: "Continuous",
 				endpoint: "Blank",
 				paintStyle:{ strokeStyle:"black", lineWidth:1 },
-
 			});
-		})
-
-	});
-	//Crude function to randomly distribute the divs around the canvas
-	function distribute(divs)
-	{
-		$(divs).each(function() {
-			var css_left = Math.ceil(Math.random() * ($('#content').width() - $(this).width()));
-			var css_top = Math.ceil(Math.random() * $('#plumb-canvas').height());
-
-			$(this).css('top', css_top);
-			$(this).css('left', css_left);
 		});
 	}
 });
+

@@ -54,7 +54,7 @@
     <browser:page
         for="*"
         name="workflowmanager-graph"
-        class=".graph.drawGraph"
+        class=".layout.GraphLayout"
         permission="plone.app.workflowmanager.ManageWorkflows"
     />
         

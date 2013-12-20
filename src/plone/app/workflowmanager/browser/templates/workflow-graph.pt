@@ -4,16 +4,6 @@
     <a name="fieldsetlegend-graph-anchor" class="doc-link"><tal:comment replace="nothing">fieldsetlegend-graph-anchor</tal:comment></a>
     
 	<span style="display: none;" id="plumb-container"> 
-	    <div tal:repeat="transition transitions" class="plumb-transition">
-	    	<div class="plumb-transition-id" tal:content="transition/id">
-	    	</div>
-	    	<div class="plumb-transition-title" tal:content="transition/title">
-	    	</div>
-	    	<div class="plumb-transition-description" tal:content="transition/description">
-	    	</div>
-	    	<div class="plumb-transition-endpoint" tal:content="transition/new_state_id">
-	    	</div>
-	    </div>
 	    <div tal:repeat="path paths" class="plumb-path">
 	    	<div class="plumb-path-start" tal:content="path/start">
 	    	</div>
@@ -23,6 +13,11 @@
 	    	</div>
 	    </div>
 	</span>
+	<div id="plumb-button-container">
+		<p>Click the draw button to generate a graph of the current workflow.<br />You may need to rearrange the 
+		states in order to see everything clearly. Click and drag the boxes in order to move them to a better location.</p>
+		<input type="button" value="Draw graph." id="plumb-draw-button" />
+	</div>
 	<div id="plumb-canvas">
 		<div tal:repeat="state states" class="plumb-state" tal:attributes="id string:plumb-state-${state/id}" style="display: none;">
 	    	<div class="plumb-state-id" tal:content="state/id">
@@ -32,8 +27,11 @@
 	    	<div class="plumb-state-description" tal:content="state/description" style="display: none;">
 	    	</div>
 	    </div>
-	</div>
-	<div id="plumb-button-container">
-		<input type="button" value="Draw graph." id="plumb-draw-button" />
+	    <div id="plumb-toolbox" style="display: none;">
+	    	<div id="plumb-toolbox-top">
+	    		<input type="button" value="Switch to design mode" class="btn-inverse view" id="plumb-mode-button" />
+	    		<input type="button" value="debug" class="btn-inverse view" id="plumb-debug-button" />
+	    	</div>
+	    </div>
 	</div>
 </div>

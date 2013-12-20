@@ -2,6 +2,8 @@
 	height: 500px;
 	width: auto;
 	position: relative;
+	border: 0.1em solid #ddd;
+	margin-top: 5px;
 }
 
 #plumb-canvas div.plumb-path {
@@ -38,7 +40,7 @@
 #plumb-canvas .plumb-label:hover {
 	opacity: 1;
 	z-index: 1;
-}
+} 
 
 #plumb-canvas .plumb-connection:hover {
 	color:gold;
@@ -50,4 +52,14 @@
 	padding: 20px 0 20px 0;
 }
 
+#plumb-toolbox {
+	width: 100px;
+	text-align: center;
+	float: left;
+	padding: 5px;
+	z-index: 1;
+}
 
+#plumb-canvas .ui-state-disabled {
+	opacity: .5;
+}
