@@ -60,6 +60,10 @@
 	z-index: 1;
 }
 
+#plumb-toolbox input {
+	margin-bottom: 8px;
+}
+
 #plumb-canvas .ui-state-disabled {
 	opacity: .5;
 }

@@ -34,9 +34,6 @@
 	    <div id="plumb-toolbox" style="display: none;">
 	    	<div id="plumb-toolbox-top">
 	    		<input type="button" value="Switch to design mode" class="btn-inverse view" id="plumb-mode-button" />
-	    		<input type="button" value="debug" class="btn-inverse view" id="plumb-debug-button" />
-
-
 	    		<form method="POST" tal:attributes="action string:${context/absolute_url}/@@workflowmanager-save-graph" id="plumb-layout-form">
 	    			<textarea style="display: none;" tal:content="layout" type="text" id="plumb-layout-container" name="layout">
 	    			</textarea>

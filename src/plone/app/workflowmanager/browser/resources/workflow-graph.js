@@ -28,7 +28,6 @@ $(window).load(function() {
 
 		setViewMode(states);
 		$('#plumb-toolbox').show();
-
 	});
 
 	$('#plumb-mode-button').click(function() {
@@ -44,18 +43,18 @@ $(window).load(function() {
 		}
 	})
 
-	$('#plumb-debug-button').click(function() {
-		distribute($('.plumb-state'));
-	})
-
 	$('#tabs-menu a[id^="fieldsetlegend-"]').click(function() {
-		setViewMode(getStateDivs());
+		if( $('.plumb-state').css('display') != 'none' )
+		{
+			setViewMode(getStateDivs());
+		}
 	})
 
 	var options = {
 		beforeSerialize: setLayout,
 		success: function() {
 			alert("Layout saved successfully.");
+			setViewMode(getStateDivs());
 		}
 	};
 
@@ -85,20 +84,24 @@ $(window).load(function() {
 		{
 			layout = JSON.parse(layout);
 			$(divs).each(function() {
-				var top = layout[$(this).find('.plumb-state-id').text()].top;
-				var left = layout[$(this).find('.plumb-state-id').text()].left;
+				if( layout[$(this).find('.plumb-state-id').text()] ) 
+				{
+					var top = layout[$(this).find('.plumb-state-id').text()].top;
+					var left = layout[$(this).find('.plumb-state-id').text()].left;
 
-				$(this).css('top', top);
-				$(this).css('left', left);
+					$(this).css('top', top);
+					$(this).css('left', left);
+				}
+				else
+				{
+					var css_left = Math.ceil(Math.random() * ($('#content').width() - $(this).outerWidth(true)));
+					var css_top = Math.ceil(Math.random() * ($('#plumb-canvas').height() - $(this).outerHeight(true)));
+
+					$(this).css('top', css_top);
+					$(this).css('left', css_left);
+				}
+
 			})
-		}else{
-			$(divs).each(function() {
-				var css_left = Math.ceil(Math.random() * ($('#content').width() - $(this).outerWidth(true)));
-				var css_top = Math.ceil(Math.random() * ($('#plumb-canvas').height() - $(this).outerHeight(true)));
-
-				$(this).css('top', css_top);
-				$(this).css('left', css_left);
-			});
 		}
 	}
 
@@ -106,11 +109,6 @@ $(window).load(function() {
 	{
 
 		return $('#plumb-canvas .plumb-state');
-	}
-
-	function getStateObjects()
-	{
-
 	}
 
 	function setDesignMode(states)
@@ -149,13 +147,16 @@ $(window).load(function() {
 
 	function unlockScrolling()
 	{
-
+		$('html, body').css('width', 'inherit');	
 		$('html, body').css('overflow', 'auto');
 	}
 
 	function lockScrolling()
 	{
-
+		//This isn't as pointless as it seems.
+		//By setting the width explicitly, it prevents 
+		//the body width from changing when the overflow is changed.
+		$('html, body').css('width', $('html, body').css('width'));
 		$('html, body').css('overflow', 'hidden');
 	}
 
