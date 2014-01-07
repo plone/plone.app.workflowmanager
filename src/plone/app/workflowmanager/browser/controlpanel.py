@@ -224,7 +224,7 @@ class Base(BrowserView):
 
     def get_graphLayout(self, workflow):
         gl = GraphLayout(self.context, self.request)
-        gl.setWorkflow(workflow.title)
+        gl.setWorkflow(workflow.id)
         return gl.getLayout()
 
     @property

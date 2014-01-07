@@ -19,25 +19,26 @@ class GraphLayout(BrowserView):
     	self.request = request
 
     def __call__(self):
-    	import pdb; pdb.set_trace()
-    	if( self.workflow != '' ):
-    		if( self.layoutExists() ):
-        		self.editLayout(layout)
+    	self.setWorkflow(self.request.form['workflow'])
+    	if( self.layoutExists() ):
+    		self.editLayout(self.request.form['layout'])
+    	else:
+    		self.createLayout()
+    		self.editLayout(self.request.form['layout'])
 
     workflow = ''
     propSheetName = 'Workflow_manager_graph_layouts'
 
-    def createLayout(self):
+    def createLayout(self, layout=""):
         sheet = self.getPropSheet()
 
         #the manage_changeProperties method is broken
         #so just delete the current one. 
         #At the end of the day, it does the same thing.
-        import pdb; pdb.set_trace()
         if( self.layoutExists() ):
         	sheet.manage_delProperties({self.workflow})
 
-        sheet.manage_addProperty(self.workflow, "", 'text')
+        sheet.manage_addProperty(self.workflow, layout, 'text')
 
     def createPropSheet(self):
         self.props.addPropertySheet(self.propSheetName)

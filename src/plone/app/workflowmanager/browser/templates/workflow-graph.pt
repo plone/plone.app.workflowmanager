@@ -38,9 +38,9 @@
 
 
 	    		<form method="POST" tal:attributes="action string:${context/absolute_url}/@@workflowmanager-save-graph" id="plumb-layout-form">
-	    			<textarea style="display: none;" type="text" id="plumb-layout-container" name="layout">
-	    				words
+	    			<textarea style="display: none;" tal:content="layout" type="text" id="plumb-layout-container" name="layout">
 	    			</textarea>
+	    			<input type="text" name="workflow" style="display: none;" id="plumb-workflow"/>
 	    			<input tal:replace="structure context/@@authenticator/authenticator"/>
 	    			<input type="submit" value="Save layout" class="btn" id="plumb-graph-save" />
    				</form>

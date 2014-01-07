@@ -26,7 +26,7 @@ $(window).load(function() {
 
 		buildConnections(paths);
 
-		setDesignMode(states);
+		setViewMode(states);
 		$('#plumb-toolbox').show();
 
 	});
@@ -54,12 +54,16 @@ $(window).load(function() {
 
 	var options = {
 		beforeSerialize: setLayout,
+		success: function() {
+			alert("Layout saved successfully.");
+		}
 	};
 
 	$('#plumb-layout-form').ajaxForm(options);
 
 	function setLayout()
 	{
+		$('#plumb-workflow').attr('value', $('#selected-workflow').attr('value'));
 		var states = $('.plumb-state-id');
 		message = {};
 
@@ -68,21 +72,34 @@ $(window).load(function() {
 		});
 
 		var output = JSON.stringify(message);
-		console.log(output);
 		$('#plumb-layout-container').text(output);
 	}
 
 	function distribute(divs)
 	{
 		//this function simply places the divs randomly onto the canvas
-		//TODO? force-directed placement algorithm?
-		$(divs).each(function() {
-			var css_left = Math.ceil(Math.random() * ($('#content').width() - $(this).outerWidth(true)));
-			var css_top = Math.ceil(Math.random() * ($('#plumb-canvas').height() - $(this).outerHeight(true)));
+		//unless the layout has been saved, then it recreates the saved layout
+		var layout = $('#plumb-layout-container').text();
 
-			$(this).css('top', css_top);
-			$(this).css('left', css_left);
-		});
+		if( layout.length > 0 )
+		{
+			layout = JSON.parse(layout);
+			$(divs).each(function() {
+				var top = layout[$(this).find('.plumb-state-id').text()].top;
+				var left = layout[$(this).find('.plumb-state-id').text()].left;
+
+				$(this).css('top', top);
+				$(this).css('left', left);
+			})
+		}else{
+			$(divs).each(function() {
+				var css_left = Math.ceil(Math.random() * ($('#content').width() - $(this).outerWidth(true)));
+				var css_top = Math.ceil(Math.random() * ($('#plumb-canvas').height() - $(this).outerHeight(true)));
+
+				$(this).css('top', css_top);
+				$(this).css('left', css_left);
+			});
+		}
 	}
 
 	function getStateDivs()
