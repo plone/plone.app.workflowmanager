@@ -17,6 +17,8 @@ import zope.i18n
 from Products.CMFCore.utils import getToolByName
 from plone.memoize.view import memoize
 
+from plone.app.workflowmanager.browser.layout import GraphLayout
+
 from plone.app.workflowmanager.permissions import managed_permissions
 from plone.app.workflowmanager.permissions import allowed_guard_permissions
 from plone.app.workflowmanager.graphviz import HAS_GRAPHVIZ
@@ -220,6 +222,11 @@ class Base(BrowserView):
 
         return paths
 
+    def get_graphLayout(self, workflow):
+        gl = GraphLayout(self.context, self.request)
+        gl.setWorkflow(workflow.title)
+        return gl.getLayout()
+
     @property
     @memoize
     def next_url(self):
@@ -384,3 +391,4 @@ class Path():
         self.transition = transition
         self.end = end
         
+

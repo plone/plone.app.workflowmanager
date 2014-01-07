@@ -1,77 +1,93 @@
 from Products.CMFCore.utils import getToolByName
+from Products.Five.browser import BrowserView
+from zope.component import getMultiAdapter
 
-class GraphLayout(object):
-	"""Class to handle the Workflow Manager graph layouts
+class GraphLayout(BrowserView):
+    """Class to handle the Workflow Manager graph layouts
 
-		propSheet: 
-				the property sheet containing all of the layouts
+        propSheet: 
+                the property sheet containing all of the layouts
 
-		layout:
-				the actual value of the individual property on the propSheet
-				representing the layout of the graph
-	"""
+        layout:
+                the actual value of the individual property on the propSheet
+                representing the layout of the graph
+    """
 
-	def __init__(self, wf):
-		self.workflow = wf
-		self.props = getToolByName(self, 'portal_properties')
-		
+    def __init__(self, context, request):
+    	self.props = getToolByName(self, 'portal_properties')
+    	self.context = context
+    	self.request = request
 
-	workflow = ''
-	propSheetName = 'Workflow_manager_graph_layouts'
-	props = ''
+    def __call__(self):
+    	import pdb; pdb.set_trace()
+    	if( self.workflow != '' ):
+    		if( self.layoutExists() ):
+        		self.editLayout(layout)
 
-	def createLayout(self):
-		sheet = self.getPropSheet()
+    workflow = ''
+    propSheetName = 'Workflow_manager_graph_layouts'
 
-		sheet.manage_addProperty(self.workflow, "", 'text')
+    def createLayout(self):
+        sheet = self.getPropSheet()
 
-	def createPropSheet(self):
-		self.props.addPropertySheet(self.propSheetName)
+        #the manage_changeProperties method is broken
+        #so just delete the current one. 
+        #At the end of the day, it does the same thing.
+        import pdb; pdb.set_trace()
+        if( self.layoutExists() ):
+        	sheet.manage_delProperties({self.workflow})
 
-		return self.propSheetExists(self.propSheetName)
+        sheet.manage_addProperty(self.workflow, "", 'text')
 
-	def editLayout(self, layout):
-		sheet = self.getPropSheet()
+    def createPropSheet(self):
+        self.props.addPropertySheet(self.propSheetName)
 
-		#he manage_changeProperties 
-		#method appears to be broken, so we'll just delete
-		#the old layout and create a new one.
-		sheet.manage_delProperties({self.workflow})
+        return self.propSheetExists(self.propSheetName)
 
-		sheet.manage_addProperty(self.workflow, layout, 'text')
+    def editLayout(self, layout):
+        sheet = self.getPropSheet()
 
-	def getLayout(self):
+        #he manage_changeProperties 
+        #method appears to be broken, so we'll just delete
+        #the old layout and create a new one.
+        sheet.manage_delProperties({self.workflow})
 
-		if( self.workflow == '' ):
-			return False
+        sheet.manage_addProperty(self.workflow, layout, 'text')
 
-		if( not self.propSheetExists(self.propSheetName) ):
-			if( not self.createPropSheet(self.propSheetName) ):
-				return False
+    def getLayout(self):
 
-		if( not self.layoutExists() > 0 ):
-			self.createLayout()
+        if( self.workflow == '' ):
+            return False
 
-		sheet = self.getPropSheet()
-		return sheet.getProperty(self.workflow)
+        if( not self.propSheetExists(self.propSheetName) ):
+            if( not self.createPropSheet() ):
+                return False
 
-	def getPropSheet(self):
-		return self.props[self.propSheetName]
+        if( not self.layoutExists() > 0 ):
+            self.createLayout()
 
-	def getPropSheetName(self):
-		return self.propSheetName
+        sheet = self.getPropSheet()
+        layout = sheet.getProperty(self.workflow)
 
-	def getWFTitle(self):
-		return self.workflow
+        return layout
 
+    def getPropSheet(self):
+    	props = getToolByName(self, 'portal_properties')
+        return props[self.propSheetName]
 
-	def layoutExists(self):
-		sheet = self.props[self.propSheetName]
+    def getPropSheetName(self):
+        return self.propSheetName
 
-		return sheet.hasProperty(self.workflow)
+    def layoutExists(self):
+        sheet = self.props[self.propSheetName]
 
-	def propSheetExists(self, sheetName):
-		return self.props.hasObject(sheetName)
+        return sheet.hasProperty(self.workflow)
 
+    def propSheetExists(self, sheetName):
+    	props = getToolByName(self, 'portal_properties')
+        return props.hasObject(sheetName)
+
+    def setWorkflow(self, workflow):
+    	self.workflow = workflow
 
 

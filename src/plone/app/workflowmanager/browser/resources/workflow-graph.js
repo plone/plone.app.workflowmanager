@@ -52,6 +52,26 @@ $(window).load(function() {
 		setViewMode(getStateDivs());
 	})
 
+	var options = {
+		beforeSerialize: setLayout,
+	};
+
+	$('#plumb-layout-form').ajaxForm(options);
+
+	function setLayout()
+	{
+		var states = $('.plumb-state-id');
+		message = {};
+
+		states.each(function() {
+			message[$(this).text()] = $(this).parent().position();
+		});
+
+		var output = JSON.stringify(message);
+		console.log(output);
+		$('#plumb-layout-container').text(output);
+	}
+
 	function distribute(divs)
 	{
 		//this function simply places the divs randomly onto the canvas

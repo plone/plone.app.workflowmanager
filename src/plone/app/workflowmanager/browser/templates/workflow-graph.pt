@@ -1,5 +1,9 @@
 <div id="workflow-graph" class="workflow-list collapsed" 
-    tal:define="states view/available_states; transitions view/available_transitions; paths view/get_transition_paths">
+    tal:define="states view/available_states; 
+    			transitions view/available_transitions; 
+    			paths view/get_transition_paths; 
+    			workflow view/selected_workflow; 
+    			layout python: view.get_graphLayout(workflow);">
 
     <a name="fieldsetlegend-graph-anchor" class="doc-link"><tal:comment replace="nothing">fieldsetlegend-graph-anchor</tal:comment></a>
     
@@ -31,6 +35,15 @@
 	    	<div id="plumb-toolbox-top">
 	    		<input type="button" value="Switch to design mode" class="btn-inverse view" id="plumb-mode-button" />
 	    		<input type="button" value="debug" class="btn-inverse view" id="plumb-debug-button" />
+
+
+	    		<form method="POST" tal:attributes="action string:${context/absolute_url}/@@workflowmanager-save-graph" id="plumb-layout-form">
+	    			<textarea style="display: none;" type="text" id="plumb-layout-container" name="layout">
+	    				words
+	    			</textarea>
+	    			<input tal:replace="structure context/@@authenticator/authenticator"/>
+	    			<input type="submit" value="Save layout" class="btn" id="plumb-graph-save" />
+   				</form>
 	    	</div>
 	    </div>
 	</div>

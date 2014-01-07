@@ -29,7 +29,14 @@
         class=".transition.SaveTransition"
         permission="plone.app.workflowmanager.ManageWorkflows"
     />
-        
+
+    <browser:page
+        for="*"
+        name="workflowmanager-save-graph"
+        class=".layout.GraphLayout"
+        permission="plone.app.workflowmanager.ManageWorkflows"
+    />
+
     <browser:page
         for="*"
         name="workflowmanager-add-new-transition"
