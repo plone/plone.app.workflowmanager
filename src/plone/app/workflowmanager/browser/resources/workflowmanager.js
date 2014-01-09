@@ -127,6 +127,7 @@ $(document).ready(function(){
 
     var transitions_button = $("a#fieldsetlegend-transitions");
     var states_button = $("a#fieldsetlegend-states");
+    var graph_button = $("a#fieldsetlegend-graph");
     var transitions = $("#fieldset-transitions");
     var states = $('#fieldset-states');
     var graph = $('#fieldset-graph');
@@ -145,6 +146,7 @@ $(document).ready(function(){
           graph.hide();
           states_button.addClass('selected');
           transitions_button.removeClass('selected');
+          graph_button.removeClass('selected');
       }
     }else if(vars['selected-transition'] != undefined){
       prefix += "transition-" + vars['selected-transition'];
@@ -154,6 +156,7 @@ $(document).ready(function(){
         graph.hide();
         transitions_button.addClass('selected');
         states_button.removeClass('selected');
+        graph_button.removeClass('selected');
       }
     }else{
       return;
@@ -386,7 +389,18 @@ $(document).ready(function(){
         });
 
         //hides any fieldset that doesn't have the 'selected' class
-        $('#workflow-content > fieldset[id=^"fieldset-"]:not(.selected)').css('display', 'none');
+        var fields = {};
+        fields['fieldsetlegend-states'] = 'fieldset-states';
+        fields['fieldsetlegend-transitions'] = 'fieldset-transitions';
+        fields['fieldsetlegend-graph'] = 'fieldset-graph';
+
+        $.each(fields, function(key, value) {
+
+          if( !$('#'+key).hasClass('selected') )
+          {
+            $('#'+value).css('display', 'none');
+          }
+        })
 
         handle_actions(data);
         $('#save-all-button').removeClass('btn-danger');
@@ -424,7 +438,7 @@ $(document).ready(function(){
     }
   }
 
-  $('.workflow-item .dropdown').click(function(e){
+  $('.workflow-item .dropdown').live('click', function(e){
     var obj = $(this).parents('.workflow-item');
     if(obj.hasClass('collasped')){
       obj.find('.hidden-content').slideDown();
@@ -436,40 +450,39 @@ $(document).ready(function(){
     return e.preventDefault();
   });
 
-    $('a[id^="fieldsetlegend-"]').click(function(e) {
-      var fields = {};
-      // this allows for new fields to be added easily
-      // just add them as fields[button ID] = fieldset ID
-      fields['fieldsetlegend-states'] = "fieldset-states";
-      fields['fieldsetlegend-transitions'] = "fieldset-transitions";
-      fields['fieldsetlegend-graph'] = "fieldset-graph";
+  $('a[id^="fieldsetlegend-"]').live('click', function(e) {
+    var fields = {};
 
-      clicked = $(this).attr("id");
-      hasSelected = $('a[id^="fieldsetlegend-"].selected');
-      selected = hasSelected.attr('id');
-      var oldButton, newButton, oldFieldset, newFieldset;
+    fields['fieldsetlegend-states'] = "fieldset-states";
+    fields['fieldsetlegend-transitions'] = "fieldset-transitions";
+    fields['fieldsetlegend-graph'] = "fieldset-graph";
 
-      oldButton = $('#' + selected);
-      newButton = $('#' + clicked);
-      newFieldset = $('#' + fields[clicked]);
-      oldFieldset = $('#' + fields[selected]);
-      
-      if(selected != clicked){
-        oldButton.removeClass('selected');
-        nortstar_container.css('height', nortstar_container.height());
-        oldFieldset.fadeOut('fast', function() {
-          newFieldset.fadeIn('fast', function() {
-            newButton.addClass('selected');
-            nortstar_container.css('height', '');
-          })
-        });
-      }
-      else if(!newButton.hasClass('selected')){
-        newButton.addClass('selected');
-        newFieldset.fadeIn('fast');
-      }
-      return e.preventDefault();
-    });
+    clicked = $(this).attr("id");
+    hasSelected = $('a[id^="fieldsetlegend-"].selected');
+    selected = hasSelected.attr('id');
+    var oldButton, newButton, oldFieldset, newFieldset;
+
+    oldButton = $('#' + selected);
+    newButton = $('#' + clicked);
+    newFieldset = $('#' + fields[clicked]);
+    oldFieldset = $('#' + fields[selected]);
+    
+    if(selected != clicked){
+      oldButton.removeClass('selected');
+      nortstar_container.css('height', nortstar_container.height());
+      oldFieldset.fadeOut('fast', function() {
+        newFieldset.fadeIn('fast', function() {
+          newButton.addClass('selected');
+          nortstar_container.css('height', '');
+        })
+      });
+    }
+    else if(!newButton.hasClass('selected')){
+      newButton.addClass('selected');
+      newFieldset.fadeIn('fast');
+    }
+    return e.preventDefault();
+  });
 
   $('#save-all-button,input.save-all').live('click', function(e){
       spinner.show();

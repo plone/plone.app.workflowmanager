@@ -1,6 +1,6 @@
 $(window).load(function() {	
 
-	$('#plumb-draw-button').click(function() {
+	$('#plumb-draw-button').live('click', function() {
 
 		//hide the button, unhide the state divs then scroll the page down
 		//in order to better see the graph
@@ -31,7 +31,7 @@ $(window).load(function() {
 		$('#plumb-toolbox').show();
 	});
 
-	$('#plumb-mode-button').click(function() {
+	$('#plumb-mode-button').live('click', function() {
 
 		var states = $('#plumb-canvas > .plumb-state');
 
@@ -44,7 +44,7 @@ $(window).load(function() {
 		}
 	})
 
-	$('#tabs-menu a[id^="fieldsetlegend-"]').click(function() {
+	$('#tabs-menu a[id^="fieldsetlegend-"]').live('click', function() {
 
 		//Set the page to view mode if
 		//the user clicks one of the "fieldsetlegend" tabs.
@@ -54,7 +54,7 @@ $(window).load(function() {
 		}
 	})
 
-	$('.plumb-state').click(function() {
+	$('.plumb-state').live('click', function() {
 
 		expandState($(this));
 	});
