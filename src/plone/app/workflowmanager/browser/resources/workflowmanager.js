@@ -129,6 +129,7 @@ $(document).ready(function(){
     var states_button = $("a#fieldsetlegend-states");
     var transitions = $("#fieldset-transitions");
     var states = $('#fieldset-states');
+    var graph = $('#fieldset-graph');
 
     if(CURRENT_OVERLAY != null && CURRENT_OVERLAY.isOpened()){
       CURRENT_OVERLAY.close();
@@ -141,6 +142,7 @@ $(document).ready(function(){
       if(!states_button.hasClass('selected')){
           states.show();
           transitions.hide();
+          graph.hide();
           states_button.addClass('selected');
           transitions_button.removeClass('selected');
       }
@@ -149,6 +151,7 @@ $(document).ready(function(){
       if(!transitions_button.hasClass('selected')){
         transitions.show();
         states.hide();
+        graph.hide();
         transitions_button.addClass('selected');
         states_button.removeClass('selected');
       }

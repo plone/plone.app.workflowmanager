@@ -1,14 +1,14 @@
 $(window).load(function() {	
 
-	//waiting for a button press is much more browser-friendly 
-	//than drawing everything immediately
 	$('#plumb-draw-button').click(function() {
 
 		//hide the button, unhide the state divs then scroll the page down
 		//in order to better see the graph
 		//
-		//this is all necessary to allow jsPlumb enough time to draw
-		//everything correctly
+		//Requiring a button press to generate the graph
+		//is all necessary to allow jsPlumb enough time to draw
+		//everything correctly. 
+		//Doing so on page load is too resource intensive.
 		$('.plumb-state').css('display', 'inherit');
 		$('#plumb-button-container').css('display', 'none');
 
@@ -27,6 +27,7 @@ $(window).load(function() {
 		buildConnections(paths);
 
 		setViewMode(states);
+
 		$('#plumb-toolbox').show();
 	});
 
@@ -44,11 +45,19 @@ $(window).load(function() {
 	})
 
 	$('#tabs-menu a[id^="fieldsetlegend-"]').click(function() {
+
+		//Set the page to view mode if
+		//the user clicks one of the "fieldsetlegend" tabs.
 		if( $('.plumb-state').css('display') != 'none' )
 		{
 			setViewMode(getStateDivs());
 		}
 	})
+
+	$('.plumb-state').click(function() {
+
+		expandState($(this));
+	});
 
 	var options = {
 		beforeSerialize: setLayout,
@@ -59,6 +68,67 @@ $(window).load(function() {
 	};
 
 	$('#plumb-layout-form').ajaxForm(options);
+
+	function expandTransition(element)
+	{
+		//Disabling the functionality in design mode.
+		if($('#plumb-mode-button').hasClass('design'))
+		{
+			return true;
+		}
+
+		//if the transition is already open, then close it
+		//and exit.
+		if( $(element).hasClass('expanded')) 
+		{
+			$(element).removeClass('expanded');
+			$(element).find('div, a').remove();
+			return true;
+		}
+
+		var id = $(element).text();
+
+		var url = document.URL + "&selected-transition=" + id;
+
+		//the ID of the element in WFM containing 
+		//all the info needed in this context
+		var name = 'transition-' + id;
+		id = '#transition-' + id;
+
+		var props = $(id).find('.transition-properties');
+
+		var transitionTitle = props.find('input[name="' + name + '-title"]').val();
+		var description = props.find('textarea[name="' + name + '-description"]').val();
+
+		$(element).addClass('expanded');
+		$(element).append('<div>' + transitionTitle + '</div>');
+		$(element).append('<div>' + description + '</div>');
+		$(element).append('<a class="goto-link" href="' + url + '"">Edit</a>');
+	}
+
+	function expandState(element)
+	{
+
+		//Disabling the functionality in design mode.
+		if($('#plumb-mode-button').hasClass('design'))
+		{
+			return true;
+		} 
+
+		//If the element is already expanded, close it
+		//and exit.
+		if($(element).hasClass('expanded'))
+		{
+			$(element).children().hide();
+			$(element).find('.plumb-state-id').show();
+			$(element).removeClass('expanded');
+			return true;
+		}
+
+		$(element).find('.plumb-state-id').hide();
+		$(element).children().show();
+		$(element).addClass('expanded');
+	}
 
 	function setLayout()
 	{
@@ -78,31 +148,36 @@ $(window).load(function() {
 	{
 		//this function simply places the divs randomly onto the canvas
 		//unless the layout has been saved, then it recreates the saved layout
-		var layout = $('#plumb-layout-container').text();
+		var layout = $('#plumb-layout-container').attr('value');
+		
 
 		if( layout.length > 0 )
 		{
 			layout = JSON.parse(layout);
-			$(divs).each(function() {
-				if( layout[$(this).find('.plumb-state-id').text()] ) 
-				{
-					var top = layout[$(this).find('.plumb-state-id').text()].top;
-					var left = layout[$(this).find('.plumb-state-id').text()].left;
-
-					$(this).css('top', top);
-					$(this).css('left', left);
-				}
-				else
-				{
-					var css_left = Math.ceil(Math.random() * ($('#content').width() - $(this).outerWidth(true)));
-					var css_top = Math.ceil(Math.random() * ($('#plumb-canvas').height() - $(this).outerHeight(true)));
-
-					$(this).css('top', css_top);
-					$(this).css('left', css_left);
-				}
-
-			})
 		}
+		else
+		{
+			layout = {};
+		}
+
+		$(divs).each(function() {
+			if( layout[$(this).find('.plumb-state-id').text()] ) 
+			{
+				var top = layout[$(this).find('.plumb-state-id').text()].top;
+				var left = layout[$(this).find('.plumb-state-id').text()].left;
+
+				$(this).css('top', top);
+				$(this).css('left', left);
+			}
+			else
+			{
+				var css_left = Math.ceil(Math.random() * ($('#content').width() - $(this).outerWidth(true)));
+				var css_top = Math.ceil(Math.random() * ($('#plumb-canvas').height() - $(this).outerHeight(true)));
+
+				$(this).css('top', css_top);
+				$(this).css('left', css_left);
+			}
+		});
 	}
 
 	function getStateDivs()
@@ -208,7 +283,19 @@ $(window).load(function() {
 				hoverPaintStyle:{ strokeStyle:"gold" },
 				overlays:[
 				["Arrow", {location:1, width:10}],
-				["Label", { label:path_label, location:0.2, cssClass:"plumb-label"} ]
+				["Label", { 
+					label:path_label, 
+					location:0.2, 
+					cssClass:"plumb-label",
+					events:{
+						//Defining the event here is the only effective way, 
+						//since jsPlumb makes it difficult/impossible to add a listener
+						//outside the connection definition
+          				click:function(labelOverlay, originalEvent) { 
+            				expandTransition(originalEvent.currentTarget);
+          				}
+        			}
+        		}]
 				],
 				anchor: "Continuous",
 				endpoint: "Blank",

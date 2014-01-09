@@ -26,8 +26,11 @@ class TestActions(BaseTest):
     def test_prop_sheet_exists(self):
         portal = self.layer['portal']
         login(portal, TEST_USER_NAME)
+        req = self.getRequest({
+            'selected-workflow': ['simple_publication_workflow'],
+            'selected-state': ['published']})
 
-        gl = GraphLayout('simple_publication_workflow')
+        gl = GraphLayout(portal, req)
         props = getToolByName(portal, 'portal_properties')
 
         sheetName = gl.getPropSheetName()
@@ -39,8 +42,11 @@ class TestActions(BaseTest):
     def test_create_prop_sheet(self):
         portal = self.layer['portal']
         login(portal, TEST_USER_NAME)
+        req = self.getRequest({
+            'selected-workflow': ['simple_publication_workflow'],
+            'selected-state': ['published']})
 
-        gl = GraphLayout('simple_publication_workflow')
+        gl = GraphLayout(portal, req)
         sheetName = gl.getPropSheetName()
 
         props = getToolByName(portal, 'portal_properties')
@@ -57,13 +63,18 @@ class TestActions(BaseTest):
         portal = self.layer['portal']
         login(portal, TEST_USER_NAME)
 
-        gl = GraphLayout('simple_publication_workflow')
+        req = self.getRequest({
+            'selected-workflow': ['simple_publication_workflow'],
+            'selected-state': ['published']})
+
+        gl = GraphLayout(portal, req)
         sheetName = gl.getPropSheetName()
 
         props = getToolByName(portal, 'portal_properties')
 
         props.addPropertySheet(sheetName)
-        
+        gl.setWorkflow('simple_publication_workflow')
+
         props[sheetName].manage_addProperty('simple_publication_workflow', '','text')
         exists = gl.layoutExists()
 
@@ -73,8 +84,13 @@ class TestActions(BaseTest):
         portal = self.layer['portal']
         login(portal, TEST_USER_NAME)
 
-        gl = GraphLayout('simple_publication_workflow')
+        req = self.getRequest({
+            'selected-workflow': ['simple_publication_workflow'],
+            'selected-state': ['published']})
+
+        gl = GraphLayout(portal, req)
         sheetName = gl.getPropSheetName()
+        gl.setWorkflow('simple_publication_workflow')
 
         props = getToolByName(portal, 'portal_properties')
 
@@ -89,7 +105,11 @@ class TestActions(BaseTest):
         portal = self.layer['portal']
         login(portal, TEST_USER_NAME)
 
-        gl = GraphLayout('simple_publication_workflow')
+        req = self.getRequest({
+            'selected-workflow': ['simple_publication_workflow'],
+            'selected-state': ['published']})
+
+        gl = GraphLayout(portal, req)
         sheetName = gl.getPropSheetName()
 
         props = getToolByName(portal, 'portal_properties')
@@ -105,9 +125,13 @@ class TestActions(BaseTest):
     def test_get_layout(self):
         portal = self.layer['portal']
         login(portal, TEST_USER_NAME)
+        req = self.getRequest({
+            'selected-workflow': ['simple_publication_workflow'],
+            'selected-state': ['published']})
 
-        gl = GraphLayout('simple_publication_workflow')
+        gl = GraphLayout(portal, req)
         sheetName = gl.getPropSheetName()
+        gl.setWorkflow('simple_publication_workflow')
 
         props = getToolByName(portal, 'portal_properties')
 

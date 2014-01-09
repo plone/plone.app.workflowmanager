@@ -20,18 +20,10 @@
 	<div id="plumb-button-container">
 		<p>Click the draw button to generate a graph of the current workflow.<br />You may need to rearrange the 
 		states in order to see everything clearly. Click and drag the boxes in order to move them to a better location.</p>
-		<input type="button" value="Draw graph." id="plumb-draw-button" />
+		<input type="button" value="Draw graph" id="plumb-draw-button" />
 	</div>
 	<div id="plumb-canvas">
-		<div tal:repeat="state states" class="plumb-state" tal:attributes="id string:plumb-state-${state/id}" style="display: none;">
-	    	<div class="plumb-state-id" tal:content="state/id">
-	    	</div>
-	    	<div class="plumb-state-title" tal:content="state/title" style="display: none;">
-	    	</div>
-	    	<div class="plumb-state-description" tal:content="state/description" style="display: none;">
-	    	</div>
-	    </div>
-	    <div id="plumb-toolbox" style="display: none;">
+		<div id="plumb-toolbox" style="display: none;">
 	    	<div id="plumb-toolbox-top">
 	    		<input type="button" value="Switch to design mode" class="btn-inverse view" id="plumb-mode-button" />
 	    		<form method="POST" tal:attributes="action string:${context/absolute_url}/@@workflowmanager-save-graph" id="plumb-layout-form">
@@ -41,6 +33,25 @@
 	    			<input tal:replace="structure context/@@authenticator/authenticator"/>
 	    			<input type="submit" value="Save layout" class="btn" id="plumb-graph-save" />
    				</form>
+   				<div id="plumb-modal" class="item-properties" style="display: none;">
+   					<legend>Properties</legend>
+
+   					<label for="plumb-modal-title">Title</label>
+   					<span id="plumb-modal-title">
+   					</span>
+
+   					<label for="plumb-modal-description">Description</label>
+   					<span id="plumb-modal-description">
+   					</span>
+	   			</div>
+	    	</div>
+	    </div>
+		<div tal:repeat="state states" class="plumb-state" tal:attributes="id string:plumb-state-${state/id}" style="display: none;">
+	    	<div class="plumb-state-id" tal:content="state/id">
+	    	</div>
+	    	<div class="plumb-state-title" tal:content="state/title" style="display: none;">
+	    	</div>
+	    	<div class="plumb-state-description" tal:content="state/description" style="display: none;">
 	    	</div>
 	    </div>
 	</div>
