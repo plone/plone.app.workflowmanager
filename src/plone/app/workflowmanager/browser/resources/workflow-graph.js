@@ -26,6 +26,8 @@ $(window).load(function() {
 
 		buildConnections(paths);
 
+		wrapOverlays();
+
 		setViewMode(states);
 
 		$('#plumb-toolbox').show();
@@ -69,79 +71,54 @@ $(window).load(function() {
 
 	$('#plumb-layout-form').ajaxForm(options);
 
-	function expandTransition(element)
+	function buildConnections(paths)
 	{
-		//Disabling the functionality in design mode.
-		if($('#plumb-mode-button').hasClass('design'))
-		{
-			return true;
-		}
+		$(paths).each(function() {
 
-		//if the transition is already open, then close it
-		//and exit.
-		if( $(element).hasClass('expanded')) 
-		{
-			$(element).removeClass('expanded');
-			$(element).find('div, a').remove();
-			return true;
-		}
+			var start_id = $(this).find('div.plumb-path-start').text();
+			var end_id = $(this).find('div.plumb-path-end').text();
 
-		var id = $(element).text();
+			var e0 = 'plumb-state-' + start_id;
+			var e1 = 'plumb-state-' + end_id;
 
-		var url = document.URL + "&selected-transition=" + id;
+			var path_label = $(this).find('.plumb-path-transition').text();
 
-		//the ID of the element in WFM containing 
-		//all the info needed in this context
-		var name = 'transition-' + id;
-		id = '#transition-' + id;
+			jsPlumb.connect({ 
+				source:e0,
+				target:e1,
+				connector:"StateMachine",
+				hoverPaintStyle:{ strokeStyle:"gold" },
+				overlays:[
+				["Arrow", {location:1, width:10}],
+				["Label", { 
+					label:path_label, 
+					location:0.2, 
+					cssClass:"plumb-label",
+					events:{
+						//Defining the event here is the only effective way, 
+						//since jsPlumb makes it difficult/impossible to add a listener
+						//outside the connection definition
+          				click:function(labelOverlay, originalEvent) { 
 
-		var props = $(id).find('.transition-properties');
-
-		var transitionTitle = props.find('input[name="' + name + '-title"]').val();
-		var description = props.find('textarea[name="' + name + '-description"]').val();
-
-		$(element).addClass('expanded');
-		$(element).append('<div>' + transitionTitle + '</div>');
-		$(element).append('<div>' + description + '</div>');
-		$(element).append('<a class="goto-link" href="' + url + '"">Edit</a>');
-	}
-
-	function expandState(element)
-	{
-
-		//Disabling the functionality in design mode.
-		if($('#plumb-mode-button').hasClass('design'))
-		{
-			return true;
-		} 
-
-		//If the element is already expanded, close it
-		//and exit.
-		if($(element).hasClass('expanded'))
-		{
-			$(element).children().hide();
-			$(element).find('.plumb-state-id').show();
-			$(element).removeClass('expanded');
-			return true;
-		}
-
-		$(element).find('.plumb-state-id').hide();
-		$(element).children().show();
-		$(element).addClass('expanded');
-	}
-
-	function setLayout()
-	{
-		$('#plumb-workflow').attr('value', $('#selected-workflow').attr('value'));
-		var states = $('.plumb-state-id');
-		message = {};
-
-		states.each(function() {
-			message[$(this).text()] = $(this).parent().position();
+            				expandTransition(originalEvent.currentTarget);
+          				}
+        			}
+        		}]
+				],
+				anchor: "Continuous",
+				endpoint: "Blank",
+				paintStyle:{ strokeStyle:"black", lineWidth:1 },
+			});
 		});
+	}
 
-		var output = JSON.stringify(message);
-		$('#plumb-layout-container').text(output);
+	function disableDragging(states)
+	{
+		//this will work with either a single element
+		//or an array of them
+		$(states).each(function() {
+			jsPlumb.setDraggable($(this), false);
+		});
 	}
 
 	function distribute(divs)
@@ -180,10 +157,113 @@ $(window).load(function() {
 		});
 	}
 
+	function enableDragging(states)
+	{
+		$(states).each(function() {
+			jsPlumb.setDraggable($(this), true);
+		});
+	}
+
+	function expandState(element)
+	{
+
+		//Disabling the functionality in design mode.
+		if($('#plumb-mode-button').hasClass('design'))
+		{
+			return true;
+		}
+
+		//If the element is already expanded, close it
+		//and exit.
+		if($(element).hasClass('expanded'))
+		{
+			$(element).children().hide();
+			$(element).find('.plumb-state-id').show();
+			$(element).removeClass('expanded');
+			$(element).find('a').remove();
+			return true;
+		}
+
+		var url = document.URL + "&selected-state=" + $(element).find('.plumb-state-id').text();
+
+		$(element).children().show();
+		$(element).find('.plumb-state-id').hide();
+		$(element).addClass('expanded');
+		$(element).append('<a class="goto-link" href="' + url + '"">Edit</a>');
+	}
+
+	function expandTransition(element)
+	{
+		//Disabling the functionality in design mode.
+		if($('#plumb-mode-button').hasClass('design'))
+		{
+			return true;
+		}
+
+		//if the transition is already open, then close it
+		//and exit.
+		if( $(element).hasClass('expanded')) 
+		{
+			$(element).removeClass('expanded');
+			$(element).find('div, a').remove();
+			$(element).find('span').show();
+			return true;
+		}
+
+		var id = $(element).text();
+
+		var url = document.URL + "&selected-transition=" + id;
+
+		//the ID of the element in WFM containing 
+		//all the info needed in this context
+		var name = 'transition-' + id;
+		id = '#transition-' + id;
+
+		var props = $(id).find('.transition-properties');
+
+		var transitionTitle = props.find('input[name="' + name + '-title"]').val();
+		var description = props.find('textarea[name="' + name + '-description"]').val();
+
+		$(element).addClass('expanded');
+		$(element).find('span').hide();
+		$(element).append('<div>' + transitionTitle + '</div>');
+		$(element).append('<div>' + description + '</div>');
+		$(element).append('<a class="goto-link" href="' + url + '"">Edit</a>');
+	}
+
 	function getStateDivs()
 	{
 
 		return $('#plumb-canvas .plumb-state');
+	}
+
+	function lockScrolling()
+	{
+		//This isn't as pointless as it seems.
+		//By setting the width explicitly, it prevents 
+		//the body width from changing when the overflow is changed.
+		$('html, body').css('width', $('html, body').css('width'));
+		$('html, body').css('overflow', 'hidden');
+	}
+
+	function makeDraggable(states)
+	{
+		//this function is needed to set the 
+		//options since you can't pass them to the
+		// toggle/disable functions
+		$(states).each(function() {
+			jsPlumb.draggable($(this), {
+				containment: '#plumb-canvas',
+				scroll: false
+			});
+		});
+	}
+
+	function scrollToElement(element)
+	{
+		$('html, body').animate({
+		        scrollTop: $(element).offset().top
+		}, 200);
 	}
 
 	function setDesignMode(states)
@@ -202,6 +282,20 @@ $(window).load(function() {
 	    enableDragging(states);
 	}
 
+	function setLayout()
+	{
+		$('#plumb-workflow').attr('value', $('#selected-workflow').attr('value'));
+		var states = $('.plumb-state-id');
+		message = {};
+
+		states.each(function() {
+			message[$(this).text()] = $(this).parent().position();
+		});
+
+		var output = JSON.stringify(message);
+		$('#plumb-layout-container').text(output);
+	}
+
 	function setViewMode(states)
 	{
 		var element = $('#plumb-mode-button');
@@ -213,95 +307,24 @@ $(window).load(function() {
 		disableDragging(states);
 	}
 
-	function scrollToElement(element)
-	{
-		$('html, body').animate({
-		        scrollTop: $(element).offset().top
-		}, 200);
-	}
-
 	function unlockScrolling()
 	{
 		$('html, body').css('width', 'inherit');	
 		$('html, body').css('overflow', 'auto');
 	}
 
-	function lockScrolling()
+	function wrapOverlays()
 	{
-		//This isn't as pointless as it seems.
-		//By setting the width explicitly, it prevents 
-		//the body width from changing when the overflow is changed.
-		$('html, body').css('width', $('html, body').css('width'));
-		$('html, body').css('overflow', 'hidden');
-	}
 
-	function disableDragging(states)
-	{
-		//this will work with either a single element
-		//or an array of them
-		$(states).each(function() {
-			jsPlumb.setDraggable($(this), false);
-		});
-	}
+		var overlays = $('.plumb-label');
 
-	function enableDragging(states)
-	{
-		$(states).each(function() {
-			jsPlumb.setDraggable($(this), true);
-		});
-	}
+		overlays.each(function() {
 
-	function makeDraggable(states)
-	{
-		//this function is needed to set the 
-		//options since you can't pass them to the
-		// toggle/disable functions
-		$(states).each(function() {
-			jsPlumb.draggable($(this), {
-				containment: '#plumb-canvas',
-				scroll: false
-			});
-		});
-	}
+			var text = $(this).text();
+			$(this).empty();
 
-	function buildConnections(paths)
-	{
-		$(paths).each(function() {
-
-			var start_id = $(this).find('div.plumb-path-start').text();
-			var end_id = $(this).find('div.plumb-path-end').text();
-
-			var e0 = 'plumb-state-' + start_id;
-			var e1 = 'plumb-state-' + end_id;
-
-			var path_label = $(this).find('.plumb-path-transition').text();
-
-			jsPlumb.connect({ 
-				source:e0,
-				target:e1,
-				connector:"StateMachine",
-				hoverPaintStyle:{ strokeStyle:"gold" },
-				overlays:[
-				["Arrow", {location:1, width:10}],
-				["Label", { 
-					label:path_label, 
-					location:0.2, 
-					cssClass:"plumb-label",
-					events:{
-						//Defining the event here is the only effective way, 
-						//since jsPlumb makes it difficult/impossible to add a listener
-						//outside the connection definition
-          				click:function(labelOverlay, originalEvent) { 
-            				expandTransition(originalEvent.currentTarget);
-          				}
-        			}
-        		}]
-				],
-				anchor: "Continuous",
-				endpoint: "Blank",
-				paintStyle:{ strokeStyle:"black", lineWidth:1 },
-			});
-		});
+			$(this).append('<span>' + text + '</span>');
+		})
 	}
 });
 
