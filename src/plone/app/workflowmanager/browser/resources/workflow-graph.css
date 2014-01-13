@@ -30,15 +30,19 @@
 	font-size: 20px;
 	background-color: white;
 	opacity: 1;
-	width: 150px;
+	width:200px;
 	height: auto;
 	z-index: 1;
+	padding: 8px;
+	border: 5px solid #ddd;
+	border-radius: 10px;
+	box-shadow: 3px 3px 6px black;
+	font-size: 12px;
+	text-align: left;
 }
 
-#plumb-canvas div.plumb-state:hover {
-	border-color: gold;
-	z-index: 1;
-	background-color: white;
+#plumb-canvas div.plumb-state.expanded:hover {
+	border-color: #ddd;
 }
 
 #plumb-canvas div.exit {
@@ -57,8 +61,10 @@
 	z-index: 1;
 } 
 
-#plumb-canvas .plumb-connection:hover {
-	color:gold;
+#plumb-canvas div.highlight {
+	border-color: gold;
+	z-index: 1;
+	background-color: white;
 }
 
 #plumb-button-container {
@@ -76,6 +82,17 @@
 	background-color: #f5f5f5;
 	margin: 5px;
 	border: .1em solid #ddd;
+}
+
+#plumb-canvas .expanded a {
+	color: black;
+	margin-top: 5px;
+}
+
+#plumb-canvas .plumb-title, #plumb-canvas.expanded.plumb-state-title {
+	padding-bottom: 5px;
+	text-decoration: underline;
+	font-size: 15px;
 }
 
 #plumb-toolbox input {

@@ -1,41 +1,35 @@
 $(window).load(function() {	
 
-	$('#plumb-draw-button').live('click', function() {
+	//To help refactor this horrible naming scheme eventually...
+	var graphSaveButtonId = '#plumb-graph-save';
+	var drawButtonId = 		'#plumb-draw-button';
+	var modeButtonId = 		'#plumb-mode-button';
+	var toolboxId = 		'#plumb-toolbox';
+	var stateIdClass = 		'.plumb-state-id';
+	var stateClass = 		'.plumb-state';
+	var canvasId = 			'#plumb-canvas';
+	var workflowId = 		'#plumb-workflow';
+	var layoutContainerId = '#plumb-layout-container';
+	var containerId = 		'#plumb-container';
+	var labelClass = 		'.plumb-label';
+	var waitMessageId =		'#plumb-wait-message';
 
-		//hide the button, unhide the state divs then scroll the page down
-		//in order to better see the graph
-		//
-		//Requiring a button press to generate the graph
-		//is all necessary to allow jsPlumb enough time to draw
-		//everything correctly. 
-		//Doing so on page load is too resource intensive.
-		$('.plumb-state').css('display', 'inherit');
-		$('#plumb-button-container').css('display', 'none');
+	var pathClass = 		'.plumb-path';
+	var pathStartClass = 	'.plumb-path-start';
+	var pathEndClass = 		'.plumb-path-end';
+	var pathTransitionClass =
+							'.plumb-path-transition';
 
-		scrollToElement('#menu-container');
+	var spinner = 			'#kss-spinner';
 
-		//jsPlumb defaults;
-		jsPlumb.Defaults.Container = "plumb-canvas";
-
-		var states = getStateDivs();
-		var paths = $('#plumb-container > .plumb-path');
-
-		makeDraggable(states);
-
-		distribute(states);
-
-		buildConnections(paths);
-
-		wrapOverlays();
-
-		setViewMode(states);
-
-		$('#plumb-toolbox').show();
+	$('#fieldsetlegend-graph').live('click', function() {
+		
+		buildGraph();
 	});
 
-	$('#plumb-mode-button').live('click', function() {
+	$(modeButtonId).live('click', function() {
 
-		var states = $('#plumb-canvas > .plumb-state');
+		var states = $(canvasId + ' > ' + stateClass);
 
 		if($(this).hasClass('view')){
 
@@ -44,44 +38,55 @@ $(window).load(function() {
 
 			setViewMode(states);
 		}
-	})
+	});
 
 	$('#tabs-menu a[id^="fieldsetlegend-"]').live('click', function() {
 
 		//Set the page to view mode if
 		//the user clicks one of the "fieldsetlegend" tabs.
-		if( $('.plumb-state').css('display') != 'none' )
+		if( $(stateClass).css('display') != 'none' )
 		{
 			setViewMode(getStateDivs());
 		}
-	})
+	});
 
-	$('.plumb-state').live('click', function() {
+	$(stateClass).live('click', function() {
 
 		expandState($(this));
 	});
 
-	var options = {
-		beforeSerialize: setLayout,
-		success: function() {
-			alert("Layout saved successfully.");
-			setViewMode(getStateDivs());
-		}
-	};
+	$(stateClass).hover(function() {
 
-	$('#plumb-layout-form').ajaxForm(options);
+		$(this).addClass('highlight');
+	},
+	function() {
+		$(this).removeClass('highlight');
+	});
+
+	$(graphSaveButtonId).live('click', function() {
+
+		var options = {
+			beforeSerialize: setLayout,
+			success: function() {
+				alert("Layout saved successfully.");
+				setViewMode(getStateDivs());
+			}
+		};
+
+		$('#plumb-layout-form').ajaxSubmit(options);
+	})
 
 	function buildConnections(paths)
 	{
 		$(paths).each(function() {
 
-			var start_id = $(this).find('div.plumb-path-start').text();
-			var end_id = $(this).find('div.plumb-path-end').text();
+			var start_id = $(this).find('div' + pathStartClass).text();
+			var end_id = $(this).find('div' + pathEndClass).text();
 
 			var e0 = 'plumb-state-' + start_id;
 			var e1 = 'plumb-state-' + end_id;
 
-			var path_label = $(this).find('.plumb-path-transition').text();
+			var path_label = $(this).find(pathTransitionClass).text();
 
 			jsPlumb.connect({ 
 				source:e0,
@@ -112,6 +117,45 @@ $(window).load(function() {
 		});
 	}
 
+	function buildGraph()
+	{
+
+		//if the connectors exist, 
+		//the graph is already complete.
+		if( $('._jsPlumb_connector').length > 0 )
+		{
+			return true;
+		}
+
+		//we set the timeout to assure that the canvas will be properly
+		//loaded and displayed by the time we call buildConnections.
+		//mayhem ensues otherwise.
+		setTimeout(function() {
+
+			$(stateClass).css('display', 'inherit');
+
+			scrollToElement('#menu-container');
+
+			jsPlumb.Defaults.Container = "plumb-canvas";
+
+			var states = getStateDivs();
+			var paths = $(containerId + ' > ' + pathClass);
+
+			distribute(states);
+
+			$(toolboxId).show();
+
+			buildConnections(paths);
+
+			makeDraggable(states);
+
+			wrapOverlays();
+
+			setViewMode(states);
+
+		}, 500);
+	}
+
 	function disableDragging(states)
 	{
 		//this will work with either a single element
@@ -125,7 +169,7 @@ $(window).load(function() {
 	{
 		//this function simply places the divs randomly onto the canvas
 		//unless the layout has been saved, then it recreates the saved layout
-		var layout = $('#plumb-layout-container').attr('value');
+		var layout = $(layoutContainerId).attr('value');
 		
 
 		if( layout.length > 0 )
@@ -138,10 +182,10 @@ $(window).load(function() {
 		}
 
 		$(divs).each(function() {
-			if( layout[$(this).find('.plumb-state-id').text()] ) 
+			if( layout[$(this).find(stateIdClass).text()] ) 
 			{
-				var top = layout[$(this).find('.plumb-state-id').text()].top;
-				var left = layout[$(this).find('.plumb-state-id').text()].left;
+				var top = layout[$(this).find(stateIdClass).text()].top;
+				var left = layout[$(this).find(stateIdClass).text()].left;
 
 				$(this).css('top', top);
 				$(this).css('left', left);
@@ -149,7 +193,7 @@ $(window).load(function() {
 			else
 			{
 				var css_left = Math.ceil(Math.random() * ($('#content').width() - $(this).outerWidth(true)));
-				var css_top = Math.ceil(Math.random() * ($('#plumb-canvas').height() - $(this).outerHeight(true)));
+				var css_top = Math.ceil(Math.random() * ($(canvasId).height() - $(this).outerHeight(true)));
 
 				$(this).css('top', css_top);
 				$(this).css('left', css_left);
@@ -168,7 +212,7 @@ $(window).load(function() {
 	{
 
 		//Disabling the functionality in design mode.
-		if($('#plumb-mode-button').hasClass('design'))
+		if($(modeButtonId).hasClass('design'))
 		{
 			return true;
 		}
@@ -178,24 +222,24 @@ $(window).load(function() {
 		if($(element).hasClass('expanded'))
 		{
 			$(element).children().hide();
-			$(element).find('.plumb-state-id').show();
+			$(element).find(stateIdClass).show();
 			$(element).removeClass('expanded');
-			$(element).find('a').remove();
+			$(element).find('a, span').remove();
 			return true;
 		}
 
-		var url = document.URL + "&selected-state=" + $(element).find('.plumb-state-id').text();
+		var url = document.URL + "&selected-state=" + $(element).find(stateIdClass).text();
 
 		$(element).children().show();
-		$(element).find('.plumb-state-id').hide();
+		$(element).find(stateIdClass).hide();
 		$(element).addClass('expanded');
-		$(element).append('<a class="goto-link" href="' + url + '"">Edit</a>');
+		$(element).append('<a class="goto-link btn" href="' + url + '"">Edit</a>');
 	}
 
 	function expandTransition(element)
 	{
 		//Disabling the functionality in design mode.
-		if($('#plumb-mode-button').hasClass('design'))
+		if($(modeButtonId).hasClass('design'))
 		{
 			return true;
 		}
@@ -226,15 +270,15 @@ $(window).load(function() {
 
 		$(element).addClass('expanded');
 		$(element).find('span').hide();
-		$(element).append('<div>' + transitionTitle + '</div>');
+		$(element).append('<div class="plumb-title">' + transitionTitle + '</div>');
 		$(element).append('<div>' + description + '</div>');
-		$(element).append('<a class="goto-link" href="' + url + '"">Edit</a>');
+		$(element).append('<a class="goto-link btn" href="' + url + '"">Edit</a>');
 	}
 
 	function getStateDivs()
 	{
 
-		return $('#plumb-canvas .plumb-state');
+		return $(canvasId + ' ' + stateClass);
 	}
 
 	function lockScrolling()
@@ -253,7 +297,7 @@ $(window).load(function() {
 		// toggle/disable functions
 		$(states).each(function() {
 			jsPlumb.draggable($(this), {
-				containment: '#plumb-canvas',
+				containment: canvasId,
 				scroll: false
 			});
 		});
@@ -268,7 +312,7 @@ $(window).load(function() {
 
 	function setDesignMode(states)
 	{
-		var element = $('#plumb-mode-button');
+		var element = $(modeButtonId);
 		//the class on the button is what mode we're in now
 		//the value is the class we would switch to by pressing the button
 		element.removeClass('view').addClass('design');
@@ -284,8 +328,8 @@ $(window).load(function() {
 
 	function setLayout()
 	{
-		$('#plumb-workflow').attr('value', $('#selected-workflow').attr('value'));
-		var states = $('.plumb-state-id');
+		$(workflowId).attr('value', $('#selected-workflow').attr('value'));
+		var states = $(stateIdClass);
 		message = {};
 
 		states.each(function() {
@@ -293,12 +337,12 @@ $(window).load(function() {
 		});
 
 		var output = JSON.stringify(message);
-		$('#plumb-layout-container').text(output);
+		$(layoutContainerId).text(output);
 	}
 
 	function setViewMode(states)
 	{
-		var element = $('#plumb-mode-button');
+		var element = $(modeButtonId);
 		element.removeClass('design').addClass('view');
 		element.removeClass('btn').addClass('btn-inverse');
 		element.prop('value', 'Switch to design mode');
@@ -316,7 +360,7 @@ $(window).load(function() {
 	function wrapOverlays()
 	{
 
-		var overlays = $('.plumb-label');
+		var overlays = $(labelClass);
 
 		overlays.each(function() {
 
