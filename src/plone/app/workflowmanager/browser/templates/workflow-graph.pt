@@ -18,9 +18,11 @@
 	    </div>
 	</span>
 	<div id="plumb-canvas">
-		<div id="plumb-wait-message" style="display: none;">
-			<p>Please wait...</p>
-			<div id="plumb-progressbar"></div>
+		<div id="plumb-help-message" style="display: none;">
+			<p>If this is your first time viewing the workflow graph, 
+			   press the "Switch to Design Mode" button to move the workflow state
+			   boxes around to form a more visually-appealing layout. When you're
+			   done moving things around, press "Save Layout" to keep that layout for future use.</p>
 		</div>
 		<div id="plumb-toolbox" style="display: none;">
 	    	<div id="plumb-toolbox-top">

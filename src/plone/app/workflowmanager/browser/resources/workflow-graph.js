@@ -12,7 +12,7 @@ $(window).load(function() {
 	var layoutContainerId = '#plumb-layout-container';
 	var containerId = 		'#plumb-container';
 	var labelClass = 		'.plumb-label';
-	var waitMessageId =		'#plumb-wait-message';
+	var helpMessageId =		'#plumb-help-message';
 
 	var pathClass = 		'.plumb-path';
 	var pathStartClass = 	'.plumb-path-start';
@@ -181,6 +181,8 @@ $(window).load(function() {
 			layout = {};
 		}
 
+		var layoutExists = false;
+
 		$(divs).each(function() {
 			if( layout[$(this).find(stateIdClass).text()] ) 
 			{
@@ -189,6 +191,7 @@ $(window).load(function() {
 
 				$(this).css('top', top);
 				$(this).css('left', left);
+				layoutExists = true;
 			}
 			else
 			{
@@ -199,6 +202,13 @@ $(window).load(function() {
 				$(this).css('left', css_left);
 			}
 		});
+
+		if( layoutExists == false )
+		{
+			$(helpMessageId).dialog({
+				modal: true,
+			});
+		}
 	}
 
 	function enableDragging(states)
