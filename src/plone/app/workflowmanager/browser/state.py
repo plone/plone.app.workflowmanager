@@ -22,7 +22,7 @@ class AddState(Base):
             self.authorize()
             state = validators.not_empty(self, 'state-name')
             state_id = validators.id(self, 'state-name',
-                                     self.selected_workflow)
+                                     self.selected_workflow.states)
 
             if not self.errors:
                 # must have state to go on

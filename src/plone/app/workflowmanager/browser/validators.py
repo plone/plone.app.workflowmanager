@@ -1,4 +1,5 @@
 from OFS.ObjectManager import checkValidId
+from zope.i18n import translate
 from Products.CMFCore.utils import getToolByName
 from plone.app.workflowmanager.utils import generate_id
 from plone.app.workflowmanager import WMMessageFactory as _
@@ -8,7 +9,8 @@ def not_empty(form, name):
     v = form.request.get(name, '').strip()
     if v is None or (type(v) in (str, unicode) and \
      len(v) == 0) or (type(v) in (tuple, set, list) and len(v) == 0):
-        form.errors[name] = _(u'This field is required.')
+        form.errors[name] = translate(_(u'This field is required.'),
+                                      context=form.request)
 
     return v
 
@@ -21,7 +23,8 @@ def id(form, name, container):
     try:
         checkValidId(container, elt_id)
     except:
-        form.errors[name] = _(u'Invalid workflow name. Please try another.')
+        form.errors[name] = translate(_(u'Invalid name. Please try another.'),
+                                      context=form.request)
 
     return elt_id
 

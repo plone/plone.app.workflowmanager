@@ -23,7 +23,7 @@ class AddTransition(Base):
             self.authorize()
             transition = validators.not_empty(self, 'transition-name')
             transition_id = validators.id(self, 'transition-name',
-                self.selected_workflow)
+                self.selected_workflow.transitions)
 
             if not self.errors:
                 # must have transition to go on
@@ -43,6 +43,8 @@ class AddTransition(Base):
                     new_transition.actbox_url = \
     "%(content_url)s/content_status_modify?workflow_action=" + transition_id
                     new_transition.actbox_category = 'workflow'
+                    new_transition.script_name = ''
+                    new_transition.after_script_name = ''
 
                 # if added from state screen
                 referenced_state = self.request.get('referenced-state', None)
