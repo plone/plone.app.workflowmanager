@@ -84,6 +84,10 @@
 	border: .1em solid #ddd;
 }
 
+#plumb-toolbox input {
+	display: block;
+}
+
 #plumb-canvas .expanded a {
 	color: black;
 	margin-top: 5px;

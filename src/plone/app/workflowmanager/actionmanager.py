@@ -32,6 +32,7 @@ class RuleAdapter(object):
         1) make sure condition is enabled for transition
         2) enable at root and bubble to item below
         """
+
         c = WorkflowTransitionCondition()
         c.wf_transitions = [self.transition.id]
         self.rule.conditions = [c]

@@ -4,8 +4,10 @@ $(window).load(function() {
 	var graphSaveButtonId = '#plumb-graph-save';
 	var drawButtonId = 		'#plumb-draw-button';
 	var modeButtonId = 		'#plumb-mode-button';
+	var transButtonId = 	'#plumb-add-transition-button';
 	var toolboxId = 		'#plumb-toolbox';
 	var stateIdClass = 		'.plumb-state-id';
+	var dropPtClass = 		'.plumb-drop-point';
 	var stateClass = 		'.plumb-state';
 	var canvasId = 			'#plumb-canvas';
 	var workflowId = 		'#plumb-workflow';
@@ -20,10 +22,9 @@ $(window).load(function() {
 	var pathTransitionClass =
 							'.plumb-path-transition';
 
-	var spinner = 			'#kss-spinner';
-
 	$('#fieldsetlegend-graph').live('click', function() {
 		
+		$(canvasId).disableSelection();
 		buildGraph();
 	});
 
@@ -40,6 +41,11 @@ $(window).load(function() {
 		}
 	});
 
+	$(transButtonId).live('click', function() {
+
+		addEndpoints();
+	})
+
 	$('#tabs-menu a[id^="fieldsetlegend-"]').live('click', function() {
 
 		//Set the page to view mode if
@@ -55,7 +61,7 @@ $(window).load(function() {
 		expandState($(this));
 	});
 
-	$(stateClass).hover(function() {
+	$(stateIdClass).hover(function() {
 
 		$(this).addClass('highlight');
 	},
@@ -75,6 +81,64 @@ $(window).load(function() {
 
 		$('#plumb-layout-form').ajaxSubmit(options);
 	})
+
+	function addEndpoints()
+	{
+		var dropOptions = {
+			anchor: "Continuous",
+			isSource: true,
+			connector: "StateMachine",
+			scope: "newTransitions",
+		};
+
+		var stateBoxes = $(stateClass);
+
+		stateBoxes.each(function() {
+			jsPlumb.addEndpoint($(this), dropOptions);
+		});
+
+		jsPlumb.makeTarget(stateBoxes, {
+			scope: "newTransitions",
+			hoverClass: "highlight",
+			anchor: "Continuous",
+		});
+
+		jsPlumb.repaintEverything();
+
+		jsPlumb.bind("connection", function(info, dropOptions) {
+
+			var source = info['sourceId'];
+			var target = info['targetId'];
+
+			var pts = jsPlumb.selectEndpoints({scope:"newTransitions"});
+			var endPts = pts.getParameter();
+
+			$(endPts).each(function() {
+				if( !( this[1].elementId == source || this[1].elementId == target ) )
+				{
+					this[1].detach();
+				}
+			})
+			addConnection(info);
+		});
+	}
+
+	function addConnection(info, options)
+	{
+		var source = info['sourceId'];
+		var target = info['targetId'];
+
+		var paths = $(pathClass);
+
+		paths.each(function() {
+			var start = 'plumb-state-' + $(this).find(pathStartClass).text();
+			var end = 'plumb-state-' + $(this).find(pathEndClass).text();
+
+			if( end == target && start == source )
+			{
+			}
+		});
+	}
 
 	function buildConnections(paths)
 	{
@@ -145,9 +209,9 @@ $(window).load(function() {
 
 			$(toolboxId).show();
 
-			buildConnections(paths);
-
 			makeDraggable(states);
+
+			buildConnections(paths);
 
 			wrapOverlays();
 
