@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0rc3 (unreleased)
+1.0rc3 (2014-02-19)
 -------------------
 
 - Nothing changed yet.
