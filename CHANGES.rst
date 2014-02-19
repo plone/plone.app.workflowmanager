@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0rc2 - unreleased
+1.0rc2 (2014-02-19)
 -------------------
 
 - Fix: avoid i18n messages to be stored in place of permission ids.
