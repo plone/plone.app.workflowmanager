@@ -1,5 +1,4 @@
-include *.rst *.py *.cfg *.in
-global-exclude *pyc
-
-recursive-include docs *
 recursive-include plone *
+recursive-include docs *
+include *
+global-exclude *pyc
