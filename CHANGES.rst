@@ -4,15 +4,10 @@ Changelog
 1.0rc4 (2014-02-19)
 -------------------
 
-- Nothing changed yet.
-
-
-1.0rc3 (2014-02-19)
--------------------
-
-- Nothing changed yet.
-
 - Fix: avoid i18n messages to be stored in place of permission ids.
+  [thomasdesvenain]
+
+- Fixed MANIFEST.in
   [thomasdesvenain]
 
 1.0rc1 - 2014-02-17
