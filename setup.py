@@ -1,7 +1,7 @@
 from setuptools import find_packages
 from setuptools import setup
 
-version = '1.0rc5.dev0'
+version = '1.0rc5'
 
 setup(name='plone.app.workflowmanager',
       version=version,
