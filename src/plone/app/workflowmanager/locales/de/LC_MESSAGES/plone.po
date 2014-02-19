@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.workflowmanager\n"
-"POT-Creation-Date: 2013-11-29 17:57+0000\n"
+"POT-Creation-Date: 2014-02-18 17:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -54,8 +54,8 @@ msgstr ""
 msgid "Info"
 msgstr ""
 
-#: plone/app/workflowmanager/browser/validators.py:24
-msgid "Invalid workflow name. Please try another."
+#: plone/app/workflowmanager/browser/validators.py:26
+msgid "Invalid name. Please try another."
 msgstr ""
 
 #: plone/app/workflowmanager/browser/controlpanel.py:59
@@ -78,7 +78,7 @@ msgstr ""
 msgid "Site Administrators"
 msgstr ""
 
-#: plone/app/workflowmanager/browser/validators.py:11
+#: plone/app/workflowmanager/browser/validators.py:12
 msgid "This field is required."
 msgstr ""
 
@@ -95,7 +95,7 @@ msgid "You can not delete this workflow until no content types are specified to 
 msgstr ""
 
 #. Default: "Deleting the \"${id}\" transition has been canceled."
-#: plone/app/workflowmanager/browser/transition.py:162
+#: plone/app/workflowmanager/browser/transition.py:164
 msgid "msg_deleting_canceled"
 msgstr ""
 
@@ -115,12 +115,12 @@ msgid "msg_state_deletion_canceled"
 msgstr ""
 
 #. Default: "\"${transition_id}\" transition successfully created."
-#: plone/app/workflowmanager/browser/transition.py:54
+#: plone/app/workflowmanager/browser/transition.py:56
 msgid "msg_transition_created"
 msgstr ""
 
 #. Default: "\"${id}\" transition has been successfully deleted."
-#: plone/app/workflowmanager/browser/transition.py:157
+#: plone/app/workflowmanager/browser/transition.py:159
 msgid "msg_transition_deleted"
 msgstr ""
 

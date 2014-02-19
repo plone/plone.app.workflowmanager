@@ -4,6 +4,8 @@ Changelog
 1.0rc2 - unreleased
 -------------------
 
+- Fix: avoid i18n messages to be stored in place of permission ids.
+  [thomasdesvenain]
 
 1.0rc1 - 2014-02-17
 -------------------
@@ -15,7 +17,7 @@ Changelog
 - Added more strings classifiers and metadata items for this packages
   [macagua]
 
-- Fix workflow, state and transition id generation 
+- Fix workflow, state and transition id generation
   when we have accents in titles.
   [thomasdesvenain]
 
