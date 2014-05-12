@@ -47,7 +47,7 @@ Simple publication workflow and call it "My Simple Publication Workflow".
     >>> browser.getControl(name='form.actions.add').click()
 
 Should give you an error if no name specified
-    >>> 'Invalid workflow name. Please try another.' in browser.contents
+    >>> 'Invalid name. Please try another.' in browser.contents
     True
 
     >>> browser.getControl(name='clone-from-workflow').value = ['simple_publication_workflow']
@@ -231,7 +231,7 @@ Let's test adding a new state and test error handling.
 
 Should show error
 
-    >>> "Invalid workflow name. Please try another." in browser.contents
+    >>> "Invalid name. Please try another." in browser.contents
     True
     >>> browser.getControl(name='clone-from-state').value
     ['private']
@@ -289,7 +289,7 @@ And add the cloning...
 
 Should show error
 
-    >>> "Invalid workflow name. Please try another." in browser.contents
+    >>> "Invalid name. Please try another." in browser.contents
     True
     >>> browser.getControl(name='clone-from-transition').value
     ['retract']

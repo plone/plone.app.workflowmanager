@@ -4,7 +4,7 @@ from Products.DCWorkflow.Guard import Guard
 def generate_id(org_id, ids):
     count = 1
     new_id = org_id
-    while id in ids:
+    while new_id in ids:
         new_id = org_id + '-' + str(count)
         count += 1
 
