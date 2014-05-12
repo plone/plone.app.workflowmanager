@@ -73,7 +73,7 @@ class Base(BrowserView):
     @property
     @memoize
     def allowed_guard_permissions(self):
-        return allowed_guard_permissions
+        return allowed_guard_permissions(self.selected_workflow.getId())
 
     @property
     @memoize

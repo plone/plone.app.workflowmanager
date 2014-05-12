@@ -2,6 +2,8 @@ from plone.app.workflowmanager import WMMessageFactory as _
 from Products.CMFCore.utils import getToolByName
 from zope.component.hooks import getSite
 
+import md5
+
 
 def managed_permissions(wfid=None):
     if wfid is None:
@@ -21,8 +23,17 @@ def managed_permissions(wfid=None):
     return items
 
 
-allowed_guard_permissions = {
+_allowed_guard_permissions = {
     'rr': 'Request review',
     'rpc': 'Review portal content',
     'mpc': 'Modify portal content'
 }
+
+
+def allowed_guard_permissions(wfid=None):
+    res = {}
+    for item in managed_permissions(wfid):
+        id = md5.md5(item.get('name')).hexdigest()
+        res[id] = item.get('name')
+
+    return res
