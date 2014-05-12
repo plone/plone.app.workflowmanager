@@ -1,6 +1,6 @@
-from zope.app.component.hooks import getSite
-from Products.CMFCore.utils import getToolByName
 from plone.app.workflowmanager import WMMessageFactory as _
+from Products.CMFCore.utils import getToolByName
+from zope.component.hooks import getSite
 
 
 def managed_permissions(wfid=None):
