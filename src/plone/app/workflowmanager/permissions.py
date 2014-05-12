@@ -21,13 +21,6 @@ def managed_permissions(wfid=None):
     return items
 
 
-_allowed_guard_permissions = {
-    'rr': 'Request review',
-    'rpc': 'Review portal content',
-    'mpc': 'Modify portal content'
-}
-
-
 def allowed_guard_permissions(wfid=None):
     res = {}
     for item in managed_permissions(wfid):
