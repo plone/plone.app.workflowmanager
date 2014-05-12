@@ -4,7 +4,9 @@ Changelog
 1.0rc6 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Show all permissions managed by the workflow instead of
+  hardcoding ones
+  [erral]
 
 
 1.0rc5 (2014-02-19)
