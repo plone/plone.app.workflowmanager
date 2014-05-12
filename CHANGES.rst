@@ -4,6 +4,9 @@ Changelog
 1.0rc6 (unreleased)
 -------------------
 
+- Show managed permissions in transition permission guards
+  [erral]
+
 - Show all permissions managed by the workflow instead of
   hardcoding ones
   [erral]
