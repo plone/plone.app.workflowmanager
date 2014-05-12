@@ -165,9 +165,9 @@ Let's edit the title and description now.
 We'll move onto editing Transitions now
 Let's edit the guards first
 
-    >>> browser.getControl(name='transition-retract-guard-permission-rpc').value
+    >>> browser.getControl(name='transition-retract-guard-permission-Modify portal content').value
     False
-    >>> browser.getControl(name='transition-retract-guard-permission-rpc').value = True
+    >>> browser.getControl(name='transition-retract-guard-permission-Modify portal content').value = True
     >>> browser.getControl(name='transition-retract-guard-roles').value
     []
     >>> browser.getControl(name='transition-retract-guard-roles').value = ['Member']
@@ -176,7 +176,7 @@ Let's edit the guards first
     >>> browser.getControl(name='transition-retract-guard-groups').value = ['Reviewers']
     >>> browser.getControl(name='save-transition-retract-button').click()
 
-    >>> browser.getControl(name='transition-retract-guard-permission-rpc').value
+    >>> browser.getControl(name='transition-retract-guard-permission-Modify portal content').value
     True
     >>> browser.getControl(name='transition-retract-guard-roles').value
     ['Member']
