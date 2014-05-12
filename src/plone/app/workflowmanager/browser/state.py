@@ -120,7 +120,8 @@ class SaveState(Base):
         state = wf.states[self.request.get('selected-state')]
         perm_roles = PersistentMapping()
         available_roles = state.getAvailableRoles()
-        for managed_perm in managed_permissions:
+
+        for managed_perm in managed_permissions(wf.id):
             selected_roles = []
             for role in available_roles:
                 key = 'permission-%s-role-%s-state-%s' % (
