@@ -1,147 +1,99 @@
-$(window).ready(function() {	
 
-	//To help refactor this horrible naming scheme eventually...
-	var graphSaveButtonId = '#plumb-graph-save';
-	var drawButtonId = 		'#plumb-draw-button';
-	var modeButtonId = 		'#plumb-mode-button';
-	var transButtonId = 	'#plumb-add-transition-button';
-	var toolboxId = 		'#plumb-toolbox';
-	var stateIdClass = 		'.plumb-state-id';
-	var stateClass = 		'.plumb-state';
-	var canvasId = 			'#plumb-canvas';
-	var workflowId = 		'#plumb-workflow';
-	var layoutContainerId = '#plumb-layout-container';
-	var containerId = 		'#plumb-container';
-	var labelClass = 		'.plumb-label';
-	var helpMessageId =		'#plumb-help-message';
-	var formBtn = 			'.plumb-form-btn';
-	var formHolder = 		'#plumb-form-holder';
-	var formOverlay = 		'#plumb-overlay';
+var WorkflowGraph = function WorkflowGraph() {
+	this.constructor;
+	this.init();
+	props = this.props;
+	t = this;
+}
 
-	var transDescClass = 	'.transition-description';
-	var transTitleClass = 	'.transition-title';
-	var transIdClass =		'.transition-id';
-	var transLinkClass = 	'.transition-link';
+WorkflowGraph.prototype = {	
 
-	var pathClass = 		'.plumb-path';
-	var pathStartClass = 	'.plumb-path-start';
-	var pathEndClass = 		'.plumb-path-end';
-	var pathTransitionClass =
-							'.plumb-path-transition';
+	props: {
+		//To help refactor this horrible naming scheme eventually...
+		graphSaveButtonId:  '#plumb-graph-save',
+		drawButtonId:  		'#plumb-draw-button',
+		modeButtonId:  		'#plumb-mode-button',
+		transButtonId:  	'#plumb-add-transition-button',
+		toolboxId:  		'#plumb-toolbox',
+		stateIdClass:  		'.plumb-state-id',
+		stateClass:  		'.plumb-state',
+		canvasId:  			'#plumb-canvas',
+		workflowId:  		'#plumb-workflow',
+		layoutContainerId:  '#plumb-layout-container',
+		layoutFormId: 		'#plumb-layout-form', 
+		containerId:  		'#plumb-container',
+		labelClass:  		'.plumb-label',
+		helpMessageId: 		'#plumb-help-message',
+		formHolder:  		'#plumb-form-holder',
+		formOverlay:  		'#plumb-overlay',
 
-	$('#fieldsetlegend-graph').live('click', function() {
-		
-		$(canvasId).disableSelection();
-		buildGraph();
-	});
+		transDescClass:  	'.transition-description',
+		transTitleClass:  	'.transition-title',
+		transIdClass: 		'.transition-id',
+		transLinkClass:  	'.transition-link',
 
-	$(modeButtonId).live('click', function() {
-
-		var states = $(canvasId + ' > ' + stateClass);
-
-		if($(this).hasClass('view')){
-
-			setDesignMode(states);
-		}else if($(this).hasClass('design')){
-
-			setViewMode(states);
-		}
-	});
-
-	$(transButtonId).live('click', function() {
-
-		addEndpoints();
-	})
-
-	$('#tabs-menu a[id^="fieldsetlegend-"]').live('click', function() {
-
-		//Set the page to view mode if
-		//the user clicks one of the "fieldsetlegend" tabs.
-		if( $(stateClass).css('display') != 'none' )
-		{
-			setViewMode(getStateDivs());
-		}
-	});
-
-	$(stateClass).live('click', function() {
-
-		expandState($(this));
-	});
-
-	$(stateIdClass).hover(function() {
-
-		$(this).addClass('highlight');
+		pathClass:  		'.plumb-path',
+		pathStartClass:  	'.plumb-path-start',
+		pathEndClass:  		'.plumb-path-end',
+		pathTransitionClass: 
+							'.plumb-path-transition',
 	},
-	function() {
-		$(this).removeClass('highlight');
-	});
 
-	$(graphSaveButtonId).live('click', function() {
+	init: function() {
+		props = this.props;
+		t = this;
 
-		var options = {
-			beforeSerialize: setLayout,
-			success: function() {
-				alert("Layout saved successfully.");
-				setViewMode(getStateDivs());
+		$(props.modeButtonId).live('click', function() {
+
+			var states = $(props.canvasId + ' > ' + props.stateClass);
+
+			if($(this).hasClass('view')){
+
+				t.setDesignMode(states);
+			}else if($(this).hasClass('design')){
+
+				t.setViewMode(states);
 			}
-		};
+		});
 
-		$('#plumb-layout-form').ajaxSubmit(options);
-	})
+		$(props.transButtonId).live('click', function() {
 
-	$(formBtn).live('click', function(e) {
-		//This function is deprecated.
-		//I'm just keeping it around temporarily as a reference
-		return true;
+			t.addEndpoints();
+		})
 
-		// e.preventDefault();
-		// var form = $(this).attr('rel');
+		$(props.stateClass).live('click', function() {
 
-		// //Grab the form and stick it into the formHolder
-		// var elements = $(form).find('form').clone();
+			t.expandState($(this));
+		});
 
-		// //Add 2 more divs to organize things
-		// $(elements).append('<div id="formTabs"></div>');
-		// $(elements).append('<div id="formPanes"></div>');
+		$(props.stateIdClass).hover(function() {
 
-		// $(formHolder).append(elements);
+			$(this).addClass('highlight');
+		},
+		function() {
+			$(this).removeClass('highlight');
+		});
 
-		// //Add an anchor for each fieldset
-		// $(elements).find('legend').each(function() {
-		// 	$('#formTabs').append('<div><a href="#">' + $(this).text() + '</a></div>');
-		// });
+		$(props.graphSaveButtonId).live('click', function() {
 
-		// //Add the individual fieldsets back
-		// $(elements).find('fieldset').each(function() {
-		// 	$('#formPanes').append('<div>' + $(this).html() + '</div>');
-		// });
+			var options = {
+				beforeSerialize: t.setLayout(),
+				success: function() {
+					alert("Layout saved successfully.");
+					t.setViewMode(t.getStateDivs());
+				},
+				error: function(xhr) {
+					alert("There was a problem saving the layout.");
+					console.log(xhr);
+				}
+			};
 
-		// //Get rid of the old .item-properties fieldsets
-		// $(elements).find('.item-properties').remove();
+			$(props.layoutFormId).ajaxSubmit(options);
+		})
 
-		// //say the magic words
-		// $('#formTabs').tabs('#formPanes > div')
+	},
 
-		// $(this).overlay({
-		// 	mask: {
-		// 		color: '#333',
-		// 		opacity: 0.9,
-		// 	},
-		// 	target: formHolder,
-		// 	load: true,
-		// 	close: '.close-btn',
-		// 	closeOnClick: false,
-		// 	onClose: function() {
-		// 		//Clean out the formHolder before we use it again.
-		// 		$(formHolder).find('form:not(.navbar-form)').remove();
-		// 	},
-		// 	onBeforeLoad: function() {
-		// 		console.log('here');
-		// 	},
-		// });
-	});
-
-	function addEndpoints()
+	addEndpoints: function()
 	{
 		var dropOptions = {
 			anchor: "Continuous",
@@ -150,7 +102,7 @@ $(window).ready(function() {
 			scope: "newTransitions",
 		};
 
-		var stateBoxes = $(stateClass);
+		var stateBoxes = $(props.stateClass);
 
 		stateBoxes.each(function() {
 			jsPlumb.addEndpoint($(this), dropOptions);
@@ -178,38 +130,38 @@ $(window).ready(function() {
 					this[1].detach();
 				}
 			})
-			addConnection(info);
+			t.addConnection(info);
 		});
-	}
+	},
 
-	function addConnection(info, options)
+	addConnection: function(info, options)
 	{
 		var source = info['sourceId'];
 		var target = info['targetId'];
 
-		var paths = $(pathClass);
+		var paths = $(props.pathClass);
 
 		paths.each(function() {
-			var start = 'plumb-state-' + $(this).find(pathStartClass).text();
-			var end = 'plumb-state-' + $(this).find(pathEndClass).text();
+			var start = 'plumb-state-' + $(this).find(props.pathStartClass).text();
+			var end = 'plumb-state-' + $(this).find(props.pathEndClass).text();
 
 			if( end == target && start == source )
 			{
 			}
 		});
-	}
+	},
 
-	function buildConnections(paths)
+	buildConnections: function(paths)
 	{
 		$(paths).each(function() {
 
-			var start_id = $(this).find('div' + pathStartClass).text();
-			var end_id = $(this).find('div' + pathEndClass).text();
+			var start_id = $(this).find('div' + props.pathStartClass).text();
+			var end_id = $(this).find('div' + props.pathEndClass).text();
 
 			var e0 = 'plumb-state-' + start_id;
 			var e1 = 'plumb-state-' + end_id;
 
-			var path_label = $(this).find(pathTransitionClass).text();
+			var path_label = $(this).find(props.pathTransitionClass).text();
 
 			jsPlumb.connect({ 
 				source:e0,
@@ -228,7 +180,7 @@ $(window).ready(function() {
 						//outside the connection definition
           				click:function(labelOverlay, originalEvent) { 
 
-            				expandTransition(originalEvent.currentTarget);
+            				t.expandTransition(originalEvent.currentTarget);
           				}
         			}
         		}]
@@ -238,9 +190,9 @@ $(window).ready(function() {
 				paintStyle:{ strokeStyle:"black", lineWidth:1.5 },
 			});
 		});
-	}
+	},
 
-	buildGraph = function()
+	buildGraph: function()
 	{
 
 		//if the connectors exist, 
@@ -250,44 +202,43 @@ $(window).ready(function() {
 			return true;
 		}
 
-		$(stateClass).css('display', 'inherit');
+		$(props.stateClass).css('display', 'inherit');
 
 		//If we're redrawing on the same page, it helps to clean everything out first
 		jsPlumb.reset();
 
 		jsPlumb.Defaults.Container = "plumb-canvas";
 
-		var states = getStateDivs();
-		var paths = $(containerId + ' > ' + pathClass);
+		var states = t.getStateDivs();
+		var paths = $(props.containerId + ' > ' + props.pathClass);
 
-		distribute(states);
+		t.distribute(states);
 
-		$(toolboxId).show();
+		$(props.toolboxId).show();
 
-		makeDraggable(states);
+		t.makeDraggable(states);
 
-		buildConnections(paths);
+		t.buildConnections(paths);
 
-		wrapOverlays();
+		t.wrapOverlays();
 
-		setViewMode(states);
-	}
+		t.setViewMode(states);
+	},
 
-	function disableDragging(states)
+	disableDragging: function(states)
 	{
 		//this will work with either a single element
 		//or an array of them
 		$(states).each(function() {
 			jsPlumb.setDraggable($(this), false);
 		});
-	}
+	},
 
-	function distribute(divs)
+	distribute: function(divs)
 	{
 		//this function simply places the divs randomly onto the canvas
 		//unless the layout has been saved, then it recreates the saved layout
-		var layout = $(layoutContainerId).attr('value');
-		
+		var layout = $(props.layoutContainerId).attr('value');
 
 		if( layout.length > 0 )
 		{
@@ -301,10 +252,10 @@ $(window).ready(function() {
 		var layoutExists = false;
 
 		$(divs).each(function() {
-			if( layout[$(this).find(stateIdClass).text()] ) 
+			if( layout[$(this).find(props.stateIdClass).text()] ) 
 			{
-				var top = layout[$(this).find(stateIdClass).text()].top;
-				var left = layout[$(this).find(stateIdClass).text()].left;
+				var top = layout[$(this).find(props.stateIdClass).text()].top;
+				var left = layout[$(this).find(props.stateIdClass).text()].left;
 
 				$(this).css('top', top);
 				$(this).css('left', left);
@@ -313,7 +264,7 @@ $(window).ready(function() {
 			else
 			{
 				var css_left = Math.ceil(Math.random() * ($('#content').width() - $(this).outerWidth(true)));
-				var css_top = Math.ceil(Math.random() * ($(canvasId).height() - $(this).outerHeight(true)));
+				var css_top = Math.ceil(Math.random() * ($(props.canvasId).height() - $(this).outerHeight(true)));
 
 				$(this).css('top', css_top);
 				$(this).css('left', css_left);
@@ -322,24 +273,24 @@ $(window).ready(function() {
 
 		if( layoutExists == false )
 		{
-			$(helpMessageId).dialog({
+			$(props.helpMessageId).dialog({
 				modal: true,
 			});
 		}
-	}
+	},
 
-	function enableDragging(states)
+	enableDragging: function(states)
 	{
 		$(states).each(function() {
 			jsPlumb.setDraggable($(this), true);
 		});
-	}
+	},
 
-	function expandState(element)
+	expandState: function(element)
 	{
 
 		//Disabling the functionality in design mode.
-		if($(modeButtonId).hasClass('design'))
+		if($(props.modeButtonId).hasClass('design'))
 		{
 			return true;
 		}
@@ -349,22 +300,22 @@ $(window).ready(function() {
 		if($(element).hasClass('expanded'))
 		{
 			$(element).children().hide();
-			$(element).find(stateIdClass).show();
+			$(element).find(props.stateIdClass).show();
 			$(element).removeClass('expanded');
 			return true;
 		}
 
-		var state =  $(element).find(stateIdClass).text();
+		var state =  $(element).find(props.stateIdClass).text();
 
 		$(element).children(':not(fieldset)').show();
-		$(element).find(stateIdClass).hide();
+		$(element).find(props.stateIdClass).hide();
 		$(element).addClass('expanded');
-	}
+	},
 
-	function expandTransition(element)
+	expandTransition: function(element)
 	{
 		//Disabling the functionality in design mode.
-		if($(modeButtonId).hasClass('design'))
+		if($(props.modeButtonId).hasClass('design'))
 		{
 			return true;
 		}
@@ -383,58 +334,57 @@ $(window).ready(function() {
 
 		id = '#plumb-transition-' + id;
 
-		var transitionTitle = $(id).find(transTitleClass).text();
-		var description = $(id).find(transDescClass).text();
+		var transitionTitle = $(id).find(props.transTitleClass).text();
+		var description = $(id).find(props.transDescClass).text();
 
 		$(element).addClass('expanded');
 		$(element).find('span').hide();
 		$(element).append('<div class="plumb-title">' + transitionTitle + '</div>');
 		$(element).append('<div>' + description + '</div>');
 
-		var anchor = $(id).find(transLinkClass).clone();
+		var anchor = $(id).find(props.transLinkClass).clone();
 		$(anchor).overlay(overlay_settings);
 		$(element).append(anchor);
+	},
 
-	}
-
-	function getStateDivs()
+	getStateDivs: function()
 	{
 
-		return $(canvasId + ' ' + stateClass);
-	}
+		return $(props.canvasId + ' ' + props.stateClass);
+	},
 
-	function lockScrolling()
+	lockScrolling: function()
 	{
 		//This isn't as pointless as it seems.
 		//By setting the width explicitly, it prevents 
 		//the body width from changing when the overflow is changed.
 		$('html, body').css('width', $('html, body').css('width'));
 		$('html, body').css('overflow', 'hidden');
-	}
+	},
 
-	function makeDraggable(states)
+	makeDraggable: function(states)
 	{
 		//this function is needed to set the 
 		//options since you can't pass them to the
 		// toggle/disable functions
 		$(states).each(function() {
 			jsPlumb.draggable($(this), {
-				containment: canvasId,
+				containment: props.canvasId,
 				scroll: false
 			});
 		});
-	}
+	},
 
-	function scrollToElement(element)
+	scrollToElement: function(element)
 	{
 		$('html, body').animate({
 		        scrollTop: $(element).offset().top
 		}, 200);
-	}
+	},
 
-	function setDesignMode(states)
+	setDesignMode: function(states)
 	{
-		var element = $(modeButtonId);
+		var element = $(props.modeButtonId);
 		//the class on the button is what mode we're in now
 		//the value is the class we would switch to by pressing the button
 		element.removeClass('view').addClass('design');
@@ -443,15 +393,15 @@ $(window).ready(function() {
 
 		//lock page scrolling and move down to the
 		//graph canvas
-		scrollToElement('#menu-container');
-		lockScrolling();
-	    enableDragging(states);
-	}
+		t.scrollToElement('#menu-container');
+		t.lockScrolling();
+	    t.enableDragging(states);
+	},
 
-	function setLayout()
+	setLayout: function()
 	{
-		$(workflowId).attr('value', $('#selected-workflow').attr('value'));
-		var states = $(stateIdClass);
+		$(props.workflowId).attr('value', $('#selected-workflow').attr('value'));
+		var states = $(props.stateIdClass);
 		message = {};
 
 		states.each(function() {
@@ -459,30 +409,30 @@ $(window).ready(function() {
 		});
 
 		var output = JSON.stringify(message);
-		$(layoutContainerId).text(output);
-	}
+		$(props.layoutContainerId).text(output);
+	},
 
-	function setViewMode(states)
+	setViewMode: function(states)
 	{
-		var element = $(modeButtonId);
+		var element = $(props.modeButtonId);
 		element.removeClass('design').addClass('view');
 		element.removeClass('btn').addClass('btn-inverse');
 		element.prop('value', 'Switch to design mode');
 
-		unlockScrolling();
-		disableDragging(states);
-	}
+		t.unlockScrolling();
+		t.disableDragging(states);
+	},
 
-	function unlockScrolling()
+	unlockScrolling: function()
 	{
 		$('html, body').css('width', 'inherit');	
 		$('html, body').css('overflow', 'auto');
-	}
+	},
 
-	function wrapOverlays()
+	wrapOverlays: function()
 	{
 
-		var overlays = $(labelClass);
+		var overlays = $(props.labelClass);
 
 		overlays.each(function() {
 
@@ -491,7 +441,5 @@ $(window).ready(function() {
 
 			$(this).append('<span>' + text + '</span>');
 		})
-	}
-
-	buildGraph();
-});
+	},
+};
