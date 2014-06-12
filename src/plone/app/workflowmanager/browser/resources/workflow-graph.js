@@ -1,4 +1,4 @@
-$(window).load(function() {	
+$(window).ready(function() {	
 
 	//To help refactor this horrible naming scheme eventually...
 	var graphSaveButtonId = '#plumb-graph-save';
@@ -7,7 +7,6 @@ $(window).load(function() {
 	var transButtonId = 	'#plumb-add-transition-button';
 	var toolboxId = 		'#plumb-toolbox';
 	var stateIdClass = 		'.plumb-state-id';
-	var dropPtClass = 		'.plumb-drop-point';
 	var stateClass = 		'.plumb-state';
 	var canvasId = 			'#plumb-canvas';
 	var workflowId = 		'#plumb-workflow';
@@ -15,6 +14,14 @@ $(window).load(function() {
 	var containerId = 		'#plumb-container';
 	var labelClass = 		'.plumb-label';
 	var helpMessageId =		'#plumb-help-message';
+	var formBtn = 			'.plumb-form-btn';
+	var formHolder = 		'#plumb-form-holder';
+	var formOverlay = 		'#plumb-overlay';
+
+	var transDescClass = 	'.transition-description';
+	var transTitleClass = 	'.transition-title';
+	var transIdClass =		'.transition-id';
+	var transLinkClass = 	'.transition-link';
 
 	var pathClass = 		'.plumb-path';
 	var pathStartClass = 	'.plumb-path-start';
@@ -81,6 +88,58 @@ $(window).load(function() {
 
 		$('#plumb-layout-form').ajaxSubmit(options);
 	})
+
+	$(formBtn).live('click', function(e) {
+		//This function is deprecated.
+		//I'm just keeping it around temporarily as a reference
+		return true;
+
+		// e.preventDefault();
+		// var form = $(this).attr('rel');
+
+		// //Grab the form and stick it into the formHolder
+		// var elements = $(form).find('form').clone();
+
+		// //Add 2 more divs to organize things
+		// $(elements).append('<div id="formTabs"></div>');
+		// $(elements).append('<div id="formPanes"></div>');
+
+		// $(formHolder).append(elements);
+
+		// //Add an anchor for each fieldset
+		// $(elements).find('legend').each(function() {
+		// 	$('#formTabs').append('<div><a href="#">' + $(this).text() + '</a></div>');
+		// });
+
+		// //Add the individual fieldsets back
+		// $(elements).find('fieldset').each(function() {
+		// 	$('#formPanes').append('<div>' + $(this).html() + '</div>');
+		// });
+
+		// //Get rid of the old .item-properties fieldsets
+		// $(elements).find('.item-properties').remove();
+
+		// //say the magic words
+		// $('#formTabs').tabs('#formPanes > div')
+
+		// $(this).overlay({
+		// 	mask: {
+		// 		color: '#333',
+		// 		opacity: 0.9,
+		// 	},
+		// 	target: formHolder,
+		// 	load: true,
+		// 	close: '.close-btn',
+		// 	closeOnClick: false,
+		// 	onClose: function() {
+		// 		//Clean out the formHolder before we use it again.
+		// 		$(formHolder).find('form:not(.navbar-form)').remove();
+		// 	},
+		// 	onBeforeLoad: function() {
+		// 		console.log('here');
+		// 	},
+		// });
+	});
 
 	function addEndpoints()
 	{
@@ -176,12 +235,12 @@ $(window).load(function() {
 				],
 				anchor: "Continuous",
 				endpoint: "Blank",
-				paintStyle:{ strokeStyle:"black", lineWidth:1 },
+				paintStyle:{ strokeStyle:"black", lineWidth:1.5 },
 			});
 		});
 	}
 
-	function buildGraph()
+	buildGraph = function()
 	{
 
 		//if the connectors exist, 
@@ -191,33 +250,27 @@ $(window).load(function() {
 			return true;
 		}
 
-		//we set the timeout to assure that the canvas will be properly
-		//loaded and displayed by the time we call buildConnections.
-		//mayhem ensues otherwise.
-		setTimeout(function() {
+		$(stateClass).css('display', 'inherit');
 
-			$(stateClass).css('display', 'inherit');
+		//If we're redrawing on the same page, it helps to clean everything out first
+		jsPlumb.reset();
 
-			scrollToElement('#menu-container');
+		jsPlumb.Defaults.Container = "plumb-canvas";
 
-			jsPlumb.Defaults.Container = "plumb-canvas";
+		var states = getStateDivs();
+		var paths = $(containerId + ' > ' + pathClass);
 
-			var states = getStateDivs();
-			var paths = $(containerId + ' > ' + pathClass);
+		distribute(states);
 
-			distribute(states);
+		$(toolboxId).show();
 
-			$(toolboxId).show();
+		makeDraggable(states);
 
-			makeDraggable(states);
+		buildConnections(paths);
 
-			buildConnections(paths);
+		wrapOverlays();
 
-			wrapOverlays();
-
-			setViewMode(states);
-
-		}, 500);
+		setViewMode(states);
 	}
 
 	function disableDragging(states)
@@ -298,16 +351,14 @@ $(window).load(function() {
 			$(element).children().hide();
 			$(element).find(stateIdClass).show();
 			$(element).removeClass('expanded');
-			$(element).find('a, span').remove();
 			return true;
 		}
 
-		var url = document.URL + "&selected-state=" + $(element).find(stateIdClass).text();
+		var state =  $(element).find(stateIdClass).text();
 
-		$(element).children().show();
+		$(element).children(':not(fieldset)').show();
 		$(element).find(stateIdClass).hide();
 		$(element).addClass('expanded');
-		$(element).append('<a class="goto-link btn" href="' + url + '"">Edit</a>');
 	}
 
 	function expandTransition(element)
@@ -323,30 +374,27 @@ $(window).load(function() {
 		if( $(element).hasClass('expanded')) 
 		{
 			$(element).removeClass('expanded');
-			$(element).find('div, a').remove();
+			$(element).find('a, div').remove();
 			$(element).find('span').show();
 			return true;
 		}
 
-		var id = $(element).text();
+		var id = $(element).find('span').text();
 
-		var url = document.URL + "&selected-transition=" + id;
+		id = '#plumb-transition-' + id;
 
-		//the ID of the element in WFM containing 
-		//all the info needed in this context
-		var name = 'transition-' + id;
-		id = '#transition-' + id;
-
-		var props = $(id).find('.transition-properties');
-
-		var transitionTitle = props.find('input[name="' + name + '-title"]').val();
-		var description = props.find('textarea[name="' + name + '-description"]').val();
+		var transitionTitle = $(id).find(transTitleClass).text();
+		var description = $(id).find(transDescClass).text();
 
 		$(element).addClass('expanded');
 		$(element).find('span').hide();
 		$(element).append('<div class="plumb-title">' + transitionTitle + '</div>');
 		$(element).append('<div>' + description + '</div>');
-		$(element).append('<a class="goto-link btn" href="' + url + '"">Edit</a>');
+
+		var anchor = $(id).find(transLinkClass).clone();
+		$(anchor).overlay(overlay_settings);
+		$(element).append(anchor);
+
 	}
 
 	function getStateDivs()
@@ -444,5 +492,6 @@ $(window).load(function() {
 			$(this).append('<span>' + text + '</span>');
 		})
 	}
-});
 
+	buildGraph();
+});

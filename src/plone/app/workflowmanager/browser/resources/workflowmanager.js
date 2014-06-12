@@ -119,60 +119,6 @@ $(document).ready(function(){
     return vars;
   }
 
-  // goes directly to a state or transition
-  // the state or transition are encoded in
-  // the url with ?selected-state=foobar
-  var goto_item = function(url){
-    var vars = get_url_vars(url);
-
-    var transitions_button = $("a#fieldsetlegend-transitions");
-    var states_button = $("a#fieldsetlegend-states");
-    var graph_button = $("a#fieldsetlegend-graph");
-    var transitions = $("#fieldset-transitions");
-    var states = $('#fieldset-states');
-    var graph = $('#fieldset-graph');
-
-    if(CURRENT_OVERLAY != null && CURRENT_OVERLAY.isOpened()){
-      CURRENT_OVERLAY.close();
-    }
-
-    var prefix = "#";
-
-    if(vars['selected-state'] != undefined){
-      prefix += "state-" + vars['selected-state'];
-      if(!states_button.hasClass('selected')){
-          states.show();
-          transitions.hide();
-          graph.hide();
-          states_button.addClass('selected');
-          transitions_button.removeClass('selected');
-          graph_button.removeClass('selected');
-      }
-    }else if(vars['selected-transition'] != undefined){
-      prefix += "transition-" + vars['selected-transition'];
-      if(!transitions_button.hasClass('selected')){
-        transitions.show();
-        states.hide();
-        graph.hide();
-        transitions_button.addClass('selected');
-        states_button.removeClass('selected');
-        graph_button.removeClass('selected');
-      }
-    }else{
-      return;
-    }
-
-    var obj = $(prefix);
-
-    if(obj.hasClass('collasped')){
-      obj.find('.hidden-content').slideDown();
-      show_item(obj);
-    }
-
-    var offset = obj.offset().top - 50;
-    $('html,body').animate({scrollTop: offset}, 1000);
-  }
-
   var has_dirty_items = function(){
     var dirty_items = $("div.workflow-item.dirty");
     return dirty_items.size() > 0;
@@ -188,18 +134,26 @@ $(document).ready(function(){
   }
 
   var load_overlay = function(content, selector){
+
+    handle_advanced(content);
+
+    setup_overlays(content);
+
     $('#pb_99999 .pb-ajax').html(""); //clear it out
     var inside = content.find(selector);
+
     if(inside.size() == 0){
       inside = content; //if can't find inner element, just show all.
     }
     $('#pb_99999 .pb-ajax').wrapInner(inside);
     $('#pb_99999 .pb-ajax').find(selector).addClass(CURRENT_OVERLAY.getTrigger().attr('class'));
+
+    setup_tabs(content);
   }
 
   // Our overlay settings that automatically load remote content
   // and clear it out when it closes
-  var overlay_settings = {
+  overlay_settings = {
     onBeforeLoad: function() {
       spinner.show();
       CURRENT_OVERLAY = this;
@@ -215,25 +169,53 @@ $(document).ready(function(){
 
       url = strip_vars(url);
 
-      var open = true;
-      if(trigger.hasClass('save-first') && has_dirty_items()){
-        // #TODO Add support for i18n
-        if(confirm("You have unsaved changes. Would you like to save them and continue?")){
-          save(function(){
-            // #TODO Add support for i18n
-            status_message("The workflow has been successfully updated.");
-          });
-        }else{
-          return false;
-        }
+      var state = data['selected-state'];
+      var transition = data['selected-transition'];
+
+      if( typeof(state) != "undefined" )
+      {
+        var item = state;
+        var type = "state";
+      }
+      else if( typeof(transition) != "undefined" )
+      {
+        var item = transition;
+        var type = "transition";
       }
 
-      $.ajax({ url : url, data : data, type : 'POST',
-        complete : function(request, textStatus){
-          load_overlay($(request.responseText), content_selector);
-          spinner.hide();
+      var edit = url.indexOf('/@@workflowmanager-edit-' + type);
+
+      if( typeof(item) != "undefined" && edit > 0 )
+      {
+        var name = $('#plumb-' + type + '-' + item);
+        var fieldset = $(name).find('.overlay-edit-form').clone();
+        $(fieldset).show();
+
+        load_overlay(fieldset);
+      }
+      else
+      {
+        var open = true;
+        if(trigger.hasClass('save-first') && has_dirty_items()){
+          // #TODO Add support for i18n
+          if(confirm("You have unsaved changes. Would you like to save them and continue?")){
+            save(function(){
+              // #TODO Add support for i18n
+              status_message("The workflow has been successfully updated.");
+            });
+          }else{
+            return false;
+          }
         }
-      });
+
+        $.ajax({ url : url, data : data, type : 'POST',
+          complete : function(request, textStatus){
+            load_overlay($(request.responseText), content_selector);
+            spinner.hide();
+          }
+        });
+      }
+
     },
     expose: {
         color: 'transparent',
@@ -241,14 +223,69 @@ $(document).ready(function(){
     top : 0,
     fixed : false,
     closeOnClick: false,
-    onClose : function(){
-        $('#pb_99999 .pb-ajax').html(""); //clear it out
+    oneInstance: false,
+    onClose : function(closer){
+      var overlay = $('#pb_99999 .pb-ajax');
+      var form = $(overlay).find('.overlay-edit-form');
+
+      if( form.length > 0 )
+      {
+        var name = $(form).find('input[name="parent-element"]').val()
+        name = $('#plumb-' + name);
+
+        var tabs = $(form).find('.formTabs');
+
+        $(tabs).children().remove();
+
+        $(form).hide();
+
+        if( $(CURRENT_OVERLAY.closer).hasClass('save-form') )
+        {
+          update_form(form, $(name).find('.overlay-edit-form'));
+        }
+      }
+      CURRENT_OVERLAY.closer = "";
+      $(overlay).html(""); //clear it out
     }
   };
 
-  var setup_overlays = function(){
+  var setup_tabs = function(content){
+    var tabs = $(content).find('.formTabs');
+
+    var divs = $(content).find('div.formPane .item-properties');
+    var advanced = is_advanced_mode()
+
+    $(divs).each(function() {
+      if( advanced === false )
+      {
+        if( $(this).hasClass('advanced') )
+        {
+          //continue
+          return true;
+        }
+      }       
+      $(tabs).append('<div><a href="#">' + $(this).find('legend').text() + '</a></div>');
+    });
+
+    //The jQuery tools tab tool is a little picky, so we have to wrap
+    //the form panes with a div to designate them as a "pane"
+    $(content).find('.item-properties').wrapInner('<div>');
+    $(content).find('.formTabs').tabs('.formPane > div');
+  }
+
+  var setup_overlays = function(content){
+
+    if( typeof(content) != 'undefined' )
+    {
+      var dialogs = $(content).find('a.dialog-box');
+    }
+    else
+    {
+      var dialogs = $('a.dialog-box');
+    }
+
     OVERLAYS = [];
-    $('a.dialog-box').each(function(){
+    $(dialogs).each(function(){
       OVERLAYS[OVERLAYS.length] = $(this).overlay(overlay_settings);
     });
   }
@@ -303,18 +340,6 @@ $(document).ready(function(){
     return data;
   }
 
-  var show_item = function(obj){
-    obj = $(obj);
-    obj.removeClass('collasped');
-    obj.addClass('expanded');
-  }
-
-  var hide_item = function(obj){
-    obj = $(obj);
-    obj.removeClass('expanded');
-    obj.addClass('collasped');
-  }
-
   var parse_data = function(data){
     if(typeof data == "string"){
       try{//try to parse if it's not already done...
@@ -330,37 +355,12 @@ $(document).ready(function(){
     return data
   }
 
-  var handle_actions = function(data){
-    data = parse_data(data)
-    if(data.status != undefined){
-      if(data.status == 'slideto'){
-        goto_item(data.url);
-      }
-    }
-  }
-
   var reload = function(data){
     $.ajax({
       url : '@@workflowmanager-content',
       data : {'selected-workflow' : retrieve_selected_workflow()},
       type : 'POST',
       complete : function(request, textStatus){
-        var items = $('.workflow-item');
-        var expanded_ids = [];
-        var collasped_ids = [];
-
-        for(var i = 0; i < items.length; i++){
-          var item = items.eq(i);
-          var id = item.attr('id');
-
-          if(id.length > 0){
-            if(item.hasClass('expanded')){
-              expanded_ids[expanded_ids.length] = id;
-            }else{
-              collasped_ids[collasped_ids.length] = id;
-            }
-          }
-        }
 
         $('#workflow-content').replaceWith(request.responseText);
         setup_overlays();
@@ -369,48 +369,16 @@ $(document).ready(function(){
           $('.advanced').hide();
         }
 
-        for(var i = 0; i < expanded_ids.length; i++){
-          var obj = $("#" + expanded_ids[i]);
-          obj.find('.hidden-content').css('display', 'block');
-          show_item(obj);
-        }
-        for(var i = 0; i < collasped_ids.length; i++){
-          var obj = $("#" + collasped_ids[i]);
-          obj.find('.hidden-content').css('display', 'none');
-          hide_item(obj);
-        }
-
-        //for .workflow-item that are neither shown or collasped
-        //but shown by default because that's how they come from
-        //the server, just show
-        jQuery('div.collasped.workflow-item div.hidden-content:visible').each(function(){
-          var obj = $(this).parent('div.workflow-item');
-          show_item(obj);
-        });
-
-        //hides any fieldset that doesn't have the 'selected' class
-        var fields = {};
-        fields['fieldsetlegend-states'] = 'fieldset-states';
-        fields['fieldsetlegend-transitions'] = 'fieldset-transitions';
-        fields['fieldsetlegend-graph'] = 'fieldset-graph';
-
-        $.each(fields, function(key, value) {
-
-          if( !$('#'+key).hasClass('selected') )
-          {
-            $('#'+value).css('display', 'none');
-          }
-        })
-
-        handle_actions(data);
         $('#save-all-button').removeClass('btn-danger');
         $('[rel=popover]').popover({placement: 'bottom'});
+
+        buildGraph();
       }
     });
   }
 
   var save = function(finish){
-    var dirty_items = $("div.workflow-item.dirty");
+    var dirty_items = $(".overlay-edit-form .dirty");
 
     var request_count = 0;
     for(var i=0; i < dirty_items.length; i++){
@@ -437,52 +405,6 @@ $(document).ready(function(){
       $('#save-all-button').removeClass('btn-danger');
     }
   }
-
-  $('.workflow-item .dropdown').live('click', function(e){
-    var obj = $(this).parents('.workflow-item');
-    if(obj.hasClass('collasped')){
-      obj.find('.hidden-content').slideDown();
-      show_item(obj);
-    }else{
-      obj.find('.hidden-content').slideUp();
-      hide_item(obj);
-    }
-    return e.preventDefault();
-  });
-
-  $('a[id^="fieldsetlegend-"]').live('click', function(e) {
-    var fields = {};
-
-    fields['fieldsetlegend-states'] = "fieldset-states";
-    fields['fieldsetlegend-transitions'] = "fieldset-transitions";
-    fields['fieldsetlegend-graph'] = "fieldset-graph";
-
-    clicked = $(this).attr("id");
-    hasSelected = $('a[id^="fieldsetlegend-"].selected');
-    selected = hasSelected.attr('id');
-    var oldButton, newButton, oldFieldset, newFieldset;
-
-    oldButton = $('#' + selected);
-    newButton = $('#' + clicked);
-    newFieldset = $('#' + fields[clicked]);
-    oldFieldset = $('#' + fields[selected]);
-    
-    if(selected != clicked){
-      oldButton.removeClass('selected');
-      nortstar_container.css('height', nortstar_container.height());
-      oldFieldset.fadeOut('fast', function() {
-        newFieldset.fadeIn('fast', function() {
-          newButton.addClass('selected');
-          nortstar_container.css('height', '');
-        })
-      });
-    }
-    else if(!newButton.hasClass('selected')){
-      newButton.addClass('selected');
-      newFieldset.fadeIn('fast');
-    }
-    return e.preventDefault();
-  });
 
   $('#save-all-button,input.save-all').live('click', function(e){
       spinner.show();
@@ -579,6 +501,60 @@ $(document).ready(function(){
     });
   }
 
+  var update_form = function(form, original){
+
+    var items = $(form).find(':input');
+
+    $(items).each(function() {
+      var name = $(this).attr('name');
+      var selector = ':input[name="' + name + '"]';
+      var that = $(original).find(selector);
+
+      var type = $(this).prop('type');
+
+      if( $(that).val() != $(this).val() || $(that).attr('checked') != $(this).attr('checked') )
+      {
+        var parent = $(original).find('input[name="parent-element"]').val();
+        $(original).find('#' + parent).addClass('dirty');
+        $('#save-all-button').addClass('btn-danger');
+
+        if( type == 'textarea' )
+        {
+          $(that).html($(this).val());
+        }
+        else if( type == 'checkbox' )
+        {
+          var checked = (typeof($(this).attr('checked')) == 'undefined' ) ? false:true;
+          $(that).attr('checked', checked);
+        }
+        else
+        {
+          $(that).val($(this).val());
+        }
+      }
+    });
+  }
+
+  var handle_advanced = function(content) {
+
+    if( content )
+    {
+      var advanced = $(content).find('.advanced');
+    }
+    else
+    {
+      var advanced = $('.advanced');
+    }
+
+    var toppanel = $("#tabs-menu ul.tabs");
+
+    if(is_advanced_mode() && toppanel.size() == 1){
+      $("#tabs-menu ul.tabs div#advanced-mode input")[0].checked = true;
+    }else{
+      $(advanced).hide();
+    }    
+  }
+
   $("div.dialog-box form input[type='submit'],#content form fieldset div input[type='submit']").live('click', function(e){
     var submit = $(this);
     var form = submit.parents('form');
@@ -605,12 +581,6 @@ $(document).ready(function(){
     return e.preventDefault();
   });
 
-  $('a.goto-link').live('click', function(e){
-    var link = $(this);
-    goto_item(link.attr('href'));
-    return e.preventDefault();
-  });
-
   $('input.one-or-the-other').live('change', function(){
     if(this.checked){
       $(this).siblings('input.the-other').eq(0)[0].disabled = true;
@@ -619,17 +589,39 @@ $(document).ready(function(){
     }
   });
 
+  $('div.overlay-form input.save-form, div.overlay-form input.cancel').live('click', function() {
+    if( $(this).hasClass('save-form') )
+    {
+      CURRENT_OVERLAY.closer = this;
+    }
+    CURRENT_OVERLAY.close();
+  });
+
+  $('select.plumb-edit-select').live('change', function() {
+    var isTransition = $(this).hasClass('transition-select');
+    var type = "";
+
+    if( isTransition )
+    {
+      type = "#plumb-transition-";
+    }
+    else
+    {
+      type = "#plumb-state-";
+    }
+
+    var item = $(this).val();
+
+    var edit = $(type + item).find('a.edit');
+    console.log(edit);
+    //We've already set everything to work with these links, why re-invent the wheel?
+    edit.click();
+  });
+
   //all the initial page load stuff goes here.
   var init = function(){
     setup_overlays();
-    $('div.hidden-content').css('display', 'none'); // since we don't hide it by default for js disable browsers
-    $("#fieldset-transitions").css('display', 'none');
-    $("#fieldset-graph").css('display', 'none');
-    $("a#fieldsetlegend-states").addClass('selected');
-
-    // check if the user wanted to go directly to a certain
-    // state or transition
-    goto_item(window.location.href);
+    setup_tabs();
 
     //enable advanced mode on page load
     //so it isn't available for non-js users--oh well.
@@ -639,22 +631,7 @@ $(document).ready(function(){
       set_advanced_mode(this.checked);
     });
 
-    if(is_advanced_mode() && toppanel.size() == 1){
-      $("#tabs-menu ul.tabs div#advanced-mode input")[0].checked = true;
-    }else{
-      $(".advanced").hide();
-    }
-
-    var input_selector = "div.workflow-item input[type=text],div.workflow-item input[type=checkbox],div.workflow-item textarea,div.workflow-item select";
-    var input_change_handler = function(){
-      var obj = $(this);
-      obj.parents('div.workflow-item').addClass('dirty');
-      $('#save-all-button').addClass('btn-danger');
-    }
-    //need to use different event for IE of course...
-    var theevent = ($.browser.msie) ? 'click' : 'change';
-    //Content change listeners to mark things as dirty and needing to be saved...
-    $(input_selector).live(theevent, input_change_handler);
+    handle_advanced();
 
     //Set some things up only if js is enabled here
     $("#tabs-menu ul.tabs").addClass('enabled');
@@ -682,6 +659,7 @@ $(document).ready(function(){
     $('#save-all-button').popover({trigger: 'manual', placement: 'bottom'});
     $('[rel=popover]').popover({placement: 'bottom'});
     $('#content').on('click', '.item-header li.related-items a', function(){ return false; });
+
   }
   init();
 

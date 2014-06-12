@@ -17,9 +17,9 @@
   </metal:css>
   <metal:javascript fill-slot="javascript_head_slot">
     <script type="text/javascript" src="++resource++wfmbootstrap-popover.js"></script>
-    <script type="text/javascript" src="++resource++workflowmanager.js"></script>
     <script type="text/javascript" src="++resource++jquery.jsPlumb.js"></script>
     <script type="text/javascript" src="++resource++workflow-graph.js"></script>
+    <script type="text/javascript" src="++resource++workflowmanager.js"></script>
   </metal:javascript>
 
 <body>
@@ -54,28 +54,6 @@
       <div id="tabs-menu" class="subnav">
         <input id="selected-workflow" type="hidden" name="selected-workflow" tal:attributes="value selected_workflow/id" />
         <ul class="tabs nav nav-pills">
-          <li>
-            <a id="fieldsetlegend-states" href="@@workflowmanager#fieldsetlegend-states-anchor" class="selected">
-              <span i18n:translate="">States</span>
-            </a>
-          </li>
-          <li>
-            <a id="fieldsetlegend-transitions" href="@@workflowmanager#fieldsetlegend-transitions-anchor" class="">
-              <span i18n:translate="">Transitions</span>
-            </a>
-          </li>
-          <li>
-            <a id="fieldsetlegend-graph" href="@@workflowmanager#fieldsetlegend-graph-anchor" class="">
-              <span i18n:translate="">Graph</span>
-            </a>
-          </li>
-          <li>
-            <form class="navbar-form">
-              <input type="submit" id="save-all-button" class="btn context allowMultiSubmit" value="Save"
-                title="Saving.." i18n:attributes="value;title" />
-              <input tal:replace="structure context/@@authenticator/authenticator"/>
-            </form>
-          </li>
           <li>
             <form class="navbar-form" tal:attributes="action string:${context/absolute_url}/@@workflowmanager-add-new-state" method="POST">
               <input type="hidden" name="selected-workflow" tal:attributes="value view/selected_workflow/id" />
@@ -162,6 +140,13 @@
                 <input type="checkbox" name="advanced-mode" class="checkboxType" /><span i18n:translate="">Advanced mode</span>
               </label>
             </div>
+          </li>
+          <li>
+            <form class="navbar-form">
+                <input type="submit" id="save-all-button" class="btn context allowMultiSubmit" value="Save"
+                  title="Saving.." i18n:attributes="value;title" />
+                <input tal:replace="structure context/@@authenticator/authenticator"/>
+              </form>
           </li>
         </ul>
       </div>

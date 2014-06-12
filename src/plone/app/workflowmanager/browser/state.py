@@ -49,7 +49,6 @@ class AddState(Base):
                         mapping={'state_id': new_state.id})
                 return self.handle_response(
                     message=msg,
-                    slideto=True,
                     state=new_state)
             else:
                 return self.handle_response(tmpl=self.template,
@@ -205,3 +204,25 @@ class SaveState(Base):
         self.update_state_properties()
 
         return self.handle_response()
+
+class EditState(Base):
+    template = ViewPageTemplateFile('templates/workflow-state.pt')
+
+    def __call__(self):
+        wf = self.selected_workflow
+
+        if (wf == None):
+            return self.handle_response()
+
+        state = self.selected_state
+
+        if( state == None ):
+            return self.handle_response()
+
+        transitions = self.available_transitions
+
+        return self.render_state_template(state, transitions)
+
+    def render_state_template(self, state, transitions):
+        return self.template(state=state,
+            available_transitions=transitions)

@@ -56,7 +56,6 @@ class AddTransition(Base):
                     message=_('msg_transition_created',
                         default=u'"${transition_id}" transition successfully created.',
                         mapping={'transition_id': new_transition.id}),
-                    slideto=True,
                     transition=new_transition)
             else:
                 return self.handle_response(tmpl=self.template,
@@ -167,3 +166,26 @@ class DeleteTransition(Base):
             return self.handle_response(message=msg)
         else:
             return self.handle_response(tmpl=self.template)
+
+class EditTransition(Base):
+    template = ViewPageTemplateFile('templates/workflow-transition.pt')
+
+    def __call__(self):
+        wf = self.selected_workflow
+
+        if (wf == None):
+            return self.handle_response()
+
+        transition = self.selected_transition
+
+        if( transition == None ):
+            return self.handle_response()
+
+        states = self.available_states
+
+        return self.render_transition_template(transition, states)
+
+    def render_transition_template(self, transition, states):
+        return self.template(transition=transition,
+            available_states=states)
+

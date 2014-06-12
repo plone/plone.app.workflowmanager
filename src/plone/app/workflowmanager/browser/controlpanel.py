@@ -212,13 +212,12 @@ class Base(BrowserView):
     def get_transition_paths(self):
         states = self.available_states
         paths = []
-        count = 0
         transitions = self.available_transitions
         for state in states:
             for trans in state.transitions:
                 current_transition = self.get_transition(trans)
-                paths.append( Path(state.id, current_transition.id, current_transition.new_state_id) )
-                count += 1
+                if current_transition.id and current_transition.new_state_id:
+                    paths.append( Path(state.id, current_transition.id, current_transition.new_state_id) )
 
         return paths
 
@@ -292,7 +291,7 @@ class Base(BrowserView):
         return HAS_GRAPHVIZ
 
     def handle_response(self, message=None, tmpl=None, redirect=None,
-                        load=None, justdoerrors=False, slideto=False,
+                        load=None, justdoerrors=False,
                         **kwargs):
         ajax = self.request.get('ajax', None)
         status = {'status': 'ok'}
@@ -310,10 +309,6 @@ class Base(BrowserView):
             else:
                 status['location'] = self.next_url
 
-        elif slideto:
-            status['status'] = 'slideto'
-            # either state or transition here...
-            status['url'] = self.get_url(**kwargs)
         elif load:
             status['status'] = 'load'
             status['url'] = load
@@ -343,12 +338,8 @@ class Base(BrowserView):
 class ControlPanel(Base):
     template = ViewPageTemplateFile('templates/controlpanel.pt')
     content_template = ViewPageTemplateFile('templates/content.pt')
-    workflow_states_template = \
-        ViewPageTemplateFile('templates/workflow-states.pt')
     workflow_state_template = \
         ViewPageTemplateFile('templates/workflow-state.pt')
-    workflow_transitions_template = \
-        ViewPageTemplateFile('templates/workflow-transitions.pt')
     workflow_transition_template = \
         ViewPageTemplateFile('templates/workflow-transition.pt')
     workflow_graph_template = \
@@ -362,11 +353,6 @@ class ControlPanel(Base):
 
     def render_graph_template(self):
         return self.workflow_graph_template()
-
-    def render_states_template(self):
-        return self.workflow_states_template(
-            available_states=self.available_states,
-            available_transitions=self.available_transitions)
 
     def retrieve_item(self):
         state = self.selected_state

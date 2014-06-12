@@ -11,7 +11,6 @@
 
        <browser:page name="workflowmanager" />
        <browser:page attribute="render_content_template"  name="workflowmanager-content" />
-       <browser:page name="workflowmanager-workflow-states" attribute="render_states_template" />
        <browser:page name="workflowmanage-item" attribute="retrieve_item" />       
 
     </browser:pages>
@@ -34,6 +33,20 @@
         for="*"
         name="workflowmanager-save-graph"
         class=".layout.GraphLayout"
+        permission="plone.app.workflowmanager.ManageWorkflows"
+    />
+
+    <browser:page
+        for="*"
+        name="workflowmanager-edit-state"
+        class=".state.EditState"
+        permission="plone.app.workflowmanager.ManageWorkflows"
+    />
+
+    <browser:page
+        for="*"
+        name="workflowmanager-edit-transition"
+        class=".transition.EditTransition"
         permission="plone.app.workflowmanager.ManageWorkflows"
     />
 

@@ -1,102 +1,81 @@
-<div class="workflow-state collasped workflow-item well"
+<div class="workflow-state well wm"
      tal:attributes="id string:state-${state/id}"
      tal:define="state options/state;
                  available_transitions options/available_transitions"
      i18n:domain="plone.app.workflowmanager">
-  <div class="subnav item-header">
-    <ul class="nav nav-pills tabs">
-      <li class="dropdown">
-        <a href="#" class="dropdown-toggle">
-          <b class="caret"></b>
-          <span class="initial-state" tal:condition="python: view.selected_workflow.initial_state == state.id">*</span>
-          <tal:nothing tal:replace="python: state.title" i18n:domain="plone" i18n:translate=""><tal:comment replace="nothing">Title</tal:comment></tal:nothing>
-        </a>
-      </li>
-      <li class="related-items">
-        <a href="#" class="btn-info" i18n:translate="">Transitions &raquo;</a>
-      </li>
-      <li tal:repeat="transition python: view.get_transition_list(state)" class="related">
-        <a tal:attributes="href python: view.get_url(transition=transition)"
-          tal:content="transition/title" i18n:domain="plone" i18n:translate=""
-          class="goto-link" />
-      </li>
-      <li class="right">
-        <a class="dialog-box delete" rel="#pb_99999"
-          tal:attributes="href python: view.get_url('@@workflowmanager-delete-state', state=state);">
-          <input type="submit" class="standalone allowMultiSubmit btn btn-inverse"
-            tal:attributes="name string:state-${state/id}-delete-button" value="Delete" i18n:attributes="value" />
-        </a>
-      </li>
-    </ul>
-  </div>
-  <div class="hidden-content" tal:define="selected_transitions python: state.getTransitions()">
+  <div class="overlay-form" tal:define="selected_transitions python: state.getTransitions()">
     <form method="POST"
   	   tal:attributes="action string:${context/absolute_url}/@@workflowmanager-save-state">
       <input type="hidden" name="selected-state" tal:attributes="value state/id">
+      <input type="hidden" name="parent-element" tal:attributes="value string:state-${state/id}">
       <input type="hidden" name="selected-workflow" tal:attributes="value view/selected_workflow/id" />
       <input tal:replace="structure context/@@authenticator/authenticator"/>
 
-      <div class="selected-transitions item-properties well">
-        <fieldset>
-          <legend i18n:translate="">Transitions</legend>
-          <div class="alert alert-info" i18n:translate="">Transitions this state can use.</div>
+      <div class="formTabs">
+      </div>
 
-          <tal:transitions tal:repeat="transition available_transitions">
-            <tal:trns
-                tal:define="field_name string:transition-${transition/id}-state-${state/id};
-                            checked python: transition.id in selected_transitions">
+      <div class="formPane">
+        <div class="selected-transitions item-properties well">
+          <fieldset>
+            <legend i18n:translate="">Transitions</legend>
+            <div class="alert alert-info" i18n:translate="">Transitions this state can use.</div>
+
+            <tal:transitions tal:repeat="transition available_transitions">
+              <tal:trns
+                  tal:define="field_name string:transition-${transition/id}-state-${state/id};
+                              checked python: transition.id in selected_transitions">
+                <label tal:attributes="for field_name" class="checkbox">
+                  <input type="checkbox" value="on"
+                      tal:attributes="name field_name;
+                                      id field_name;
+                                      value python: checked and 'on' or '';
+                                      checked python: checked and 'checked' or '';"
+                      class="checkboxType" />
+                  <a class="goto-link"
+                      tal:attributes="href python: view.get_url(transition=transition);"
+                      tal:content="transition/title" i18n:domain="plone" i18n:translate="">
+                    Transition Title
+                  </a>
+                </label>
+              </tal:trns>
+            </tal:transitions>
+            <a class="dialog-box save-first" rel="#pb_99999"
+                tal:attributes="href python: view.get_url('@@workflowmanager-add-new-transition', reference=state.id);">
+              <input type="button" class="context btn"
+                name="add-new-transition-in-state-button" value="Add transition" i18n:attributes="value"  />
+            </a>
+          </fieldset>
+        </div>
+        <div class="state-properties item-properties well">
+          <fieldset>
+            <legend i18n:translate="">Properties</legend>
+            <tal:field
+                tal:define="field_name string:state-${state/id}-initial-state;
+                            checked python: state.id == view.selected_workflow.initial_state;">
               <label tal:attributes="for field_name" class="checkbox">
-                <input type="checkbox" value="on"
+                <input type="checkbox"
                     tal:attributes="name field_name;
                                     id field_name;
                                     value python: checked and 'on' or '';
                                     checked python: checked and 'checked' or '';"
                     class="checkboxType" />
-                <a class="goto-link"
-                    tal:attributes="href python: view.get_url(transition=transition);"
-                    tal:content="transition/title" i18n:domain="plone" i18n:translate="">
-                  Transition Title
-                </a>
+                 <span i18n:translate="">Initial State</span>
               </label>
-            </tal:trns>
-          </tal:transitions>
-          <a class="dialog-box save-first" rel="#pb_99999"
-              tal:attributes="href python: view.get_url('@@workflowmanager-add-new-transition', reference=state.id);">
-            <input type="button" class="context btn"
-              name="add-new-transition-in-state-button" value="Add transition" i18n:attributes="value"  />
-          </a>
-        </fieldset>
-      </div>
-      <div class="state-properties item-properties well">
-        <fieldset>
-          <legend i18n:translate="">Properties</legend>
-          <tal:field
-              tal:define="field_name string:state-${state/id}-initial-state;
-                          checked python: state.id == view.selected_workflow.initial_state;">
-            <label tal:attributes="for field_name" class="checkbox">
-              <input type="checkbox"
-                  tal:attributes="name field_name;
-                                  id field_name;
-                                  value python: checked and 'on' or '';
-                                  checked python: checked and 'checked' or '';"
-                  class="checkboxType" />
-               <span i18n:translate="">Initial State</span>
-            </label>
-            <div class="discreet" i18n:translate="">
-              Should this state be the initial state of the workflow?
-            </div>
-          </tal:field>
-          <tal:field tal:define="field_name string:state-${state/id}-title">
-            <label tal:attributes="name field_name" i18n:translate="">The title of this State.</label>
-            <input type="text" size="25" tal:attributes="name field_name; value state/title;" i18n:domain="plone" i18n:attributes="value" />
-          </tal:field>
-          <tal:field tal:define="field_name string:state-${state/id}-description">
-            <label tal:attributes="name field_name" i18n:translate="">The description of this State.</label>
-            <textarea cols="30" rows="3" tal:attributes="name field_name;" tal:content="state/description" i18n:domain="plone" i18n:translate="">
-            </textarea>
-          </tal:field>
-        </fieldset>
-      </div>
+              <div class="discreet" i18n:translate="">
+                Should this state be the initial state of the workflow?
+              </div>
+            </tal:field>
+            <tal:field tal:define="field_name string:state-${state/id}-title">
+              <label tal:attributes="name field_name" i18n:translate="">The title of this State.</label>
+              <input type="text" size="25" tal:attributes="name field_name; value state/title;" i18n:domain="plone" i18n:attributes="value" />
+            </tal:field>
+            <tal:field tal:define="field_name string:state-${state/id}-description">
+              <label tal:attributes="name field_name" i18n:translate="">The description of this State.</label>
+              <textarea cols="30" rows="3" tal:attributes="name field_name;" tal:content="state/description" i18n:domain="plone" i18n:translate="">
+              </textarea>
+            </tal:field>
+          </fieldset>
+        </div>
         <div class="state-permissions item-properties well">
           <fieldset>
             <legend i18n:translate="">Permission Roles</legend>
@@ -203,14 +182,17 @@
               </table>
             </fieldset>
           </div>
-          <br />
-          <div class="formControls">
-            <noscript>
-              <input type="submit" class="inline context allowMultiSubmit" value="Save state"
-                     i18n:attributes="value"
-                     tal:attributes="name string:save-state-${state/id}-button" />
-            </noscript>
-          </div>
-        </form>
-      </div>
+        </div>
+        <br />
+        <div class="formControls">
+          <noscript>
+            <input type="submit" class="inline context allowMultiSubmit" value="Save state"
+                  i18n:attributes="value"
+                  tal:attributes="name string:save-state-${state/id}-button" />
+          </noscript>
+          <input type="button" class="save-form btn" name="form-save" value="Ok" i18n:attributes="value" />
+          <input type="button" class="btn cancel" name="form-cancel" value="Cancel" i18n:attributes="value" />
+        </div>
+      </form>
+    </div>
 </div>

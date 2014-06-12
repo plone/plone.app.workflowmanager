@@ -88,6 +88,13 @@
 	display: block;
 }
 
+#plumb-form-holder {
+	background-color: #f5f5f5;
+	border-radius: 10px;
+	padding: 10px;
+	box-shadow: 5px 5px 15px #222
+}
+
 #plumb-canvas .expanded a {
 	color: black;
 	margin-top: 5px;

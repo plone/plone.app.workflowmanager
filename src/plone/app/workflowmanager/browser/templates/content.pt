@@ -1,14 +1,4 @@
 <div id="workflow-content" i18n:domain="plone.app.workflowmanager">
-    
-    <fieldset id="fieldset-states" class="workflow-manager-panel" 
-          tal:content="structure view/render_states_template"> 
-
-    </fieldset>
-
-    <fieldset id="fieldset-transitions" class="workflow-manager-panel"
-          tal:content="structure view/render_transitions_template"> 
-
-    </fieldset>
 
     <fieldset id="fieldset-graph" class="workflow-manager-panel"
            tal:content="structure view/render_graph_template">
