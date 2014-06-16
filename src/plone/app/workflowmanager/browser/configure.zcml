@@ -177,6 +177,11 @@
     />
 
     <browser:resource
+        name="drag-on.js"
+        file="resources/drag-on.js"
+    />
+
+    <browser:resource
         name="workflow-graph.js"
         file="resources/workflow-graph.js"
     />

@@ -1,9 +1,17 @@
 #plumb-canvas {
 	height: 500px;
-	width: auto;
+	width: 80vw;
+	float: right;
 	position: relative;
 	border: 0.1em solid #ddd;
 	margin-top: 5px;
+	overflow-y: scroll;
+	overflow-x: scroll;
+}
+
+#plumb-zoom-box {
+	width: 2000px;
+	height: 1000px;
 }
 
 #plumb-canvas div.plumb-path {
@@ -76,6 +84,8 @@
 
 #plumb-toolbox {
 	text-align: center;
+	width: 14%;
+	height: inherit;
 	float: left;
 	padding: 5px;
 	z-index: 1;

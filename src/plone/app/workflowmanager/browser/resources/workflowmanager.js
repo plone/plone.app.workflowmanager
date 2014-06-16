@@ -245,6 +245,7 @@ $(document).ready(function(){
         }
       }
       CURRENT_OVERLAY.closer = "";
+      WORKFLOW_GRAPH.collapseAllItems();
       $(overlay).html(""); //clear it out
     }
   };
@@ -601,6 +602,11 @@ $(document).ready(function(){
     var isTransition = $(this).hasClass('transition-select');
     var type = "";
 
+    if( $(this).val() == "" )
+    {
+      return true;
+    }
+
     if( isTransition )
     {
       type = "#plumb-transition-";
@@ -613,7 +619,6 @@ $(document).ready(function(){
     var item = $(this).val();
 
     var edit = $(type + item).find('a.edit');
-    console.log(edit);
     //We've already set everything to work with these links, why re-invent the wheel?
     edit.click();
   });

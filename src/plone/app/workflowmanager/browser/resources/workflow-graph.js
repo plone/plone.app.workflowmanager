@@ -26,6 +26,7 @@ WorkflowGraph.prototype = {
 		helpMessageId: 		'#plumb-help-message',
 		formHolder:  		'#plumb-form-holder',
 		formOverlay:  		'#plumb-overlay',
+		zoomBox: 			'#plumb-zoom-box',
 
 		transDescClass:  	'.transition-description',
 		transTitleClass:  	'.transition-title',
@@ -45,7 +46,7 @@ WorkflowGraph.prototype = {
 
 		$(props.modeButtonId).live('click', function() {
 
-			var states = $(props.canvasId + ' > ' + props.stateClass);
+			var states = $(props.canvasId + ' ' + props.stateClass);
 
 			if($(this).hasClass('view')){
 
@@ -134,7 +135,7 @@ WorkflowGraph.prototype = {
 		});
 	},
 
-	addConnection: function(info, options)
+	addConnection: function(info)
 	{
 		var source = info['sourceId'];
 		var target = info['targetId'];
@@ -207,7 +208,7 @@ WorkflowGraph.prototype = {
 		//If we're redrawing on the same page, it helps to clean everything out first
 		jsPlumb.reset();
 
-		jsPlumb.Defaults.Container = "plumb-canvas";
+		jsPlumb.Defaults.Container = "plumb-zoom-box";
 
 		var states = t.getStateDivs();
 		var paths = $(props.containerId + ' > ' + props.pathClass);
@@ -223,6 +224,21 @@ WorkflowGraph.prototype = {
 		t.wrapOverlays();
 
 		t.setViewMode(states);
+	},
+
+	collapseAllItems: function() {
+		var open = $(props.canvasId + " > div.expanded");
+
+		$(open).each(function() {
+			if( $(this).hasClass(props.stateClass) )
+			{
+				t.expandState($(this));
+			}
+			else
+			{
+				t.expandTransition($(this));
+			}
+		})
 	},
 
 	disableDragging: function(states)
@@ -251,11 +267,14 @@ WorkflowGraph.prototype = {
 
 		var layoutExists = false;
 
+		var height = $(props.zoomBox).height();
+		var width = $(props.zoomBox).width();
+
 		$(divs).each(function() {
 			if( layout[$(this).find(props.stateIdClass).text()] ) 
 			{
-				var top = layout[$(this).find(props.stateIdClass).text()].top;
-				var left = layout[$(this).find(props.stateIdClass).text()].left;
+				var top = (layout[$(this).find(props.stateIdClass).text()].top) * height;
+				var left = (layout[$(this).find(props.stateIdClass).text()].left) * width;
 
 				$(this).css('top', top);
 				$(this).css('left', left);
@@ -391,6 +410,8 @@ WorkflowGraph.prototype = {
 		element.removeClass('btn-inverse').addClass('btn');
 		element.prop('value', 'Switch to view mode');
 
+		t.slayDragon()
+
 		//lock page scrolling and move down to the
 		//graph canvas
 		t.scrollToElement('#menu-container');
@@ -404,12 +425,42 @@ WorkflowGraph.prototype = {
 		var states = $(props.stateIdClass);
 		message = {};
 
+		var height = $(props.zoomBox).height();
+		var width = $(props.zoomBox).width();
+
+		var box_offset = $(props.zoomBox).position()
+
+		var getRelativeOffset = function(position)
+		{
+			// The - box_offset[] part accounts for when the user has dragged the
+			// zoom-box down/right. When this happens, the boxes relative position
+			// (returned by .position()) becomes negative, compared to the drawing canvas.
+			// This would cause states to be rendered outside of the box, and out of the reach of 
+			// the user
+			var left = position['left'] - box_offset['left'];
+			var top = position['top'] - box_offset['top'];
+
+			var offset = {
+				'left': (left/width),
+				'top': (top/height)
+			};
+
+			return offset;
+
+		}
+
 		states.each(function() {
-			message[$(this).text()] = $(this).parent().position();
+			message[$(this).text()] = getRelativeOffset($(this).parent().position());
 		});
 
 		var output = JSON.stringify(message);
 		$(props.layoutContainerId).text(output);
+	},
+
+	setupDragon: function()
+	{
+		$(props.canvasId).addClass('dragon');
+		$(props.canvasId).dragOn();
 	},
 
 	setViewMode: function(states)
@@ -419,8 +470,15 @@ WorkflowGraph.prototype = {
 		element.removeClass('btn').addClass('btn-inverse');
 		element.prop('value', 'Switch to design mode');
 
+		t.setupDragon()
+
 		t.unlockScrolling();
 		t.disableDragging(states);
+	},
+
+	slayDragon: function()
+	{
+		$(props.canvasId).trigger('DragOn.remove');
 	},
 
 	unlockScrolling: function()
