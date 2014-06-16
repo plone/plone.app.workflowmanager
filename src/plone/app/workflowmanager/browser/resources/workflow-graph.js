@@ -57,12 +57,18 @@ WorkflowGraph.prototype = {
 			}
 		});
 
-		$(props.transButtonId).live('click', function() {
+		$(props.transButtonId).live('click', function(e) {
 
 			t.addEndpoints();
 		})
 
-		$(props.stateClass).live('click', function() {
+		$(props.stateClass).live('click', function(e) {
+
+			//Detects if the event was triggered by the state select list
+			if( typeof(e['originalEvent']) == 'undefined' )
+			{
+				return true;
+			}
 
 			t.expandState($(this));
 		});
@@ -154,7 +160,16 @@ WorkflowGraph.prototype = {
 
 	buildConnections: function(paths)
 	{
+		//Position variable that is incremented with each 
+		//added connection. Doing this helps spread out the overlays a bit.
+		//It's still not perfect, but it's better than having an arbitrary value.
+		var position = 2;
 		$(paths).each(function() {
+
+			if( position == 8 )
+			{
+				position = 2
+			}
 
 			var start_id = $(this).find('div' + props.pathStartClass).text();
 			var end_id = $(this).find('div' + props.pathEndClass).text();
@@ -170,17 +185,16 @@ WorkflowGraph.prototype = {
 				connector:"StateMachine",
 				hoverPaintStyle:{ strokeStyle:"gold" },
 				overlays:[
-				["Arrow", {location:1, width:10}],
+				["Arrow", {location:1, width:15}],
 				["Label", { 
 					label:path_label, 
-					location:0.2, 
+					location: (position / 10), 
 					cssClass:"plumb-label",
 					events:{
 						//Defining the event here is the only effective way, 
 						//since jsPlumb makes it difficult/impossible to add a listener
 						//outside the connection definition
           				click:function(labelOverlay, originalEvent) { 
-
             				t.expandTransition(originalEvent.currentTarget);
           				}
         			}
@@ -190,6 +204,8 @@ WorkflowGraph.prototype = {
 				endpoint: "Blank",
 				paintStyle:{ strokeStyle:"black", lineWidth:1.5 },
 			});
+
+			position += 1;
 		});
 	},
 
@@ -199,6 +215,11 @@ WorkflowGraph.prototype = {
 		//if the connectors exist, 
 		//the graph is already complete.
 		if( $('._jsPlumb_connector').length > 0 )
+		{
+			return true;
+		}
+
+		if( $(props.canvasId).length <= 0 )
 		{
 			return true;
 		}
@@ -478,6 +499,7 @@ WorkflowGraph.prototype = {
 
 	slayDragon: function()
 	{
+
 		$(props.canvasId).trigger('DragOn.remove');
 	},
 
