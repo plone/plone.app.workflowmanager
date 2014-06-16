@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.0rc6 (unreleased)
--------------------
+1.0 (2014-06-16)
+----------------
 
 - Show managed permissions in transition permission guards
   [erral]
