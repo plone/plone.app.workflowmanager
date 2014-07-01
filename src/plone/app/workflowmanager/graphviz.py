@@ -168,7 +168,8 @@ def getGraph(workflow, format="gif"):
     portal_properties = getToolByName(workflow, 'portal_properties')
     encoding = portal_properties.site_properties.getProperty(
         'default_charset', 'utf-8')
-    pot = pot.encode(encoding)
+    if isinstance(pot, unicode):
+        pot = pot.encode(encoding)
     infile = mktemp('.dot')
     f = open(infile, 'w')
     f.write(pot)
