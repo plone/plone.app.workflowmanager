@@ -24,9 +24,13 @@ WorkflowGraph.prototype = {
 		containerId:  		'#plumb-container',
 		labelClass:  		'.plumb-label',
 		helpMessageId: 		'#plumb-help-message',
-		formHolder:  		'#plumb-form-holder',
-		formOverlay:  		'#plumb-overlay',
-		zoomBox: 			'#plumb-zoom-box',
+		formHolderId:  		'#plumb-form-holder',
+		formOverlayId:  	'#plumb-overlay',
+		zoomBoxId: 			'#plumb-zoom-box',
+		stateSelectClass: 	'.state-select',
+		transitionSelectClass:
+							'.transition-select',
+
 
 		transDescClass:  	'.transition-description',
 		transTitleClass:  	'.transition-title',
@@ -38,6 +42,13 @@ WorkflowGraph.prototype = {
 		pathEndClass:  		'.plumb-path-end',
 		pathTransitionClass: 
 							'.plumb-path-transition',
+
+		highlightTransitionId:
+							'#plumb-transition-highlight',
+		highlightStateId: 	'#plumb-state-highlight', 
+		editStateid: 		'#plumb-state-edit',
+		editTransitionId: 	'#plumb-transition-edit',
+		editSelectedClass:  '.edit-selected'
 	},
 
 	init: function() {
@@ -96,8 +107,55 @@ WorkflowGraph.prototype = {
 			};
 
 			$(props.layoutFormId).ajaxSubmit(options);
-		})
+		});
 
+		$(props.editSelectedClass).live('click', function() {
+		    var select = $(this).siblings('select');
+		    var type = "";
+
+		    var isTransition = $(select).hasClass(props.transitionSelectClass.replace('.', ''));
+
+		    if( $(select).val() == "" )
+		    {
+		      return true;
+		    }
+
+		    if( isTransition )
+		    {
+		      type = "#plumb-transition-";
+		    }
+		    else
+		    {
+		      type = "#plumb-state-";
+		    }
+
+		    var item = $(this).siblings('select').val();
+
+		    var edit = $(type + item).find('a.edit');
+		    //We've already set everything to work with these links, why re-invent the wheel?
+		    edit.click();
+		});
+
+		$(props.highlightStateId).live('click', function() {
+
+			var state = $(props.stateSelectClass).val();
+			state = '#plumb-state-' + state;
+
+			t.locate(state);
+		});
+
+		$(props.highlightTransitionId).live('click', function() {
+			var transitions = $(props.labelClass);
+			var select = $(this).siblings('select').val();
+
+			var chosen = $(transitions).find(':contains(' + select + ')');
+
+			$(chosen).parent().prev().attr('stroke', 'gold');
+
+			setTimeout(function() {
+				$(chosen).parent().prev().attr('stroke', 'black');
+			}, 10000);
+		});
 	},
 
 	addEndpoints: function()
@@ -137,24 +195,6 @@ WorkflowGraph.prototype = {
 					this[1].detach();
 				}
 			})
-			t.addConnection(info);
-		});
-	},
-
-	addConnection: function(info)
-	{
-		var source = info['sourceId'];
-		var target = info['targetId'];
-
-		var paths = $(props.pathClass);
-
-		paths.each(function() {
-			var start = 'plumb-state-' + $(this).find(props.pathStartClass).text();
-			var end = 'plumb-state-' + $(this).find(props.pathEndClass).text();
-
-			if( end == target && start == source )
-			{
-			}
 		});
 	},
 
@@ -186,7 +226,8 @@ WorkflowGraph.prototype = {
 				hoverPaintStyle:{ strokeStyle:"gold" },
 				overlays:[
 				["Arrow", {location:1, width:15}],
-				["Label", { 
+				["Label", {
+					customThing: 'words', 
 					label:path_label, 
 					location: (position / 10), 
 					cssClass:"plumb-label",
@@ -227,6 +268,9 @@ WorkflowGraph.prototype = {
 		$(props.stateClass).css('display', 'inherit');
 
 		//If we're redrawing on the same page, it helps to clean everything out first
+		//This saves us from a number of weird edge-cases
+		jsPlumb.detachEveryConnection();
+		jsPlumb.cleanup();
 		jsPlumb.reset();
 
 		jsPlumb.Defaults.Container = "plumb-zoom-box";
@@ -288,8 +332,8 @@ WorkflowGraph.prototype = {
 
 		var layoutExists = false;
 
-		var height = $(props.zoomBox).height();
-		var width = $(props.zoomBox).width();
+		var height = $(props.zoomBoxId).height();
+		var width = $(props.zoomBoxId).width();
 
 		$(divs).each(function() {
 			if( layout[$(this).find(props.stateIdClass).text()] ) 
@@ -393,6 +437,42 @@ WorkflowGraph.prototype = {
 		return $(props.canvasId + ' ' + props.stateClass);
 	},
 
+	locate: function(element) 
+	{
+		//get 1/2 the canvas height/width to find the "center"
+		var cHeight = $(props.canvasId).height() / 2;
+		var cWidth = $(props.canvasId).width() / 2;
+
+		var top = $(element).position().top;
+		var left = $(element).position().left;
+
+		if( top < cHeight )
+		{
+			var diffWidth = cWidth - left;
+			var diffHeight = cHeight - top;
+
+			var scrollLeft = $(props.canvasId).scrollLeft();
+			var scrollTop = $(props.canvasId).scrollTop();
+
+			var finalTop = scrollTop - diffHeight;
+			var finalLeft = scrollLeft - diffWidth;
+		}
+		else
+		{
+			var finalTop = top - cHeight;
+			var finalLeft = left - cWidth;
+		}
+
+		$(props.canvasId).animate({scrollTop: finalTop});
+		$(props.canvasId).animate({scrollLeft: finalLeft});
+
+		$(element).addClass('highlight');
+
+		setTimeout(function() {
+			$(element).removeClass('highlight');
+		}, 5000);
+	},
+
 	lockScrolling: function()
 	{
 		//This isn't as pointless as it seems.
@@ -446,10 +526,10 @@ WorkflowGraph.prototype = {
 		var states = $(props.stateIdClass);
 		message = {};
 
-		var height = $(props.zoomBox).height();
-		var width = $(props.zoomBox).width();
+		var height = $(props.zoomBoxId).height();
+		var width = $(props.zoomBoxId).width();
 
-		var box_offset = $(props.zoomBox).position()
+		var box_offset = $(props.zoomBoxId).position()
 
 		var getRelativeOffset = function(position)
 		{

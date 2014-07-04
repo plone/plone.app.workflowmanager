@@ -1,0 +1,20 @@
+*** Variables ***
+${HOST}				http://localhost:7000/Plone/
+${HOME_PAGE}		${HOST}
+${WFM_PAGE}			${HOST}@@workflowmanager
+${BROWSER}			chrome
+${LOGIN_LINK}		personaltools-login
+${LOGIN_NAME}		__ac_name
+${LOGIN_PASS}		__ac_password
+${LOGIN_SUBMIT}		css=div.formControls input.context
+
+${WF_LINK}			link=Robot
+
+#Menu Bar
+${ADVANCED_BOX}		css=input[name="advanced-mode"]
+${SECURITY_BTN}		css=input[name="update-security-settings"]
+
+#Canvas Items
+${STATE_CLASS}		css=div.plumb-state
+${PRIVATE}			plumb-state-private
+${PRIVATE_EDIT}		link=Edit

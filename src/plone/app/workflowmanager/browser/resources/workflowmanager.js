@@ -598,31 +598,6 @@ $(document).ready(function(){
     CURRENT_OVERLAY.close();
   });
 
-  $('select.plumb-edit-select').live('change', function() {
-    var isTransition = $(this).hasClass('transition-select');
-    var type = "";
-
-    if( $(this).val() == "" )
-    {
-      return true;
-    }
-
-    if( isTransition )
-    {
-      type = "#plumb-transition-";
-    }
-    else
-    {
-      type = "#plumb-state-";
-    }
-
-    var item = $(this).val();
-
-    var edit = $(type + item).find('a.edit');
-    //We've already set everything to work with these links, why re-invent the wheel?
-    edit.click();
-  });
-
   //all the initial page load stuff goes here.
   var init = function(){
     setup_overlays();

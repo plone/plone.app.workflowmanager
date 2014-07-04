@@ -1,0 +1,28 @@
+*** Settings ***
+Library		CustomSeleniumLibrary.py
+
+*** Keywords ***
+Open Browser To WFM Page
+	Open Browser 			${HOME_PAGE}	${BROWSER}
+	Maximize Browser Window
+	Login Admin
+	Go To 					${WFM_PAGE}
+	Click Element 			${WF_LINK}
+	Wait Until Element Is Visible			${STATE_CLASS}
+
+Login Admin
+	Set Selenium Speed		.1
+	Set Selenium Implicit Wait 		5
+	Click Element	${LOGIN_LINK}
+	Input Text		${LOGIN_NAME}	admin
+	Input Text		${LOGIN_PASS}	admin
+	Click Element	${LOGIN_SUBMIT}
+
+Check Advanced
+	Checkbox Should Not Be Selected 		${ADVANCED_BOX}
+	Element Should Not Be Visible			${SECURITY_BTN}
+	Click Element							${PRIVATE}
+	Click Element							${PRIVATE_EDIT}
+
+Close Everything
+	Close Browser

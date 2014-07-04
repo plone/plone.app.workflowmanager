@@ -1,0 +1,14 @@
+*** Settings ***
+Resource	robot_variables.txt
+Resource	robot_keywords.txt
+
+*** Test Cases ***
+Begin
+	Open Browser To WFM Page
+
+Check Advanced Settings
+	Check Advanced
+
+End
+	Close Everything
+

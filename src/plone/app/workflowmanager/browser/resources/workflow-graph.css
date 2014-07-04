@@ -94,8 +94,26 @@
 	border: .1em solid #ddd;
 }
 
+#plumb-toolbox fieldset {
+	border: none;
+	outline: 1px solid #e6e6e6;
+	margin-top: 15px;
+	padding: 10px;
+}
+
+#plumb-toolbox fieldset select {
+	width: 95%;
+}
+
 #plumb-toolbox input {
 	display: block;
+}
+
+#plumb-toolbox .small-btn {
+	display:inline;
+	font-size: 11px;
+	padding: 2px 4px 2px;
+	float: right;
 }
 
 #plumb-form-holder {

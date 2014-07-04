@@ -25,16 +25,24 @@
     			<input tal:replace="structure context/@@authenticator/authenticator"/>
     			<input type="button" value="Save layout" class="btn" id="plumb-graph-save" />
 				</form>
-				<label for="#plumb-toolbox-select-state">States</label>
-				<select class="plumb-edit-select state-select" id="plumb-toolbox-select-state">
-					<option value="">Choose a state to edit.</option>
-					<option tal:repeat="state states" tal:content="state/title" tal:attributes="value state/id"></option>
-				</select>
-				<label for="#plumb-toolbox-select-transitions">Transitions</label>
-				<select class="plumb-edit-select transition-select" id="plumb-toolbox-select-transition">
-					<option value="">Choose a transition to edit.</option>
-					<option tal:repeat="transition transitions" tal:content="transition/title" tal:attributes="value transition/id"></option>
-				</select>
+				<fieldset>
+					<label for="#plumb-toolbox-select-state">States</label>
+					<select class="plumb-edit-select state-select" id="plumb-toolbox-select-state">
+						<option value=""></option>
+						<option tal:repeat="state states" tal:content="state/title" tal:attributes="value state/id"></option>
+					</select>
+					<input type="button" class="btn small-btn" id="plumb-state-highlight" value="Find" />
+					<input type="button" class="edit-selected btn small-btn" id="plumb-state-edit" value="Edit" />
+				</fieldset>
+				<fieldset>
+					<label for="#plumb-toolbox-select-transitions">Transitions</label>
+					<select class="plumb-edit-select transition-select" id="plumb-toolbox-select-transition">
+						<option value=""></option>
+						<option tal:repeat="transition transitions" tal:content="transition/title" tal:attributes="value transition/id"></option>
+					</select>
+					<input type="button" class="btn small-btn" id="plumb-transition-highlight" value="Find" />
+					<input type="button" class="edit-selected btn small-btn" id="plumb-transition-edit" value="Edit" />
+				</fieldset>
     	</div>
     </div>
 	<div id="plumb-canvas">
