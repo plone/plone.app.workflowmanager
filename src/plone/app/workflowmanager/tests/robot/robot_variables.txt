@@ -21,12 +21,15 @@ ${NEW_WF_ADD}		css=input[name="form.actions.add"]
 #Menu Bar
 ${ADVANCED_BOX}		css=input[name="advanced-mode"]
 ${SECURITY_BTN}		css=input[name="update-security-settings"]
+${NEW_STATE}		css=input[name="add-new-state-button"]
+${NEW_TRANSITION}	css=input[name="add-new-transition-button"]
+${SAVE_ALL}			save-all-button
 
 #Canvas Items
 ${STATE_CLASS}		css=div.plumb-state
 ${PRIVATE}			plumb-state-private
 ${PRIVATE_EDIT}		link=Edit
-${PRIVATE_TITLE}	css=plumb-state-private.plumb-title
+${PRIVATE_TITLE}	jquery=#plumb-state-private > div.plumb-state-title
 
 #Delete
 ${WF_DELETE}		css=input[name="delete-workflow-button"]
@@ -35,3 +38,21 @@ ${WF_DELETE_PB}		css=input[name="form.actions.delete"]
 #State edit popup
 ${ADVANCED_ROLES}	link=Group Roles
 ${CLOSE}			css=div.close
+
+#New State
+${STATE_NAME}		state-name
+${ADD_STATE}		css=input[name="form.actions.add"]
+${NEW_STATE_NAME}	Broken
+${STATE_ELEMENT}	plumb-state-broken
+
+#New Transistion
+${TRANSITION_NAME}	css=input[name="transition-name"]
+${TRANS_SELECT}		plumb-toolbox-select-transition
+${NEW_TRANS_NAME}	break-it
+${ADD_TRANSITION}	css=input[name="form.actions.add"]
+${TRANS_SELECT_EDIT}	plumb-transition-edit
+${TRANS_STATE_SELECT}	css=select[name="transition-break-it-new-state"]
+${TRANS_SOURCE}		jquery=a:contains("Source States")
+${SOURCE_BOX}		transition-break-it-state-pending-selected
+${TRANS_EDIT_OK}	css=input[name="form-save"]
+${TRANS_LABEL}		jquery=span:contains("break-it")

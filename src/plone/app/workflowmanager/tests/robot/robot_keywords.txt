@@ -46,6 +46,28 @@ Create Workflow
 	Input Text						${WF_NAME_FIELD}	${NEW_WF_NAME}
 	Click Element		${NEW_WF_ADD}
 
+Create New State
+	Click Element		${NEW_STATE}
+	Input Text			${STATE_NAME}		${NEW_STATE_NAME}
+	Click Element		${ADD_STATE}
+	Element Should Be Visible				${STATE_ELEMENT}
+
+Create New Transition
+	Click Element 		${NEW_TRANSITION}
+	Input Text			${TRANSITION_NAME}	${NEW_TRANS_NAME}
+	Click Element 		${ADD_TRANSITION}
+	Wait Until Page Contains Element	${TRANS_SELECT}
+	Select From List By Value		${TRANS_SELECT}		${NEW_TRANS_NAME}
+	Click Element 		${TRANS_SELECT_EDIT}
+	Wait Until Page Contains Element 	${TRANS_STATE_SELECT}
+	Select From List By Value 		${TRANS_STATE_SELECT}	broken
+	Click Element 		${TRANS_SOURCE}
+	Select Checkbox		${SOURCE_BOX}
+	Click Element 		${TRANS_EDIT_OK}
+	Click Element 		${SAVE_ALL}
+	Wait Until Page Contains Element 	${TRANS_LABEL}
+
+
 Delete Workflow
 	Click Element		${WF_DELETE}
 	Click Element		${WF_DELETE_PB}

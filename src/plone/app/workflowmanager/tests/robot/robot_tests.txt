@@ -15,6 +15,12 @@ Check Edit Popups
 Check Advanced Settings
 	Check Advanced
 
+New State
+	Create New State
+
+New Transition
+	Create New Transition
+
 Delete WF
 	Delete Workflow
 
