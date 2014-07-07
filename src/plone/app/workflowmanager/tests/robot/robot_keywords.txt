@@ -7,12 +7,10 @@ Open Browser To WFM Page
 	Maximize Browser Window
 	Login Admin
 	Go To 					${WFM_PAGE}
-	Click Element 			${WF_LINK}
-	Wait Until Element Is Visible			${STATE_CLASS}
 
 Login Admin
 	Set Selenium Speed		.1
-	Set Selenium Implicit Wait 		5
+	Set Selenium Implicit Wait	1
 	Click Element	${LOGIN_LINK}
 	Input Text		${LOGIN_NAME}	admin
 	Input Text		${LOGIN_PASS}	admin
@@ -23,6 +21,31 @@ Check Advanced
 	Element Should Not Be Visible			${SECURITY_BTN}
 	Click Element							${PRIVATE}
 	Click Element							${PRIVATE_EDIT}
+	Element Should Not Be Visible			${ADVANCED_ROLES}
+	Click Element							${CLOSE}
+	Select Checkbox							${ADVANCED_BOX}
+	Element Should Be Visible				${SECURITY_BTN}
+	Click Element							${PRIVATE}
+	Click Element							${PRIVATE_EDIT}
+	Element Should Be Visible				${ADVANCED_ROLES}
+	Click Element							${CLOSE}
+
+Check Popups
+	Element Should Be Visible				${PRIVATE}
+	Element Should Not Be Visible			${PRIVATE_TITLE}
+	Click Element							${PRIVATE}
+	Element Should Be Visible				${PRIVATE_TITLE}
+	Click Element							${PRIVATE}
 
 Close Everything
 	Close Browser
+
+Create Workflow
+	Click Element 		${NEW_WF}
+	Select From List By Value		${WF_SELECT}		${CLONED_WF}
+	Input Text						${WF_NAME_FIELD}	${NEW_WF_NAME}
+	Click Element		${NEW_WF_ADD}
+
+Delete Workflow
+	Click Element		${WF_DELETE}
+	Click Element		${WF_DELETE_PB}

@@ -6,8 +6,17 @@ Resource	robot_keywords.txt
 Begin
 	Open Browser To WFM Page
 
+Create WF
+	Create Workflow
+
+Check Edit Popups
+	Check Popups
+
 Check Advanced Settings
 	Check Advanced
+
+Delete WF
+	Delete Workflow
 
 End
 	Close Everything

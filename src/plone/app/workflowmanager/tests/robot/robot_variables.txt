@@ -8,7 +8,15 @@ ${LOGIN_NAME}		__ac_name
 ${LOGIN_PASS}		__ac_password
 ${LOGIN_SUBMIT}		css=div.formControls input.context
 
+#WFM Start Page
 ${WF_LINK}			link=Robot
+${NEW_WF}			css=input[value="Create new workflow"]
+${CLONED_WF}		simple_publication_workflow
+${WF_SELECT}		clone-from-workflow
+${WF_NAME_FIELD}	css=input[name="workflow-name"]
+${NEW_WF_NAME}		Robot
+${NEW_WF_ADD}		css=input[name="form.actions.add"]
+
 
 #Menu Bar
 ${ADVANCED_BOX}		css=input[name="advanced-mode"]
@@ -18,3 +26,12 @@ ${SECURITY_BTN}		css=input[name="update-security-settings"]
 ${STATE_CLASS}		css=div.plumb-state
 ${PRIVATE}			plumb-state-private
 ${PRIVATE_EDIT}		link=Edit
+${PRIVATE_TITLE}	css=plumb-state-private.plumb-title
+
+#Delete
+${WF_DELETE}		css=input[name="delete-workflow-button"]
+${WF_DELETE_PB}		css=input[name="form.actions.delete"]
+
+#State edit popup
+${ADVANCED_ROLES}	link=Group Roles
+${CLOSE}			css=div.close
