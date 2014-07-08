@@ -1,0 +1,3 @@
+[submodule "jsPlumb"]
+	path = src/plone/app/workflowmanager/browser/resources/jsPlumb
+	url = git@github.com:sporritt/jsPlumb.git

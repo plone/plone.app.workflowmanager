@@ -173,7 +173,7 @@
 
     <browser:resource
         name="jquery.jsPlumb.js"
-        file="resources/jsPlumb/dist/js/jquery.jsPlumb-1.5.5-min.js"
+        file="resources/jsPlumb/dist/js/jquery.jsPlumb-1.6.2-min.js"
     />
 
     <browser:resource
