@@ -45,7 +45,10 @@ WorkflowGraph.prototype = {
 
 		highlightTransitionId:
 							'#plumb-transition-highlight',
+		transitionHighlightClear:
+							'#plumb-transition-highlight-clear',
 		highlightStateId: 	'#plumb-state-highlight', 
+		stateHighlightClear:'#plumb-state-highlight-clear',
 		editStateid: 		'#plumb-state-edit',
 		editTransitionId: 	'#plumb-transition-edit',
 		editSelectedClass:  '.edit-selected'
@@ -145,16 +148,19 @@ WorkflowGraph.prototype = {
 		});
 
 		$(props.highlightTransitionId).live('click', function() {
-			var transitions = $(props.labelClass);
 			var select = $(this).siblings('select').val();
 
-			var chosen = $(transitions).find(':contains(' + select + ')');
+			t.highlightTransitions(select);
+		});
 
-			$(chosen).parent().prev().attr('stroke', 'gold');
+		$(props.stateHighlightClear).live('click', function() {
 
-			setTimeout(function() {
-				$(chosen).parent().prev().attr('stroke', 'black');
-			}, 10000);
+			t.locate("");
+		});
+
+		$(props.transitionHighlightClear).live('click', function() {
+			
+			t.highlightTransitions("");
 		});
 	},
 
@@ -219,7 +225,7 @@ WorkflowGraph.prototype = {
 
 			var path_label = $(this).find(props.pathTransitionClass).text();
 
-			jsPlumb.connect({ 
+			var connection = jsPlumb.connect({ 
 				source:e0,
 				target:e1,
 				connector:"StateMachine",
@@ -245,6 +251,8 @@ WorkflowGraph.prototype = {
 				endpoint: "Blank",
 				paintStyle:{ strokeStyle:"black", lineWidth:1.5 },
 			});
+
+			connection.scope = path_label;
 
 			position += 1;
 		});
@@ -437,8 +445,29 @@ WorkflowGraph.prototype = {
 		return $(props.canvasId + ' ' + props.stateClass);
 	},
 
+	highlightTransitions: function(selected) {
+		var cons = jsPlumb.getAllConnections();
+
+		$(cons).each(function() {
+			if( this.scope === selected )
+			{
+				this.setHover(true);
+			}
+			else
+			{
+				this.setHover(false)
+			}
+		});
+	},
+
 	locate: function(element) 
 	{
+		if( element === "" )
+		{
+			$(props.stateClass).removeClass('highlight');
+			return;
+		}
+
 		//get 1/2 the canvas height/width to find the "center"
 		var cHeight = $(props.canvasId).height() / 2;
 		var cWidth = $(props.canvasId).width() / 2;
@@ -466,11 +495,8 @@ WorkflowGraph.prototype = {
 		$(props.canvasId).animate({scrollTop: finalTop});
 		$(props.canvasId).animate({scrollLeft: finalLeft});
 
+		$(props.stateClass).removeClass('highlight');
 		$(element).addClass('highlight');
-
-		setTimeout(function() {
-			$(element).removeClass('highlight');
-		}, 5000);
 	},
 
 	lockScrolling: function()

@@ -31,7 +31,7 @@ dist/
 var/
 .project
 .pydevproject
-
+src/plone/app/workflowmanager/browser/resources/jsPlumb/
 
 
 # OSX

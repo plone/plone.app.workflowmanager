@@ -31,6 +31,7 @@
 						<option value=""></option>
 						<option tal:repeat="state states" tal:content="state/title" tal:attributes="value state/id"></option>
 					</select>
+					<input type="button" class="btn small-btn" id="plumb-state-highlight-clear" value="Clear" />
 					<input type="button" class="btn small-btn" id="plumb-state-highlight" value="Find" />
 					<input type="button" class="edit-selected btn small-btn" id="plumb-state-edit" value="Edit" />
 				</fieldset>
@@ -40,6 +41,7 @@
 						<option value=""></option>
 						<option tal:repeat="transition transitions" tal:content="transition/title" tal:attributes="value transition/id"></option>
 					</select>
+					<input type="button" class="btn small-btn" id="plumb-transition-highlight-clear" value="Clear" />
 					<input type="button" class="btn small-btn" id="plumb-transition-highlight" value="Find" />
 					<input type="button" class="edit-selected btn small-btn" id="plumb-transition-edit" value="Edit" />
 				</fieldset>
