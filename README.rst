@@ -1,6 +1,10 @@
 Introduction
 ============
 
+Note
+----
+Until some proper documentation is written for the new graphing interface, take a look at this youtube video to satiate your curiousity:
+https://www.youtube.com/watch?v=qORLAIO7xBQ
 
 This package provides a GUI for managing custom workflows in Plone.
 
