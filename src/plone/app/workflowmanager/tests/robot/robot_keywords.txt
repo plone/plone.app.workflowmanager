@@ -9,7 +9,7 @@ Open Browser To WFM Page
 	Go To 					${WFM_PAGE}
 
 Login Admin
-	Set Selenium Speed		.1
+	Set Selenium Speed		.2
 	Set Selenium Implicit Wait	1
 	Click Element	${LOGIN_LINK}
 	Input Text		${LOGIN_NAME}	admin
@@ -57,7 +57,7 @@ Create New Transition
 	Input Text			${TRANSITION_NAME}	${NEW_TRANS_NAME}
 	Click Element 		${ADD_TRANSITION}
 	Wait Until Page Contains Element	${TRANS_SELECT}
-	Select From List By Value		${TRANS_SELECT}		${NEW_TRANS_NAME}
+	Select From List By Label		${TRANS_SELECT}		${NEW_TRANS_NAME}
 	Click Element 		${TRANS_SELECT_EDIT}
 	Wait Until Page Contains Element 	${TRANS_STATE_SELECT}
 	Select From List By Value 		${TRANS_STATE_SELECT}	broken
