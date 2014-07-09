@@ -31,8 +31,8 @@
                                       value python: checked and 'on' or '';
                                       checked python: checked and 'checked' or '';"
                       class="checkboxType" />
-                  <a class="goto-link"
-                      tal:attributes="href python: view.get_url(transition=transition);"
+                  <a class="transition-edit-link"
+                      href="#" tal:attributes="data-transition-id transition/id"
                       tal:content="transition/title" i18n:domain="plone" i18n:translate="">
                     Transition Title
                   </a>

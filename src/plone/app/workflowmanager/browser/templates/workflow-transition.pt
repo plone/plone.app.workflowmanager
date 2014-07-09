@@ -131,8 +131,9 @@
                                       id field_name;
                                       value python: checked and 'on' or '';
                                       checked python: checked and 'checked' or ''" />
-                    <a class="goto-link"
-                        tal:attributes="href python: view.get_url(state=state);"
+                    <a class="state-edit-link"
+                      href="#"
+                      tal:attributes="data-state-id state/id"
                       tal:content="state/title" i18n:domain="plone" i18n:translate="">State Title</a>
                 </label>
               </tal:field>

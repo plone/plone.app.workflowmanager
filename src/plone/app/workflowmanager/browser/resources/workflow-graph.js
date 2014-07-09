@@ -43,6 +43,8 @@ WorkflowGraph.prototype = {
 		pathTransitionClass: 
 							'.plumb-path-transition',
 
+		transEditLink: 		'.transition-edit-link',
+		stateEditLink: 		'.state-edit-link',
 		highlightTransitionId:
 							'#plumb-transition-highlight',
 		transitionHighlightClear:
@@ -70,11 +72,6 @@ WorkflowGraph.prototype = {
 				t.setViewMode(states);
 			}
 		});
-
-		$(props.transButtonId).live('click', function(e) {
-
-			t.addEndpoints();
-		})
 
 		$(props.stateClass).live('click', function(e) {
 
@@ -162,45 +159,25 @@ WorkflowGraph.prototype = {
 			
 			t.highlightTransitions("");
 		});
-	},
 
-	addEndpoints: function()
-	{
-		var dropOptions = {
-			anchor: "Continuous",
-			isSource: true,
-			connector: "StateMachine",
-			scope: "newTransitions",
-		};
+		$(props.transEditLink).live('click', function(e) {
+			e.preventDefault();
+			var el = e.currentTarget;
 
-		var stateBoxes = $(props.stateClass);
-
-		stateBoxes.each(function() {
-			jsPlumb.addEndpoint($(this), dropOptions);
+			var id = $(el).attr('data-transition-id');
+			var transition = $('#plumb-transition-' + id);
+			var link = $(transition).find('a.edit');
+			$(link).click();
 		});
 
-		jsPlumb.makeTarget(stateBoxes, {
-			scope: "newTransitions",
-			hoverClass: "highlight",
-			anchor: "Continuous",
-		});
+		$(props.stateEditLink).live('click', function(e) {
+			e.preventDefault();
+			var el = e.currentTarget;
 
-		jsPlumb.repaintEverything();
-
-		jsPlumb.bind("connection", function(info, dropOptions) {
-
-			var source = info['sourceId'];
-			var target = info['targetId'];
-
-			var pts = jsPlumb.selectEndpoints({scope:"newTransitions"});
-			var endPts = pts.getParameter();
-
-			$(endPts).each(function() {
-				if( !( this[1].elementId == source || this[1].elementId == target ) )
-				{
-					this[1].detach();
-				}
-			})
+			var id = $(el).attr('data-state-id');
+			var state = $('#plumb-state-' + id);
+			var link = $(state).find('a.edit');
+			$(link).click();
 		});
 	},
 
@@ -281,7 +258,7 @@ WorkflowGraph.prototype = {
 		jsPlumb.cleanup();
 		jsPlumb.reset();
 
-		jsPlumb.Defaults.Container = "plumb-zoom-box";
+		jsPlumb.setContainer('plumb-canvas');
 
 		var states = t.getStateDivs();
 		var paths = $(props.containerId + ' > ' + props.pathClass);

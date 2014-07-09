@@ -641,6 +641,7 @@ $(document).ready(function(){
     $('#content').on('click', '.item-header li.related-items a', function(){ return false; });
     WORKFLOW_GRAPH = new WorkflowGraph();
     WORKFLOW_GRAPH.buildGraph();
+    jsPlumb.show();
 
   }
   init();
