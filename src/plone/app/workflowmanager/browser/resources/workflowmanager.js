@@ -639,10 +639,11 @@ $(document).ready(function(){
     $('#save-all-button').popover({trigger: 'manual', placement: 'bottom'});
     $('[rel=popover]').popover({placement: 'bottom'});
     $('#content').on('click', '.item-header li.related-items a', function(){ return false; });
-    WORKFLOW_GRAPH = new WorkflowGraph();
-    WORKFLOW_GRAPH.buildGraph();
-    jsPlumb.show();
-
+    jsPlumb.ready(function() {
+          WORKFLOW_GRAPH = new WorkflowGraph();
+          WORKFLOW_GRAPH.buildGraph();
+          jsPlumb.show();
+    });
   }
   init();
 

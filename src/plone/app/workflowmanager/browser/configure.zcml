@@ -172,8 +172,8 @@
     />
 
     <browser:resource
-        name="jquery.jsPlumb.js"
-        file="resources/jsPlumb/dist/js/jquery.jsPlumb-1.6.2-min.js"
+        name="jsPlumb.js"
+        file="resources/jsPlumb/dist/js/dom.jsPlumb-1.6.2.js"
     />
 
     <browser:resource

@@ -60,6 +60,8 @@ WorkflowGraph.prototype = {
 		props = this.props;
 		t = this;
 
+		instance = jsPlumb.getInstance()
+
 		$(props.modeButtonId).live('click', function() {
 
 			var states = $(props.canvasId + ' ' + props.stateClass);
@@ -202,7 +204,7 @@ WorkflowGraph.prototype = {
 
 			var path_label = $(this).find(props.pathTransitionClass).text();
 
-			var connection = jsPlumb.connect({ 
+			var connection = instance.connect({ 
 				source:e0,
 				target:e1,
 				connector:"StateMachine",
@@ -254,11 +256,11 @@ WorkflowGraph.prototype = {
 
 		//If we're redrawing on the same page, it helps to clean everything out first
 		//This saves us from a number of weird edge-cases
-		jsPlumb.detachEveryConnection();
-		jsPlumb.cleanup();
-		jsPlumb.reset();
+		// instance.detachEveryConnection();
+		// instance.cleanup();
+		// instance.reset();
 
-		jsPlumb.setContainer('plumb-canvas');
+		instance.setContainer('plumb-canvas');
 
 		var states = t.getStateDivs();
 		var paths = $(props.containerId + ' > ' + props.pathClass);
@@ -267,11 +269,11 @@ WorkflowGraph.prototype = {
 
 		$(props.toolboxId).show();
 
-		t.makeDraggable(states);
-
 		t.buildConnections(paths);
 
 		t.wrapOverlays();
+
+		t.makeDraggable(states);
 
 		t.setViewMode(states);
 	},
@@ -296,7 +298,7 @@ WorkflowGraph.prototype = {
 		//this will work with either a single element
 		//or an array of them
 		$(states).each(function() {
-			jsPlumb.setDraggable($(this), false);
+			instance.setDraggable($(this), false);
 		});
 	},
 
@@ -342,16 +344,15 @@ WorkflowGraph.prototype = {
 
 		if( layoutExists == false )
 		{
-			$(props.helpMessageId).dialog({
-				modal: true,
-			});
+			alert($(props.helpMessageId).html());
+			
 		}
 	},
 
 	enableDragging: function(states)
 	{
 		$(states).each(function() {
-			jsPlumb.setDraggable($(this), true);
+			instance.setDraggable(this, true);	
 		});
 	},
 
@@ -423,7 +424,7 @@ WorkflowGraph.prototype = {
 	},
 
 	highlightTransitions: function(selected) {
-		var cons = jsPlumb.getAllConnections();
+		var cons = instance.getAllConnections();
 
 		$(cons).each(function() {
 			if( this.scope === selected )
@@ -491,10 +492,7 @@ WorkflowGraph.prototype = {
 		//options since you can't pass them to the
 		// toggle/disable functions
 		$(states).each(function() {
-			jsPlumb.draggable($(this), {
-				containment: props.canvasId,
-				scroll: false
-			});
+			instance.draggable(this);
 		});
 	},
 
@@ -520,7 +518,7 @@ WorkflowGraph.prototype = {
 		//graph canvas
 		t.scrollToElement('#menu-container');
 		t.lockScrolling();
-	    t.enableDragging(states);
+	  t.enableDragging(states);
 	},
 
 	setLayout: function()
