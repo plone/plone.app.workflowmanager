@@ -1,7 +1,19 @@
 Changelog
 =========
 
-1.0a5 ~ unreleased
+1.1a2 ~ unreleased
+------------------
+- Included jsPlumb library.
+  [obct537]
+
+- Replaced previous UI with jsPlumb graph layout.
+  [obct537]
+
+- Removed older, redundant UI elements.
+  Rewrote workflowmanager.js to be more dynamic, to accomodate jsPlumb
+  [obct537]
+
+1.0a5
 ------------------
 
 - Instantiate transition scripts when we create a transition

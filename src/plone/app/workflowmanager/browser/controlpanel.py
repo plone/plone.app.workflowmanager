@@ -216,8 +216,9 @@ class Base(BrowserView):
         for state in states:
             for trans in state.transitions:
                 current_transition = self.get_transition(trans)
-                if current_transition.id and current_transition.new_state_id:
-                    paths.append( Path(state.id, current_transition.id, current_transition.new_state_id) )
+                if current_transition is not None:
+                    if current_transition.id and current_transition.new_state_id:
+                        paths.append( Path(state.id, current_transition.id, current_transition.new_state_id) )
 
         return paths
 

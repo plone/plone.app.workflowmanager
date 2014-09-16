@@ -1,4 +1,11 @@
 include *.txt
+include *.rst
 
 recursive-include docs *
-recursive-include plone *
+recursive-include src/plone *.pt *.py *.txt *.xml *.zcml *.js *.css
+
+recursive-include src/plone/app/workflowmanager/locales *
+
+global-exclude *.DS_Store
+global-exclude *.pyc
+prune src/plone/app/workflowmanager/tests
