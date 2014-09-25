@@ -10,7 +10,7 @@ from plone.app.contentrules.rule import Rule, get_assignments
 from plone.contentrules.engine.assignments import RuleAssignment
 from Products.CMFCore.interfaces._events import IActionSucceededEvent
 from Products.CMFCore.utils import getToolByName
-from plone.app.workflowmanager.utils import generateRuleName
+from plone.app.workflowmanager.utils import generateRuleName, generateRuleNameOld
 
 from zope.i18nmessageid import MessageFactory
 _ = MessageFactory(u"plone")
@@ -73,9 +73,10 @@ class ActionManager(object):
 
     def get_rule(self, transition):
         rulename = generateRuleName(transition)
+        rulename_old = generateRuleNameOld(transition)
         if self.storage is not None:
             for rule in self.storage.values():
-                if rule.__name__ == rulename:
+                if rule.__name__ == rulename or rule.__name__ == rulename_old:
                     return RuleAdapter(rule, transition)
         return None
 
