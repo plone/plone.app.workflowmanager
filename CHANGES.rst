@@ -4,6 +4,16 @@ Changelog
 1.1 (unreleased)
 ----------------
 
+- No changes yet
+
+
+1.0.1 (2014-09-25)
+------------------
+
+- Finds actions (content rules) created by older versions of workflow
+  manager when generated content rule IDs did not include the workflow
+  ID [tkimnguyen]
+
 - Fixed problem with non-ascii characters in graphviz diagram [lewicki]
 
 

@@ -44,3 +44,7 @@ def generateRuleName(transition):
     return '--workflowmanager--%s--%s' % (
         transition.getWorkflow().id,
         transition.id)
+
+def generateRuleNameOld(transition):
+    return '--workflowmanager--%s' % (
+        transition.id)
