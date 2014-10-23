@@ -179,9 +179,8 @@ $(document).ready(function(){
         content_selector = 'div.dialog-box';
       }
 
-      url = strip_vars(url);
-
       var data = get_url_vars(url);
+      url = strip_vars(url);
       data['ajax'] = true;      
 
       var open = true;
@@ -222,7 +221,7 @@ $(document).ready(function(){
           //This looks to see if we've previously edited this form, and clicked "Ok"
           var previously_saved_form = $('#changed-forms').find('div[data-element-id="' + type + '-' + item + '"').html();
 
-          //If we've saved the form, pull up that saved data, instead of refetching it.
+          //If we've saved the form, pull up that saved data, instead of starting from the old version.
           //This lets us to preserve changes between edits, without having to actually save them
           if( 
               item !== undefined && 
@@ -231,13 +230,9 @@ $(document).ready(function(){
             )
           {
             var name = $('#plumb-' + type + '-' + item);
-            var fieldset = $('#plumb-container .overlay-form-template');
+            var fieldset = $('#pb_99999 form');
 
-            debugger;
-            fieldset = repopulate_form_data(fieldset, previously_saved_form);
-            $(fieldset).show();
-
-            load_overlay(fieldset);
+            repopulate_form_data(fieldset, previously_saved_form);
           }
           spinner.hide();
         }
