@@ -151,6 +151,20 @@ $(document).ready(function(){
     setup_tabs(content);
   }
 
+  var repopulate_form_data = function(form, content) {
+
+    var form_data = $.parseJSON(content);
+    var inputs = $(form).find(':input');
+
+    $(inputs).each(function() {
+      if( form_data[this.name] !== undefined ) {
+        $(this).val(form_data[this.name]);
+      }
+    });
+
+    return form;
+  }
+
   // Our overlay settings that automatically load remote content
   // and clear it out when it closes
   overlay_settings = {
@@ -164,57 +178,70 @@ $(document).ready(function(){
       if(content_selector == undefined || ['', '_blank', '_parent', '_self', '_top'].contains(content_selector.toLowerCase())){
         content_selector = 'div.dialog-box';
       }
-      var data = get_url_vars(url);
-      data['ajax'] = true;
 
       url = strip_vars(url);
 
-      var state = data['selected-state'];
-      var transition = data['selected-transition'];
+      var data = get_url_vars(url);
+      data['ajax'] = true;      
 
-      if( typeof(state) != "undefined" )
-      {
-        var item = state;
-        var type = "state";
-      }
-      else if( typeof(transition) != "undefined" )
-      {
-        var item = transition;
-        var type = "transition";
-      }
-
-      var edit = url.indexOf('/@@workflowmanager-edit-' + type);
-
-      if( typeof(item) != "undefined" && edit > 0 )
-      {
-        var name = $('#plumb-' + type + '-' + item);
-        var fieldset = $(name).find('.overlay-edit-form').clone();
-        $(fieldset).show();
-
-        load_overlay(fieldset);
-      }
-      else
-      {
-        var open = true;
-        if(trigger.hasClass('save-first') && has_dirty_items()){
-          // #TODO Add support for i18n
-          if(confirm("You have unsaved changes. Would you like to save them and continue?")){
-            save(function(){
-              // #TODO Add support for i18n
-              status_message("The workflow has been successfully updated.");
-            });
-          }else{
-            return false;
-          }
+      var open = true;
+      if(trigger.hasClass('save-first') && has_dirty_items()){
+        // #TODO Add support for i18n
+        if(confirm("You have unsaved changes. Would you like to save them and continue?")){
+          save(function(){
+            // #TODO Add support for i18n
+            status_message("The workflow has been successfully updated.");
+          });
+        }else{
+          return false;
         }
-
-        $.ajax({ url : url, data : data, type : 'POST',
-          complete : function(request, textStatus){
-            load_overlay($(request.responseText), content_selector);
-            spinner.hide();
-          }
-        });
       }
+
+      $.ajax({ url : url, data : data, type : 'POST',
+        complete : function(request, textStatus){
+          load_overlay($(request.responseText), content_selector);
+          var formData = JSON.stringify( retrieve_form_data( request.responseText ) );
+          $('#form-holder').html(formData);
+
+          var state = data['selected-state'];
+          var transition = data['selected-transition'];
+
+          if( typeof(state) !== undefined )
+          {
+            var item = state;
+            var type = "state";
+          }
+          else if( typeof(transition) !== undefined )
+          {
+            var item = transition;
+            var type = "transition";
+          }
+
+          var edit = url.indexOf('/@@workflowmanager-edit-' + type);
+
+          //This looks to see if we've previously edited this form, and clicked "Ok"
+          var previously_saved_form = $('#changed-forms').find('div[data-element-id="' + type + '-' + item + '"').html();
+
+          //If we've saved the form, pull up that saved data, instead of refetching it.
+          //This lets us to preserve changes between edits, without having to actually save them
+          if( 
+              item !== undefined && 
+              edit > 0 && 
+              previously_saved_form !== null 
+            )
+          {
+            var name = $('#plumb-' + type + '-' + item);
+            var fieldset = $('#plumb-container .overlay-form-template');
+
+            debugger;
+            fieldset = repopulate_form_data(fieldset, previously_saved_form);
+            $(fieldset).show();
+
+            load_overlay(fieldset);
+          }
+          spinner.hide();
+        }
+      });
 
     },
     expose: {
@@ -226,22 +253,18 @@ $(document).ready(function(){
     oneInstance: false,
     onClose : function(closer){
       var overlay = $('#pb_99999 .pb-ajax');
-      var form = $(overlay).find('.overlay-edit-form');
 
-      if( form.length > 0 )
+      //The form data is stored as a JSON string, 
+      //Allowing us to check if there's been any changes.
+      var old_form_data = JSON.parse( $('#form-holder').html() );
+
+      if( old_form_data !== undefined )
       {
-        var name = $(form).find('input[name="parent-element"]').val()
-        name = $('#plumb-' + name);
-
-        var tabs = $(form).find('.formTabs');
-
-        $(tabs).children().remove();
-
-        $(form).hide();
+        var overlay_form = $(overlay).find('form');
 
         if( $(CURRENT_OVERLAY.closer).hasClass('save-form') )
         {
-          update_form(form, $(name).find('.overlay-edit-form'));
+          update_form(overlay_form, old_form_data);
         }
       }
       CURRENT_OVERLAY.closer = "";
@@ -292,6 +315,7 @@ $(document).ready(function(){
   }
 
   var retrieve_selected_workflow = function(){
+
     return $("#selected-workflow").val();
   }
 
@@ -502,38 +526,63 @@ $(document).ready(function(){
     });
   }
 
+  //Here, we compare the form data to what it was originally, to detect any changes. 
+  //The old form data is stored in #form-holder, as a JSON string.
   var update_form = function(form, original){
 
     var items = $(form).find(':input');
+    var changed = false;
+
+    var parent = original['parent-element'];
 
     $(items).each(function() {
-      var name = $(this).attr('name');
+      var self = this;
+
+      var name = $(self).attr('name');
       var selector = ':input[name="' + name + '"]';
-      var that = $(original).find(selector);
+      var old = original[name];
 
-      var type = $(this).prop('type');
+      var type = $(self).prop('type');
 
-      if( $(that).val() != $(this).val() || $(that).attr('checked') != $(this).attr('checked') )
+      if( type === "button" ) {
+        //The .each() interprets this as a "continue";
+        return true;
+      }
+
+      //If the value isn't filled in, there won't be a cooresponding entry in 
+      //the "original" object. However, this is still a valid value.
+      if( old === undefined ) {
+        if( $(self).val() === "" ) {
+          old = "";
+        }
+      }
+
+      if( $(self).val() != old )
       {
-        var parent = $(original).find('input[name="parent-element"]').val();
         $(original).find('#' + parent).addClass('dirty');
         $('#save-all-button').addClass('btn-danger');
 
-        if( type == 'textarea' )
-        {
-          $(that).html($(this).val());
-        }
-        else if( type == 'checkbox' )
-        {
-          var checked = (typeof($(this).attr('checked')) == 'undefined' ) ? false:true;
-          $(that).attr('checked', checked);
-        }
-        else
-        {
-          $(that).val($(this).val());
-        }
+        original[name] = $(self).val();
+        changed = true;
       }
     });
+
+    //If there as a change made to the graph, put it in the 
+    //#changed-forms div, so we can potentially save the changes later.
+    if( changed ) {
+
+      //If we've already stored changes to the form, save the form data there
+      var previously_saved_form = $('#changed-forms').find('div[data-element-id="' + parent + '"]');
+
+      var out = JSON.stringify(original);
+
+      if( $(previously_saved_form).length == 0 ) {
+        $('#changed-forms').append('<div data-element-id="' + parent + '">' + out + '</div>');  
+      }else{
+        $(previously_saved_form).html(out);
+      }
+      
+    }
   }
 
   var handle_advanced = function(content) {
@@ -642,6 +691,7 @@ $(document).ready(function(){
     jsPlumb.ready(function() {
           WORKFLOW_GRAPH = new WorkflowGraph();
           WORKFLOW_GRAPH.buildGraph();
+          //WORKFLOW_GRAPH.springy_test();
           jsPlumb.show();
     });
   }

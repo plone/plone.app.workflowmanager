@@ -121,7 +121,8 @@
           <fieldset>
             <legend i18n:translate="">Source States</legend>
             <div class="alert alert-info" i18n:translate="select_states_enable_transition">Select which states should enable this transition.</div>
-            <tal:states tal:repeat="state available_states">
+            <div class="checkbox-holder">
+              <tal:states tal:repeat="state available_states">
               <tal:field
                   tal:define="field_name string:transition-${transition/id}-state-${state/id}-selected;
                               checked python: transition.id in state.transitions;">
@@ -137,7 +138,8 @@
                       tal:content="state/title" i18n:domain="plone" i18n:translate="">State Title</a>
                 </label>
               </tal:field>
-            </tal:states>
+              </tal:states>
+            </div>
             <a class="dialog-box save-first" rel="#pb_99999"
                 tal:attributes="href python: view.get_url('@@workflowmanager-add-new-state', reference=transition.id);">
                 <input type="button" class="context btn" name="add-new-state-in-transition-button" value="Add state" i18n:attributes="value" />

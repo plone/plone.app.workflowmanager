@@ -185,4 +185,14 @@
         name="workflow-graph.js"
         file="resources/workflow-graph.js"
     />
+
+    <browser:resource
+        name="springy.js"
+        file="resources/springy.js"
+    />
+
+    <browser:resource
+        name="springyui.js"
+        file="resources/springyui.js"
+    />
 </configure>

@@ -10,50 +10,49 @@ WorkflowGraph.prototype = {
 
 	props: {
 		//To help refactor this horrible naming scheme eventually...
-		graphSaveButtonId:  '#plumb-graph-save',
-		drawButtonId:  		'#plumb-draw-button',
-		modeButtonId:  		'#plumb-mode-button',
-		transButtonId:  	'#plumb-add-transition-button',
-		toolboxId:  		'#plumb-toolbox',
-		stateIdClass:  		'.plumb-state-id',
-		stateClass:  		'.plumb-state',
-		canvasId:  			'#plumb-canvas',
-		workflowId:  		'#plumb-workflow',
-		layoutContainerId:  '#plumb-layout-container',
-		layoutFormId: 		'#plumb-layout-form', 
-		containerId:  		'#plumb-container',
-		labelClass:  		'.plumb-label',
-		helpMessageId: 		'#plumb-help-message',
-		formHolderId:  		'#plumb-form-holder',
-		formOverlayId:  	'#plumb-overlay',
-		zoomBoxId: 			'#plumb-zoom-box',
-		stateSelectClass: 	'.state-select',
-		transitionSelectClass:
-							'.transition-select',
+		graphSaveButtonId:  		'#plumb-graph-save',
+		drawButtonId:  					'#plumb-draw-button',
+		modeButtonId:  					'#plumb-mode-button',
+		transButtonId:  				'#plumb-add-transition-button',
+		toolboxId:  						'#plumb-toolbox',
+		stateIdClass:  					'.plumb-state-id',
+		stateClass:  						'.plumb-state',
+		stateTitleClass: 				'.plumb-state-title',
+		canvasId:  							'#plumb-canvas',
+		workflowId:  						'#plumb-workflow',
+		layoutContainerId:  		'#plumb-layout-container',
+		layoutFormId: 					'#plumb-layout-form', 
+		containerId:  					'#plumb-container',
+		labelClass:  						'.plumb-label',
+		helpMessageId: 					'#plumb-help-message',
+		formHolderId:  					'#plumb-form-holder',
+		formOverlayId:  				'#plumb-overlay',
+		zoomBoxId: 							'#plumb-zoom-box',
+		stateSelectClass: 			'.state-select',
+		transitionSelectClass: 	'.transition-select',
 
 
-		transDescClass:  	'.transition-description',
-		transTitleClass:  	'.transition-title',
-		transIdClass: 		'.transition-id',
-		transLinkClass:  	'.transition-link',
+		transDescClass:  				'.transition-description',
+		transTitleClass:  			'.transition-title',
+		transIdClass: 					'.transition-id',
+		transLinkClass:  				'.transition-link',
 
-		pathClass:  		'.plumb-path',
-		pathStartClass:  	'.plumb-path-start',
-		pathEndClass:  		'.plumb-path-end',
-		pathTransitionClass: 
-							'.plumb-path-transition',
+		pathClass:  						'.plumb-path',
+		pathStartClass:  				'.plumb-path-start',
+		pathEndClass:  					'.plumb-path-end',
+		pathTransitionClass: 		'.plumb-path-transition',
 
-		transEditLink: 		'.transition-edit-link',
-		stateEditLink: 		'.state-edit-link',
-		highlightTransitionId:
-							'#plumb-transition-highlight',
+		transEditLink: 					'.transition-edit-link',
+		stateEditLink: 					'.state-edit-link',
+		highlightTransitionId: 	'#plumb-transition-highlight',
 		transitionHighlightClear:
 							'#plumb-transition-highlight-clear',
-		highlightStateId: 	'#plumb-state-highlight', 
-		stateHighlightClear:'#plumb-state-highlight-clear',
-		editStateid: 		'#plumb-state-edit',
-		editTransitionId: 	'#plumb-transition-edit',
-		editSelectedClass:  '.edit-selected'
+		highlightStateId: 			'#plumb-state-highlight', 
+		stateHighlightClear: 		'#plumb-state-highlight-clear',
+		editStateid: 						'#plumb-state-edit',
+		editTransitionId: 			'#plumb-transition-edit',
+		editSelectedClass:  		'.edit-selected',
+		reorderId: 							'#plumb-reorder',
 	},
 
 	init: function() {
@@ -104,7 +103,6 @@ WorkflowGraph.prototype = {
 				},
 				error: function(xhr) {
 					alert("There was a problem saving the layout.");
-					console.log(xhr);
 				}
 			};
 
@@ -131,9 +129,10 @@ WorkflowGraph.prototype = {
 		      type = "#plumb-state-";
 		    }
 
+		    //Find the actual state/transition element, then find the edit button
 		    var item = $(this).siblings('select').val();
-
 		    var edit = $(type + item).find('a.edit');
+
 		    //We've already set everything to work with these links, why re-invent the wheel?
 		    edit.click();
 		});
@@ -157,6 +156,7 @@ WorkflowGraph.prototype = {
 			t.locate("");
 		});
 
+			
 		$(props.transitionHighlightClear).live('click', function() {
 			
 			t.highlightTransitions("");
@@ -181,6 +181,44 @@ WorkflowGraph.prototype = {
 			var link = $(state).find('a.edit');
 			$(link).click();
 		});
+
+		$(props.reorderId).live('click', function(e) {
+			t.springy();
+		});
+	},
+
+	springy: function() {
+		
+		graph = new Springy.Graph();
+		var nodes = {};
+		var count = 0;
+
+		$(props.stateClass).hide();
+
+		$(props.stateClass).each(function() {
+			count++;
+			nodes[$(this).find(props.stateIdClass).text()] = graph.newNode({label: $(this).find('.plumb-state-id').text()});
+		});
+
+		var paths = $(props.containerId + ' > ' + props.pathClass);
+
+		$(paths).each(function() {
+
+			var start_id = $(this).find('div' + props.pathStartClass).text();
+			var end_id = $(this).find('div' + props.pathEndClass).text();
+
+			graph.newEdge(nodes[start_id], nodes[end_id]);
+			
+		});
+
+		var height = $(props.zoomBoxId).height();
+		var width = $(props.zoomBoxId).width();
+
+		$(props.zoomBoxId).append('<canvas id="springy-canvas" height="' + height + '" width="' + width + '" />');
+
+		t.resetGraph();
+
+		$('#springy-canvas').springy({graph: graph});
 	},
 
 	buildConnections: function(paths)
@@ -210,7 +248,7 @@ WorkflowGraph.prototype = {
 				connector:"StateMachine",
 				hoverPaintStyle:{ strokeStyle:"gold" },
 				overlays:[
-				["Arrow", {location:1, width:15}],
+				["Arrow", {location:1, width:5}],
 				["Label", {
 					customThing: 'words', 
 					label:path_label, 
@@ -228,7 +266,7 @@ WorkflowGraph.prototype = {
 				],
 				anchor: "Continuous",
 				endpoint: "Blank",
-				paintStyle:{ strokeStyle:"black", lineWidth:1.5 },
+				paintStyle:{ strokeStyle:"black", lineWidth:1 },
 			});
 
 			connection.scope = path_label;
@@ -256,13 +294,17 @@ WorkflowGraph.prototype = {
 
 		//If we're redrawing on the same page, it helps to clean everything out first
 		//This saves us from a number of weird edge-cases
-		// instance.detachEveryConnection();
-		// instance.cleanup();
-		// instance.reset();
+
 
 		instance.setContainer('plumb-canvas');
 
 		var states = t.getStateDivs();
+
+		if( $(states).length > 25 ) {
+			$(props.canvasId).addClass('large');
+			$(props.zoomBoxId).addClass('large');
+		}
+
 		var paths = $(props.containerId + ' > ' + props.pathClass);
 
 		t.distribute(states);
@@ -276,6 +318,11 @@ WorkflowGraph.prototype = {
 		t.makeDraggable(states);
 
 		t.setViewMode(states);
+
+		//This moves the focus to the first element in the the WF
+		var first = $(props.stateClass);
+		t.locate(first[0]);
+		t.locate("");
 	},
 
 	collapseAllItems: function() {
@@ -322,6 +369,8 @@ WorkflowGraph.prototype = {
 		var height = $(props.zoomBoxId).height();
 		var width = $(props.zoomBoxId).width();
 
+		var num = $(divs).length;
+
 		$(divs).each(function() {
 			if( layout[$(this).find(props.stateIdClass).text()] ) 
 			{
@@ -334,8 +383,10 @@ WorkflowGraph.prototype = {
 			}
 			else
 			{
-				var css_left = Math.ceil(Math.random() * ($('#content').width() - $(this).outerWidth(true)));
-				var css_top = Math.ceil(Math.random() * ($(props.canvasId).height() - $(this).outerHeight(true)));
+				var box = $(props.canvasId);
+
+				var css_left = Math.ceil(Math.random() * ($(box).width() - $(this).outerWidth(true)));
+				var css_top = Math.ceil(Math.random() * ($(box).height() - $(this).outerHeight(true)));
 
 				$(this).css('top', css_top);
 				$(this).css('left', css_left);
@@ -370,7 +421,7 @@ WorkflowGraph.prototype = {
 		if($(element).hasClass('expanded'))
 		{
 			$(element).children().hide();
-			$(element).find(props.stateIdClass).show();
+			$(element).find(props.stateTitleClass).show();
 			$(element).removeClass('expanded');
 			return true;
 		}
@@ -494,6 +545,21 @@ WorkflowGraph.prototype = {
 		$(states).each(function() {
 			instance.draggable(this);
 		});
+	},
+
+	rebuildGraph: function(coords)
+	{
+		$(props.stateClass).show();
+		$(props.layoutContainerId).text(JSON.stringify(coords));
+		$('#springy-canvas').remove();
+		t.buildGraph();
+	},
+
+	resetGraph: function() 
+	{
+		instance.detachEveryConnection();
+		instance.cleanup();
+		instance.reset();
 	},
 
 	scrollToElement: function(element)

@@ -14,6 +14,10 @@
 	    	<div class="plumb-path-end" tal:content="path/end">
 	    	</div>
 	    </div>
+	    <fieldset class="overlay-form-template" style="display: none;" tal:content="structure python: view.workflow_state_template(state=states[0], available_transitions=transitions)" />
+	    <div id="form-holder"></div>
+	    <div id="changed-forms"></div>
+
 	</span>
 	<div id="plumb-toolbox" style="display: none;">
     	<div id="plumb-toolbox-top">
@@ -24,6 +28,7 @@
     			<input type="text" name="workflow" style="display: none;" id="plumb-workflow"/>
     			<input tal:replace="structure context/@@authenticator/authenticator"/>
     			<input type="button" value="Save layout" class="btn" id="plumb-graph-save" />
+    			<input type="button" value="Reorder Graph" class="btn" id="plumb-reorder" />
 				</form>
 				<fieldset>
 					<label for="#plumb-toolbox-select-state">States</label>
@@ -49,22 +54,17 @@
     </div>
 	<div id="plumb-canvas">
 		<div id="plumb-zoom-box">
-			<div id="plumb-help-message" style="display: none;">
-				<p>If this is your first time viewing the workflow graph, 
-				   press the "Switch to Design Mode" button to move the workflow state
-				   boxes around to form a more visually-appealing layout. When you're
-				   done moving things around, press "Save Layout" to keep that layout for future use.</p>
+			<div id="plumb-help-message" style="display: none;">If this is your first time viewing the workflow graph, press the "Switch to Design Mode" button to move the workflow state boxes around to form a more visually-appealing layout. When you're done moving things around, press "Save Layout" to keep that layout for future use.
 			</div>
 			<div tal:repeat="state states" class="plumb-state" tal:attributes="id string:plumb-state-${state/id}" style="display: none;">
-		    	<div class="plumb-state-id" tal:content="state/id">
+		    	<div class="plumb-state-id" tal:content="state/id" style="display: none;">
 		    	</div>
-		    	<div class="plumb-state-title plumb-title" tal:content="state/title" style="display: none;">
+		    	<div class="plumb-state-title plumb-title" tal:content="state/title" >
 		    	</div>
 		    	<div class="plumb-state-description" tal:content="state/description" style="display: none;">
 		    	</div>
 		    	<a class="dialog-box btn edit" rel="#pb_99999" tal:attributes="href python: view.get_url('@@workflowmanager-edit-state', state=state);" style="display: none;">Edit</a>
 		    	<a class="dialog-box btn" rel="#pb_99999" tal:attributes="href python: view.get_url('@@workflowmanager-delete-state', state=state);" style="display: none;">Delete</a>
-		    	<fieldset class="overlay-edit-form workflow-item" style="display: none;" tal:content="structure python: view.workflow_state_template(state=state, available_transitions=transitions)" />
 		    </div>
 		    <div tal:repeat="transition transitions" tal:attributes="id string:plumb-transition-${transition/id}" style="display: none;">
 		    	<div class="transition-id" tal:content="transition/id">
@@ -75,7 +75,6 @@
 		    	</div>
 		    	<a class="dialog-box transition-link btn edit" rel="#pb_99999" tal:attributes="href python: view.get_url('@@workflowmanager-edit-transition', transition=transition);">Edit</a>
 		    	<a class="dialog-box transition-link btn" rel="#pb_99999" tal:attributes="href python: view.get_url('@@workflowmanager-delete-transition', transition=transition);">Delete</a>
-		    	<fieldset class="overlay-edit-form workflow-item" tal:content="structure python: view.workflow_transition_template(transition=transition, available_states=states)" />
 		    </div>
 		</div>
 	</div>
