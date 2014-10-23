@@ -155,10 +155,15 @@ $(document).ready(function(){
 
     var form_data = $.parseJSON(content);
     var inputs = $(form).find(':input');
-
     $(inputs).each(function() {
       if( form_data[this.name] !== undefined ) {
-        $(this).val(form_data[this.name]);
+
+        if( form_data[this.name] == "on" ) {
+
+          $(this).attr('checked', true);
+        }else{
+          $(this).val(form_data[this.name]);
+        }
       }
     });
 
@@ -231,7 +236,6 @@ $(document).ready(function(){
           {
             var name = $('#plumb-' + type + '-' + item);
             var fieldset = $('#pb_99999 form');
-
             repopulate_form_data(fieldset, previously_saved_form);
           }
           spinner.hide();
@@ -251,11 +255,12 @@ $(document).ready(function(){
 
       //The form data is stored as a JSON string, 
       //Allowing us to check if there's been any changes.
-      var old_form_data = JSON.parse( $('#form-holder').html() );
+      var form_data = $('#form-holder').html();
 
-      if( old_form_data !== undefined )
+      if( form_data != '' )
       {
-        var overlay_form = $(overlay).find('form');
+        var old_form_data = JSON.parse( form_data );
+        var overlay_form = $(overlay).find('.overlay-form > form');
 
         if( $(CURRENT_OVERLAY.closer).hasClass('save-form') )
         {
@@ -329,7 +334,8 @@ $(document).ready(function(){
         if(type != undefined){
           type = type.toLowerCase();
           if(['checkbox', 'radio'].contains(type) && input[0].checked){
-            data[input.attr('name')] = input.val();
+
+            data[el.name] = input.val();
           }else if(type == "text" || type == "hidden"){
             data[input.attr('name')] = input.val();
           }
@@ -392,6 +398,7 @@ $(document).ready(function(){
         $('#save-all-button').removeClass('btn-danger');
         $('[rel=popover]').popover({placement: 'bottom'});
 
+        WORKFLOW_GRAPH.resetGraph();
         WORKFLOW_GRAPH.buildGraph();
       }
     });
@@ -530,6 +537,8 @@ $(document).ready(function(){
 
     var parent = original['parent-element'];
 
+    var changes = {};
+
     $(items).each(function() {
       var self = this;
 
@@ -552,12 +561,21 @@ $(document).ready(function(){
         }
       }
 
-      if( $(self).val() != old )
+      var checked = ( old != 'on' && $(self).attr('checked') == 'checked' );
+
+      if( $(self).val() != old || checked)
       {
+
+
         $(original).find('#' + parent).addClass('dirty');
         $('#save-all-button').addClass('btn-danger');
 
-        original[name] = $(self).val();
+        if( checked ) {
+          changes[name] = 'on';
+        }else{
+          changes[name] = $(self).val();  
+        }
+        
         changed = true;
       }
     });
@@ -569,7 +587,7 @@ $(document).ready(function(){
       //If we've already stored changes to the form, save the form data there
       var previously_saved_form = $('#changed-forms').find('div[data-element-id="' + parent + '"]');
 
-      var out = JSON.stringify(original);
+      var out = JSON.stringify(changes);
 
       if( $(previously_saved_form).length == 0 ) {
         $('#changed-forms').append('<div data-element-id="' + parent + '">' + out + '</div>');  
