@@ -156,13 +156,20 @@ $(document).ready(function(){
     var form_data = $.parseJSON(content);
     var inputs = $(form).find(':input');
     $(inputs).each(function() {
-      if( form_data[this.name] !== undefined ) {
+      
+      var value = form_data[this.name];
+      var type = $(this).attr('type');
 
-        if( form_data[this.name] == "on" ) {
+      if( value !== undefined ) {
 
+        //The on/off values should only be set if this 
+        //is a checkbox.
+        if( value == "on" ) {
           $(this).attr('checked', true);
+        }else if( value == "off" ) {
+          $(this).attr('checked', false);
         }else{
-          $(this).val(form_data[this.name]);
+          $(this).val(value);
         }
       }
     });
@@ -561,18 +568,35 @@ $(document).ready(function(){
         }
       }
 
-      var checked = ( old != 'on' && $(self).attr('checked') == 'checked' );
+      var checkbox = ( $(self).attr('type') == 'checkbox' );
 
-      if( $(self).val() != old || checked)
+      if( $(self).val() != old || checkbox )
       {
 
 
         $(original).find('#' + parent).addClass('dirty');
         $('#save-all-button').addClass('btn-danger');
 
-        if( checked ) {
-          changes[name] = 'on';
+        //If it's a checkbox, we need to handle things a bit differently, since 
+        //the .val() method doesn't give us what we're looking for.
+        if( checkbox ) {
+
+          var checked = $(self).attr('checked');
+
+          if( old != 'on' ) {
+            if( checked == 'checked' ) {
+              changes[name] = 'on';
+            }
+          }else if(old == 'on' ){
+            if( checked === undefined ) {
+              changes[name] = 'off';
+            }
+          }else{
+            //Nothing has changed, continue.
+            return true;
+          }
         }else{
+          //This is a "normal" form value, so we can just use .val()
           changes[name] = $(self).val();  
         }
         
@@ -582,7 +606,7 @@ $(document).ready(function(){
 
     //If there as a change made to the graph, put it in the 
     //#changed-forms div, so we can potentially save the changes later.
-    if( changed ) {
+    if( changed && $.isEmptyObject(changes) == false ) {
 
       //If we've already stored changes to the form, save the form data there
       var previously_saved_form = $('#changed-forms').find('div[data-element-id="' + parent + '"]');
