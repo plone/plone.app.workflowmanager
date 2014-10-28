@@ -86,14 +86,15 @@ def getObjectTitle(object):
 
 def getGuardTitle(guard):
     out = ''
-    if guard.expr:
-        out += 'Expression: %s; ' % guard.expr.text
-    if guard.permissions:
-        out += 'Permissions: %s; ' % ','.join(guard.permissions)
-    if guard.roles:
-        out += 'Roles: %s; ' % ','.join(guard.roles)
-    if guard.groups:
-        out += 'Groups: %s; ' % ','.join(guard.groups)
+    if guard is not None:
+        if guard.expr:
+            out += 'Expression: %s; ' % guard.expr.text
+        if guard.permissions:
+            out += 'Permissions: %s; ' % ','.join(guard.permissions)
+        if guard.roles:
+            out += 'Roles: %s; ' % ','.join(guard.roles)
+        if guard.groups:
+            out += 'Groups: %s; ' % ','.join(guard.groups)
 
     return out
 
