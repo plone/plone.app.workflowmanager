@@ -412,15 +412,30 @@ $(document).ready(function(){
   }
 
   var save = function(finish){
-    var dirty_items = $(".overlay-edit-form .dirty");
+    var dirty_items = $("#changed-forms").children();
 
     var request_count = 0;
-    for(var i=0; i < dirty_items.length; i++){
-      var item = dirty_items.eq(i);
-      var form = item.find('form');
-      var data = retrieve_form_data(form);
+
+    //We look in changed forms to grab all the form data that we've changed
+    //Then, we temporarily load it into the temp form, and submit it view ajax
+    $(dirty_items).each(function() {
+
+      var form = $(this).html();
+      //The data-element-id field should be in the format of:
+      //type-id (ex: state-published)
+      //So, we grab the first token before the - to determine the
+      //type
+      var type = $(this).attr('data-element-id').split('-')[0];
+
+      var form_name = "#json-" + type + "-form";
+
+      var json_form = $(form_name);
+      $(json_form).find('input').val(form);
+
+      var data = retrieve_form_data(json_form);
+      
       $.ajax({
-        url : form.attr('action'),
+        url : json_form.attr('action'),
         data : data,
         type: 'POST',
         success : function(data){
@@ -431,7 +446,7 @@ $(document).ready(function(){
           }
         }
       });
-    }
+    });
 
     if(dirty_items.length == 0){
       //clear it out even if nothing is saved...
@@ -611,7 +626,8 @@ $(document).ready(function(){
       //If we've already stored changes to the form, save the form data there
       var previously_saved_form = $('#changed-forms').find('div[data-element-id="' + parent + '"]');
 
-      var out = JSON.stringify(changes);
+      var out = retrieve_form_data(form);
+      out = JSON.stringify(out);
 
       if( $(previously_saved_form).length == 0 ) {
         $('#changed-forms').append('<div data-element-id="' + parent + '">' + out + '</div>');  

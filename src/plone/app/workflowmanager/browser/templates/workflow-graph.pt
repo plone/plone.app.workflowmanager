@@ -14,7 +14,12 @@
 	    	<div class="plumb-path-end" tal:content="path/end">
 	    	</div>
 	    </div>
-	    <fieldset class="overlay-form-template" style="display: none;" tal:content="structure python: view.workflow_state_template(state=states[0], available_transitions=transitions)" />
+	    <form tal:attributes="action string:${context/absolute_url}/@@workflowmanager-save-state" id="json-state-form">
+	    	<input type="hidden" name="form-box" />
+	    </form>
+	    <form tal:attributes="action string:${context/absolute_url}/@@workflowmanager-save-transition" id="json-transition-form">
+	    	<input type="hidden" name="form-box" />
+	    </form>
 	    <div id="form-holder"></div>
 	    <div id="changed-forms"></div>
 

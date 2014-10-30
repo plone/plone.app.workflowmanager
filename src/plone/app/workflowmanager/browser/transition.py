@@ -9,6 +9,7 @@ from plone.app.workflowmanager.browser import validators
 from plone.app.workflowmanager.permissions import allowed_guard_permissions
 
 from plone.app.workflowmanager import WMMessageFactory as _
+import json
 
 
 class AddTransition(Base):
@@ -125,6 +126,13 @@ class SaveTransition(Base):
                     state.transitions = transitions
 
     def __call__(self):
+        if self.request.get('form-box') is not None:
+            form_data = self.request.get('form-box')
+            form_data = json.loads(form_data)
+
+            for name in form_data: 
+                self.request[name] = form_data[name]
+
         self.authorize()
         self.errors = {}
 
