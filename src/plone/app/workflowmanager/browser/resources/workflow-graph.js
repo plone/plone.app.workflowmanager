@@ -250,7 +250,6 @@ WorkflowGraph.prototype = {
 				overlays:[
 				["Arrow", {location:1, width:5}],
 				["Label", {
-					customThing: 'words', 
 					label:path_label, 
 					location: (position / 10), 
 					cssClass:"plumb-label",
@@ -319,10 +318,26 @@ WorkflowGraph.prototype = {
 
 		t.setViewMode(states);
 
+		t.catchConnectorHover();
+
 		//This moves the focus to the first element in the the WF
 		var first = $(props.stateClass);
 		t.locate(first[0]);
 		t.locate("");
+
+	},
+
+	catchConnectorHover: function() {
+		$('._jsPlumb_connector').hover(function() {
+			var label = $(this).nextAll(props.labelClass);
+			label = label[0];
+
+			$(label).addClass('show-label');
+
+			setTimeout(function() {
+				$(label).removeClass('show-label');
+			}, 5000);
+		});
 	},
 
 	collapseAllItems: function() {

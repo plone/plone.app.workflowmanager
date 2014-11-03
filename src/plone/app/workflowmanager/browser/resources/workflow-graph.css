@@ -84,7 +84,7 @@
 	display: none;
 }
 
-#plumb-canvas .plumb-label:hover {
+#plumb-canvas .plumb-label.show-label {
 	opacity: 1;
 	z-index: 1;
 	display: inherit;
