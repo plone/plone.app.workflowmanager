@@ -1,7 +1,26 @@
 Changelog
 =========
+1.1a4 ~ unreleased
+------------------
+- Updated graph saving system to be far more efficient
+  [obct537]
 
-1.1a2 ~ unreleased
+- Graph now updates dynamically whenever changes are saved.
+  [obct537]
+
+1.1a3 ~ unreleased
+------------------
+- Included Springy.js library
+  [obct537]
+
+- Numerous small changes to improve stability
+  [obct537]
+
+- Created "reorder" functionality using Springy.js
+  to help ordering large, complex workflows much easier.
+  [obct537]
+
+1.1a2
 ------------------
 - Included jsPlumb library.
   [obct537]

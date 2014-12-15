@@ -6,13 +6,7 @@
     			layout python: view.get_graphLayout(workflow);">
 
 	<span style="display: none;" id="plumb-container"> 
-	    <div tal:repeat="path paths" class="plumb-path">
-	    	<div class="plumb-path-start" tal:content="path/start">
-	    	</div>
-	    	<div class="plumb-path-transition" tal:content="path/transition">
-	    	</div>
-	    	<div class="plumb-path-end" tal:content="path/end">
-	    	</div>
+	    <div tal:content="paths" class="plumb-path">
 	    </div>
 	    <form tal:attributes="action string:${context/absolute_url}/@@workflowmanager-save-state" id="json-state-form">
 	    	<input type="hidden" name="form-box" />

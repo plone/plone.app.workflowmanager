@@ -394,8 +394,6 @@ $(document).ready(function(){
       data : {'selected-workflow' : retrieve_selected_workflow()},
       type : 'POST',
       complete : function(request, textStatus){
-
-        $('#workflow-content').replaceWith(request.responseText);
         setup_overlays();
 
         if(!is_advanced_mode()){
@@ -405,8 +403,7 @@ $(document).ready(function(){
         $('#save-all-button').removeClass('btn-danger');
         $('[rel=popover]').popover({placement: 'bottom'});
 
-        WORKFLOW_GRAPH.resetGraph();
-        WORKFLOW_GRAPH.buildGraph();
+        WORKFLOW_GRAPH.updateGraph(request.responseText, setup_overlays);
       }
     });
   }
@@ -430,6 +427,13 @@ $(document).ready(function(){
       var form_name = "#json-" + type + "-form";
 
       var json_form = $(form_name);
+
+      if( json_form.length < 1 ) {
+        //In the case that we somehow grab an invalid form item,
+        //we just skip over it.
+        return true;
+      }
+
       $(json_form).find('input').val(form);
 
       var data = retrieve_form_data(json_form);
@@ -744,7 +748,6 @@ $(document).ready(function(){
     jsPlumb.ready(function() {
           WORKFLOW_GRAPH = new WorkflowGraph();
           WORKFLOW_GRAPH.buildGraph();
-          //WORKFLOW_GRAPH.springy_test();
           jsPlumb.show();
     });
   }

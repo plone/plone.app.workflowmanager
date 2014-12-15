@@ -55,9 +55,12 @@ WorkflowGraph.prototype = {
 		reorderId: 							'#plumb-reorder',
 	},
 
-	init: function() {
+	init: function() 
+	{
 		props = this.props;
 		t = this;
+
+		connections = {};
 
 		instance = jsPlumb.getInstance()
 
@@ -187,90 +190,89 @@ WorkflowGraph.prototype = {
 		});
 	},
 
-	springy: function() {
-		
-		graph = new Springy.Graph();
-		var nodes = {};
-		var count = 0;
-
-		$(props.stateClass).hide();
-
-		$(props.stateClass).each(function() {
-			count++;
-			nodes[$(this).find(props.stateIdClass).text()] = graph.newNode({label: $(this).find('.plumb-state-id').text()});
-		});
-
-		var paths = $(props.containerId + ' > ' + props.pathClass);
-
-		$(paths).each(function() {
-
-			var start_id = $(this).find('div' + props.pathStartClass).text();
-			var end_id = $(this).find('div' + props.pathEndClass).text();
-
-			graph.newEdge(nodes[start_id], nodes[end_id]);
-			
-		});
-
-		var height = $(props.zoomBoxId).height();
-		var width = $(props.zoomBoxId).width();
-
-		$(props.zoomBoxId).append('<canvas id="springy-canvas" height="' + height + '" width="' + width + '" />');
-
-		t.resetGraph();
-
-		$('#springy-canvas').springy({graph: graph});
-	},
-
 	buildConnections: function(paths)
 	{
 		//Position variable that is incremented with each 
 		//added connection. Doing this helps spread out the overlays a bit.
 		//It's still not perfect, but it's better than having an arbitrary value.
 		var position = 2;
-		$(paths).each(function() {
 
-			if( position == 8 )
-			{
-				position = 2
-			}
 
-			var start_id = $(this).find('div' + props.pathStartClass).text();
-			var end_id = $(this).find('div' + props.pathEndClass).text();
+		//Explanation for this next bit:
+		//Transitions take the form of [start state] -> [end state]
+		//More than one transition can take a given path
+		//
+		//The transitions are stored as:
+		//	startId: {
+		// 		endId: { 
+		//			transitionId,
+		//			transitionId,
+		//			...
+		//		},
+		//		endId:{
+		//		.
+		//		.
+		//		.	
+		//	}
 
-			var e0 = 'plumb-state-' + start_id;
-			var e1 = 'plumb-state-' + end_id;
+		//Loop through each start state...
+		$.each(paths, function(key, value) {
 
-			var path_label = $(this).find(props.pathTransitionClass).text();
+			var start_id = key;
 
-			var connection = instance.connect({ 
-				source:e0,
-				target:e1,
-				connector:"StateMachine",
-				hoverPaintStyle:{ strokeStyle:"gold" },
-				overlays:[
-				["Arrow", {location:1, width:5}],
-				["Label", {
-					label:path_label, 
-					location: (position / 10), 
-					cssClass:"plumb-label",
-					events:{
-						//Defining the event here is the only effective way, 
-						//since jsPlumb makes it difficult/impossible to add a listener
-						//outside the connection definition
-          				click:function(labelOverlay, originalEvent) { 
-            				t.expandTransition(originalEvent.currentTarget);
-          				}
-        			}
-        		}]
-				],
-				anchor: "Continuous",
-				endpoint: "Blank",
-				paintStyle:{ strokeStyle:"black", lineWidth:1 },
+			//...then through each end state...
+			$.each(value, function(key, value) {
+
+				var end_id = key;
+
+				//...and finally, through each transition that
+				//can take this path.
+				$.each(value, function(key, value) {
+
+
+					if( position == 8 )
+					{
+						position = 2
+					}
+
+					var e0 = 'plumb-state-' + start_id;
+					var e1 = 'plumb-state-' + end_id;
+
+					var path_label = key;
+
+					var connection = instance.connect({ 
+						source:e0,
+						target:e1,
+						connector:"StateMachine",
+						hoverPaintStyle:{ strokeStyle:"gold" },
+						overlays:[
+						["Arrow", {location:1, width:5}],
+						["Label", {
+							label:path_label, 
+							location: (position / 10), 
+							cssClass:"plumb-label",
+							events:{
+								//Defining the event here is the only effective way, 
+								//since jsPlumb makes it difficult/impossible to add a listener
+								//outside the connection definition
+		          				click:function(labelOverlay, originalEvent) { 
+		            				t.expandTransition(originalEvent.currentTarget);
+		          				}
+		        			}
+		        		}]
+						],
+						anchor: "Continuous",
+						endpoint: "Blank",
+						paintStyle:{ strokeStyle:"black", lineWidth:1 },
+					});
+
+					connection.scope = path_label;
+
+					position += 1;
+					t.populateObject(connections, start_id, end_id, key);
+					connections[start_id][end_id][key] = connection;
+				});
 			});
-
-			connection.scope = path_label;
-
-			position += 1;
 		});
 	},
 
@@ -304,7 +306,7 @@ WorkflowGraph.prototype = {
 			$(props.zoomBoxId).addClass('large');
 		}
 
-		var paths = $(props.containerId + ' > ' + props.pathClass);
+		var paths = JSON.parse( $(props.containerId + ' > ' + props.pathClass).html() );
 
 		t.distribute(states);
 
@@ -324,10 +326,16 @@ WorkflowGraph.prototype = {
 		var first = $(props.stateClass);
 		t.locate(first[0]);
 		t.locate("");
-
 	},
 
-	catchConnectorHover: function() {
+	catchConnectorHover: function() 
+	{
+
+		//This is a super hacky way to make the transition titles
+		//only appear when the connection line is hovered over.
+		//
+		//On larger workflows, having all the labels displayed at the same time
+		//is horrifyingly confusing
 		$('._jsPlumb_connector').hover(function() {
 			var label = $(this).nextAll(props.labelClass);
 			label = label[0];
@@ -340,7 +348,31 @@ WorkflowGraph.prototype = {
 		});
 	},
 
-	collapseAllItems: function() {
+	cleanConnections: function(connectionsToRemove) 
+	{
+		if( !$.isEmptyObject(connectionsToRemove) )
+		{
+
+			$.each(connectionsToRemove, function(key, value) {
+				var start = key;
+
+				$.each(value, function(key, value) {
+					var end = key;
+
+					$.each(value, function(key, value) {
+						var name = key;
+
+						//This only deletes the .name property...
+						//The rest of the object structure is preserved.
+						delete connections[start][end][name];
+					});
+				});
+			});
+		}
+	},
+
+	collapseAllItems: function() 
+	{
 		var open = $(props.canvasId + " > div.expanded");
 
 		$(open).each(function() {
@@ -489,7 +521,8 @@ WorkflowGraph.prototype = {
 		return $(props.canvasId + ' ' + props.stateClass);
 	},
 
-	highlightTransitions: function(selected) {
+	highlightTransitions: function(selected) 
+	{
 		var cons = instance.getAllConnections();
 
 		$(cons).each(function() {
@@ -502,6 +535,12 @@ WorkflowGraph.prototype = {
 				this.setHover(false)
 			}
 		});
+	},
+
+	isReal: function(item) 
+	{
+		//Because I'm just sick of typing it...
+		return ( typeof item !== "undefined" );
 	},
 
 	locate: function(element) 
@@ -560,6 +599,44 @@ WorkflowGraph.prototype = {
 		$(states).each(function() {
 			instance.draggable(this);
 		});
+	},
+
+	populateObject: function(obj, start, end, name)
+	{
+
+		//This function checks an object and makes sure the passed values
+		//are all valid sub-objects.
+		//
+		//When dealing with graph connections, it's pointlessly difficult
+		//to try to predict this ahead of time
+
+		if( t.isReal(obj) )
+		{
+
+			if( t.isReal(start) )
+			{
+				if( !t.isReal( obj[start] ) )
+				{
+					obj[start] = {};
+				}
+			}
+
+			if( t.isReal(end) )
+			{
+				if( !t.isReal( obj[start][end] ) )
+				{
+					obj[start][end] = {};
+				}
+			}
+
+			if( t.isReal(name) )
+			{
+				if( !t.isReal( obj[start][end][name] ) )
+				{
+					obj[start][end][name] = true;
+				}
+			}
+		}
 	},
 
 	rebuildGraph: function(coords)
@@ -665,10 +742,186 @@ WorkflowGraph.prototype = {
 		$(props.canvasId).trigger('DragOn.remove');
 	},
 
+	springy: function() 
+	{
+		
+		graph = new Springy.Graph();
+		var nodes = {};
+		var count = 0;
+
+		$(props.stateClass).hide();
+
+		$(props.stateClass).each(function() {
+			count++;
+			nodes[$(this).find(props.stateIdClass).text()] = graph.newNode({label: $(this).find('.plumb-state-id').text()});
+		});
+
+		var paths = $(props.containerId + ' > ' + props.pathClass);
+
+		$(paths).each(function() {
+
+			var start_id = $(this).find('div' + props.pathStartClass).text();
+			var end_id = $(this).find('div' + props.pathEndClass).text();
+
+			graph.newEdge(nodes[start_id], nodes[end_id]);
+			
+		});
+
+		var height = $(props.zoomBoxId).height();
+		var width = $(props.zoomBoxId).width();
+
+		$(props.zoomBoxId).append('<canvas id="springy-canvas" height="' + height + '" width="' + width + '" />');
+
+		t.resetGraph();
+
+		$('#springy-canvas').springy({graph: graph});
+	},
+
+	transitionExists: function(obj, start, end, name) 
+	{
+		if( t.isReal(obj) ) {
+
+			if( t.isReal(obj[start]) ) {
+
+				if( t.isReal(obj[start][end] ) ) {
+
+					if( t.isReal(obj[start][end][name]) ) {
+						return true;
+					}
+				}
+			}
+		}
+
+		return false;
+	},
+
 	unlockScrolling: function()
 	{
 		$('html, body').css('width', 'inherit');	
 		$('html, body').css('overflow', 'auto');
+	},
+
+	updateFormItems: function(data)
+	{
+
+		var changedForms = $('#changed-forms').children();
+
+		$(changedForms).each(function() {
+
+			var name = $(this).attr('data-element-id');
+
+			name = "#plumb-" + name;
+
+			var updatedItem = $(data).find(name);
+
+			//We only want to update the divs. Messing with the anchor 
+			//tags will mess up the form overlays
+			var values = $(data).find(name).find('div');
+
+			$(values).each(function() {
+				//add the . to make it a jquery class selector
+				var className = "." + $(this).attr('class');
+
+				//Hacky way to be sure that we grab only 1 class
+				className = className.split(' ')[0];
+				$(props.canvasId).find(name).find(className).html($(this).html());
+			});
+		});
+	},
+
+	updateGraph: function(data, update) 
+	{
+		var newTransitions = $(data).find(props.pathClass).html();
+		newTransitions = JSON.parse(newTransitions);
+
+		changes = {
+			add: {},
+			remove: {}
+		};
+
+		$.each(connections, function(key, value) {
+
+			var start = key;
+			$.each(this, function(key, value) {
+
+				var end = key;
+				
+				$.each(this, function(key, value) {
+
+					var transition_name = key;
+
+					//We went to check if the transition was removed.
+					var exists = !( t.transitionExists( newTransitions, start, end, transition_name) );
+
+					if( exists === true ) {
+						t.populateObject(changes.remove, start, end, transition_name);
+					}
+				});
+			});
+		});
+
+		$.each(newTransitions, function(key, value) {
+
+			var start = key;
+			$.each(this, function(key, value) {
+
+				var end = key;
+				$.each(this, function(key, value) {
+
+					var transition_name = key;
+
+					//We want to check if the transition was just added.
+					var exists = !( t.transitionExists( connections, start, end, transition_name) );
+
+					if( exists === true ) 
+					{
+						t.populateObject(changes.add, start, end, transition_name);	
+					}
+				});
+			});
+		});
+
+		t.updateFormItems(data);
+
+		t.updateStates(changes, data, update);
+
+		t.buildConnections(changes.add);
+		
+		t.cleanConnections(changes.remove);
+
+		t.catchConnectorHover();
+
+		t.wrapOverlays();
+	},
+
+	updateStates: function(changes, data, update)
+	{
+		$.each(changes.add, function( key, value ) {
+
+			var name = '#plumb-state-' + key;
+			if( $(name).length == 0 )
+			{
+				var state = $(data).find(name);
+				$(props.zoomBoxId).append(state);
+				t.distribute(state);
+				t.makeDraggable(state);
+
+				//Update is the "setup_overlays" function 
+				//from the workflowmanager.js script
+				update(state)
+				$(state).show();
+			}
+		});
+
+		$.each(changes.remove, function( key, value ) {
+			var name = 'plumb-state-' + key;
+			var id = '#' + name;
+			if( $(data).find(id).length == 0 )
+			{
+				instance.remove(name);
+				$(props.canvasId).find(id).remove();
+			}
+		});
 	},
 
 	wrapOverlays: function()

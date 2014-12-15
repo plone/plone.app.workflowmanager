@@ -1,7 +1,7 @@
 from setuptools import find_packages
 from setuptools import setup
 
-version = '1.1a2'
+version = '1.1a4'
 
 setup(name='plone.app.workflowmanager-overhaul',
       version=version,

@@ -211,16 +211,31 @@ class Base(BrowserView):
 
     def get_transition_paths(self):
         states = self.available_states
-        paths = []
+        paths = dict()
         transitions = self.available_transitions
         for state in states:
+
+            stateId = state.id
+
             for trans in state.transitions:
                 current_transition = self.get_transition(trans)
                 if current_transition is not None:
-                    if current_transition.id and current_transition.new_state_id:
-                        paths.append( Path(state.id, current_transition.id, current_transition.new_state_id) )
+                    if current_transition.id is not None and current_transition.new_state_id is not None:
 
-        return paths
+                        nextState = current_transition.new_state_id
+
+                        if stateId not in paths:
+                            paths[stateId] = dict()
+
+                        if nextState not in paths[stateId]:
+                           paths[stateId][nextState] = dict()
+
+                        #The True value is just a placeholder for now
+                        #When the JS handles the paths, it will be replaced
+                        #with a jsPlumb.Connection object
+                        paths[state.id][nextState][current_transition.id] = current_transition.title
+
+        return json.dumps(paths)
 
     def get_graphLayout(self, workflow):
         gl = GraphLayout(self.context, self.request)
