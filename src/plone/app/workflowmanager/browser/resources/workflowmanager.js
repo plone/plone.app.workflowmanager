@@ -274,6 +274,7 @@ $(document).ready(function(){
           update_form(overlay_form, old_form_data);
         }
       }
+
       CURRENT_OVERLAY.closer = "";
       WORKFLOW_GRAPH.collapseAllItems();
       $(overlay).html(""); //clear it out
@@ -675,6 +676,7 @@ $(document).ready(function(){
     hidden_value.attr('value', submit.attr('value'));
 
     spinner.show();
+    
     ajax_form(form, e, function(data){
       if(CURRENT_OVERLAY == null){
         window.location = get_url();
@@ -685,6 +687,12 @@ $(document).ready(function(){
       reload(data);
       spinner.hide();
     });
+
+    //I'm not yet sure why, but in certain instances, the "cancel"
+    //button will leave the overlays in a broken state unless we also
+    //click the close button as well.
+    $('#pb_99999').find('.close').click();
+
     return e.preventDefault();
   });
 

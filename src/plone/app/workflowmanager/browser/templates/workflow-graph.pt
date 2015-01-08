@@ -53,8 +53,6 @@
     </div>
 	<div id="plumb-canvas">
 		<div id="plumb-zoom-box">
-			<div id="plumb-help-message" style="display: none;">If this is your first time viewing the workflow graph, press the "Switch to Design Mode" button to move the workflow state boxes around to form a more visually-appealing layout. When you're done moving things around, press "Save Layout" to keep that layout for future use.
-			</div>
 			<div tal:repeat="state states" class="plumb-state" tal:attributes="id string:plumb-state-${state/id}" style="display: none;">
 		    	<div class="plumb-state-id" tal:content="state/id" style="display: none;">
 		    	</div>

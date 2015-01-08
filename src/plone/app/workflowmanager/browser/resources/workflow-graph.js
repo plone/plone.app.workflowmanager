@@ -24,13 +24,11 @@ WorkflowGraph.prototype = {
 		layoutFormId: 					'#plumb-layout-form', 
 		containerId:  					'#plumb-container',
 		labelClass:  						'.plumb-label',
-		helpMessageId: 					'#plumb-help-message',
 		formHolderId:  					'#plumb-form-holder',
 		formOverlayId:  				'#plumb-overlay',
 		zoomBoxId: 							'#plumb-zoom-box',
 		stateSelectClass: 			'.state-select',
 		transitionSelectClass: 	'.transition-select',
-
 
 		transDescClass:  				'.transition-description',
 		transTitleClass:  			'.transition-title',
@@ -439,12 +437,6 @@ WorkflowGraph.prototype = {
 				$(this).css('left', css_left);
 			}
 		});
-
-		if( layoutExists == false )
-		{
-			alert($(props.helpMessageId).html());
-			
-		}
 	},
 
 	enableDragging: function(states)
@@ -758,12 +750,18 @@ WorkflowGraph.prototype = {
 
 		var paths = $(props.containerId + ' > ' + props.pathClass);
 
-		$(paths).each(function() {
+		paths = JSON.parse( $(paths).html() );
 
-			var start_id = $(this).find('div' + props.pathStartClass).text();
-			var end_id = $(this).find('div' + props.pathEndClass).text();
+		$.each(paths, function(key, value) {
 
-			graph.newEdge(nodes[start_id], nodes[end_id]);
+			var start = key;
+			$.each(value, function(key, value) {
+
+				var start_id = start;
+				var end_id = key;
+
+				graph.newEdge(nodes[start_id], nodes[end_id]);
+			});
 			
 		});
 
