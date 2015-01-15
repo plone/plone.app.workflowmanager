@@ -12,7 +12,8 @@ WorkflowGraph.prototype = {
 		//To help refactor this horrible naming scheme eventually...
 		graphSaveButtonId:  		'#plumb-graph-save',
 		drawButtonId:  					'#plumb-draw-button',
-		modeButtonId:  					'#plumb-mode-button',
+		modeButtonId:  					'#plumb-mode',
+		modeBoxId: 							'#plumb-mode-box',
 		transButtonId:  				'#plumb-add-transition-button',
 		toolboxId:  						'#plumb-toolbox',
 		stateIdClass:  					'.plumb-state-id',
@@ -50,7 +51,7 @@ WorkflowGraph.prototype = {
 		editStateid: 						'#plumb-state-edit',
 		editTransitionId: 			'#plumb-transition-edit',
 		editSelectedClass:  		'.edit-selected',
-		reorderId: 							'#plumb-reorder',
+		reorderId: 							'#plumb-reorder'
 	},
 
 	init: function() 
@@ -96,9 +97,12 @@ WorkflowGraph.prototype = {
 
 			if($(this).hasClass('view')){
 
+				$(props.modeBoxId).attr('checked', true);
 				t.setDesignMode(states);
+
 			}else if($(this).hasClass('design')){
 
+				$(props.modeBoxId).attr('checked', false);
 				t.setViewMode(states);
 			}
 		});
@@ -173,8 +177,10 @@ WorkflowGraph.prototype = {
 
 		    var isTransition = $(select).hasClass(props.transitionSelectClass.replace('.', ''));
 
+
 		    if( $(select).val() == "" )
 		    {
+		    	t.toolboxError(this);
 		      return true;
 		    }
 
@@ -186,7 +192,7 @@ WorkflowGraph.prototype = {
 		    {
 		      type = "#plumb-state-";
 		    }
-
+		    
 		    //Find the actual state/transition element, then find the edit button
 		    var item = $(this).siblings('select').val();
 		    var edit = $(type + item).find('a.edit');
@@ -205,6 +211,13 @@ WorkflowGraph.prototype = {
 		$(props.highlightStateId).live('click', function() {
 
 			var state = $(props.stateSelectClass).val();
+
+			if( state == "" )
+			{
+				t.toolboxError(this);
+				return;
+			}
+
 			state = '#plumb-state-' + state;
 
 			t.locate(state);
@@ -219,6 +232,12 @@ WorkflowGraph.prototype = {
 		**********************************************************/
 		$(props.highlightTransitionId).live('click', function() {
 			var select = $(this).siblings('select').val();
+
+			if( select == "" )
+			{
+				t.toolboxError(this);
+				return;
+			}
 
 			t.highlightTransitions(select);
 		});
@@ -378,7 +397,7 @@ WorkflowGraph.prototype = {
 						],
 						anchor: "Continuous",
 						endpoint: "Blank",
-						paintStyle:{ strokeStyle:"black", lineWidth:1 },
+						paintStyle:{ strokeStyle:"black", lineWidth:1 }
 					});
 
 					connection.scope = path_label;
@@ -918,8 +937,7 @@ WorkflowGraph.prototype = {
 		//the class on the button is what mode we're in now
 		//the value is the class we would switch to by pressing the button
 		element.removeClass('view').addClass('design');
-		element.removeClass('btn-inverse').addClass('btn');
-		element.prop('value', 'Switch to view mode');
+		$(props.zoomBoxId).addClass('design');
 
 		t.slayDragon()
 
@@ -1001,8 +1019,7 @@ WorkflowGraph.prototype = {
 
 		var element = $(props.modeButtonId);
 		element.removeClass('design').addClass('view');
-		element.removeClass('btn').addClass('btn-inverse');
-		element.prop('value', 'Switch to design mode');
+		$(props.zoomBoxId).removeClass('design');
 
 		t.setupDragon()
 
@@ -1020,6 +1037,24 @@ WorkflowGraph.prototype = {
 
 		$(props.canvasId).trigger('DragOn.remove');
 	},
+
+  status_message: function(element, title, msg)
+  {
+		/**********************************************************
+
+		This displays a message popover on a specific element
+
+		**********************************************************/
+
+		element = $(element);
+    element.attr('data-content', msg);
+    element.attr('data-original-title', title);
+    element.popover({trigger: 'manual'});
+    element.popover('show');
+    setTimeout(function(){
+      $(element).popover('hide');
+    }, 1500);
+  },
 
 	springy: function() 
 	{
@@ -1071,6 +1106,18 @@ WorkflowGraph.prototype = {
 		t.resetGraph();
 
 		$('#springy-canvas').springy({graph: graph});
+	},
+
+	toolboxError: function(element)
+	{
+		/**********************************************************
+
+		This displays a status message for the toolbox selectors.
+		They're all the same, so why bother repeating.
+
+		**********************************************************/
+
+		t.status_message($(element).siblings('select'), "Empty", "Please select a value");
 	},
 
 	transitionExists: function(obj, start, end, name) 
@@ -1148,6 +1195,11 @@ WorkflowGraph.prototype = {
 				className = className.split(' ')[0];
 				$(props.canvasId).find(name).find(className).html($(this).html());
 			});
+
+			//If the title of a state has been changed, the graph may no longer
+			//be correnctly aligned, so we repaint that element
+			instance.recalculateOffsets($(name));
+			instance.repaint($(name));
 		});
 	},
 
@@ -1313,6 +1365,6 @@ WorkflowGraph.prototype = {
 			$(this).empty();
 
 			$(this).append('<span>' + text + '</span>');
-		})
-	},
+		});
+	}
 };

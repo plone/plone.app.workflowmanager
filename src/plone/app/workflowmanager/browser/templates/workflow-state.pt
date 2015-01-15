@@ -11,135 +11,135 @@
       <input type="hidden" name="selected-workflow" tal:attributes="value view/selected_workflow/id" />
       <input tal:replace="structure context/@@authenticator/authenticator"/>
 
-      <div class="formTabs">
-      </div>
+      <div class="well" id="tabbedForm">
+        <ul class="formTabs nav nav-pills">
+        </ul>
+        <div class="formPane">
+          <div class="selected-transitions item-properties">
+            <fieldset>
+              <legend i18n:translate="">Transitions</legend>
+              <div class="alert alert-info" i18n:translate="">Transitions this state can use.</div>
 
-      <div class="formPane">
-        <div class="selected-transitions item-properties well">
-          <fieldset>
-            <legend i18n:translate="">Transitions</legend>
-            <div class="alert alert-info" i18n:translate="">Transitions this state can use.</div>
-
-            <div class="checkbox-holder">
-              <tal:transitions tal:repeat="transition available_transitions">
-              <tal:trns
-                  tal:define="field_name string:transition-${transition/id}-state-${state/id};
-                              checked python: transition.id in selected_transitions">
+              <div class="checkbox-holder">
+                <tal:transitions tal:repeat="transition available_transitions">
+                <tal:trns
+                    tal:define="field_name string:transition-${transition/id}-state-${state/id};
+                                checked python: transition.id in selected_transitions">
+                  <label tal:attributes="for field_name" class="checkbox">
+                    <input type="checkbox" value="on"
+                        tal:attributes="name field_name;
+                                        id field_name;
+                                        value python: checked and 'on' or '';
+                                        checked python: checked and 'checked' or '';"
+                        class="checkboxType" />
+                    <a class="transition-edit-link"
+                        href="#" tal:attributes="data-transition-id transition/id"
+                        tal:content="transition/title" i18n:domain="plone" i18n:translate="">
+                      Transition Title
+                    </a>
+                  </label>
+                </tal:trns>
+                </tal:transitions>
+              </div>
+              <a class="dialog-box save-first" rel="#pb_99999"
+                  tal:attributes="href python: view.get_url('@@workflowmanager-add-new-transition', reference=state.id);">
+                <input type="button" class="context btn"
+                  name="add-new-transition-in-state-button" value="Add transition" i18n:attributes="value"  />
+              </a>
+            </fieldset>
+          </div>
+          <div class="state-properties item-properties">
+            <fieldset>
+              <legend i18n:translate="">Properties</legend>
+              <tal:field
+                  tal:define="field_name string:state-${state/id}-initial-state;
+                              checked python: state.id == view.selected_workflow.initial_state;">
                 <label tal:attributes="for field_name" class="checkbox">
-                  <input type="checkbox" value="on"
+                  <input type="checkbox"
                       tal:attributes="name field_name;
                                       id field_name;
                                       value python: checked and 'on' or '';
                                       checked python: checked and 'checked' or '';"
                       class="checkboxType" />
-                  <a class="transition-edit-link"
-                      href="#" tal:attributes="data-transition-id transition/id"
-                      tal:content="transition/title" i18n:domain="plone" i18n:translate="">
-                    Transition Title
-                  </a>
+                   <span i18n:translate="">Initial State</span>
                 </label>
-              </tal:trns>
-              </tal:transitions>
-            </div>
-            <a class="dialog-box save-first" rel="#pb_99999"
-                tal:attributes="href python: view.get_url('@@workflowmanager-add-new-transition', reference=state.id);">
-              <input type="button" class="context btn"
-                name="add-new-transition-in-state-button" value="Add transition" i18n:attributes="value"  />
-            </a>
-          </fieldset>
-        </div>
-        <div class="state-properties item-properties well">
-          <fieldset>
-            <legend i18n:translate="">Properties</legend>
-            <tal:field
-                tal:define="field_name string:state-${state/id}-initial-state;
-                            checked python: state.id == view.selected_workflow.initial_state;">
-              <label tal:attributes="for field_name" class="checkbox">
-                <input type="checkbox"
-                    tal:attributes="name field_name;
-                                    id field_name;
-                                    value python: checked and 'on' or '';
-                                    checked python: checked and 'checked' or '';"
-                    class="checkboxType" />
-                 <span i18n:translate="">Initial State</span>
-              </label>
-              <div class="discreet" i18n:translate="">
-                Should this state be the initial state of the workflow?
-              </div>
-            </tal:field>
-            <tal:field tal:define="field_name string:state-${state/id}-title">
-              <label tal:attributes="name field_name" i18n:translate="">The title of this State.</label>
-              <input type="text" size="25" tal:attributes="name field_name; value state/title;" i18n:domain="plone" i18n:attributes="value" />
-            </tal:field>
-            <tal:field tal:define="field_name string:state-${state/id}-description">
-              <label tal:attributes="name field_name" i18n:translate="">The description of this State.</label>
-              <textarea cols="30" rows="3" tal:attributes="name field_name;" tal:content="state/description" i18n:domain="plone" i18n:translate="">
-              </textarea>
-            </tal:field>
-          </fieldset>
-        </div>
-        <div class="state-permissions item-properties well">
-          <fieldset>
-            <legend i18n:translate="">Permission Roles</legend>
-            <div class="alert alert-info" i18n:translate="">Permissions these roles have in this state.</div>
-            <table summary="State Permissions" class="table table-bordered table-striped"
-                tal:attributes="id string:state-${state/id}-permissions">
-              <tbody id="state-permissions-settings">
-                <tr class="odd">
-                  <th rowspan="2" i18n:translate="">Roles</th>
-                  <th tal:attributes="colspan python: len(view.managed_permissions)"
-                      i18n:translate="">Permissions</th>
-                </tr>
-                <tr class="odd">
-                  <tal:managed-permissions tal:repeat="perminfo view/managed_permissions">
-                    <th class="nosort">
-                      <span tal:content="perminfo/name" rel="popover"
-                            i18n:domain="plone" i18n:translate=""
-                            tal:attributes="title perminfo/perm;
-                                            data-content perminfo/description" />
-                    </th>
-                  </tal:managed-permissions>
-                </tr>
-                <tr class="advanced">
-                  <th  i18n:translate="">Acquired Permissions</th>
-                  <tal:permissions tal:repeat="perminfo view/managed_permissions">
-                    <td class="listingCheckbox"
-                        tal:define="info python: state.getPermissionInfo(perminfo['perm']);
-                                    checked info/acquired">
-                      <input type="checkbox"
-                          tal:attributes="name python: 'permission-acquire-%s-state-%s' % (perminfo['name'], state.id);
-                                          checked python: checked and 'checked' or '';
-                                          value python: checked and 'on' or '';"
-                          value="True" class="noborder" />
-                    </td>
-                  </tal:permissions>
-                </tr>
-                <tal:roles tal:repeat="role view/selected_workflow/getAvailableRoles">
-                  <tr class="even" tal:define="oddrow repeat/role/odd;"
-                      tal:attributes="class python: oddrow and 'odd' or 'even'">
-                    <td>
-                      <tal:content tal:replace="role" i18n:translate="" i18n:domain="plone" />
-                      <input type="hidden" value="AuthenticatedUsers" name="entries.id:records" />
-                      <input type="hidden" value="group" name="entries.type:records" />
-                    </td>
+                <div class="discreet" i18n:translate="">
+                  Should this state be the initial state of the workflow?
+                </div>
+              </tal:field>
+              <tal:field tal:define="field_name string:state-${state/id}-title">
+                <label tal:attributes="name field_name" i18n:translate="">The title of this State.</label>
+                <input type="text" size="25" tal:attributes="name field_name; value state/title;" i18n:domain="plone" i18n:attributes="value" />
+              </tal:field>
+              <tal:field tal:define="field_name string:state-${state/id}-description">
+                <label tal:attributes="name field_name" i18n:translate="">The description of this State.</label>
+                <textarea cols="30" rows="3" tal:attributes="name field_name;" tal:content="state/description" i18n:domain="plone" i18n:translate="">
+                </textarea>
+              </tal:field>
+            </fieldset>
+          </div>
+          <div class="state-permissions item-properties">
+            <fieldset>
+              <legend i18n:translate="">Permission Roles</legend>
+              <div class="alert alert-info" i18n:translate="">Permissions these roles have in this state.</div>
+              <table summary="State Permissions" class="table table-bordered table-striped"
+                  tal:attributes="id string:state-${state/id}-permissions">
+                <tbody id="state-permissions-settings">
+                  <tr class="odd">
+                    <th rowspan="2" i18n:translate="">Roles</th>
+                    <th tal:attributes="colspan python: len(view.managed_permissions)"
+                        i18n:translate="">Permissions</th>
+                  </tr>
+                  <tr class="odd">
+                    <tal:managed-permissions tal:repeat="perminfo view/managed_permissions">
+                      <th class="nosort">
+                        <span tal:content="perminfo/name" rel="popover"
+                              i18n:domain="plone" i18n:translate=""
+                              tal:attributes="title perminfo/perm;
+                                              data-content perminfo/description" />
+                      </th>
+                    </tal:managed-permissions>
+                  </tr>
+                  <tr class="advanced">
+                    <th  i18n:translate="">Acquired Permissions</th>
                     <tal:permissions tal:repeat="perminfo view/managed_permissions">
                       <td class="listingCheckbox"
                           tal:define="info python: state.getPermissionInfo(perminfo['perm']);
-                                      checked python: role in info['roles'];">
+                                      checked info/acquired">
                         <input type="checkbox"
-                            tal:attributes="name python: 'permission-%s-role-%s-state-%s' % (perminfo['name'], role, state.id);
+                            tal:attributes="name python: 'permission-acquire-%s-state-%s' % (perminfo['name'], state.id);
                                             checked python: checked and 'checked' or '';
                                             value python: checked and 'on' or '';"
                             value="True" class="noborder" />
                       </td>
                     </tal:permissions>
                   </tr>
-                </tal:roles>
-              </tbody>
-            </table>
-          </fieldset>
-        </div>
-        <div class="state-group-roles item-properties advanced well">
+                  <tal:roles tal:repeat="role view/selected_workflow/getAvailableRoles">
+                    <tr class="even" tal:define="oddrow repeat/role/odd;"
+                        tal:attributes="class python: oddrow and 'odd' or 'even'">
+                      <td>
+                        <tal:content tal:replace="role" i18n:translate="" i18n:domain="plone" />
+                        <input type="hidden" value="AuthenticatedUsers" name="entries.id:records" />
+                        <input type="hidden" value="group" name="entries.type:records" />
+                      </td>
+                      <tal:permissions tal:repeat="perminfo view/managed_permissions">
+                        <td class="listingCheckbox"
+                            tal:define="info python: state.getPermissionInfo(perminfo['perm']);
+                                        checked python: role in info['roles'];">
+                          <input type="checkbox"
+                              tal:attributes="name python: 'permission-%s-role-%s-state-%s' % (perminfo['name'], role, state.id);
+                                              checked python: checked and 'checked' or '';
+                                              value python: checked and 'on' or '';"
+                              value="True" class="noborder" />
+                        </td>
+                      </tal:permissions>
+                    </tr>
+                  </tal:roles>
+                </tbody>
+              </table>
+            </fieldset>
+          </div>
+          <div class="state-group-roles item-properties advanced">
           <fieldset>
             <legend i18n:translate="">Group Roles</legend>
               <div class="alert alert-info" i18n:translate="">
@@ -195,6 +195,7 @@
           <input type="button" class="save-form btn" name="form-save" value="Ok" i18n:attributes="value" />
           <input type="button" class="btn cancel" name="form-cancel" value="Cancel" i18n:attributes="value" />
         </div>
+      </div>
       </form>
     </div>
 </div>

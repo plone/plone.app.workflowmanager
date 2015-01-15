@@ -296,7 +296,7 @@ $(document).ready(function(){
           return true;
         }
       }       
-      $(tabs).append('<div><a href="#">' + $(this).find('legend').text() + '</a></div>');
+      $(tabs).append('<li><a href="#" class="btn">' + $(this).find('legend').text() + '</a></li>');
     });
 
     //The jQuery tools tab tool is a little picky, so we have to wrap
