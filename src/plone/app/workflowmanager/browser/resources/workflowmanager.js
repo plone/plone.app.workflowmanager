@@ -691,7 +691,10 @@ $(document).ready(function(){
     //I'm not yet sure why, but in certain instances, the "cancel"
     //button will leave the overlays in a broken state unless we also
     //click the close button as well.
-    $('#pb_99999').find('.close').click();
+    if( $(this).attr('name') == "form.actions.cancel" )
+    {
+      $('#pb_99999').find('.close').click();  
+    }
 
     return e.preventDefault();
   });
