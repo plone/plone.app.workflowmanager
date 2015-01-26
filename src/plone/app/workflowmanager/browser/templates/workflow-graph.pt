@@ -1,6 +1,5 @@
 <div id="workflow-graph" class="workflow-list collapsed" 
-    tal:define="states view/available_states; 
-    			transitions view/available_transitions; 
+    tal:define="transitions view/available_transitions; 
     			paths view/get_transition_paths; 
     			workflow view/selected_workflow; 
     			layout python: view.get_graphLayout(workflow);">
@@ -41,7 +40,7 @@
 					<label for="#plumb-toolbox-select-state">States</label>
 					<select class="plumb-edit-select state-select" id="plumb-toolbox-select-state">
 						<option value=""></option>
-						<option tal:repeat="state states" tal:content="state/title" tal:attributes="value state/id"></option>
+						<option tal:repeat="state view/available_states" tal:content="state/title" tal:attributes="value state/id"></option>
 					</select>
 					<input type="button" class="btn small-btn" id="plumb-state-highlight-clear" value="Clear" />
 					<input type="button" class="btn small-btn" id="plumb-state-highlight" value="Find" />
@@ -61,26 +60,8 @@
     </div>
 	<div id="plumb-canvas">
 		<div id="plumb-zoom-box">
-			<div tal:repeat="state states" class="plumb-state" tal:attributes="id string:plumb-state-${state/id}" style="display: none;">
-		    	<div class="plumb-state-id" tal:content="state/id" style="display: none;">
-		    	</div>
-		    	<div class="plumb-state-title plumb-title" tal:content="state/title" >
-		    	</div>
-		    	<div class="plumb-state-description" tal:content="state/description" style="display: none;">
-		    	</div>
-		    	<a class="dialog-box btn edit" rel="#pb_99999" tal:attributes="href python: view.get_url('@@workflowmanager-edit-state', state=state);" style="display: none;">Edit</a>
-		    	<a class="dialog-box btn" rel="#pb_99999" tal:attributes="href python: view.get_url('@@workflowmanager-delete-state', state=state);" style="display: none;">Delete</a>
-		    </div>
-		    <div tal:repeat="transition transitions" tal:attributes="id string:plumb-transition-${transition/id}" style="display: none;">
-		    	<div class="transition-id" tal:content="transition/id">
-		    	</div>
-		    	<div class="transition-title plumb-title" tal:content="transition/title">
-		    	</div>
-		    	<div class="transition-description" tal:content="transition/description">
-		    	</div>
-		    	<a class="dialog-box transition-link btn edit" rel="#pb_99999" tal:attributes="href python: view.get_url('@@workflowmanager-edit-transition', transition=transition);">Edit</a>
-		    	<a class="dialog-box transition-link btn" rel="#pb_99999" tal:attributes="href python: view.get_url('@@workflowmanager-delete-transition', transition=transition);">Delete</a>
-		    </div>
+			<tal tal:replace="structure view/render_states" />
+			<tal tal:replace="structure view/render_transitions" />
 		</div>
 	</div>
 </div>

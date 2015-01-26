@@ -51,7 +51,8 @@ WorkflowGraph.prototype = {
 		editStateid: 						'#plumb-state-edit',
 		editTransitionId: 			'#plumb-transition-edit',
 		editSelectedClass:  		'.edit-selected',
-		reorderId: 							'#plumb-reorder'
+		reorderId: 							'#plumb-reorder',
+		stateSelectId: 					'#plumb-toolbox-select-state'
 	},
 
 	init: function() 
@@ -151,7 +152,7 @@ WorkflowGraph.prototype = {
 			var options = {
 				beforeSerialize: t.setLayout(),
 				success: function() {
-					alert("Layout saved successfully.");
+					t.status_message($(props.graphSaveButtonId), "Layout Saved", "The layout has been saved successfully.");
 					t.setViewMode(t.getStateDivs());
 				},
 				error: function(xhr) {
@@ -310,6 +311,57 @@ WorkflowGraph.prototype = {
 		});
 	},
 
+	addNewElement: function(el, setup_overlays)
+	{
+		/**********************************************************
+
+		This takes in any new template elements to add to the graph.
+		This would only happen in the situation where a user has
+		created a new state/transition since the last time they have 
+		refreshed the page.
+
+		setup_overlays is the function of the same name from
+		workflowmanager.js
+
+		**********************************************************/
+
+		if( $(el).hasClass( t.cleanProp(props.stateClass) ) )
+		{
+			t.addStateElement(el, setup_overlays);
+		}
+		//more later?
+	},
+
+	addStateElement: function(el, setup_overlays)
+	{
+		/**********************************************************
+
+		This just takes care of all the prep work when adding a new 
+		state to the graph after it's already been drawn.
+
+		see addNewElement()
+
+		**********************************************************/
+
+			var elementId = '#' + $(el).attr('id');
+
+			$(props.zoomBoxId).prepend(el);
+
+			setup_overlays(elementId);
+			t.distribute(elementId);
+
+			t.makeDraggable(elementId);
+
+			$(elementId).show();
+
+			var stateId = $(el).find(props.stateIdClass).text();
+			var title = $(el).find(props.stateTitleClass).text();
+
+			$(props.stateSelectId).append('<option value="' + stateId + '">' + title + '</option>');
+
+
+		},
+
 	buildConnections: function(paths)
 	{
 		/**********************************************************
@@ -349,62 +401,71 @@ WorkflowGraph.prototype = {
 
 			*/
 
-		//Loop through each start state...
-		$.each(paths, function(key, value) {
+		instance.doWhileSuspended(function() {
+			//Loop through each start state...
+			$.each(paths, function(key, value) {
 
-			var start_id = key;
+				var start_id = key;
 
-			//...then through each end state...
-			$.each(value, function(key, value) {
-
-				var end_id = key;
-
-				//...and finally, through each transition that
-				//can take this path.
+				//...then through each end state...
 				$.each(value, function(key, value) {
 
+					var end_id = key;
 
-					if( position == 8 )
-					{
-						position = 2
-					}
+					//...and finally, through each transition that
+					//can take this path.
+					$.each(value, function(key, value) {
 
-					var e0 = 'plumb-state-' + start_id;
-					var e1 = 'plumb-state-' + end_id;
+						if( position == 8 )
+						{
+							position = 2
+						}
 
-					var path_label = key;
+						var e0 = 'plumb-state-' + start_id;
+						var e1 = 'plumb-state-' + end_id;
 
-					var connection = instance.connect({ 
-						source:e0,
-						target:e1,
-						connector:"StateMachine",
-						hoverPaintStyle:{ strokeStyle:"gold" },
-						overlays:[
-						["Arrow", {location:1, width:5}],
-						["Label", {
-							label:path_label, 
-							location: (position / 10), 
-							cssClass:"plumb-label",
-							events:{
-								//Defining the event here is the only effective way, 
-								//since jsPlumb makes it difficult/impossible to add a listener
-								//outside the connection definition
-		          				click:function(labelOverlay, originalEvent) { 
-		            				t.expandTransition(originalEvent.currentTarget);
-		          				}
-		        			}
-		        		}]
-						],
-						anchor: "Continuous",
-						endpoint: "Blank",
-						paintStyle:{ strokeStyle:"black", lineWidth:1 }
+						if( $('#' + e0).length <= 0 || $('#' + e1).length <= 0 )
+						{
+							return true;
+						}
+
+						var path_label = key;
+
+						var connection = instance.connect({ 
+							source:e0,
+							target:e1,
+
+							connector:"StateMachine",
+							hoverPaintStyle:{ strokeStyle:"gold" },
+							overlays:[
+							["Arrow", {location:1, width:5}],
+							["Label", {
+								label:path_label, 
+								location: (position / 10), 
+								cssClass:"plumb-label",
+								events:{
+									//Defining the event here is the only effective way, 
+									//since jsPlumb makes it difficult/impossible to add a listener
+									//outside the connection definition
+			          				click:function(labelOverlay, originalEvent) { 
+			            				t.expandTransition(originalEvent.currentTarget);
+			          				}
+			        			}
+			        		}]
+							],
+							anchor: "Continuous",
+							endpoint: "Blank",
+							paintStyle:{ strokeStyle:"black", lineWidth:1 }
+						});
+
+						connection.scope = path_label;
+						connection.bind("mouseenter", function() {
+    					t.catchConnectorHover(connection);
+						});
+						position += 1;
+						t.populateObject(connections, start_id, end_id, key);
+						connections[start_id][end_id][key] = connection;
 					});
-
-					connection.scope = path_label;
-
-					position += 1;
-					t.populateObject(connections, start_id, end_id, key);
-					connections[start_id][end_id][key] = connection;
 				});
 			});
 		});
@@ -460,36 +521,27 @@ WorkflowGraph.prototype = {
 
 		t.setViewMode(states);
 
-		t.catchConnectorHover();
-
 		//This moves the focus to the first element in the the WF
 		var first = $(props.stateClass);
 		t.locate(first[0]);
 		t.locate("");
 	},
 
-	catchConnectorHover: function() 
+	catchConnectorHover: function(connection) 
 	{
 		/**********************************************************
 
-		This is a super hacky way to make the transition titles
-		only appear when the connection line is hovered over.
-		
-		On larger workflows, having all the labels displayed at the same time
-		is horrifyingly confusing
+		This makes a connections label visible for 5 seconds after it's 
+		been hovered over.
 
 		**********************************************************/
 
-		$('._jsPlumb_connector').hover(function() {
-			var label = $(this).nextAll(props.labelClass);
-			label = label[0];
-
+			var label = connection.getOverlays()[1].canvas;
 			$(label).addClass('show-label');
 
 			setTimeout(function() {
 				$(label).removeClass('show-label');
 			}, 5000);
-		});
 	},
 
 	cleanConnections: function(connectionsToRemove) 
@@ -523,6 +575,18 @@ WorkflowGraph.prototype = {
 				});
 			});
 		}
+	},
+
+	cleanProp: function(prop)
+	{
+		/**********************************************************
+
+		This function just strips the unwanted selector character off 
+		of a property item
+
+		**********************************************************/
+
+		return prop.substring(1, prop.length);
 	},
 
 	collapseAllItems: function() 
@@ -894,6 +958,25 @@ WorkflowGraph.prototype = {
 		t.buildGraph();
 	},
 
+	removeStateElement: function(elementId)
+	{
+		/**********************************************************
+
+		Remove a state with a given ID
+
+		**********************************************************/
+
+		var name = 'plumb-state-' + elementId;
+		var id = '#' + name;
+		var el = $(props.canvasId).find(id);
+
+		instance.remove(name);
+
+		$(props.canvasId).remove(id);
+
+		$(props.stateSelectId).find('option[value="' + elementId + '"]').remove();
+	},
+
 	resetGraph: function() 
 	{
 		/**********************************************************
@@ -934,6 +1017,7 @@ WorkflowGraph.prototype = {
 		**********************************************************/
 
 		var element = $(props.modeButtonId);
+		$(props.modeBoxId).attr('checked', true);
 		//the class on the button is what mode we're in now
 		//the value is the class we would switch to by pressing the button
 		element.removeClass('view').addClass('design');
@@ -1002,7 +1086,7 @@ WorkflowGraph.prototype = {
 		**********************************************************/
 
 		$(props.canvasId).addClass('dragon');
-		$(props.canvasId).dragOn();
+		//$(props.canvasId).dragOn();
 	},
 
 	setViewMode: function(states)
@@ -1018,6 +1102,7 @@ WorkflowGraph.prototype = {
 		**********************************************************/
 
 		var element = $(props.modeButtonId);
+		$(props.modeBoxId).attr('checked', false);
 		element.removeClass('design').addClass('view');
 		$(props.zoomBoxId).removeClass('design');
 
@@ -1201,9 +1286,10 @@ WorkflowGraph.prototype = {
 			instance.recalculateOffsets($(name));
 			instance.repaint($(name));
 		});
+
 	},
 
-	updateGraph: function(data, update) 
+	updateGraph: function(data, graphChanges, update) 
 	{
 		/**********************************************************
 
@@ -1268,17 +1354,17 @@ WorkflowGraph.prototype = {
 
 		t.updateFormItems(data);
 
-		t.updateStates(changes, data, update);
+		t.cleanConnections(changes.remove);
+
+		t.updateStates(graphChanges, update);
 
 		t.updateToolbox();
 
 		t.buildConnections(changes.add);
 		
-		t.cleanConnections(changes.remove);
-
-		t.catchConnectorHover();
-
 		t.wrapOverlays();
+
+		$('#changed-forms').empty();
 	},
 
 	updateToolbox: function()
@@ -1309,7 +1395,7 @@ WorkflowGraph.prototype = {
 		});
 	},
 
-	updateStates: function(changes, data, update)
+	updateStates: function(changes, setup_overlays)
 	{
 		/**********************************************************
 		
@@ -1319,32 +1405,20 @@ WorkflowGraph.prototype = {
 
 		**********************************************************/
 
-		$.each(changes.add, function( key, value ) {
+		if( changes == undefined )
+		{
+			return true;
+		}
 
-			var name = '#plumb-state-' + key;
-			if( $(name).length == 0 )
-			{
-				var state = $(data).find(name);
-				$(props.zoomBoxId).append(state);
-				t.distribute(state);
-				t.makeDraggable(state);
+    if(changes.newGraphElements != undefined)
+    {
+      t.addNewElement(changes.newGraphElements, setup_overlays);
+    }
 
-				//Update is the "setup_overlays" function 
-				//from the workflowmanager.js script
-				update(state)
-				$(state).show();
-			}
-		});
-
-		$.each(changes.remove, function( key, value ) {
-			var name = 'plumb-state-' + key;
-			var id = '#' + name;
-			if( $(data).find(id).length == 0 )
-			{
-				instance.remove(name);
-				$(props.canvasId).find(id).remove();
-			}
-		});
+    if(changes.removeElements != undefined)
+    {
+      t.removeStateElement(changes.removeElements);
+    }
 	},
 
 	wrapOverlays: function()

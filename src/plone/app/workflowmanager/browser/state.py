@@ -13,6 +13,7 @@ import json
 
 class AddState(Base):
     template = ViewPageTemplateFile('templates/add-new-state.pt')
+    new_state_template = ViewPageTemplateFile('templates/state.pt')
 
     def __call__(self):
         self.errors = {}
@@ -48,8 +49,15 @@ class AddState(Base):
                 msg = _('msg_state_created',
                         default=u'"${state_id}" state successfully created.',
                         mapping={'state_id': new_state.id})
+
+                arbitraryStateList = []
+                arbitraryStateList.append(new_state)
+
+                new_elements = self.new_state_template(states=arbitraryStateList)
+
                 return self.handle_response(
                     message=msg,
+                    newGraphElements=new_elements,
                     state=new_state)
             else:
                 return self.handle_response(tmpl=self.template,
@@ -91,7 +99,8 @@ class DeleteState(Base):
             return self.handle_response(
                 message=_('msg_state_deleted',
                     default=u'"${id}" state has been successfully deleted.',
-                    mapping={'id': state_id}))
+                    mapping={'id': state_id}),
+                removeElements=state_id)
         elif self.request.get('form.actions.cancel', False) == 'Cancel':
             return self.handle_response(
                 message=_('msg_state_deletion_canceled',

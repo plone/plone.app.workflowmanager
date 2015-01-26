@@ -230,9 +230,6 @@ class Base(BrowserView):
                         if nextState not in paths[stateId]:
                            paths[stateId][nextState] = dict()
 
-                        #The True value is just a placeholder for now
-                        #When the JS handles the paths, it will be replaced
-                        #with a jsPlumb.Connection object
                         paths[state.id][nextState][current_transition.id] = current_transition.title
 
         return json.dumps(paths)
@@ -339,6 +336,16 @@ class Base(BrowserView):
             if tmpl and not justdoerrors:
                 return tmpl.__of__(self.context)(**kwargs)
             else:
+                status['graphChanges'] = {}
+                if 'newGraphElements' in kwargs:
+                    status['graphChanges']['newGraphElements'] = kwargs['newGraphElements']
+                    #The response likes to revert to HTML when you pass HTML elements via JSON,
+                    #so we need to be very explicit
+                    self.request.response.setHeader('Content-Type', 'application/JSON;;charset="utf-8"')
+
+                if 'removeElements' in kwargs:
+                    status['graphChanges']['removeElements'] = kwargs['removeElements']
+
                 return json.dumps(status)
         else:
             if redirect:
@@ -360,6 +367,10 @@ class ControlPanel(Base):
         ViewPageTemplateFile('templates/workflow-transition.pt')
     workflow_graph_template = \
         ViewPageTemplateFile('templates/workflow-graph.pt')
+    state_template = \
+        ViewPageTemplateFile('templates/state.pt')
+    transition_template = \
+        ViewPageTemplateFile('templates/transition.pt')
 
     def __call__(self):
         return self.template()
@@ -380,6 +391,12 @@ class ControlPanel(Base):
         elif transition:
             return self.workflow_transition_template(transition=transition,
                 available_states=self.available_states)
+
+    def render_states(self):
+        return self.state_template(states=self.available_states)
+
+    def render_transitions(self):
+        return self.transition_template(transitions=self.available_transitions)
 
 class Path():
     """Very simple class to represent a single path from state->transition->state"""

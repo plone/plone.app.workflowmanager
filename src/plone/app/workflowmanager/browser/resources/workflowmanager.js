@@ -401,10 +401,14 @@ $(document).ready(function(){
           $('.advanced').hide();
         }
 
-        $('#save-all-button').removeClass('btn-danger');
+        if( $('#changed-forms').children().length <= 0 )
+        {
+          $('#save-all-button').removeClass('btn-danger');
+        }
+        
         $('[rel=popover]').popover({placement: 'bottom'});
 
-        WORKFLOW_GRAPH.updateGraph(request.responseText, setup_overlays);
+        WORKFLOW_GRAPH.updateGraph(request.responseText, data.graphChanges, setup_overlays);
       }
     });
   }
@@ -451,6 +455,7 @@ $(document).ready(function(){
           }
         }
       });
+
     });
 
     if(dirty_items.length == 0){
