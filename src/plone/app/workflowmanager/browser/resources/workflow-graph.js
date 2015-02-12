@@ -673,7 +673,7 @@ WorkflowGraph.prototype = {
 
 		var state =  $(element).find(props.stateIdClass).text();
 
-		$(element).children(':not(fieldset)').show();
+		$(element).children(':not(.' + props.statePaths + ')').show();
 		$(element).find(props.stateIdClass).hide();
 		$(element).addClass('expanded');
 	},
