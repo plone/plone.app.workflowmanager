@@ -19,6 +19,8 @@ WorkflowGraph.prototype = {
 		stateIdClass:  					'.plumb-state-id',
 		stateClass:  						'.plumb-state',
 		stateTitleClass: 				'.plumb-state-title',
+		stateDescClass: 				'.plumb-state-description',
+		statePaths: 						'.plumb-state-paths',
 		canvasId:  							'#plumb-canvas',
 		workflowId:  						'#plumb-workflow',
 		layoutContainerId:  		'#plumb-layout-container',
@@ -31,10 +33,13 @@ WorkflowGraph.prototype = {
 		stateSelectClass: 			'.state-select',
 		transitionSelectClass: 	'.transition-select',
 
+		transSelectId: 					'#plumb-toolbox-select-transition',
+		transClass: 						'.plumb-transition',
 		transDescClass:  				'.transition-description',
 		transTitleClass:  			'.transition-title',
 		transIdClass: 					'.transition-id',
 		transLinkClass:  				'.transition-link',
+		transEndClass: 					'.transition-destination',
 
 		pathClass:  						'.plumb-path',
 		pathStartClass:  				'.plumb-path-start',
@@ -54,6 +59,12 @@ WorkflowGraph.prototype = {
 		reorderId: 							'#plumb-reorder',
 		stateSelectId: 					'#plumb-toolbox-select-state'
 	},
+
+	states: {},
+
+	transitions: {},
+
+	connections: {},
 
 	init: function() 
 	{
@@ -311,57 +322,6 @@ WorkflowGraph.prototype = {
 		});
 	},
 
-	addNewElement: function(el, setup_overlays)
-	{
-		/**********************************************************
-
-		This takes in any new template elements to add to the graph.
-		This would only happen in the situation where a user has
-		created a new state/transition since the last time they have 
-		refreshed the page.
-
-		setup_overlays is the function of the same name from
-		workflowmanager.js
-
-		**********************************************************/
-
-		if( $(el).hasClass( t.cleanProp(props.stateClass) ) )
-		{
-			t.addStateElement(el, setup_overlays);
-		}
-		//more later?
-	},
-
-	addStateElement: function(el, setup_overlays)
-	{
-		/**********************************************************
-
-		This just takes care of all the prep work when adding a new 
-		state to the graph after it's already been drawn.
-
-		see addNewElement()
-
-		**********************************************************/
-
-			var elementId = '#' + $(el).attr('id');
-
-			$(props.zoomBoxId).prepend(el);
-
-			setup_overlays(elementId);
-			t.distribute(elementId);
-
-			t.makeDraggable(elementId);
-
-			$(elementId).show();
-
-			var stateId = $(el).find(props.stateIdClass).text();
-			var title = $(el).find(props.stateTitleClass).text();
-
-			$(props.stateSelectId).append('<option value="' + stateId + '">' + title + '</option>');
-
-
-		},
-
 	buildConnections: function(paths)
 	{
 		/**********************************************************
@@ -401,8 +361,9 @@ WorkflowGraph.prototype = {
 
 			*/
 
-		instance.doWhileSuspended(function() {
-			//Loop through each start state...
+		//Loop through each start state...
+		jsPlumb.doWhileSuspended(function() {
+
 			$.each(paths, function(key, value) {
 
 				var start_id = key;
@@ -410,65 +371,23 @@ WorkflowGraph.prototype = {
 				//...then through each end state...
 				$.each(value, function(key, value) {
 
-					var end_id = key;
+					var end_id = "";
+
+					if( typeof key != 'undefined' )
+					{
+						end_id = key;
+					}
 
 					//...and finally, through each transition that
 					//can take this path.
 					$.each(value, function(key, value) {
 
-						if( position == 8 )
-						{
-							position = 2
-						}
-
-						var e0 = 'plumb-state-' + start_id;
-						var e1 = 'plumb-state-' + end_id;
-
-						if( $('#' + e0).length <= 0 || $('#' + e1).length <= 0 )
-						{
-							return true;
-						}
-
-						var path_label = key;
-
-						var connection = instance.connect({ 
-							source:e0,
-							target:e1,
-
-							connector:"StateMachine",
-							hoverPaintStyle:{ strokeStyle:"gold" },
-							overlays:[
-							["Arrow", {location:1, width:5}],
-							["Label", {
-								label:path_label, 
-								location: (position / 10), 
-								cssClass:"plumb-label",
-								events:{
-									//Defining the event here is the only effective way, 
-									//since jsPlumb makes it difficult/impossible to add a listener
-									//outside the connection definition
-			          				click:function(labelOverlay, originalEvent) { 
-			            				t.expandTransition(originalEvent.currentTarget);
-			          				}
-			        			}
-			        		}]
-							],
-							anchor: "Continuous",
-							endpoint: "Blank",
-							paintStyle:{ strokeStyle:"black", lineWidth:1 }
-						});
-
-						connection.scope = path_label;
-						connection.bind("mouseenter", function() {
-    					t.catchConnectorHover(connection);
-						});
-						position += 1;
-						t.populateObject(connections, start_id, end_id, key);
-						connections[start_id][end_id][key] = connection;
+						t.connectStates(start_id, end_id, key);
 					});
 				});
 			});
 		});
+		
 	},
 
 	buildGraph: function()
@@ -494,32 +413,34 @@ WorkflowGraph.prototype = {
 
 		$(props.stateClass).css('display', 'inherit');
 
-		//If we're redrawing on the same page, it helps to clean everything out first
-		//This saves us from a number of weird edge-cases
-
-
 		instance.setContainer('plumb-canvas');
 
-		var states = t.getStateDivs();
+		var stateElements = t.getStateDivs();
 
-		if( $(states).length > 25 ) {
+		if( $(stateElements).length > 25 ) {
 			$(props.canvasId).addClass('large');
 			$(props.zoomBoxId).addClass('large');
 		}
 
-		var paths = JSON.parse( $(props.containerId + ' > ' + props.pathClass).html() );
+		$(stateElements).each(function() {
+			var newState = new State( $(this) );
+			newState.create();
+		});
 
-		t.distribute(states);
+		var transitionElements = $(props.transClass);
+
+		$(transitionElements).each(function() {
+			var newTrans = new Transition( $(this) );
+			newTrans.create();
+		});	
+
+		var paths = JSON.parse( $(props.containerId + ' > ' + props.pathClass).html() );
 
 		$(props.toolboxId).show();
 
 		t.buildConnections(paths);
 
 		t.wrapOverlays();
-
-		t.makeDraggable(states);
-
-		t.setViewMode(states);
 
 		//This moves the focus to the first element in the the WF
 		var first = $(props.stateClass);
@@ -542,39 +463,6 @@ WorkflowGraph.prototype = {
 			setTimeout(function() {
 				$(label).removeClass('show-label');
 			}, 5000);
-	},
-
-	cleanConnections: function(connectionsToRemove) 
-	{
-		/**********************************************************
-
-		This function is takes in a list of connections that need to be removed.
-		It removes them from the global "connections" array, and detaches them
-		from "instance"
-
-		**********************************************************/
-
-		if( !$.isEmptyObject(connectionsToRemove) )
-		{
-
-			$.each(connectionsToRemove, function(key, value) {
-				var start = key;
-
-				$.each(value, function(key, value) {
-					var end = key;
-
-					$.each(value, function(key, value) {
-						var name = key;
-
-						instance.detach(connections[start][end][name]);
-
-						//This only deletes the .name property...
-						//The rest of the object structure is preserved.
-						delete connections[start][end][name];
-					});
-				});
-			});
-		}
 	},
 
 	cleanProp: function(prop)
@@ -610,6 +498,67 @@ WorkflowGraph.prototype = {
 				t.expandTransition($(this));
 			}
 		})
+	},
+
+	connectStates: function(start_id, end_id, transition_title)
+	{
+		if( end_id === "" )
+		{
+			//If we've gotten here, that means that this state has a transition enabled
+			//that doesn't have a destination state set. We create a stub connection to 
+			//hold onto that info for later.
+			t.connections[start_id + '_' + transition_title] = new Connection(start_id, '', transition_title, '');
+			return true;
+		}
+
+		//This will place the label at a random position
+		//within the middle 80% of the connection
+		var position = Math.random();
+		position *= 6;
+		position += 2;
+		position = Math.floor(position);
+
+		var e0 = 'plumb-state-' + start_id;
+		var e1 = 'plumb-state-' + end_id;
+
+		if( $('#' + e0).length <= 0 || $('#' + e1).length <= 0 )
+		{
+			return true;
+		}
+
+		var graph_connection = instance.connect({ 
+		source:e0,
+		target:e1,
+
+		connector:"StateMachine",
+		hoverPaintStyle:{ strokeStyle:"gold" },
+		overlays:[
+		["Arrow", {location:1, width:5}],
+		["Label", {
+			label:transition_title, 
+			location: (position / 10), 
+			cssClass:"plumb-label",
+			events:{
+				//Defining the event here is the only effective way, 
+				//since jsPlumb makes it difficult/impossible to add a listener
+				//outside the graph_connection definition
+	    				click:function(labelOverlay, originalEvent) { 
+	      				t.expandTransition(originalEvent.currentTarget);
+	    				}
+	  			}
+	  		}]
+		],
+		anchor: "Continuous",
+		endpoint: "Blank",
+		paintStyle:{ strokeStyle:"black", lineWidth:1 }
+		});
+
+		graph_connection.scope = transition_title;
+		graph_connection.bind("mouseenter", function() {
+			t.catchConnectorHover(graph_connection);
+		});
+
+		t.connections[graph_connection.id] = new Connection(start_id, end_id, transition_title, graph_connection);
 	},
 
 	disableDragging: function(states)
@@ -958,25 +907,6 @@ WorkflowGraph.prototype = {
 		t.buildGraph();
 	},
 
-	removeStateElement: function(elementId)
-	{
-		/**********************************************************
-
-		Remove a state with a given ID
-
-		**********************************************************/
-
-		var name = 'plumb-state-' + elementId;
-		var id = '#' + name;
-		var el = $(props.canvasId).find(id);
-
-		instance.remove(name);
-
-		$(props.canvasId).remove(id);
-
-		$(props.stateSelectId).find('option[value="' + elementId + '"]').remove();
-	},
-
 	resetGraph: function() 
 	{
 		/**********************************************************
@@ -1258,38 +1188,68 @@ WorkflowGraph.prototype = {
 
 		**********************************************************/
 
-		var changedForms = $('#changed-forms').children();
+		var changes = data.graph_updates;
 
-		$(changedForms).each(function() {
+		if( typeof changes != 'undefined' )
+		{
+			var constructor = null;
+			var collection = null;
 
-			var name = $(this).attr('data-element-id');
+			if( changes.type == 'transition' )
+			{
+				collection = t.transitions;
+				constructor = Transition;
+			}
+			else if ( changes.type == 'state' )
+			{
+				collection = t.states;
+				constructor = State;
+			}
+			else
+			{
+				return;
+			}
 
-			name = "#plumb-" + name;
+			var objectId = changes.objectId;
+			var element = changes.element;
+			var action = changes.action;
 
-			var updatedItem = $(data).find(name);
+			if( action == 'add' )
+			{
+				collection[objectId] = new constructor(element);
+				collection[objectId].create();
 
-			//We only want to update the divs. Messing with the anchor 
-			//tags will mess up the form overlays
-			var values = $(data).find(name).find('div');
+				paths = {};
+				paths[objectId] = {};
 
-			$(values).each(function() {
-				//add the . to make it a jquery class selector
-				var className = "." + $(this).attr('class');
+				$(changes.transitions).each(function() {
 
-				//Hacky way to be sure that we grab only 1 class
-				className = className.split(' ')[0];
-				$(props.canvasId).find(name).find(className).html($(this).html());
-			});
+					var end = t.transitions[this].destination;
+					var title = t.transitions[this].title;
 
-			//If the title of a state has been changed, the graph may no longer
-			//be correnctly aligned, so we repaint that element
-			instance.recalculateOffsets($(name));
-			instance.repaint($(name));
-		});
+					if( typeof paths[objectId][end] == 'undefined' )
+					{
+						paths[objectId][end] = {};
+					}
 
+					paths[objectId][end][this] = title;
+
+				});
+
+				t.buildConnections(paths);
+			}
+			else if( action == 'update' )
+			{
+				collection[objectId].update(changes);
+			}
+			else if( action == 'delete' )
+			{
+				collection[objectId].destroy();
+			}
+		}
 	},
 
-	updateGraph: function(data, graphChanges, update) 
+	updateGraph: function(changes) 
 	{
 		/**********************************************************
 
@@ -1302,123 +1262,13 @@ WorkflowGraph.prototype = {
 
 		**********************************************************/
 
-		var newTransitions = $(data).find(props.pathClass).html();
-		newTransitions = JSON.parse(newTransitions);
-
-		changes = {
-			add: {},
-			remove: {}
-		};
-
-		$.each(connections, function(key, value) {
-
-			var start = key;
-			$.each(this, function(key, value) {
-
-				var end = key;
-				
-				$.each(this, function(key, value) {
-
-					var transition_name = key;
-
-					//We went to check if the transition was removed.
-					var exists = t.transitionExists( newTransitions, start, end, transition_name);
-
-					if( exists === false ) {
-						t.populateObject(changes.remove, start, end, transition_name);
-					}
-				});
-			});
-		});
-
-		$.each(newTransitions, function(key, value) {
-
-			var start = key;
-			$.each(this, function(key, value) {
-
-				var end = key;
-				$.each(this, function(key, value) {
-
-					var transition_name = key;
-
-					//We want to check if the transition was just added.
-					var exists = t.transitionExists( connections, start, end, transition_name);
-
-					if( exists === false ) 
-					{
-						t.populateObject(changes.add, start, end, transition_name);	
-					}
-				});
-			});
-		});
-
-		t.updateFormItems(data);
-
-		t.cleanConnections(changes.remove);
-
-		t.updateStates(graphChanges, update);
-
-		t.updateToolbox();
-
-		t.buildConnections(changes.add);
+		t.updateFormItems(changes);
 		
 		t.wrapOverlays();
 
 		$('#changed-forms').empty();
-	},
 
-	updateToolbox: function()
-	{
-		/**********************************************************
-		
-		This method updates the toolbox drop-down menus to reflect any changes
-		after the user saves a form.
-
-		**********************************************************/
-
-		var changes = $('#changed-forms').children();
-
-		$(changes).each(function() {
-			var name = $(this).attr('data-element-id');
-
-			var parts = name.split('-');
-			var type = parts[0];
-			var itemId = parts[1];
-
-			var select = "." + type + "-select";
-
-			var values = JSON.parse($(this).html());
-
-			var title = values[type + "-" + itemId + "-title"];
-
-			$(select).find('option[value="' + itemId + '"]').html(title);
-		});
-	},
-
-	updateStates: function(changes, setup_overlays)
-	{
-		/**********************************************************
-		
-		This takes in any changes to the list of states currently in the graph
-		and adds/deletes them in order to rectify them with any recent
-		changes that the user has made to the graph.
-
-		**********************************************************/
-
-		if( changes == undefined )
-		{
-			return true;
-		}
-
-    if(changes.newGraphElements != undefined)
-    {
-      t.addNewElement(changes.newGraphElements, setup_overlays);
-    }
-
-    if(changes.removeElements != undefined)
-    {
-      t.removeStateElement(changes.removeElements);
-    }
+		$('#save-all-button').removeClass('btn-danger');
 	},
 
 	wrapOverlays: function()
@@ -1442,3 +1292,365 @@ WorkflowGraph.prototype = {
 		});
 	}
 };
+
+//////////////////////////////////////////////////////////////
+
+var GraphObject = function GraphObject() {
+	this.id = null;
+
+	this.title = null;
+	this.el = null;
+	this.type = null;
+
+	this.collection = null;
+
+	this.selectId = null;
+	this.wfg = WorkflowGraph.prototype;
+}
+
+GraphObject.prototype = {
+
+	elPrefix: 'plumb',
+	container: WorkflowGraph.prototype.props.zoomBoxId,
+
+	init: function()
+	{
+		this.id = $(this.el).find(this.idClass).text();
+		this.title = $(this.el).find(this.titleClass).text();
+	},
+
+	create: function()
+	{
+			var element = $(GraphObject.prototype.container).find(this.getIdPlug());
+
+			//In some cases, the element for an object may not exist
+			//in the graph, so we append it here
+			if( element.length == 0 )
+			{
+				$(GraphObject.prototype.container).append(this.el);
+				this.el = $(this.getIdPlug());
+			}
+
+			if( $(this.selectId).find('option[value="' + this.id + '"]').length == 0 )
+			{
+				$(this.selectId).append('<option value="' + this.id + '">' + this.title + '</option>');
+			}
+
+			this.collection[this.id] = this;
+	},
+
+	destroy: function()
+	{
+		instance.remove(this.getElementId());
+		$(this.el).remove();
+		$(this.selectId).find('option[value="' + this.id + '"]').remove();
+		delete this.collection[this.id];
+	},
+
+	update: function(changes)
+	{
+		var element = changes.element;
+		var title = $(element).find(this.titleClass).text();
+		var desc = $(element).find(this.descClass).text();
+
+		this.title = title;
+
+		$(this.el).find(this.titleClass).text(title);
+		$(this.el).find(this.descClass).text(desc);
+
+		$(this.selectId).find('option[value="' + this.id + '"]').text(title);
+	},
+
+	highlight: function()
+	{
+	},
+
+	getId: function()
+	{
+		return this.id;
+	},
+
+	getElementId: function()
+	{
+		return GraphObject.prototype.elPrefix + '-' + this.type + '-' + this.id;
+	},
+
+	getIdPlug: function()
+	{
+		return '#' + this.getElementId();
+	},
+}
+
+//////////////////////////////////////////////////////////////
+
+var State = function State(element) {
+	if( typeof element == 'undefined' )
+	{
+		return null;
+	}
+
+	//This calls the GraphObject constructor,
+	//which creates all the properties for the object
+	GraphObject.call(this);
+
+	this.el = element;
+	this.type = 'state';
+	this.titleClass = props.stateTitleClass;
+	this.idClass = props.stateIdClass;
+	this.descClass = props.stateDescClass;
+	this.selectId = props.stateSelectId;
+	
+	this.collection = t.states;
+
+	this.incoming = {};
+	this.outgoing = {};
+
+	this._super = GraphObject.prototype;
+
+	this.init(element);
+};
+
+State.prototype = new GraphObject();
+State.prototype.constructor = State;
+
+State.prototype.addConnections = function(paths)
+{
+	var new_paths = {};
+	new_paths[this.id] = {};
+
+	for( var i = 0; i < paths.length; i++ )
+	{
+		var end = this.wfg.transitions[paths[i]].destination;
+
+		if( end != "" )
+		{
+			if( typeof new_paths[this.id][end] == 'undefined' )
+			{
+				new_paths[this.id][end] = {};
+			}
+
+			//see the buildConnections method of the graph
+			//for explanation on the data structure used here.
+			new_paths[this.id][end][paths[i]] = true;
+		}
+	}
+
+	this.wfg.buildConnections(new_paths);
+};
+
+State.prototype.addOutgoing = function(connection)
+{
+
+	this.outgoing[connection.transition] = connection;
+};
+
+State.prototype.create = function() 
+{
+
+	this._super.create.call(this);
+
+	var paths = $(this.el).find(props.statePaths).text();
+	paths = JSON.parse(paths);
+
+	this.wfg.makeDraggable( this.el );
+	this.wfg.distribute( this.el );
+	this.wfg.setViewMode( this.el );
+	//this.wfg.buildConnections( paths );
+	$(this.el).show();
+};
+
+State.prototype.removeConnections = function(connectionsToRemove)
+{
+	if( connectionsToRemove.length > 0 )
+	{
+		for( var i = 0; i < connectionsToRemove.length; i++ )
+		{
+			this.outgoing[connectionsToRemove[i]].destroy();
+		}
+	}
+};
+
+State.prototype.removeOutgoing = function(connection)
+{
+
+	delete this.outgoing[connection.transition];
+};
+
+State.prototype.update = function(changes) 
+{
+
+	this._super.update.call(this, changes);
+
+	//If the title of a state has been changed, the graph may no longer
+	//be correnctly aligned, so we repaint that element
+	instance.recalculateOffsets($(this.el));
+	instance.repaint($(this.el));
+
+	if( changes.add.length > 0 )
+	{
+		this.addConnections(changes.add);
+	}
+	
+	if ( changes.remove.length > 0 )
+	{
+		this.removeConnections(changes.remove);
+	}
+};
+
+//////////////////////////////////////////////////////////////
+
+var Transition = function Transition(element) {
+	if( typeof element == 'undefined' )
+	{
+		return null;
+	}
+
+	//This calls the GraphObject constructor,
+	//which creates all the properties for the object
+	GraphObject.call(this);
+
+	this.el = element;
+	this.type = 'transition';
+	this.titleClass = props.transTitleClass;
+	this.idClass = props.transIdClass;
+	this.descClass = props.transDescClass;
+	this.selectId = props.transSelectId;
+
+	this.collection = t.transitions;
+	
+	this._super = GraphObject.prototype;
+
+	this.destination = null;
+	this.connections = {};
+
+	this.init(element);
+};
+
+Transition.prototype = new GraphObject();
+Transition.prototype.constructor = Transition;
+
+Transition.prototype.init = function()
+{
+	this._super.init.call(this);
+
+	this.destination = $(this.el).find(props.transEndClass).text();
+};
+
+Transition.prototype.addConnection = function(connection)
+{
+
+	this.connections[connection.start] = connection;
+};
+
+Transition.prototype.destroy = function()
+{
+	var instances = this.connections;
+
+	$.each(instances, function(key, value) {
+		this.destroy();
+	});
+
+	this._super.destroy.call(this);
+};
+
+Transition.prototype.removeConnection = function(start_id)
+{
+
+	delete this.connections[start_id];
+};
+
+Transition.prototype.hasConnection = function(start, end)
+{
+
+	if( typeof this.connections[start] == 'undefined' )
+	{
+		return false;
+	}
+
+	var endState = t.states[end];
+
+	if( this.connections[start].targetId == endState.getElementId() )
+	{
+		return true;
+	}
+
+	return false;
+};
+
+Transition.prototype.update = function(changes)
+{
+	this._super.update.call(this, changes);
+
+	var new_dest = $(changes.element).find(props.transEndClass).text();
+
+	if( new_dest != this.destination )
+	{
+		var self = this;
+		$.each(this.connections, function(key, value) {
+			var start = value.start;
+			var end = new_dest;
+			var transitionId = self.id;
+
+			if( self.destination != "" )
+			{
+				self.connections[start].destroy();
+			}
+			else
+			{
+				//If we're here, the destination was previously empty,
+				//but now it has a real value.
+				self.wfg.connections[start + '_' + transitionId].destroy();
+			}
+
+			this.wfg.connectStates(start, end, transitionId);
+		});
+
+		this.destination = new_dest;
+	}
+};
+
+////////////////////////////////////////////////////////////
+
+var Connection = function Connection(start_id, end_id, transition_id, graph_connection) {
+	this.id = graph_connection.id;
+
+	if( end_id === "" )
+	{
+		this.id = start_id + '_' + transition_id;
+	}
+
+	this.graph_connection = graph_connection;
+	this.constructor;
+
+	this.start = start_id;
+	this.end = end_id;
+	this.transition = transition_id;
+
+	this.wfg = WorkflowGraph.prototype;
+
+	this.init();
+};
+
+Connection.prototype = {
+
+	init: function()
+	{
+		this.wfg.states[this.start].addOutgoing(this);
+
+		this.wfg.transitions[this.transition].addConnection(this);
+
+		var all_connections = instance.getAllConnections();
+
+	},
+
+	destroy: function()
+	{
+		this.wfg.states[this.start].removeOutgoing(this);
+
+		this.wfg.transitions[this.transition].removeConnection(this.start);
+
+		instance.detach(this.graph_connection);
+
+		delete this.wfg.connections[this.id];
+	},
+}

@@ -9,6 +9,7 @@ from plone.app.workflowmanager.permissions import managed_permissions
 from plone.app.workflowmanager.browser.controlpanel import Base
 from plone.app.workflowmanager import WMMessageFactory as _
 import json
+from sets import Set
 
 
 class AddState(Base):
@@ -55,9 +56,17 @@ class AddState(Base):
 
                 new_elements = self.new_state_template(states=arbitraryStateList)
 
+                updates = dict()
+
+                updates['element'] = new_elements
+                updates['type'] = u'state'
+                updates['action'] = u'add'
+                updates['objectId'] = new_state.id
+                updates['transitions'] = new_state.transitions
+
                 return self.handle_response(
                     message=msg,
-                    newGraphElements=new_elements,
+                    graph_updates=updates,
                     state=new_state)
             else:
                 return self.handle_response(tmpl=self.template,
@@ -96,11 +105,16 @@ class DeleteState(Base):
 
             self.selected_workflow.states.deleteStates([state_id])
 
+            updates = dict()
+            updates['objectId'] = state_id
+            updates['action'] = u'delete'
+            updates['type'] = u'state'
+
             return self.handle_response(
                 message=_('msg_state_deleted',
                     default=u'"${id}" state has been successfully deleted.',
                     mapping={'id': state_id}),
-                removeElements=state_id)
+                graph_updates=updates)
         elif self.request.get('form.actions.cancel', False) == 'Cancel':
             return self.handle_response(
                 message=_('msg_state_deletion_canceled',
@@ -112,6 +126,7 @@ class DeleteState(Base):
 
 class SaveState(Base):
 
+    updated_state_template = ViewPageTemplateFile('templates/state.pt')
     def update_selected_transitions(self):
         wf = self.selected_workflow
         state = wf.states[self.request.get('selected-state')]
@@ -215,12 +230,39 @@ class SaveState(Base):
         self.authorize()
         self.errors = {}
 
+        wf = self.selected_workflow
+        state = wf.states[self.request.get('selected-state')]
+
+        oldTransitions = state.transitions
+
         self.update_selected_transitions()
         self.update_state_permissions()
         self.update_state_group_roles()
         self.update_state_properties()
 
-        return self.handle_response()
+        newTransitions = state.transitions
+
+        arbitraryStateList = []
+        arbitraryStateList.append(state)
+
+        updated_state = self.updated_state_template(states=arbitraryStateList)
+
+        #transitions that were added...
+        add = list( Set(newTransitions) - Set(oldTransitions) )
+
+        #transitions that were removed
+        remove = list( Set(oldTransitions) - Set(newTransitions) )
+
+        update = dict()
+        update['objectId']=state.id
+        update['action']=u'update'
+        update['type']=u'state'
+        update['element']=updated_state
+        update['add'] = add
+        update['remove'] = remove
+
+        return self.handle_response(
+            graph_updates=update)
 
 class EditState(Base):
     template = ViewPageTemplateFile('templates/workflow-state.pt')

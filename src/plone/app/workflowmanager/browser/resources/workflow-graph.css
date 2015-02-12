@@ -125,6 +125,7 @@
 	outline: 1px solid #e6e6e6;
 	margin-top: 15px;
 	padding: 10px;
+	clear: both;
 }
 
 #plumb-toolbox fieldset select {

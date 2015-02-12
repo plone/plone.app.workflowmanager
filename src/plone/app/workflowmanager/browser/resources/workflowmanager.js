@@ -395,7 +395,6 @@ $(document).ready(function(){
       data : {'selected-workflow' : retrieve_selected_workflow()},
       type : 'POST',
       complete : function(request, textStatus){
-        setup_overlays();
 
         if(!is_advanced_mode()){
           $('.advanced').hide();
@@ -408,9 +407,11 @@ $(document).ready(function(){
         
         $('[rel=popover]').popover({placement: 'bottom'});
 
-        WORKFLOW_GRAPH.updateGraph(request.responseText, data.graphChanges, setup_overlays);
+        WORKFLOW_GRAPH.updateGraph(request.responseText, data.graphChanges);
       }
     });
+
+    setup_overlays();
   }
 
   var save = function(finish){
@@ -449,8 +450,10 @@ $(document).ready(function(){
         type: 'POST',
         success : function(data){
           request_count += 1;
+          WORKFLOW_GRAPH.updateGraph( parse_data(data) );
+
           if(request_count == dirty_items.length){
-            reload(data);
+
             finish(data);
           }
         }
@@ -689,7 +692,8 @@ $(document).ready(function(){
       }
       CURRENT_OVERLAY.close();
 
-      reload(data);
+      WORKFLOW_GRAPH.updateGraph(data);
+      setup_overlays();
       spinner.hide();
     });
 

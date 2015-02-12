@@ -14,6 +14,7 @@ import json
 
 class AddTransition(Base):
     template = ViewPageTemplateFile('templates/add-new-transition.pt')
+    new_transition_template = ViewPageTemplateFile('templates/transition.pt')
 
     def __call__(self):
         self.errors = {}
@@ -53,10 +54,22 @@ class AddTransition(Base):
                     state = self.selected_workflow.states[referenced_state]
                     state.transitions += (new_transition.id, )
 
+                arbitraryTransitionList = []
+                arbitraryTransitionList.append(new_transition)
+
+                new_element = self.new_transition_template(transitions=arbitraryTransitionList)
+
+                updates = dict()
+                updates['objectId'] = new_transition.id
+                updates['element'] = new_element
+                updates['action'] = u'add'
+                updates['type'] = u'transition'
+
                 return self.handle_response(
                     message=_('msg_transition_created',
                         default=u'"${transition_id}" transition successfully created.',
                         mapping={'transition_id': new_transition.id}),
+                    graph_updates=updates,
                     transition=new_transition)
             else:
                 return self.handle_response(tmpl=self.template,
@@ -65,6 +78,7 @@ class AddTransition(Base):
 
 class SaveTransition(Base):
 
+    transition_template = ViewPageTemplateFile('templates/transition.pt')
     def update_guards(self):
         wf = self.selected_workflow
         transition = self.selected_transition
@@ -139,7 +153,22 @@ class SaveTransition(Base):
         self.update_guards()
         self.update_transition_properties()
 
-        return self.handle_response()
+        wf = self.selected_workflow
+        transition = self.selected_transition
+
+        arbitraryTransitionList = []
+        arbitraryTransitionList.append(transition)
+
+        element = self.transition_template(transitions=arbitraryTransitionList)
+
+        updates = dict()
+        updates['objectId'] = transition.id
+        updates['element'] = element
+        updates['type'] = u'transition'
+        updates['action'] = u'update'
+
+        return self.handle_response(
+                    graph_updates=updates)
 
 
 class DeleteTransition(Base):
@@ -163,10 +192,16 @@ class DeleteTransition(Base):
                     transitions.remove(transition_id)
                     state.transitions = tuple(transitions)
 
+            updates = dict()
+            updates['objectId'] = transition_id
+            updates['action'] = u'delete'
+            updates['type'] = u'transition'
+
             msg = _('msg_transition_deleted',
                     default=u'"${id}" transition has been successfully deleted.',
                     mapping={'id': transition_id})
-            return self.handle_response(message=msg)
+            return self.handle_response(message=msg,
+                                        graph_updates=updates)
         elif self.request.get('form.actions.cancel', False) == 'Cancel':
             msg = _('msg_deleting_canceled',
                     default=u'Deleting the "${id}" transition has been canceled.',

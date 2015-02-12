@@ -209,8 +209,13 @@ class Base(BrowserView):
         else:
             return None
 
-    def get_transition_paths(self):
-        states = self.available_states
+    def get_transition_paths(self, state=None):
+        
+        if state is not None:
+            states = [state,]
+        else:
+            states = self.available_states
+
         paths = dict()
         transitions = self.available_transitions
         for state in states:
@@ -336,15 +341,11 @@ class Base(BrowserView):
             if tmpl and not justdoerrors:
                 return tmpl.__of__(self.context)(**kwargs)
             else:
-                status['graphChanges'] = {}
-                if 'newGraphElements' in kwargs:
-                    status['graphChanges']['newGraphElements'] = kwargs['newGraphElements']
-                    #The response likes to revert to HTML when you pass HTML elements via JSON,
-                    #so we need to be very explicit
+                if 'graph_updates' in kwargs:
+                    #The response will default to HTML (not JSON) if we try to pass HTML back
                     self.request.response.setHeader('Content-Type', 'application/JSON;;charset="utf-8"')
 
-                if 'removeElements' in kwargs:
-                    status['graphChanges']['removeElements'] = kwargs['removeElements']
+                    status['graph_updates'] = kwargs['graph_updates']
 
                 return json.dumps(status)
         else:
