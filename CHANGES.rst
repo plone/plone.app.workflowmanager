@@ -1,5 +1,12 @@
 Changelog
 =========
+1.2a1 (2/12/2015)
+-----------------
+- Rewrote back-end JS to be more predictable and flexible
+  [obct537]
+- AJAX calls now return "intelligent" feedback to tell the graph
+  how to update itself to reflect changes. [obct537]
+
 1.1a4 ~ unreleased
 ------------------
 - Updated graph saving system to be far more efficient

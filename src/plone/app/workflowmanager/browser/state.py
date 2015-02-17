@@ -107,6 +107,7 @@ class DeleteState(Base):
 
             updates = dict()
             updates['objectId'] = state_id
+            updates['replacement'] = replacement
             updates['action'] = u'delete'
             updates['type'] = u'state'
 

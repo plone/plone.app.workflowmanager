@@ -1244,7 +1244,7 @@ WorkflowGraph.prototype = {
 			}
 			else if( action == 'delete' )
 			{
-				collection[objectId].destroy();
+				collection[objectId].destroy(changes);
 			}
 		}
 	},
@@ -1444,6 +1444,14 @@ State.prototype.addOutgoing = function(connection)
 	this.outgoing[connection.transition] = connection;
 };
 
+State.prototype.addIncoming = function(connection)
+{
+	//Note that we aren't storing each connection, just each transition that leads here.
+	//We only use these when deleting the state, so that we move the incoming states elsewhere.
+	//This needs to be done at the transition level, not the connection level.
+	this.incoming[connection.transition] = this.wfg.transitions[connection.transition];
+}
+
 State.prototype.create = function() 
 {
 
@@ -1457,6 +1465,19 @@ State.prototype.create = function()
 	this.wfg.setViewMode( this.el );
 	//this.wfg.buildConnections( paths );
 	$(this.el).show();
+};
+
+State.prototype.destroy = function(changes)
+{
+	if( typeof changes.replacement != 'undefined' && changes.replacement != '' )
+	{
+		$.each(this.incoming, function(key, value) {
+
+			value.changeDestination(changes.replacement);
+		})
+	}
+
+	this._super.destroy.call(this);
 };
 
 State.prototype.removeConnections = function(connectionsToRemove)
@@ -1542,6 +1563,31 @@ Transition.prototype.addConnection = function(connection)
 	this.connections[connection.start] = connection;
 };
 
+Transition.prototype.changeDestination = function(new_dest)
+{
+	var self = this;
+	$.each(this.connections, function(key, value) {
+		var start = value.start;
+		var end = new_dest;
+		var transitionId = self.id;
+
+		if( self.destination != "" )
+		{
+			self.connections[start].destroy();
+		}
+		else
+		{
+			//If we're here, the destination was previously empty,
+			//but now it has a real value.
+			self.wfg.connections[start + '_' + transitionId].destroy();
+		}
+
+		this.wfg.connectStates(start, end, transitionId);
+	});
+
+	this.destination = new_dest;
+};
+
 Transition.prototype.destroy = function()
 {
 	var instances = this.connections;
@@ -1585,27 +1631,7 @@ Transition.prototype.update = function(changes)
 
 	if( new_dest != this.destination )
 	{
-		var self = this;
-		$.each(this.connections, function(key, value) {
-			var start = value.start;
-			var end = new_dest;
-			var transitionId = self.id;
-
-			if( self.destination != "" )
-			{
-				self.connections[start].destroy();
-			}
-			else
-			{
-				//If we're here, the destination was previously empty,
-				//but now it has a real value.
-				self.wfg.connections[start + '_' + transitionId].destroy();
-			}
-
-			this.wfg.connectStates(start, end, transitionId);
-		});
-
-		this.destination = new_dest;
+		this.changeDestination(new_dest);		
 	}
 };
 
@@ -1636,6 +1662,8 @@ Connection.prototype = {
 	init: function()
 	{
 		this.wfg.states[this.start].addOutgoing(this);
+
+		this.wfg.states[this.end].addIncoming(this);
 
 		this.wfg.transitions[this.transition].addConnection(this);
 
