@@ -1472,7 +1472,7 @@ State.prototype.destroy = function(changes)
 	if( typeof changes.replacement != 'undefined' && changes.replacement != '' )
 	{
 		$.each(this.incoming, function(key, value) {
-
+			//value is a transition object, in this context
 			value.changeDestination(changes.replacement);
 		})
 	}

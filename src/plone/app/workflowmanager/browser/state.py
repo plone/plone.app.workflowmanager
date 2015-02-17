@@ -107,9 +107,13 @@ class DeleteState(Base):
 
             updates = dict()
             updates['objectId'] = state_id
-            updates['replacement'] = replacement
             updates['action'] = u'delete'
             updates['type'] = u'state'
+
+            try:
+                updates['replacement'] = replacement
+            except UnboundLocalError:
+                pass
 
             return self.handle_response(
                 message=_('msg_state_deleted',
