@@ -35,6 +35,12 @@
   </div>
   <div class="pb-ajax"></div>
 </div>
+<div tal:condition="view/get_debug_mode">
+  <link rel="stylesheet" href="//code.jquery.com/qunit/qunit-1.17.1.css">
+  <script type="text/javascript" src="https://code.jquery.com/qunit/qunit-1.17.1.js"></script>
+  <script type="text/javascript" src="++resource++js_tests.js"></script>
+  <div id="qunit"></div>
+</div>
 
 <h1 class="documentFirstHeading" i18n:translate="">Workflow Manager</h1>
 

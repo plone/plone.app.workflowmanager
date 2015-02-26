@@ -195,4 +195,9 @@
         name="springyui.js"
         file="resources/springyui.js"
     />
+
+    <browser:resource
+        name="js_tests.js"
+        file="resources/js_tests.js"
+    />
 </configure>

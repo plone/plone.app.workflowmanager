@@ -35,7 +35,6 @@ plone_shipped_workflows = [
     'simple_publication_workflow',
     'comment_review_workflow']
 
-
 class Base(BrowserView):
     """
     We have so many different page templates so that they can
@@ -54,6 +53,8 @@ class Base(BrowserView):
     ajax one, the validation will be sent back, if everything
     went well and validated, it'll send a {'status' : 'ok'} back.
     """
+
+    debug = False
 
     errors = {}
     next_id = None  # the id of the next workflow to be viewed
@@ -243,6 +244,9 @@ class Base(BrowserView):
         gl = GraphLayout(self.context, self.request)
         gl.setWorkflow(workflow.id)
         return gl.getLayout()
+
+    def get_debug_mode(self):
+        return self.debug
 
     @property
     @memoize

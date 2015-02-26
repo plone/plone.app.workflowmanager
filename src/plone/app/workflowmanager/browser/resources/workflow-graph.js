@@ -754,19 +754,6 @@ WorkflowGraph.prototype = {
 		});
 	},
 
-	isReal: function(item) 
-	{
-		/**********************************************************
-
-		Because I'm just sick of typing it...
-
-		See the populateObject method
-
-		**********************************************************/
-
-		return ( typeof item !== "undefined" );
-	},
-
 	locate: function(element) 
 	{
 		/**********************************************************
@@ -844,52 +831,6 @@ WorkflowGraph.prototype = {
 		$(states).each(function() {
 			instance.draggable(this);
 		});
-	},
-
-	populateObject: function(obj, start, end, name)
-	{
-
-		/**********************************************************
-
-		This function checks an object and makes sure the passed values
-		are all valid sub-objects.
-
-		This is needed because we occassionally need to test:
-
-			Does connections[start][end][name] exist?
-
-		If connections[start][end] does not exist, we will encounter an
-		exception when we look for the "name" property
-		
-		**********************************************************/
-
-		if( t.isReal(obj) )
-		{
-
-			if( t.isReal(start) )
-			{
-				if( !t.isReal( obj[start] ) )
-				{
-					obj[start] = {};
-				}
-			}
-
-			if( t.isReal(end) )
-			{
-				if( !t.isReal( obj[start][end] ) )
-				{
-					obj[start][end] = {};
-				}
-			}
-
-			if( t.isReal(name) )
-			{
-				if( !t.isReal( obj[start][end][name] ) )
-				{
-					obj[start][end][name] = true;
-				}
-			}
-		}
 	},
 
 	rebuildGraph: function(coords)
@@ -1135,36 +1076,6 @@ WorkflowGraph.prototype = {
 		t.status_message($(element).siblings('select'), "Empty", "Please select a value");
 	},
 
-	transitionExists: function(obj, start, end, name) 
-	{
-		/**********************************************************
-
-		This verifies that a given transition exists between 2 states.
-		obj is a 3 dimensional array in the form of:
-			obj[start][end][transition]
-
-		Since an exception is throw if, for instance, obj[start] does not
-		exists when we're looking for obj[start][end][transition],
-		we must incrementally look through the object to verify 
-		the transitions existence.
-
-		**********************************************************/
-		if( t.isReal(obj) ) {
-
-			if( t.isReal(obj[start]) ) {
-
-				if( t.isReal(obj[start][end] ) ) {
-
-					if( t.isReal(obj[start][end][name]) ) {
-						return true;
-					}
-				}
-			}
-		}
-
-		return false;
-	},
-
 	unlockScrolling: function()
 	{
 		/**********************************************************
@@ -1219,7 +1130,7 @@ WorkflowGraph.prototype = {
 				collection[objectId] = new constructor(element);
 				collection[objectId].create();
 
-				paths = {};
+				var paths = {};
 				paths[objectId] = {};
 
 				$(changes.transitions).each(function() {
@@ -1393,7 +1304,7 @@ var State = function State(element) {
 	//which creates all the properties for the object
 	GraphObject.call(this);
 
-	this.el = element;
+	this.el = $(element);
 	this.type = 'state';
 	this.titleClass = props.stateTitleClass;
 	this.idClass = props.stateIdClass;
@@ -1418,24 +1329,30 @@ State.prototype.addConnections = function(paths)
 	var new_paths = {};
 	new_paths[this.id] = {};
 
+	var self = this;
+
 	for( var i = 0; i < paths.length; i++ )
 	{
-		var end = this.wfg.transitions[paths[i]].destination;
+		var end = self.wfg.transitions[paths[i]].destination;
 
 		if( end != "" )
 		{
-			if( typeof new_paths[this.id][end] == 'undefined' )
+			if( typeof new_paths[self.id][end] == 'undefined' )
 			{
-				new_paths[this.id][end] = {};
+				new_paths[self.id][end] = {};
 			}
 
 			//see the buildConnections method of the graph
 			//for explanation on the data structure used here.
-			new_paths[this.id][end][paths[i]] = true;
+			new_paths[self.id][end][paths[i]] = true;
+		}
+		else 
+		{
+			self.wfg.connectStates(self.id, "", paths[i]);
 		}
 	}
 
-	this.wfg.buildConnections(new_paths);
+	self.wfg.buildConnections(new_paths);
 };
 
 State.prototype.addOutgoing = function(connection)
@@ -1458,7 +1375,7 @@ State.prototype.create = function()
 	this._super.create.call(this);
 
 	var paths = $(this.el).find(props.statePaths).text();
-	paths = JSON.parse(paths);
+	var paths = JSON.parse(paths);
 
 	this.wfg.makeDraggable( this.el );
 	this.wfg.distribute( this.el );
@@ -1469,6 +1386,9 @@ State.prototype.create = function()
 
 State.prototype.destroy = function(changes)
 {
+
+	var self = this;
+
 	if( typeof changes.replacement != 'undefined' && changes.replacement != '' )
 	{
 		$.each(this.incoming, function(key, value) {
@@ -1476,6 +1396,13 @@ State.prototype.destroy = function(changes)
 			value.changeDestination(changes.replacement);
 		})
 	}
+
+	$.each(this.outgoing, function(key, value) {
+		//We need to make sure the transition object
+		//updates the target state, to make sure it no longer
+		//expects a transition from this state.
+		this.wfg.transitions[key].removeConnection(self.id);
+	});
 
 	this._super.destroy.call(this);
 };
@@ -1490,6 +1417,12 @@ State.prototype.removeConnections = function(connectionsToRemove)
 		}
 	}
 };
+
+State.prototype.removeIncoming = function(transition)
+{
+
+	delete this.incoming[transition];
+}
 
 State.prototype.removeOutgoing = function(connection)
 {
@@ -1601,6 +1534,10 @@ Transition.prototype.destroy = function()
 
 Transition.prototype.removeConnection = function(start_id)
 {
+	if( this.destination != "" )
+	{
+		this.wfg.states[this.destination].removeIncoming(this.id);
+	}
 
 	delete this.connections[start_id];
 };
@@ -1663,7 +1600,10 @@ Connection.prototype = {
 	{
 		this.wfg.states[this.start].addOutgoing(this);
 
-		this.wfg.states[this.end].addIncoming(this);
+		if( this.end != "" )
+		{
+			this.wfg.states[this.end].addIncoming(this);
+		}
 
 		this.wfg.transitions[this.transition].addConnection(this);
 
