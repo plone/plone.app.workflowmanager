@@ -1,5 +1,11 @@
 Changelog
 =========
+1.2a2 (2/26/2015)
+-----------------
+- Added in basic QUnit testing setup. Created a few basic tests
+  [obct537]
+- Pruned now-defunct code from JS. Fixed various minor UI bugs. 
+
 1.2a1 (2/12/2015)
 -----------------
 - Rewrote back-end JS to be more predictable and flexible
