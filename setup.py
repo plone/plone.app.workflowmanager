@@ -1,9 +1,9 @@
 from setuptools import find_packages
 from setuptools import setup
 
-version = '1.2a2'
+version = '2.0b1'
 
-setup(name='plone.app.workflowmanager-overhaul',
+setup(name='plone.app.workflowmanager',
       version=version,
       description="A workflow manager for Plone",
       long_description=(

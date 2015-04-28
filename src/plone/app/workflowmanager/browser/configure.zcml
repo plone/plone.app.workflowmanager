@@ -173,7 +173,7 @@
 
     <browser:resource
         name="jsPlumb.js"
-        file="resources/jsPlumb/dist/js/dom.jsPlumb-1.6.2.js"
+        file="resources/jsPlumb/dom.jsPlumb-1.6.2-min.js"
     />
 
     <browser:resource
