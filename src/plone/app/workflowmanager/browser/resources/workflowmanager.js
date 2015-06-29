@@ -429,7 +429,7 @@ $(document).ready(function(){
     }
   }
 
-  $('.workflow-item .dropdown').live('click', function(e){
+  $('.workflow-item .dropdown').on('click', function(e){
     var obj = $(this).parents('.workflow-item');
     if(obj.hasClass('collasped')){
       obj.find('.hidden-content').slideDown();
@@ -441,7 +441,7 @@ $(document).ready(function(){
     return e.preventDefault();
   });
 
-  $("a#fieldsetlegend-states").live('click', function(e){
+  $("a#fieldsetlegend-states").on('click', function(e){
     var transitions = $("#fieldset-transitions");
     var transitions_button = $("a#fieldsetlegend-transitions");
     var states = $("#fieldset-states");
@@ -463,7 +463,7 @@ $(document).ready(function(){
     return e.preventDefault();;
   });
 
-  $("a#fieldsetlegend-transitions").live('click', function(e){
+  $("a#fieldsetlegend-transitions").on('click', function(e){
     var transitions = $("#fieldset-transitions");
     var transitions_button = $(this);
     var states = $("#fieldset-states");
@@ -485,7 +485,7 @@ $(document).ready(function(){
     return e.preventDefault();;
   });
 
-  $('#save-all-button,input.save-all').live('click', function(e){
+  $('#save-all-button,input.save-all').on('click', function(e){
       spinner.show();
       save(function(){
         // #TODO Add support for i18n
@@ -580,7 +580,7 @@ $(document).ready(function(){
     });
   }
 
-  $("div.dialog-box form input[type='submit'],#content form fieldset div input[type='submit']").live('click', function(e){
+  $("div.dialog-box form input[type='submit'],#content form fieldset div input[type='submit']").on('click', function(e){
     var submit = $(this);
     var form = submit.parents('form');
     var hidden_value = form.find(':input.submitvalue');
@@ -606,13 +606,13 @@ $(document).ready(function(){
     return e.preventDefault();
   });
 
-  $('a.goto-link').live('click', function(e){
+  $('a.goto-link').on('click', function(e){
     var link = $(this);
     goto_item(link.attr('href'));
     return e.preventDefault();
   });
 
-  $('input.one-or-the-other').live('change', function(){
+  $('input.one-or-the-other').on('change', function(){
     if(this.checked){
       $(this).siblings('input.the-other').eq(0)[0].disabled = true;
     }else{
@@ -654,12 +654,15 @@ $(document).ready(function(){
     //need to use different event for IE of course...
     var theevent = ($.browser.msie) ? 'click' : 'change';
     //Content change listeners to mark things as dirty and needing to be saved...
-    $(input_selector).live(theevent, input_change_handler);
+    $(input_selector).on(theevent, input_change_handler);
 
     //Set some things up only if js is enabled here
     $("#tabs-menu ul.tabs").addClass('enabled');
 
-    $('#portal-column-content')[0].className = 'cell width-full position-0';
+    $('#portal-column-content').each(function(e){
+      $(e).removeClass();
+      $(e).addClass('col-md-12');
+    });
 
     $(window).scroll(function(e){
       var menu_container = $('div#menu-container');
