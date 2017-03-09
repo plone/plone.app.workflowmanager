@@ -62,7 +62,11 @@ class Base(BrowserView):
     description = _(u'Manage your custom workflows TTW.')
     wrapped_dialog_template = ViewPageTemplateFile(
         'templates/wrapped-dialog.pt')
-    managed_permissions = managed_permissions
+
+    @property
+    @memoize
+    def managed_permissions(self):
+        return managed_permissions(self.selected_workflow.getId())
 
     @property
     @memoize
@@ -72,7 +76,7 @@ class Base(BrowserView):
     @property
     @memoize
     def allowed_guard_permissions(self):
-        return allowed_guard_permissions
+        return allowed_guard_permissions(self.selected_workflow.getId())
 
     @property
     @memoize

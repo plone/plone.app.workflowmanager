@@ -468,7 +468,67 @@ $(document).ready(function(){
     }
   }
 
+<<<<<<< HEAD
   $('#save-all-button,input.save-all').live('click', function(e){
+=======
+  $('.workflow-item .dropdown').on('click', function(e){
+    var obj = $(this).parents('.workflow-item');
+    if(obj.hasClass('collasped')){
+      obj.find('.hidden-content').slideDown();
+      show_item(obj);
+    }else{
+      obj.find('.hidden-content').slideUp();
+      hide_item(obj);
+    }
+    return e.preventDefault();
+  });
+
+  $("a#fieldsetlegend-states").on('click', function(e){
+    var transitions = $("#fieldset-transitions");
+    var transitions_button = $("a#fieldsetlegend-transitions");
+    var states = $("#fieldset-states");
+    var states_button = $(this);
+
+    if(transitions_button.hasClass('selected')){
+      transitions_button.removeClass('selected');
+      nortstar_container.css('height', nortstar_container.height());
+      transitions.fadeOut('fast', function(){
+        states.fadeIn('fast', function(){
+          nortstar_container.css('height', '');
+        });
+        states_button.addClass('selected');
+      });
+    }else if(!states_button.hasClass('selected')){
+      states.fadeIn('fast');
+      states_button.addClass('selected');
+    }
+    return e.preventDefault();;
+  });
+
+  $("a#fieldsetlegend-transitions").on('click', function(e){
+    var transitions = $("#fieldset-transitions");
+    var transitions_button = $(this);
+    var states = $("#fieldset-states");
+    var states_button = $("a#fieldsetlegend-states");
+
+    if(states_button.hasClass('selected')){
+      states_button.removeClass('selected');
+      nortstar_container.css('height', nortstar_container.height());
+      states.fadeOut('fast', function(){
+        transitions.fadeIn('fast', function(){
+          nortstar_container.css('height', '');
+        });
+        transitions_button.addClass('selected');
+      });
+    }else if(!transitions_button.hasClass('selected')){
+      transitions.fadeIn('fast');
+      transtiions_button.addClass('selected');
+    }
+    return e.preventDefault();;
+  });
+
+  $('#save-all-button,input.save-all').on('click', function(e){
+>>>>>>> 408392a43a8b2feb483fe05d62c25cdecada1cac
       spinner.show();
       save(function(){
         // #TODO Add support for i18n
@@ -563,6 +623,7 @@ $(document).ready(function(){
     });
   }
 
+<<<<<<< HEAD
   //Here, we compare the form data to what it was originally, to detect any changes. 
   //The old form data is stored in #form-holder, as a JSON string.
   var update_form = function(form, original){
@@ -672,6 +733,9 @@ $(document).ready(function(){
   }
 
   $("div.dialog-box form input[type='submit'],#content form fieldset div input[type='submit']").live('click', function(e){
+=======
+  $("div.dialog-box form input[type='submit'],#content form fieldset div input[type='submit']").on('click', function(e){
+>>>>>>> 408392a43a8b2feb483fe05d62c25cdecada1cac
     var submit = $(this);
     var form = submit.parents('form');
     var hidden_value = form.find(':input.submitvalue');
@@ -697,6 +761,7 @@ $(document).ready(function(){
       spinner.hide();
     });
 
+<<<<<<< HEAD
     //I'm not yet sure why, but in certain instances, the "cancel"
     //button will leave the overlays in a broken state unless we also
     //click the close button as well.
@@ -705,10 +770,15 @@ $(document).ready(function(){
       $('#pb_99999').find('.close').click();  
     }
 
+=======
+  $('a.goto-link').on('click', function(e){
+    var link = $(this);
+    goto_item(link.attr('href'));
+>>>>>>> 408392a43a8b2feb483fe05d62c25cdecada1cac
     return e.preventDefault();
   });
 
-  $('input.one-or-the-other').live('change', function(){
+  $('input.one-or-the-other').on('change', function(){
     if(this.checked){
       $(this).siblings('input.the-other').eq(0)[0].disabled = true;
     }else{
@@ -737,12 +807,34 @@ $(document).ready(function(){
       set_advanced_mode(this.checked);
     });
 
+<<<<<<< HEAD
     handle_advanced();
+=======
+    if(is_advanced_mode() && toppanel.size() == 1){
+      $("#tabs-menu ul.tabs div#advanced-mode input")[0].checked = true;
+    }else{
+      $(".advanced").hide();
+    }
+
+    var input_selector = "div.workflow-item input[type=text],div.workflow-item input[type=checkbox],div.workflow-item textarea,div.workflow-item select";
+    var input_change_handler = function(){
+      var obj = $(this);
+      obj.parents('div.workflow-item').addClass('dirty');
+      $('#save-all-button').addClass('btn-danger');
+    }
+    //need to use different event for IE of course...
+    var theevent = ($.browser.msie) ? 'click' : 'change';
+    //Content change listeners to mark things as dirty and needing to be saved...
+    $(input_selector).on(theevent, input_change_handler);
+>>>>>>> 408392a43a8b2feb483fe05d62c25cdecada1cac
 
     //Set some things up only if js is enabled here
     $("#tabs-menu ul.tabs").addClass('enabled');
 
-    $('#portal-column-content')[0].className = 'cell width-full position-0';
+    $('#portal-column-content').each(function(e){
+      $(e).removeClass();
+      $(e).addClass('col-md-12');
+    });
 
     $(window).scroll(function(e){
       var menu_container = $('div#menu-container');

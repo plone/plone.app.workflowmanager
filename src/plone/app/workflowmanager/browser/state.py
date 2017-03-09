@@ -150,7 +150,7 @@ class SaveState(Base):
         perm_roles = PersistentMapping()
         available_roles = state.getAvailableRoles()
 
-        for managed_perm in managed_permissions:
+        for managed_perm in managed_permissions(wf.id):
             selected_roles = []
             for role in available_roles:
                 key = 'permission-%s-role-%s-state-%s' % (
@@ -182,6 +182,7 @@ class SaveState(Base):
                 if managed_perm['perm'] not in wf.permissions:
                     wf.permissions = wf.permissions + (managed_perm['perm'], )
                 perm_roles[managed_perm['perm']] = ()
+
         state.permission_roles = perm_roles
 
     def update_state_properties(self):

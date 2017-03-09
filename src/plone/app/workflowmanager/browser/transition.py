@@ -85,7 +85,7 @@ class SaveTransition(Base):
         guard = transition.getGuard()
 
         perms = []
-        for key, perm in allowed_guard_permissions.items():
+        for key, perm in allowed_guard_permissions(wf.getId()).items():
             key = 'transition-%s-guard-permission-%s' % (transition.id, key)
             if key in self.request and perm not in guard.permissions:
                 perms.append(perm)

@@ -44,8 +44,8 @@ class TestActions(BaseTest):
         try:
             view()
         except AttributeError, ex:
-            self.assertTrue(str(ex) == \
-                "'TestRequest' object has no attribute 'RESPONSE'")
+            self.assertTrue("'TestRequest' object has no attribute 'RESPONSE'"
+                            in str(ex))
         am = ActionManager()
         rule = am.get_rule(view.selected_transition)
         self.assertTrue(rule is None)
@@ -61,8 +61,8 @@ class TestActions(BaseTest):
         try:
             view()
         except AttributeError, ex:
-            self.assertTrue(str(ex) == \
-                "'TestRequest' object has no attribute 'RESPONSE'")
+            self.assertTrue("'TestRequest' object has no attribute 'RESPONSE'"
+                            in str(ex))
         am = ActionManager()
         rule = am.get_rule(view.selected_transition)
         self.assertTrue(len(rule.actions) == 1)

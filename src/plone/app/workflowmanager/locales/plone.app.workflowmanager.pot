@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.workflowmanager\n"
-"POT-Creation-Date: 2013-11-29 17:57+0000\n"
+"POT-Creation-Date: 2014-02-18 17:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,10 +27,6 @@ msgstr ""
 
 #: plone/app/workflowmanager/permissions.py:37
 msgid "Access"
-msgstr ""
-
-#: plone/app/workflowmanager/permissions.py:36
-msgid "Access contents information"
 msgstr ""
 
 #: plone/app/workflowmanager/browser/templates/workflow-state.pt:123
@@ -65,10 +61,6 @@ msgstr ""
 
 #: plone/app/workflowmanager/permissions.py:6
 msgid "Add content in this container."
-msgstr ""
-
-#: plone/app/workflowmanager/permissions.py:4
-msgid "Add portal content"
 msgstr ""
 
 #: plone/app/workflowmanager/browser/templates/controlpanel.pt:77
@@ -149,10 +141,6 @@ msgstr ""
 msgid "Change Events"
 msgstr ""
 
-#: plone/app/workflowmanager/permissions.py:25
-msgid "Change portal events"
-msgstr ""
-
 #: plone/app/workflowmanager/browser/templates/add-new-state.pt:19
 #: plone/app/workflowmanager/browser/templates/add-new-transition.pt:21
 #: plone/app/workflowmanager/browser/templates/add-new-workflow.pt:17
@@ -229,16 +217,16 @@ msgstr ""
 msgid "Initial State"
 msgstr ""
 
-#: plone/app/workflowmanager/browser/validators.py:24
+#: plone/app/workflowmanager/browser/validators.py:26
+msgid "Invalid name. Please try another."
+msgstr ""
+
+#: plone/app/workflowmanager/browser/validators.py
 msgid "Invalid workflow name. Please try another."
 msgstr ""
 
 #: plone/app/workflowmanager/permissions.py:31
 msgid "List"
-msgstr ""
-
-#: plone/app/workflowmanager/permissions.py:30
-msgid "List folder contents"
 msgstr ""
 
 #: plone/app/workflowmanager/permissions.py:32
@@ -247,10 +235,6 @@ msgstr ""
 
 #: plone/app/workflowmanager/browser/controlpanel.py:59
 msgid "Manage your custom workflows TTW."
-msgstr ""
-
-#: plone/app/workflowmanager/permissions.py:9
-msgid "Modify portal content"
 msgstr ""
 
 #: plone/app/workflowmanager/browser/templates/assign.pt:31
@@ -287,16 +271,8 @@ msgstr ""
 msgid "Replacement State"
 msgstr ""
 
-#: plone/app/workflowmanager/permissions.py:43
-msgid "Request review"
-msgstr ""
-
 #: plone/app/workflowmanager/permissions.py:21
 msgid "Review"
-msgstr ""
-
-#: plone/app/workflowmanager/permissions.py:20
-msgid "Review portal content"
 msgstr ""
 
 #: plone/app/workflowmanager/browser/templates/workflow-state.pt:108
@@ -393,7 +369,7 @@ msgstr ""
 msgid "This content rule was automatically created the workflow manager to create actions on workflow events. If you want the behavior to work as expected, do not modify this out of the workflow manager."
 msgstr ""
 
-#: plone/app/workflowmanager/browser/validators.py:11
+#: plone/app/workflowmanager/browser/validators.py:12
 msgid "This field is required."
 msgstr ""
 
@@ -451,7 +427,7 @@ msgstr ""
 msgid "Various properties for this transition."
 msgstr ""
 
-#: plone/app/workflowmanager/permissions.py:14
+#: plone/app/workflowmanager/permissions.py:15
 msgid "View"
 msgstr ""
 
@@ -561,7 +537,7 @@ msgid "label_up_to_plone_setup"
 msgstr ""
 
 #. Default: "Deleting the \"${id}\" transition has been canceled."
-#: plone/app/workflowmanager/browser/transition.py:162
+#: plone/app/workflowmanager/browser/transition.py:164
 msgid "msg_deleting_canceled"
 msgstr ""
 
@@ -581,12 +557,12 @@ msgid "msg_state_deletion_canceled"
 msgstr ""
 
 #. Default: "\"${transition_id}\" transition successfully created."
-#: plone/app/workflowmanager/browser/transition.py:54
+#: plone/app/workflowmanager/browser/transition.py:56
 msgid "msg_transition_created"
 msgstr ""
 
 #. Default: "\"${id}\" transition has been successfully deleted."
-#: plone/app/workflowmanager/browser/transition.py:157
+#: plone/app/workflowmanager/browser/transition.py:159
 msgid "msg_transition_deleted"
 msgstr ""
 

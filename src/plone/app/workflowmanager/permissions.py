@@ -1,46 +1,29 @@
 from plone.app.workflowmanager import WMMessageFactory as _
+from Products.CMFCore.utils import getToolByName
+from zope.component.hooks import getSite
 
-managed_permissions = [
-    {'perm': _(u'Add portal content'),
-     'name': _(u'Add'),
-     'description': _(u'Add content in this container.')
-    },
 
-    {'perm': _(u'Modify portal content'),
-     'name': _(u'Edit'),
-     'description': _(u'Allows changing the content of an item.')
-    },
+def managed_permissions(wfid=None):
+    if wfid is None:
+        return []
 
-    {'perm': _(u'View'),
-     'name': _(u'View'),
-     'description': _(u'Not only means view HTML, but also FTP, WebDAV '
-                      u'and other forms of access.')
-    },
+    site = getSite()
+    wtool = getToolByName(site, 'portal_workflow')
+    wf = wtool.get(wfid)
+    items = []
+    for permission in wf.permissions:
+        data = {}
+        data['perm'] = permission
+        data['name'] = _(permission)
+        data['description'] = u''
+        items.append(data)
 
-    {'perm': _(u'Review portal content'),
-     'name': _(u'Review'),
-     'description': _(u'Allowed to review the content.')
-    },
+    return items
 
-    {'perm': _(u'Change portal events'),
-     'name': _(u'Change Events'),
-     'description': _(u'Allow to update events')
-    },
 
-    {'perm': _(u'List folder contents'),
-     'name': _(u'List'),
-     'description': _(u"List the contents of a folder. This doesn't check "
-                      u"if you have access to view the actual object listed.")
-    },
+def allowed_guard_permissions(wfid=None):
+    res = {}
+    for item in managed_permissions(wfid):
+        res[item.get('name')] = item.get('name')
 
-    {'perm': _(u'Access contents information'),
-     'name': _(u'Access'),
-     'description': _(u'Allow access to content without necessarily viewing '
-                      u'the object. For example, in a list of results.')
-    }]
-
-allowed_guard_permissions = {
-    'rr': _(u'Request review'),
-    'rpc': _(u'Review portal content'),
-    'mpc': _(u'Modify portal content')
-}
+    return res
