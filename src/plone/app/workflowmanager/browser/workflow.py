@@ -93,7 +93,7 @@ class Assign(Base):
             params = urlencode({'type_id': self.request.get('type_id'),
                 'new_workflow': self.selected_workflow.id})
             return self.handle_response(load=self.context_state.portal_url() +
-                '/@@types-controlpanel?' + params)
+                '/@@content-controlpanel?' + params)
         else:
             return self.handle_response(tmpl=self.template)
 

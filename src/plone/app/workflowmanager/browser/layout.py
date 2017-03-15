@@ -1,11 +1,13 @@
-from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
-from zope.component import getMultiAdapter
+
+import json
+from plone import api
+
 
 class GraphLayout(BrowserView):
     """Class to handle the Workflow Manager graph layouts
 
-        propSheet: 
+        propSheet:
                 the property sheet containing all of the layouts
 
         layout:
@@ -13,82 +15,45 @@ class GraphLayout(BrowserView):
                 representing the layout of the graph
     """
 
-    def __init__(self, context, request):
-    	self.props = getToolByName(self, 'portal_properties')
-    	self.context = context
-    	self.request = request
+    def __init__(self, context, request, workflow=None):
+        self.context = context
+        self.request = request
+
+        self.REGISTRY_KEY = "plone.app.workflowmanager.layouts"
+
+        if workflow is None:
+            self.workflow = self.request.form['workflow'] or None
+        else:
+            self.workflow = workflow
+        self.layout = {}
+        layouts = self.getLayouts()
+
+        if layouts is None:
+            layouts = {}
+
+        if self.workflow not in layouts:
+            layouts[unicode(self.workflow)] = u'{}'
+            import pdb; pdb.set_trace()
+
+            api.portal.set_registry_record(self.REGISTRY_KEY, layouts)
+        else:
+            self.layout = json.loads(layouts[self.workflow])
 
     def __call__(self):
-    	self.setWorkflow(self.request.form['workflow'])
-    	if( self.layoutExists() ):
-    		self.editLayout(self.request.form['layout'])
-    	else:
-    		self.createLayout()
-    		self.editLayout(self.request.form['layout'])
+        self.layout = json.loads(self.request.form['layout'])
+        self.saveLayout()
 
-    workflow = ''
-    propSheetName = 'Workflow_manager_graph_layouts'
+    def getLayouts(self):
+        return api.portal.get_registry_record(self.REGISTRY_KEY)
 
-    def createLayout(self, layout=""):
-        sheet = self.getPropSheet()
-
-        #the manage_changeProperties method is broken
-        #so just delete the current one. 
-        #At the end of the day, it does the same thing.
-        if( self.layoutExists() ):
-        	sheet.manage_delProperties({self.workflow})
-
-        sheet.manage_addProperty(self.workflow, layout, 'text')
-
-    def createPropSheet(self):
-        self.props.addPropertySheet(self.propSheetName)
-
-        return self.propSheetExists(self.propSheetName)
-
-    def editLayout(self, layout):
-        sheet = self.getPropSheet()
-
-        #he manage_changeProperties 
-        #method appears to be broken, so we'll just delete
-        #the old layout and create a new one.
-        sheet.manage_delProperties({self.workflow})
-
-        sheet.manage_addProperty(self.workflow, layout, 'text')
+    def saveLayout(self):
+        layouts = self.getLayouts()
+        layouts[unicode(self.workflow)] = unicode(json.dumps(self.layout))
+        api.portal.set_registry_record(self.REGISTRY_KEY, layouts)
 
     def getLayout(self):
 
-        if( self.workflow == '' ):
+        if(self.workflow == ''):
             return False
 
-        if( not self.propSheetExists(self.propSheetName) ):
-            if( not self.createPropSheet() ):
-                return False
-
-        if( not self.layoutExists() > 0 ):
-            self.createLayout()
-
-        sheet = self.getPropSheet()
-        layout = sheet.getProperty(self.workflow)
-
-        return layout
-
-    def getPropSheet(self):
-    	props = getToolByName(self, 'portal_properties')
-        return props[self.propSheetName]
-
-    def getPropSheetName(self):
-        return self.propSheetName
-
-    def layoutExists(self):
-        sheet = self.props[self.propSheetName]
-
-        return sheet.hasProperty(self.workflow)
-
-    def propSheetExists(self, sheetName):
-    	props = getToolByName(self, 'portal_properties')
-        return props.hasObject(sheetName)
-
-    def setWorkflow(self, workflow):
-    	self.workflow = workflow
-
-
+        return json.dumps(self.layout)
