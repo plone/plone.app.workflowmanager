@@ -33,8 +33,6 @@ class GraphLayout(BrowserView):
 
         if self.workflow not in layouts:
             layouts[unicode(self.workflow)] = u'{}'
-            import pdb; pdb.set_trace()
-
             api.portal.set_registry_record(self.REGISTRY_KEY, layouts)
         else:
             self.layout = json.loads(layouts[self.workflow])
