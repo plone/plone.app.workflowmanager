@@ -1,4 +1,4 @@
-<div id="workflow-graph" class="workflow-list collapsed"
+<div id="workflow-graph" class="workflow-list col-lg-12 col-md-12 collapsed"
     tal:define="transitions view/available_transitions;
           paths view/get_transition_paths;
           workflow view/selected_workflow;
@@ -60,10 +60,10 @@
       </div>
     </div>
     <div id="plumb-canvas" class="col-lg-10">
-    <div id="plumb-zoom-box">
-      <tal tal:replace="structure view/render_states" />
-      <tal tal:replace="structure view/render_transitions" />
+      <div id="plumb-zoom-box">
+        <tal tal:replace="structure view/render_states" />
+        <tal tal:replace="structure view/render_transitions" />
+      </div>
     </div>
-  </div>
 </div>
 </div>

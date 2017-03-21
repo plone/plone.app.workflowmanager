@@ -155,7 +155,7 @@
                   </tr>
                   <tr class="odd">
                     <tal:managed-permissions tal:repeat="group groups">
-                      <th class="nosort" tal:content="group/id" 
+                      <th class="nosort" tal:content="group/id"
                           i18n:domain="plone" i18n:translate=""></th>
                     </tal:managed-permissions>
                   </tr>

@@ -20,7 +20,6 @@
     <script type="text/javascript" src="++resource++springy.js"></script>
     <script type="text/javascript" src="++resource++springyui.js"></script>
     <script type="text/javascript" src="++resource++jsPlumb.js"></script>
-    <script type="text/javascript" src="++resource++drag-on.js"></script>
     <script type="text/javascript" src="++resource++workflow-graph.js"></script>
     <script type="text/javascript" src="++resource++workflowmanager.js"></script>
   </metal:javascript>
@@ -53,16 +52,16 @@
     " workflow.
   </p>
 
-  <div id="workflowmanager-container" class="wm">
-    <div class="alert">
+  <div id="workflowmanager-container" class="wm row">
+    <div class="col-lg-12 col-md-12">
       <a href="" class="link-parent"
                 tal:attributes="href string:$portal_url/@@workflowmanager"
                 i18n:translate="">Select or create a new workflow</a>
     </div>
-    <div id="menu-container">
+    <div id="menu-container" class="col-lg-12 col-md-12">
       <div id="tabs-menu" class="subnav">
         <input id="selected-workflow" type="hidden" name="selected-workflow" tal:attributes="value selected_workflow/id" />
-        <ul class="tabs nav nav-pills">
+        <ul class="nav nav-pills">
           <li>
             <form class="navbar-form" tal:attributes="action string:${context/absolute_url}/@@workflowmanager-add-new-state" method="POST">
               <input type="hidden" name="selected-workflow" tal:attributes="value view/selected_workflow/id" />

@@ -5,7 +5,7 @@ from plone import api
 
 
 class GraphLayout(BrowserView):
-    """Class to handle the Workflow Manager graph layouts
+    """Class to handle the Workflow Manager graph layouts.
 
         propSheet:
                 the property sheet containing all of the layouts
@@ -44,12 +44,11 @@ class GraphLayout(BrowserView):
         return api.portal.get_registry_record(self.REGISTRY_KEY)
 
     def saveLayout(self):
-        layouts = self.getLayouts()
+        layouts = self.getLayouts() or {}
         layouts[unicode(self.workflow)] = unicode(json.dumps(self.layout))
         api.portal.set_registry_record(self.REGISTRY_KEY, layouts)
 
     def getLayout(self):
-
         if(self.workflow == ''):
             return False
 

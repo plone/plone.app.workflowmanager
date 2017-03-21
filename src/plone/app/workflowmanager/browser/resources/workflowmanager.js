@@ -675,8 +675,8 @@ $(document).ready(function(){
 
     var toppanel = $("#tabs-menu ul.tabs");
 
-    if(is_advanced_mode() && toppanel.size() == 1){
-      $("#tabs-menu ul.tabs div#advanced-mode input")[0].checked = true;
+    if(is_advanced_mode()){
+      $("div#advanced-mode input").prop('checked', true);
     }else{
       $(advanced).hide();
     }
@@ -719,14 +719,6 @@ $(document).ready(function(){
     return e.preventDefault();
   });
 
-  $('input.one-or-the-other').on('change', function(){
-    if(this.checked){
-      $(this).siblings('input.the-other').eq(0)[0].disabled = true;
-    }else{
-      $(this).siblings('input.the-other').eq(0)[0].disabled = false;
-    }
-  });
-
   var overlay_close = function(element) {
     if( $(element).hasClass('save-form') ) {
       CURRENT_OVERLAY.closer = element;
@@ -747,9 +739,12 @@ $(document).ready(function(){
     //so it isn't available for non-js users--oh well.
     var toppanel = $("#tabs-menu ul.tabs");
 
-    toppanel.find("div#advanced-mode input").change(function(){
-      set_advanced_mode(this.checked);
+    $("div#advanced-mode").change(function(){
+      var checkbox = $(this).find('input');
+      set_advanced_mode(checkbox.prop('checked'));
     });
+
+    $('div.container').css('width', '100%');
 
     handle_advanced();
 

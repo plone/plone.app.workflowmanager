@@ -897,8 +897,6 @@ WorkflowGraph.prototype = {
     element.removeClass('view').addClass('design');
     $(props.zoomBoxId).addClass('design');
 
-    t.slayDragon();
-
     //lock page scrolling and move down to the
     //graph canvas
     t.scrollToElement('#menu-container');
@@ -951,18 +949,6 @@ WorkflowGraph.prototype = {
     $(props.layoutContainerId).text(output);
   },
 
-  setupDragon: function()
-  {
-    /**********************************************************
-
-    This triggers drag-on.js to activate
-
-    **********************************************************/
-
-    $(props.canvasId).addClass('dragon');
-    //$(props.canvasId).dragOn();
-  },
-
   setViewMode: function(states)
   {
     /**********************************************************
@@ -980,21 +966,8 @@ WorkflowGraph.prototype = {
     element.removeClass('design').addClass('view');
     $(props.zoomBoxId).removeClass('design');
 
-    t.setupDragon();
-
     t.unlockScrolling();
     t.disableDragging(states);
-  },
-
-  slayDragon: function()
-  {
-    /**********************************************************
-
-    This deactivates drag-on.js
-
-    **********************************************************/
-
-    $(props.canvasId).trigger('DragOn.remove');
   },
 
   status_message: function(element, title, msg)

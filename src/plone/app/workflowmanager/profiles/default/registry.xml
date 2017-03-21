@@ -7,5 +7,4 @@
             <value_type type="plone.registry.field.Text" />
         </field>
     </record>
-
 </registry>

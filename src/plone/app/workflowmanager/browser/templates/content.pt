@@ -1,19 +1,19 @@
-<div id="workflow-content" i18n:domain="plone.app.workflowmanager">
+<div id="workflow-content" class="col-lg-12 col-md-12" i18n:domain="plone.app.workflowmanager">
 
     <fieldset id="fieldset-graph" class="workflow-manager-panel"
            tal:content="structure view/render_graph_template">
-           
+
     </fieldset>
-    
+
     <div id="assigned-types" class="inline">
         <p class="discreet">
             <span i18n:translate="">Assigned Types: </span>
             <span tal:repeat="type_ view/assigned_types">
-                <a tal:attributes="href string:${view/context_state/portal_url}/@@types-controlpanel?type_id=${type_/id}" 
+                <a tal:attributes="href string:${view/context_state/portal_url}/@@types-controlpanel?type_id=${type_/id}"
                     tal:content="type_/title" target="_blank" /><tal:comma tal:replace="string:," tal:condition="repeat/type_/end" />
             </span>
             | <span class="initial-state">*</span> <span i18n:translate="">denotes initial state of this workflow</span>
         </p>
     </div>
-    
+
 </div>
