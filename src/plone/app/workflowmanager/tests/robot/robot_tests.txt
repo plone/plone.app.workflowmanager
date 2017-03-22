@@ -1,29 +1,28 @@
 *** Settings ***
-Resource	robot_variables.txt
-Resource	robot_keywords.txt
+Resource  robot_variables.txt
+Resource  robot_keywords.txt
 
 *** Test Cases ***
 Begin
-	Open Browser To WFM Page
+  Open Browser To WFM Page
 
 Create WF
-	Create Workflow
+  Create Workflow
 
 Check Edit Popups
-	Check Popups
+  Check Popups
 
 Check Advanced Settings
-	Check Advanced
+  Check Advanced
 
 New State
-	Create New State
+  Create New State
 
 New Transition
-	Create New Transition
+  Create New Transition
 
 Delete WF
-	Delete Workflow
+  Delete Workflow
 
 End
-	Close Everything
-
+  Close Everything

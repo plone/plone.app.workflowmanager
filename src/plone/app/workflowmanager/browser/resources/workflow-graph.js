@@ -462,7 +462,7 @@ WorkflowGraph.prototype = {
 
       setTimeout(function() {
         $(label).removeClass('show-label');
-      }, 5000);
+      }, 1000);
   },
 
   cleanProp: function(prop)

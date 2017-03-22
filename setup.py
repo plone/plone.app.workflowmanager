@@ -1,7 +1,7 @@
 from setuptools import find_packages
 from setuptools import setup
 
-version = '2.0b1'
+version = '2.1b1'
 
 setup(name='plone.app.workflowmanager',
       version=version,
@@ -13,7 +13,7 @@ setup(name='plone.app.workflowmanager',
       # Get more strings from https://pypi.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
           "Framework :: Plone",
-          "Framework :: Plone :: 4.3",
+          "Framework :: Plone :: 5.0",
           "Intended Audience :: Customer Service",
           "Intended Audience :: Developers",
           "License :: OSI Approved :: GNU General Public License (GPL)",
@@ -42,6 +42,8 @@ setup(name='plone.app.workflowmanager',
       extras_require={
           'test': [
               'plone.app.testing',
+              'plone.app.jquerytools',
+              'plone.app.robotframework',
               'interlude',
           ]
       },

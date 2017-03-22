@@ -1,12 +1,12 @@
 *** Variables ***
-${HOST}				http://localhost:7000/Plone/
+${HOST}				http://localhost:8080/Plone/
 ${HOME_PAGE}		${HOST}
 ${WFM_PAGE}			${HOST}@@workflowmanager
 ${BROWSER}			chrome
 ${LOGIN_LINK}		personaltools-login
 ${LOGIN_NAME}		__ac_name
 ${LOGIN_PASS}		__ac_password
-${LOGIN_SUBMIT}		css=div.formControls input.context
+${LOGIN_SUBMIT}		css=div.pattern-modal-buttons input.context
 
 #WFM Start Page
 ${WF_LINK}			link=Robot
@@ -30,6 +30,7 @@ ${STATE_CLASS}		css=div.plumb-state
 ${PRIVATE}			plumb-state-private
 ${PRIVATE_EDIT}		link=Edit
 ${PRIVATE_TITLE}	jquery=#plumb-state-private > div.plumb-state-title
+${PRIVATE_DESC}   jquery=#plumb-state-private > div.plumb-state-description
 
 #Delete
 ${WF_DELETE}		css=input[name="delete-workflow-button"]

@@ -32,7 +32,7 @@ Check Advanced
 
 Check Popups
 	Element Should Be Visible				${PRIVATE}
-	Element Should Not Be Visible			${PRIVATE_TITLE}
+	Element Should Not Be Visible			${PRIVATE_DESC}
 	Click Element							${PRIVATE}
 	Element Should Be Visible				${PRIVATE_TITLE}
 	Click Element							${PRIVATE}

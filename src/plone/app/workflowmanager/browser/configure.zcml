@@ -11,10 +11,10 @@
 
        <browser:page name="workflowmanager" />
        <browser:page attribute="render_content_template"  name="workflowmanager-content" />
-       <browser:page name="workflowmanage-item" attribute="retrieve_item" />       
+       <browser:page name="workflowmanage-item" attribute="retrieve_item" />
 
     </browser:pages>
-    
+
 
     <browser:page
         for="*"
@@ -56,14 +56,14 @@
         class=".transition.AddTransition"
         permission="plone.app.workflowmanager.ManageWorkflows"
     />
-    
+
     <browser:page
         for="*"
         name="workflowmanager-add-new-workflow"
         class=".workflow.AddWorkflow"
         permission="plone.app.workflowmanager.ManageWorkflows"
     />
-    
+
     <browser:page
         for="*"
         name="workflowmanager-add-new-state"
@@ -77,49 +77,49 @@
         class=".layout.GraphLayout"
         permission="plone.app.workflowmanager.ManageWorkflows"
     />
-        
+
     <browser:page
         for="*"
         name="workflowmanager-delete-state"
         class=".state.DeleteState"
         permission="plone.app.workflowmanager.ManageWorkflows"
     />
-    
+
     <browser:page
         for="*"
         name="workflowmanager-delete-transition"
         class=".transition.DeleteTransition"
         permission="plone.app.workflowmanager.ManageWorkflows"
     />
-    
+
     <browser:page
         for="*"
         name="workflowmanager-delete-workflow"
         class=".workflow.DeleteWorkflow"
         permission="plone.app.workflowmanager.ManageWorkflows"
     />
-    
+
     <browser:page
         for="*"
         name="workflowmanager-sanity-check"
         class=".workflow.SanityCheck"
         permission="plone.app.workflowmanager.ManageWorkflows"
     />
-    
+
     <browser:page
         for="*"
         name="workflowmanager-assign"
         class=".workflow.Assign"
         permission="plone.app.workflowmanager.ManageWorkflows"
     />
-        
+
     <browser:page
         for="*"
         name="workflowmanager-update-security-settings"
         class=".workflow.UpdateSecuritySettings"
         permission="plone.app.workflowmanager.ManageWorkflows"
     />
-    
+
     <browser:page
         for="*"
         name="workflowmanager-view-graph.gif"
@@ -127,21 +127,21 @@
         attribute="image"
         permission="plone.app.workflowmanager.ManageWorkflows"
     />
-    
+
     <browser:page
         for="*"
         name="workflowmanager-view-graph"
         class=".workflow.Graph"
         permission="plone.app.workflowmanager.ManageWorkflows"
     />
-    
+
     <browser:page
       for="*"
       name="workflowmanager-addaction"
       class=".actions.AddActionView"
       permission="plone.app.workflowmanager.ManageWorkflows"
     />
-    
+
     <browser:page
       for="*"
       name="workflowmanager-deleteaction"
@@ -174,11 +174,6 @@
     <browser:resource
         name="jsPlumb.js"
         file="resources/jsPlumb/dom.jsPlumb-1.6.2-min.js"
-    />
-
-    <browser:resource
-        name="drag-on.js"
-        file="resources/drag-on.js"
     />
 
     <browser:resource

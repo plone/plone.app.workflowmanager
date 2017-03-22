@@ -18,7 +18,7 @@
 
   </span>
   <div class="row">
-    <div id="plumb-toolbox" class="col-lg-2" style="display: none;">
+    <div id="plumb-toolbox" class="col-lg-2 col-md-2" style="display: none;">
       <div id="plumb-toolbox-top">
         <div class="alert alert-info"><h4>Toolbox</h4></div>
         <form method="POST" tal:attributes="action string:${context/absolute_url}/@@workflowmanager-save-graph" id="plumb-layout-form">
@@ -59,7 +59,7 @@
         </fieldset>
       </div>
     </div>
-    <div id="plumb-canvas" class="col-lg-10">
+    <div id="plumb-canvas" class="col-lg-10 col-md-10">
       <div id="plumb-zoom-box">
         <tal tal:replace="structure view/render_states" />
         <tal tal:replace="structure view/render_transitions" />

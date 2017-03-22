@@ -1,5 +1,14 @@
 Changelog
 =========
+2.1b1 (3/21/2017)
+------------------
+- Updated JS to work with modern jQuery
+  [obct537]
+- Replaced portal_properties requirement
+  [obct537]
+- Updated styling/templates to look correct in Plone 5
+  [obct537]
+
 1.2a2 (2/26/2015)
 -----------------
 - Added in basic QUnit testing setup. Created a few basic tests

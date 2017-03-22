@@ -1,1 +1,2 @@
 - Internationalize javascripts.
+- Remove jQuery/jQueryTools in favor of more modern JS libraries
