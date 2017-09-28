@@ -34,7 +34,7 @@ There should not be any plone workflows by default listed.
     False
 
     >>> 'one_state_workflow' in browser.contents
-    False
+    True
 
     >>> 'simple_publication_workflow' in browser.contents
     False
