@@ -1,0 +1,11 @@
+<div tal:repeat="state options/states" class="plumb-state" tal:attributes="id string:plumb-state-${state/id}" style="display: none;">
+	<div class="plumb-state-id" tal:content="state/id" style="display: none;">
+	</div>
+	<div class="plumb-state-title plumb-title" tal:content="state/title" >
+	</div>
+	<div class="plumb-state-description" tal:content="state/description" style="display: none;">
+	</div>
+	<div class="plumb-state-paths" tal:content="python: view.get_transition_paths(state)" style="display: none;"></div>
+	<a class="dialog-box btn edit" rel="#pb_99999" tal:attributes="href python: view.get_url('@@workflowmanager-edit-state', state=state);" style="display: none;">Edit</a>
+	<a class="dialog-box btn" rel="#pb_99999" tal:attributes="href python: view.get_url('@@workflowmanager-delete-state', state=state);" style="display: none;">Delete</a>
+</div>

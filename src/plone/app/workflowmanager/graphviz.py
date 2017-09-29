@@ -80,23 +80,8 @@ def getObjectTitle(object):
     if not title:
         title = id
     else:
-        title = '%s\\n(id: %s)' % (title, id)
+        title = '%s\\n(%s)' % (title, id)
     return title
-
-
-def getGuardTitle(guard):
-    out = ''
-    if guard is not None:
-        if guard.expr:
-            out += 'Expression: %s; ' % guard.expr.text
-        if guard.permissions:
-            out += 'Permissions: %s; ' % ','.join(guard.permissions)
-        if guard.roles:
-            out += 'Roles: %s; ' % ','.join(guard.roles)
-        if guard.groups:
-            out += 'Groups: %s; ' % ','.join(guard.groups)
-
-    return out
 
 
 def getPOT(wf):
@@ -133,8 +118,6 @@ def getPOT(wf):
             value = transitions.get(key, [])
             t_title = getObjectTitle(t)
             value.append(t_title)
-            t_guard = getGuardTitle(t.guard)
-            value.append(t_guard)
             transitions[key] = value
 
     # iterate also on transitions, and add transitions with no initial state
@@ -148,8 +131,6 @@ def getPOT(wf):
             value = transitions.get(key, [])
             t_title = getObjectTitle(t)
             value.append(t_title)
-            t_guard = getGuardTitle(t.guard)
-            value.append(t_guard)
             transitions[key] = value
 
     for k, v in transitions.items():
@@ -169,8 +150,7 @@ def getGraph(workflow, format="gif"):
     portal_properties = getToolByName(workflow, 'portal_properties')
     encoding = portal_properties.site_properties.getProperty(
         'default_charset', 'utf-8')
-    if isinstance(pot, unicode):
-        pot = pot.encode(encoding)
+    pot = pot.encode(encoding)
     infile = mktemp('.dot')
     f = open(infile, 'w')
     f.write(pot)

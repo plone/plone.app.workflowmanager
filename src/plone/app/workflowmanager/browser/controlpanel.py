@@ -17,6 +17,8 @@ import zope.i18n
 from Products.CMFCore.utils import getToolByName
 from plone.memoize.view import memoize
 
+from plone.app.workflowmanager.browser.layout import GraphLayout
+
 from plone.app.workflowmanager.permissions import managed_permissions
 from plone.app.workflowmanager.permissions import allowed_guard_permissions
 from plone.app.workflowmanager.graphviz import HAS_GRAPHVIZ
@@ -32,7 +34,6 @@ plone_shipped_workflows = [
     'plone_workflow',
     'simple_publication_workflow',
     'comment_review_workflow']
-
 
 class Base(BrowserView):
     """
@@ -53,17 +54,15 @@ class Base(BrowserView):
     went well and validated, it'll send a {'status' : 'ok'} back.
     """
 
+    debug = False
+
     errors = {}
     next_id = None  # the id of the next workflow to be viewed
     label = _(u'Workflow Manager')
     description = _(u'Manage your custom workflows TTW.')
     wrapped_dialog_template = ViewPageTemplateFile(
         'templates/wrapped-dialog.pt')
-
-    @property
-    @memoize
-    def managed_permissions(self):
-        return managed_permissions(self.selected_workflow.getId())
+    managed_permissions = managed_permissions
 
     @property
     @memoize
@@ -73,7 +72,7 @@ class Base(BrowserView):
     @property
     @memoize
     def allowed_guard_permissions(self):
-        return allowed_guard_permissions(self.selected_workflow.getId())
+        return allowed_guard_permissions
 
     @property
     @memoize
@@ -211,6 +210,44 @@ class Base(BrowserView):
         else:
             return None
 
+    def get_transition_paths(self, state=None):
+        
+        if state is not None:
+            states = [state,]
+        else:
+            states = self.available_states
+
+        paths = dict()
+        transitions = self.available_transitions
+        for state in states:
+
+            stateId = state.id
+
+            for trans in state.transitions:
+                current_transition = self.get_transition(trans)
+                if current_transition is not None:
+                    if current_transition.id is not None and current_transition.new_state_id is not None:
+
+                        nextState = current_transition.new_state_id
+
+                        if stateId not in paths:
+                            paths[stateId] = dict()
+
+                        if nextState not in paths[stateId]:
+                           paths[stateId][nextState] = dict()
+
+                        paths[state.id][nextState][current_transition.id] = current_transition.title
+
+        return json.dumps(paths)
+
+    def get_graphLayout(self, workflow):
+        gl = GraphLayout(self.context, self.request)
+        gl.setWorkflow(workflow.id)
+        return gl.getLayout()
+
+    def get_debug_mode(self):
+        return self.debug
+
     @property
     @memoize
     def next_url(self):
@@ -276,7 +313,7 @@ class Base(BrowserView):
         return HAS_GRAPHVIZ
 
     def handle_response(self, message=None, tmpl=None, redirect=None,
-                        load=None, justdoerrors=False, slideto=False,
+                        load=None, justdoerrors=False,
                         **kwargs):
         ajax = self.request.get('ajax', None)
         status = {'status': 'ok'}
@@ -294,10 +331,6 @@ class Base(BrowserView):
             else:
                 status['location'] = self.next_url
 
-        elif slideto:
-            status['status'] = 'slideto'
-            # either state or transition here...
-            status['url'] = self.get_url(**kwargs)
         elif load:
             status['status'] = 'load'
             status['url'] = load
@@ -312,6 +345,12 @@ class Base(BrowserView):
             if tmpl and not justdoerrors:
                 return tmpl.__of__(self.context)(**kwargs)
             else:
+                if 'graph_updates' in kwargs:
+                    #The response will default to HTML (not JSON) if we try to pass HTML back
+                    self.request.response.setHeader('Content-Type', 'application/JSON;;charset="utf-8"')
+
+                    status['graph_updates'] = kwargs['graph_updates']
+
                 return json.dumps(status)
         else:
             if redirect:
@@ -327,14 +366,16 @@ class Base(BrowserView):
 class ControlPanel(Base):
     template = ViewPageTemplateFile('templates/controlpanel.pt')
     content_template = ViewPageTemplateFile('templates/content.pt')
-    workflow_states_template = \
-        ViewPageTemplateFile('templates/workflow-states.pt')
     workflow_state_template = \
         ViewPageTemplateFile('templates/workflow-state.pt')
-    workflow_transitions_template = \
-        ViewPageTemplateFile('templates/workflow-transitions.pt')
     workflow_transition_template = \
         ViewPageTemplateFile('templates/workflow-transition.pt')
+    workflow_graph_template = \
+        ViewPageTemplateFile('templates/workflow-graph.pt')
+    state_template = \
+        ViewPageTemplateFile('templates/state.pt')
+    transition_template = \
+        ViewPageTemplateFile('templates/transition.pt')
 
     def __call__(self):
         return self.template()
@@ -342,10 +383,8 @@ class ControlPanel(Base):
     def render_content_template(self):
         return self.content_template()
 
-    def render_states_template(self):
-        return self.workflow_states_template(
-            available_states=self.available_states,
-            available_transitions=self.available_transitions)
+    def render_graph_template(self):
+        return self.workflow_graph_template()
 
     def retrieve_item(self):
         state = self.selected_state
@@ -357,3 +396,23 @@ class ControlPanel(Base):
         elif transition:
             return self.workflow_transition_template(transition=transition,
                 available_states=self.available_states)
+
+    def render_states(self):
+        return self.state_template(states=self.available_states)
+
+    def render_transitions(self):
+        return self.transition_template(transitions=self.available_transitions)
+
+class Path():
+    """Very simple class to represent a single path from state->transition->state"""
+
+    start = ''
+    transition = ''
+    end = ''
+
+    def __init__(self, start, transition, end):
+        self.start = start
+        self.transition = transition
+        self.end = end
+        
+

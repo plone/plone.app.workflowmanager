@@ -1,0 +1,67 @@
+<div id="workflow-graph" class="workflow-list collapsed" 
+    tal:define="transitions view/available_transitions; 
+    			paths view/get_transition_paths; 
+    			workflow view/selected_workflow; 
+    			layout python: view.get_graphLayout(workflow);">
+
+	<span style="display: none;" id="plumb-container"> 
+	    <div tal:content="paths" class="plumb-path">
+	    </div>
+	    <form tal:attributes="action string:${context/absolute_url}/@@workflowmanager-save-state" id="json-state-form">
+	    	<input type="hidden" name="form-box" />
+	    </form>
+	    <form tal:attributes="action string:${context/absolute_url}/@@workflowmanager-save-transition" id="json-transition-form">
+	    	<input type="hidden" name="form-box" />
+	    </form>
+	    <div id="form-holder"></div>
+	    <div id="changed-forms"></div>
+
+	</span>
+	<div id="plumb-toolbox" style="display: none;">
+    	<div id="plumb-toolbox-top">
+    		<div class="alert alert-info"><h4>Toolbox</h4></div>
+    		<form method="POST" tal:attributes="action string:${context/absolute_url}/@@workflowmanager-save-graph" id="plumb-layout-form">
+    			<textarea style="display: none;" tal:content="layout" type="text" id="plumb-layout-container" name="layout">
+    			</textarea>
+    			<input type="text" name="workflow" style="display: none;" id="plumb-workflow"/>
+    			<input tal:replace="structure context/@@authenticator/authenticator"/>
+    			<div id="plumb-toolbox-start">
+		    		<a id="plumb-mode">
+		    			<input type="checkbox" value="Switch to design mode" name="mode-box" class="view" id="plumb-mode-box">
+		    			Design mode
+	    			</a>
+					<div>
+    					<input type="button" value="Save layout" class="btn small-btn" id="plumb-graph-save" />
+    					<input type="button" value="Reorder Graph" class="btn small-btn" id="plumb-reorder" />
+    				</div>
+	    		</div>
+				</form>
+				<fieldset>
+					<label for="#plumb-toolbox-select-state">States</label>
+					<select class="plumb-edit-select state-select" id="plumb-toolbox-select-state">
+						<option value=""></option>
+						<option tal:repeat="state view/available_states" tal:content="state/title" tal:attributes="value state/id"></option>
+					</select>
+					<input type="button" class="btn small-btn" id="plumb-state-highlight-clear" value="Clear" />
+					<input type="button" class="btn small-btn" id="plumb-state-highlight" value="Find" />
+					<input type="button" class="edit-selected btn small-btn" id="plumb-state-edit" value="Edit" />
+				</fieldset>
+				<fieldset>
+					<label for="#plumb-toolbox-select-transitions">Transitions</label>
+					<select class="plumb-edit-select transition-select" id="plumb-toolbox-select-transition">
+						<option value=""></option>
+						<option tal:repeat="transition transitions" tal:content="transition/title" tal:attributes="value transition/id"></option>
+					</select>
+					<input type="button" class="btn small-btn" id="plumb-transition-highlight-clear" value="Clear" />
+					<input type="button" class="btn small-btn" id="plumb-transition-highlight" value="Find" />
+					<input type="button" class="edit-selected btn small-btn" id="plumb-transition-edit" value="Edit" />
+				</fieldset>
+    	</div>
+    </div>
+	<div id="plumb-canvas">
+		<div id="plumb-zoom-box">
+			<tal tal:replace="structure view/render_states" />
+			<tal tal:replace="structure view/render_transitions" />
+		</div>
+	</div>
+</div>

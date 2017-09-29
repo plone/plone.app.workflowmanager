@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-02-18 17:32+0000\n"
+"POT-Creation-Date: 2013-11-29 17:57+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -51,9 +51,9 @@ msgstr "Utilisateurs connectés"
 msgid "Info"
 msgstr "Info"
 
-#: plone/app/workflowmanager/browser/validators.py:26
-msgid "Invalid name. Please try another."
-msgstr "Nom invalide. Veuillez en saisir un autre."
+#: plone/app/workflowmanager/browser/validators.py:24
+msgid "Invalid workflow name. Please try another."
+msgstr "Nom de workflow invalide. Veuillez en essayer un autre"
 
 #: plone/app/workflowmanager/browser/controlpanel.py:59
 msgid "Manage your custom workflows TTW."
@@ -75,7 +75,7 @@ msgstr "Modérateurs"
 msgid "Site Administrators"
 msgstr "Gestionnaires de site"
 
-#: plone/app/workflowmanager/browser/validators.py:12
+#: plone/app/workflowmanager/browser/validators.py:11
 msgid "This field is required."
 msgstr "Ce champ est obligatoire."
 
@@ -92,7 +92,7 @@ msgid "You can not delete this workflow until no content types are specified to 
 msgstr "Vous ne pouvez pas supprimer ce workflow tant qu'aucun type de contenu n'est spécifié pour utiliser ce workflow."
 
 #. Default: "Deleting the \"${id}\" transition has been canceled."
-#: plone/app/workflowmanager/browser/transition.py:164
+#: plone/app/workflowmanager/browser/transition.py:162
 msgid "msg_deleting_canceled"
 msgstr "La suppression de la transition '${id}' a été annulée."
 
@@ -112,12 +112,12 @@ msgid "msg_state_deletion_canceled"
 msgstr "La suppression de l'état '${id}' a été annulée."
 
 #. Default: "\"${transition_id}\" transition successfully created."
-#: plone/app/workflowmanager/browser/transition.py:56
+#: plone/app/workflowmanager/browser/transition.py:54
 msgid "msg_transition_created"
 msgstr "La transition '${transition_id}' a été créée avec succès."
 
 #. Default: "\"${id}\" transition has been successfully deleted."
-#: plone/app/workflowmanager/browser/transition.py:159
+#: plone/app/workflowmanager/browser/transition.py:157
 msgid "msg_transition_deleted"
 msgstr "La transition '${id}' a été supprimée avec succès."
 

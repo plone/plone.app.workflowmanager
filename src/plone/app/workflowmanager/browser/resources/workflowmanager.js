@@ -119,54 +119,6 @@ $(document).ready(function(){
     return vars;
   }
 
-  // goes directly to a state or transition
-  // the state or transition are encoded in
-  // the url with ?selected-state=foobar
-  var goto_item = function(url){
-    var vars = get_url_vars(url);
-
-    var transitions_button = $("a#fieldsetlegend-transitions");
-    var states_button = $("a#fieldsetlegend-states");
-    var transitions = $("#fieldset-transitions");
-    var states = $('#fieldset-states');
-
-    if(CURRENT_OVERLAY != null && CURRENT_OVERLAY.isOpened()){
-      CURRENT_OVERLAY.close();
-    }
-
-    var prefix = "#";
-
-    if(vars['selected-state'] != undefined){
-      prefix += "state-" + vars['selected-state'];
-      if(!states_button.hasClass('selected')){
-          states.show();
-          transitions.hide();
-          states_button.addClass('selected');
-          transitions_button.removeClass('selected');
-      }
-    }else if(vars['selected-transition'] != undefined){
-      prefix += "transition-" + vars['selected-transition'];
-      if(!transitions_button.hasClass('selected')){
-        transitions.show();
-        states.hide();
-        transitions_button.addClass('selected');
-        states_button.removeClass('selected');
-      }
-    }else{
-      return;
-    }
-
-    var obj = $(prefix);
-
-    if(obj.hasClass('collasped')){
-      obj.find('.hidden-content').slideDown();
-      show_item(obj);
-    }
-
-    var offset = obj.offset().top - 50;
-    $('html,body').animate({scrollTop: offset}, 1000);
-  }
-
   var has_dirty_items = function(){
     var dirty_items = $("div.workflow-item.dirty");
     return dirty_items.size() > 0;
@@ -182,18 +134,52 @@ $(document).ready(function(){
   }
 
   var load_overlay = function(content, selector){
+
+    handle_advanced(content);
+
+    setup_overlays(content);
+
     $('#pb_99999 .pb-ajax').html(""); //clear it out
     var inside = content.find(selector);
+
     if(inside.size() == 0){
       inside = content; //if can't find inner element, just show all.
     }
     $('#pb_99999 .pb-ajax').wrapInner(inside);
     $('#pb_99999 .pb-ajax').find(selector).addClass(CURRENT_OVERLAY.getTrigger().attr('class'));
+
+    setup_tabs(content);
+  }
+
+  var repopulate_form_data = function(form, content) {
+
+    var form_data = $.parseJSON(content);
+    var inputs = $(form).find(':input');
+    $(inputs).each(function() {
+      
+      var value = form_data[this.name];
+      var type = $(this).attr('type');
+
+      if( value !== undefined ) {
+
+        //The on/off values should only be set if this 
+        //is a checkbox.
+        if( value == "on" ) {
+          $(this).attr('checked', true);
+        }else if( value == "off" ) {
+          $(this).attr('checked', false);
+        }else{
+          $(this).val(value);
+        }
+      }
+    });
+
+    return form;
   }
 
   // Our overlay settings that automatically load remote content
   // and clear it out when it closes
-  var overlay_settings = {
+  overlay_settings = {
     onBeforeLoad: function() {
       spinner.show();
       CURRENT_OVERLAY = this;
@@ -204,10 +190,10 @@ $(document).ready(function(){
       if(content_selector == undefined || ['', '_blank', '_parent', '_self', '_top'].contains(content_selector.toLowerCase())){
         content_selector = 'div.dialog-box';
       }
-      var data = get_url_vars(url);
-      data['ajax'] = true;
 
+      var data = get_url_vars(url);
       url = strip_vars(url);
+      data['ajax'] = true;      
 
       var open = true;
       if(trigger.hasClass('save-first') && has_dirty_items()){
@@ -225,9 +211,44 @@ $(document).ready(function(){
       $.ajax({ url : url, data : data, type : 'POST',
         complete : function(request, textStatus){
           load_overlay($(request.responseText), content_selector);
+          var formData = JSON.stringify( retrieve_form_data( request.responseText ) );
+          $('#form-holder').html(formData);
+
+          var state = data['selected-state'];
+          var transition = data['selected-transition'];
+
+          if( typeof(state) !== undefined )
+          {
+            var item = state;
+            var type = "state";
+          }
+          else if( typeof(transition) !== undefined )
+          {
+            var item = transition;
+            var type = "transition";
+          }
+
+          var edit = url.indexOf('/@@workflowmanager-edit-' + type);
+
+          //This looks to see if we've previously edited this form, and clicked "Ok"
+          var previously_saved_form = $('#changed-forms').find('div[data-element-id="' + type + '-' + item + '"').html();
+
+          //If we've saved the form, pull up that saved data, instead of starting from the old version.
+          //This lets us to preserve changes between edits, without having to actually save them
+          if( 
+              item !== undefined && 
+              edit > 0 && 
+              previously_saved_form !== null 
+            )
+          {
+            var name = $('#plumb-' + type + '-' + item);
+            var fieldset = $('#pb_99999 form');
+            repopulate_form_data(fieldset, previously_saved_form);
+          }
           spinner.hide();
         }
       });
+
     },
     expose: {
         color: 'transparent',
@@ -235,19 +256,74 @@ $(document).ready(function(){
     top : 0,
     fixed : false,
     closeOnClick: false,
-    onClose : function(){
-        $('#pb_99999 .pb-ajax').html(""); //clear it out
+    oneInstance: false,
+    onClose : function(closer){
+      var overlay = $('#pb_99999 .pb-ajax');
+
+      //The form data is stored as a JSON string, 
+      //Allowing us to check if there's been any changes.
+      var form_data = $('#form-holder').html();
+
+      if( form_data != '' )
+      {
+        var old_form_data = JSON.parse( form_data );
+        var overlay_form = $(overlay).find('.overlay-form > form');
+
+        if( $(CURRENT_OVERLAY.closer).hasClass('save-form') )
+        {
+          update_form(overlay_form, old_form_data);
+        }
+      }
+
+      CURRENT_OVERLAY.closer = "";
+      WORKFLOW_GRAPH.collapseAllItems();
+      $(overlay).html(""); //clear it out
     }
   };
 
-  var setup_overlays = function(){
+  var setup_tabs = function(content){
+    var tabs = $(content).find('.formTabs');
+
+    var divs = $(content).find('div.formPane .item-properties');
+    var advanced = is_advanced_mode()
+
+    $(divs).each(function() {
+      if( advanced === false )
+      {
+        if( $(this).hasClass('advanced') )
+        {
+          //continue
+          return true;
+        }
+      }       
+      $(tabs).append('<li><a href="#" class="btn">' + $(this).find('legend').text() + '</a></li>');
+    });
+
+    //The jQuery tools tab tool is a little picky, so we have to wrap
+    //the form panes with a div to designate them as a "pane"
+    $(content).find('.item-properties').wrapInner('<div>');
+    $(content).find('.formTabs').tabs('.formPane > div');
+  }
+
+  var setup_overlays = function(content){
+
+    if( typeof(content) != 'undefined' )
+    {
+      var dialogs = $(content).find('a.dialog-box');
+    }
+    else
+    {
+      var dialogs = $('a.dialog-box');
+    }
+
     OVERLAYS = [];
-    $('a.dialog-box').each(function(){
+    $(dialogs).each(function(){
       OVERLAYS[OVERLAYS.length] = $(this).overlay(overlay_settings);
     });
   }
 
   var retrieve_selected_workflow = function(){
+
     return $("#selected-workflow").val();
   }
 
@@ -266,7 +342,8 @@ $(document).ready(function(){
         if(type != undefined){
           type = type.toLowerCase();
           if(['checkbox', 'radio'].contains(type) && input[0].checked){
-            data[input.attr('name')] = input.val();
+
+            data[el.name] = input.val();
           }else if(type == "text" || type == "hidden"){
             data[input.attr('name')] = input.val();
           }
@@ -297,18 +374,6 @@ $(document).ready(function(){
     return data;
   }
 
-  var show_item = function(obj){
-    obj = $(obj);
-    obj.removeClass('collasped');
-    obj.addClass('expanded');
-  }
-
-  var hide_item = function(obj){
-    obj = $(obj);
-    obj.removeClass('expanded');
-    obj.addClass('collasped');
-  }
-
   var parse_data = function(data){
     if(typeof data == "string"){
       try{//try to parse if it's not already done...
@@ -324,103 +389,77 @@ $(document).ready(function(){
     return data
   }
 
-  var handle_actions = function(data){
-    data = parse_data(data)
-    if(data.status != undefined){
-      if(data.status == 'slideto'){
-        goto_item(data.url);
-      }
-    }
-  }
-
   var reload = function(data){
     $.ajax({
       url : '@@workflowmanager-content',
       data : {'selected-workflow' : retrieve_selected_workflow()},
       type : 'POST',
       complete : function(request, textStatus){
-        var items = $('.workflow-item');
-        var expanded_ids = [];
-        var collasped_ids = [];
-
-        for(var i = 0; i < items.length; i++){
-          var item = items.eq(i);
-          var id = item.attr('id');
-
-          if(id.length > 0){
-            if(item.hasClass('expanded')){
-              expanded_ids[expanded_ids.length] = id;
-            }else{
-              collasped_ids[collasped_ids.length] = id;
-            }
-          }
-        }
-
-        $('#workflow-content').replaceWith(request.responseText);
-        setup_overlays();
 
         if(!is_advanced_mode()){
           $('.advanced').hide();
         }
 
-        for(var i = 0; i < expanded_ids.length; i++){
-          var obj = $("#" + expanded_ids[i]);
-          obj.find('.hidden-content').css('display', 'block');
-          show_item(obj);
+        if( $('#changed-forms').children().length <= 0 )
+        {
+          $('#save-all-button').removeClass('btn-danger');
         }
-        for(var i = 0; i < collasped_ids.length; i++){
-          var obj = $("#" + collasped_ids[i]);
-          obj.find('.hidden-content').css('display', 'none');
-          hide_item(obj);
-        }
-
-        //for .workflow-item that are neither shown or collasped
-        //but shown by default because that's how they come from
-        //the server, just show
-        jQuery('div.collasped.workflow-item div.hidden-content:visible').each(function(){
-          var obj = $(this).parent('div.workflow-item');
-          show_item(obj);
-        });
-
-        var transitions = $("#fieldset-transitions");
-        var transitions_button = $("a#fieldsetlegend-transitions");
-        var states = $("#fieldset-states");
-        var states_button = $("a#fieldsetlegend-states");
-
-        if(transitions_button.hasClass('selected')){
-          states.css('display', 'none');
-        }else{
-          transitions.css('display', 'none');
-        }
-
-        handle_actions(data);
-        $('#save-all-button').removeClass('btn-danger');
+        
         $('[rel=popover]').popover({placement: 'bottom'});
+
+        WORKFLOW_GRAPH.updateGraph(request.responseText, data.graphChanges);
       }
     });
+
+    setup_overlays();
   }
 
   var save = function(finish){
-    var dirty_items = $("div.workflow-item.dirty");
+    var dirty_items = $("#changed-forms").children();
 
     var request_count = 0;
-    for(var i=0; i < dirty_items.length; i++){
-      var item = dirty_items.eq(i);
-      var form = item.find('form');
-      var data = retrieve_form_data(form);
+
+    //We look in changed forms to grab all the form data that we've changed
+    //Then, we temporarily load it into the temp form, and submit it view ajax
+    $(dirty_items).each(function() {
+
+      var form = $(this).html();
+      //The data-element-id field should be in the format of:
+      //type-id (ex: state-published)
+      //So, we grab the first token before the - to determine the
+      //type
+      var type = $(this).attr('data-element-id').split('-')[0];
+
+      var form_name = "#json-" + type + "-form";
+
+      var json_form = $(form_name);
+
+      if( json_form.length < 1 ) {
+        //In the case that we somehow grab an invalid form item,
+        //we just skip over it.
+        return true;
+      }
+
+      $(json_form).find('input').val(form);
+
+      var data = retrieve_form_data(json_form);
+      
       $.ajax({
-        url : form.attr('action'),
+        url : json_form.attr('action'),
         data : data,
         type: 'POST',
         success : function(data){
           request_count += 1;
+          WORKFLOW_GRAPH.updateGraph( parse_data(data) );
+
           if(request_count == dirty_items.length){
-            reload(data);
+
             finish(data);
           }
         }
       });
-    }
+
+    });
 
     if(dirty_items.length == 0){
       //clear it out even if nothing is saved...
@@ -429,63 +468,7 @@ $(document).ready(function(){
     }
   }
 
-  $('.workflow-item .dropdown').on('click', function(e){
-    var obj = $(this).parents('.workflow-item');
-    if(obj.hasClass('collasped')){
-      obj.find('.hidden-content').slideDown();
-      show_item(obj);
-    }else{
-      obj.find('.hidden-content').slideUp();
-      hide_item(obj);
-    }
-    return e.preventDefault();
-  });
-
-  $("a#fieldsetlegend-states").on('click', function(e){
-    var transitions = $("#fieldset-transitions");
-    var transitions_button = $("a#fieldsetlegend-transitions");
-    var states = $("#fieldset-states");
-    var states_button = $(this);
-
-    if(transitions_button.hasClass('selected')){
-      transitions_button.removeClass('selected');
-      nortstar_container.css('height', nortstar_container.height());
-      transitions.fadeOut('fast', function(){
-        states.fadeIn('fast', function(){
-          nortstar_container.css('height', '');
-        });
-        states_button.addClass('selected');
-      });
-    }else if(!states_button.hasClass('selected')){
-      states.fadeIn('fast');
-      states_button.addClass('selected');
-    }
-    return e.preventDefault();;
-  });
-
-  $("a#fieldsetlegend-transitions").on('click', function(e){
-    var transitions = $("#fieldset-transitions");
-    var transitions_button = $(this);
-    var states = $("#fieldset-states");
-    var states_button = $("a#fieldsetlegend-states");
-
-    if(states_button.hasClass('selected')){
-      states_button.removeClass('selected');
-      nortstar_container.css('height', nortstar_container.height());
-      states.fadeOut('fast', function(){
-        transitions.fadeIn('fast', function(){
-          nortstar_container.css('height', '');
-        });
-        transitions_button.addClass('selected');
-      });
-    }else if(!transitions_button.hasClass('selected')){
-      transitions.fadeIn('fast');
-      transtiions_button.addClass('selected');
-    }
-    return e.preventDefault();;
-  });
-
-  $('#save-all-button,input.save-all').on('click', function(e){
+  $('#save-all-button,input.save-all').live('click', function(e){
       spinner.show();
       save(function(){
         // #TODO Add support for i18n
@@ -580,7 +563,115 @@ $(document).ready(function(){
     });
   }
 
-  $("div.dialog-box form input[type='submit'],#content form fieldset div input[type='submit']").on('click', function(e){
+  //Here, we compare the form data to what it was originally, to detect any changes. 
+  //The old form data is stored in #form-holder, as a JSON string.
+  var update_form = function(form, original){
+
+    var items = $(form).find(':input');
+    var changed = false;
+
+    var parent = original['parent-element'];
+
+    var changes = {};
+
+    $(items).each(function() {
+      var self = this;
+
+      var name = $(self).attr('name');
+      var selector = ':input[name="' + name + '"]';
+      var old = original[name];
+
+      var type = $(self).prop('type');
+
+      if( type === "button" ) {
+        //The .each() interprets this as a "continue";
+        return true;
+      }
+
+      //If the value isn't filled in, there won't be a cooresponding entry in 
+      //the "original" object. However, this is still a valid value.
+      if( old === undefined ) {
+        if( $(self).val() === "" ) {
+          old = "";
+        }
+      }
+
+      var checkbox = ( $(self).attr('type') == 'checkbox' );
+
+      if( $(self).val() != old || checkbox )
+      {
+
+
+        $(original).find('#' + parent).addClass('dirty');
+        $('#save-all-button').addClass('btn-danger');
+
+        //If it's a checkbox, we need to handle things a bit differently, since 
+        //the .val() method doesn't give us what we're looking for.
+        if( checkbox ) {
+
+          var checked = $(self).attr('checked');
+
+          if( old != 'on' ) {
+            if( checked == 'checked' ) {
+              changes[name] = 'on';
+            }
+          }else if(old == 'on' ){
+            if( checked === undefined ) {
+              changes[name] = 'off';
+            }
+          }else{
+            //Nothing has changed, continue.
+            return true;
+          }
+        }else{
+          //This is a "normal" form value, so we can just use .val()
+          changes[name] = $(self).val();  
+        }
+        
+        changed = true;
+      }
+    });
+
+    //If there as a change made to the graph, put it in the 
+    //#changed-forms div, so we can potentially save the changes later.
+    if( changed && $.isEmptyObject(changes) == false ) {
+
+      //If we've already stored changes to the form, save the form data there
+      var previously_saved_form = $('#changed-forms').find('div[data-element-id="' + parent + '"]');
+
+      var out = retrieve_form_data(form);
+      out = JSON.stringify(out);
+
+      if( $(previously_saved_form).length == 0 ) {
+        $('#changed-forms').append('<div data-element-id="' + parent + '">' + out + '</div>');  
+      }else{
+        $(previously_saved_form).html(out);
+      }
+      
+    }
+  }
+
+  var handle_advanced = function(content) {
+
+    if( content )
+    {
+      var advanced = $(content).find('.advanced');
+    }
+    else
+    {
+      var advanced = $('.advanced');
+    }
+
+    var toppanel = $("#tabs-menu ul.tabs");
+
+    if(is_advanced_mode() && toppanel.size() == 1){
+      $("#tabs-menu ul.tabs div#advanced-mode input")[0].checked = true;
+    }else{
+      $(advanced).hide();
+    }    
+  }
+
+  $("div.dialog-box form input[type='submit'],#content form fieldset div input[type='submit']").live('click', function(e){
     var submit = $(this);
     var form = submit.parents('form');
     var hidden_value = form.find(':input.submitvalue');
@@ -593,6 +684,7 @@ $(document).ready(function(){
     hidden_value.attr('value', submit.attr('value'));
 
     spinner.show();
+    
     ajax_form(form, e, function(data){
       if(CURRENT_OVERLAY == null){
         window.location = get_url();
@@ -600,19 +692,23 @@ $(document).ready(function(){
       }
       CURRENT_OVERLAY.close();
 
-      reload(data);
+      WORKFLOW_GRAPH.updateGraph(data);
+      setup_overlays();
       spinner.hide();
     });
+
+    //I'm not yet sure why, but in certain instances, the "cancel"
+    //button will leave the overlays in a broken state unless we also
+    //click the close button as well.
+    if( $(this).attr('name') == "form.actions.cancel" )
+    {
+      $('#pb_99999').find('.close').click();  
+    }
+
     return e.preventDefault();
   });
 
-  $('a.goto-link').on('click', function(e){
-    var link = $(this);
-    goto_item(link.attr('href'));
-    return e.preventDefault();
-  });
-
-  $('input.one-or-the-other').on('change', function(){
+  $('input.one-or-the-other').live('change', function(){
     if(this.checked){
       $(this).siblings('input.the-other').eq(0)[0].disabled = true;
     }else{
@@ -620,16 +716,18 @@ $(document).ready(function(){
     }
   });
 
+  $('div.overlay-form input.save-form, div.overlay-form input.cancel').live('click', function() {
+    if( $(this).hasClass('save-form') )
+    {
+      CURRENT_OVERLAY.closer = this;
+    }
+    CURRENT_OVERLAY.close();
+  });
+
   //all the initial page load stuff goes here.
   var init = function(){
     setup_overlays();
-    $('div.hidden-content').css('display', 'none'); // since we don't hide it by default for js disable browsers
-    $("#fieldset-transitions").css('display', 'none');
-    $("a#fieldsetlegend-states").addClass('selected');
-
-    // check if the user wanted to go directly to a certain
-    // state or transition
-    goto_item(window.location.href);
+    setup_tabs();
 
     //enable advanced mode on page load
     //so it isn't available for non-js users--oh well.
@@ -639,30 +737,12 @@ $(document).ready(function(){
       set_advanced_mode(this.checked);
     });
 
-    if(is_advanced_mode() && toppanel.size() == 1){
-      $("#tabs-menu ul.tabs div#advanced-mode input")[0].checked = true;
-    }else{
-      $(".advanced").hide();
-    }
-
-    var input_selector = "div.workflow-item input[type=text],div.workflow-item input[type=checkbox],div.workflow-item textarea,div.workflow-item select";
-    var input_change_handler = function(){
-      var obj = $(this);
-      obj.parents('div.workflow-item').addClass('dirty');
-      $('#save-all-button').addClass('btn-danger');
-    }
-    //need to use different event for IE of course...
-    var theevent = ($.browser.msie) ? 'click' : 'change';
-    //Content change listeners to mark things as dirty and needing to be saved...
-    $(input_selector).on(theevent, input_change_handler);
+    handle_advanced();
 
     //Set some things up only if js is enabled here
     $("#tabs-menu ul.tabs").addClass('enabled');
 
-    $('#portal-column-content').each(function(e){
-      $(e).removeClass();
-      $(e).addClass('col-md-12');
-    });
+    $('#portal-column-content')[0].className = 'cell width-full position-0';
 
     $(window).scroll(function(e){
       var menu_container = $('div#menu-container');
@@ -685,6 +765,11 @@ $(document).ready(function(){
     $('#save-all-button').popover({trigger: 'manual', placement: 'bottom'});
     $('[rel=popover]').popover({placement: 'bottom'});
     $('#content').on('click', '.item-header li.related-items a', function(){ return false; });
+    jsPlumb.ready(function() {
+          WORKFLOW_GRAPH = new WorkflowGraph();
+          WORKFLOW_GRAPH.buildGraph();
+          jsPlumb.show();
+    });
   }
   init();
 
