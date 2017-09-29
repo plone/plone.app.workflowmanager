@@ -47,7 +47,7 @@ Simple publication workflow and call it "My Simple Publication Workflow".
     >>> browser.getControl(name='form.actions.add').click()
 
 Should give you an error if no name specified
-    >>> 'Invalid name. Please try another.' in browser.contents
+    >>> 'Invalid workflow name. Please try another.' in browser.contents
     True
 
     >>> browser.getControl(name='clone-from-workflow').value = ['simple_publication_workflow']
@@ -76,29 +76,29 @@ The id should have also been created
 
 Test modifying a permission role
 
-    >>> browser.getControl(name="permission-Modify portal content-role-Reviewer-state-private").value
+    >>> browser.getControl(name="permission-Edit-role-Reviewer-state-private").value
     []
-    >>> browser.getControl(name="permission-Modify portal content-role-Reviewer-state-private").value = True
+    >>> browser.getControl(name="permission-Edit-role-Reviewer-state-private").value = True
 
     >>> browser.getControl(name="save-state-private-button").click()
 
 Now see if it worked
 
-    >>> browser.getControl(name="permission-Modify portal content-role-Reviewer-state-private").value
+    >>> browser.getControl(name="permission-Edit-role-Reviewer-state-private").value
     True
 
 Now uncheck that same one
 
-    >>> browser.getControl(name="permission-Modify portal content-role-Reviewer-state-private").value = False
+    >>> browser.getControl(name="permission-Edit-role-Reviewer-state-private").value = False
     >>> browser.getControl(name="save-state-private-button").click()
-    >>> browser.getControl(name="permission-Modify portal content-role-Reviewer-state-private").value
+    >>> browser.getControl(name="permission-Edit-role-Reviewer-state-private").value
     []
 
 Check the acquire permissions setting
 
-    >>> browser.getControl(name="permission-acquire-Access contents information-state-pending").value = True
-    >>> browser.getControl(name="save-state-pending-button").click()
-    >>> browser.getControl(name="permission-acquire-Access contents information-state-pending").value
+    >>> browser.getControl(name="permission-acquire-Add-state-pending").value = True
+    >>> browser.getControl(name="save-state-private-button").click()
+    >>> browser.getControl(name="permission-acquire-Add-state-pending").value
     True
 
 Let's try some group role stuff now.
@@ -165,9 +165,9 @@ Let's edit the title and description now.
 We'll move onto editing Transitions now
 Let's edit the guards first
 
-    >>> browser.getControl(name='transition-retract-guard-permission-Modify portal content').value
+    >>> browser.getControl(name='transition-retract-guard-permission-rpc').value
     False
-    >>> browser.getControl(name='transition-retract-guard-permission-Modify portal content').value = True
+    >>> browser.getControl(name='transition-retract-guard-permission-rpc').value = True
     >>> browser.getControl(name='transition-retract-guard-roles').value
     []
     >>> browser.getControl(name='transition-retract-guard-roles').value = ['Member']
@@ -176,7 +176,7 @@ Let's edit the guards first
     >>> browser.getControl(name='transition-retract-guard-groups').value = ['Reviewers']
     >>> browser.getControl(name='save-transition-retract-button').click()
 
-    >>> browser.getControl(name='transition-retract-guard-permission-Modify portal content').value
+    >>> browser.getControl(name='transition-retract-guard-permission-rpc').value
     True
     >>> browser.getControl(name='transition-retract-guard-roles').value
     ['Member']
@@ -231,7 +231,7 @@ Let's test adding a new state and test error handling.
 
 Should show error
 
-    >>> "Invalid name. Please try another." in browser.contents
+    >>> "Invalid workflow name. Please try another." in browser.contents
     True
     >>> browser.getControl(name='clone-from-state').value
     ['private']
@@ -258,9 +258,9 @@ And try adding a state from a transition
 
 And test editing a state's permissions
 
-    >>> browser.getControl(name='permission-Access contents information-role-Authenticated-state-foobar-state').value = True
+    >>> browser.getControl(name='permission-List-role-Authenticated-state-foobar-state').value = True
     >>> browser.getControl(name='save-state-foobar-state-button').click()
-    >>> browser.getControl(name='permission-Access contents information-role-Authenticated-state-foobar-state').value
+    >>> browser.getControl(name='permission-List-role-Authenticated-state-foobar-state').value
     True
 
 Test removing transition from set of transitions
@@ -289,7 +289,7 @@ And add the cloning...
 
 Should show error
 
-    >>> "Invalid name. Please try another." in browser.contents
+    >>> "Invalid workflow name. Please try another." in browser.contents
     True
     >>> browser.getControl(name='clone-from-transition').value
     ['retract']

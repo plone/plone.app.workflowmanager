@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.workflowmanager\n"
-"POT-Creation-Date: 2014-02-18 17:32+0000\n"
+"POT-Creation-Date: 2013-11-29 17:57+0000\n"
 "PO-Revision-Date: 2013-11-29 08:16-0430\n"
 "Last-Translator: Leonardo J. Caballero G. <leonardocaballero@gmail.com>\n"
 "Language-Team: ES <LL@li.org>\n"
@@ -30,6 +30,10 @@ msgstr "Descripción de la transición."
 #: plone/app/workflowmanager/permissions.py:37
 msgid "Access"
 msgstr "Acceso"
+
+#: plone/app/workflowmanager/permissions.py:36
+msgid "Access contents information"
+msgstr "Información de los contenidos de acceso"
 
 #: plone/app/workflowmanager/browser/templates/workflow-state.pt:123
 msgid "Acquired Permissions"
@@ -64,6 +68,10 @@ msgstr "Añadir una Acción nueva"
 #: plone/app/workflowmanager/permissions.py:6
 msgid "Add content in this container."
 msgstr "Adicionar contenido a este contenedor."
+
+#: plone/app/workflowmanager/permissions.py:4
+msgid "Add portal content"
+msgstr "Añadir contenido al portal"
 
 #: plone/app/workflowmanager/browser/templates/controlpanel.pt:77
 #: plone/app/workflowmanager/browser/templates/workflow-transition.pt:161
@@ -143,6 +151,10 @@ msgstr "Cancelar"
 msgid "Change Events"
 msgstr "Cambiar eventos"
 
+#: plone/app/workflowmanager/permissions.py:25
+msgid "Change portal events"
+msgstr "Cambiar eventos del portal"
+
 #: plone/app/workflowmanager/browser/templates/add-new-state.pt:19
 #: plone/app/workflowmanager/browser/templates/add-new-transition.pt:21
 #: plone/app/workflowmanager/browser/templates/add-new-workflow.pt:17
@@ -219,17 +231,17 @@ msgstr "Resgurados"
 msgid "Initial State"
 msgstr "Estado inicial"
 
-#: plone/app/workflowmanager/browser/validators.py:26
-msgid "Invalid name. Please try another."
-msgstr ""
-
-#: plone/app/workflowmanager/browser/validators.py
+#: plone/app/workflowmanager/browser/validators.py:24
 msgid "Invalid workflow name. Please try another."
 msgstr "Nombre de flujo de trabajo inválido. Por favor intente otro."
 
 #: plone/app/workflowmanager/permissions.py:31
 msgid "List"
 msgstr "Listar"
+
+#: plone/app/workflowmanager/permissions.py:30
+msgid "List folder contents"
+msgstr "Listar contenido de la carpeta"
 
 #: plone/app/workflowmanager/permissions.py:32
 msgid "List the contents of a folder. This doesn't check if you have access to view the actual object listed."
@@ -238,6 +250,10 @@ msgstr "Liste los contenidos de una carpeta. Esto no quiere comprobar si tiene a
 #: plone/app/workflowmanager/browser/controlpanel.py:59
 msgid "Manage your custom workflows TTW."
 msgstr "Administrar los flujos de trabajo personalizados TTW."
+
+#: plone/app/workflowmanager/permissions.py:9
+msgid "Modify portal content"
+msgstr "Modificar contenido del portal"
 
 #: plone/app/workflowmanager/browser/templates/assign.pt:31
 msgid "Next Step"
@@ -273,9 +289,17 @@ msgstr "Propiedades"
 msgid "Replacement State"
 msgstr "Estado de sustitución"
 
+#: plone/app/workflowmanager/permissions.py:43
+msgid "Request review"
+msgstr "Solicitar revisión"
+
 #: plone/app/workflowmanager/permissions.py:21
 msgid "Review"
 msgstr "Revisor"
+
+#: plone/app/workflowmanager/permissions.py:20
+msgid "Review portal content"
+msgstr "Revisar contenido del portal"
 
 #: plone/app/workflowmanager/browser/templates/workflow-state.pt:108
 #: plone/app/workflowmanager/browser/templates/workflow-transition.pt:98
@@ -371,7 +395,7 @@ msgstr "El flujo de trabajo fue actualizado exitosamente."
 msgid "This content rule was automatically created the workflow manager to create actions on workflow events. If you want the behavior to work as expected, do not modify this out of the workflow manager."
 msgstr "Esta regla de contenido se crea automáticamente el administrador de flujo de trabajo para crear acciones en los eventos de flujo de trabajo. Si usted quiere que el comportamiento funcione como se espera, no modifique esto fuera del administrador de flujo de trabajo."
 
-#: plone/app/workflowmanager/browser/validators.py:12
+#: plone/app/workflowmanager/browser/validators.py:11
 msgid "This field is required."
 msgstr "Este campo es requerido."
 
@@ -429,7 +453,7 @@ msgstr "Actualizar seguridad"
 msgid "Various properties for this transition."
 msgstr "Varias propiedades para esta transición."
 
-#: plone/app/workflowmanager/permissions.py:15
+#: plone/app/workflowmanager/permissions.py:14
 msgid "View"
 msgstr "Ver"
 
@@ -540,7 +564,7 @@ msgid "label_up_to_plone_setup"
 msgstr "Subir la configuración del sitio"
 
 #. Default: "Deleting the \"${id}\" transition has been canceled."
-#: plone/app/workflowmanager/browser/transition.py:164
+#: plone/app/workflowmanager/browser/transition.py:162
 msgid "msg_deleting_canceled"
 msgstr "La eliminación de la transición '${id}' ha sido cancelado."
 
@@ -560,12 +584,12 @@ msgid "msg_state_deletion_canceled"
 msgstr "La eliminación del estado '${id}' ha sido cancelado."
 
 #. Default: "\"${transition_id}\" transition successfully created."
-#: plone/app/workflowmanager/browser/transition.py:56
+#: plone/app/workflowmanager/browser/transition.py:54
 msgid "msg_transition_created"
 msgstr "La transición '${transition_id}' fue creada exitosamente."
 
 #. Default: "\"${id}\" transition has been successfully deleted."
-#: plone/app/workflowmanager/browser/transition.py:159
+#: plone/app/workflowmanager/browser/transition.py:157
 msgid "msg_transition_deleted"
 msgstr "La transición '${id}' fue creada exitosamente."
 

@@ -11,7 +11,6 @@
 
        <browser:page name="workflowmanager" />
        <browser:page attribute="render_content_template"  name="workflowmanager-content" />
-       <browser:page name="workflowmanager-workflow-states" attribute="render_states_template" />
        <browser:page name="workflowmanage-item" attribute="retrieve_item" />       
 
     </browser:pages>
@@ -29,7 +28,28 @@
         class=".transition.SaveTransition"
         permission="plone.app.workflowmanager.ManageWorkflows"
     />
-        
+
+    <browser:page
+        for="*"
+        name="workflowmanager-save-graph"
+        class=".layout.GraphLayout"
+        permission="plone.app.workflowmanager.ManageWorkflows"
+    />
+
+    <browser:page
+        for="*"
+        name="workflowmanager-edit-state"
+        class=".state.EditState"
+        permission="plone.app.workflowmanager.ManageWorkflows"
+    />
+
+    <browser:page
+        for="*"
+        name="workflowmanager-edit-transition"
+        class=".transition.EditTransition"
+        permission="plone.app.workflowmanager.ManageWorkflows"
+    />
+
     <browser:page
         for="*"
         name="workflowmanager-add-new-transition"
@@ -48,6 +68,13 @@
         for="*"
         name="workflowmanager-add-new-state"
         class=".state.AddState"
+        permission="plone.app.workflowmanager.ManageWorkflows"
+    />
+
+    <browser:page
+        for="*"
+        name="workflowmanager-graph"
+        class=".layout.GraphLayout"
         permission="plone.app.workflowmanager.ManageWorkflows"
     />
         
@@ -138,5 +165,39 @@
         name="wfmbootstrap.css"
         file="resources/bootstrap.css"
     />
-	
+
+    <browser:resource
+        name="workflow-graph.css"
+        file="resources/workflow-graph.css"
+    />
+
+    <browser:resource
+        name="jsPlumb.js"
+        file="resources/jsPlumb/dom.jsPlumb-1.6.2-min.js"
+    />
+
+    <browser:resource
+        name="drag-on.js"
+        file="resources/drag-on.js"
+    />
+
+    <browser:resource
+        name="workflow-graph.js"
+        file="resources/workflow-graph.js"
+    />
+
+    <browser:resource
+        name="springy.js"
+        file="resources/springy.js"
+    />
+
+    <browser:resource
+        name="springyui.js"
+        file="resources/springyui.js"
+    />
+
+    <browser:resource
+        name="js_tests.js"
+        file="resources/js_tests.js"
+    />
 </configure>

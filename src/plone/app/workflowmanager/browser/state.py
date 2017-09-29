@@ -8,10 +8,13 @@ from plone.app.workflowmanager.browser import validators
 from plone.app.workflowmanager.permissions import managed_permissions
 from plone.app.workflowmanager.browser.controlpanel import Base
 from plone.app.workflowmanager import WMMessageFactory as _
+import json
+from sets import Set
 
 
 class AddState(Base):
     template = ViewPageTemplateFile('templates/add-new-state.pt')
+    new_state_template = ViewPageTemplateFile('templates/state.pt')
 
     def __call__(self):
         self.errors = {}
@@ -47,9 +50,23 @@ class AddState(Base):
                 msg = _('msg_state_created',
                         default=u'"${state_id}" state successfully created.',
                         mapping={'state_id': new_state.id})
+
+                arbitraryStateList = []
+                arbitraryStateList.append(new_state)
+
+                new_elements = self.new_state_template(states=arbitraryStateList)
+
+                updates = dict()
+
+                updates['element'] = new_elements
+                updates['type'] = u'state'
+                updates['action'] = u'add'
+                updates['objectId'] = new_state.id
+                updates['transitions'] = new_state.transitions
+
                 return self.handle_response(
                     message=msg,
-                    slideto=True,
+                    graph_updates=updates,
                     state=new_state)
             else:
                 return self.handle_response(tmpl=self.template,
@@ -88,10 +105,21 @@ class DeleteState(Base):
 
             self.selected_workflow.states.deleteStates([state_id])
 
+            updates = dict()
+            updates['objectId'] = state_id
+            updates['action'] = u'delete'
+            updates['type'] = u'state'
+
+            try:
+                updates['replacement'] = replacement
+            except UnboundLocalError:
+                pass
+
             return self.handle_response(
                 message=_('msg_state_deleted',
                     default=u'"${id}" state has been successfully deleted.',
-                    mapping={'id': state_id}))
+                    mapping={'id': state_id}),
+                graph_updates=updates)
         elif self.request.get('form.actions.cancel', False) == 'Cancel':
             return self.handle_response(
                 message=_('msg_state_deletion_canceled',
@@ -103,6 +131,7 @@ class DeleteState(Base):
 
 class SaveState(Base):
 
+    updated_state_template = ViewPageTemplateFile('templates/state.pt')
     def update_selected_transitions(self):
         wf = self.selected_workflow
         state = wf.states[self.request.get('selected-state')]
@@ -121,7 +150,7 @@ class SaveState(Base):
         perm_roles = PersistentMapping()
         available_roles = state.getAvailableRoles()
 
-        for managed_perm in managed_permissions(wf.id):
+        for managed_perm in managed_permissions:
             selected_roles = []
             for role in available_roles:
                 key = 'permission-%s-role-%s-state-%s' % (
@@ -153,7 +182,6 @@ class SaveState(Base):
                 if managed_perm['perm'] not in wf.permissions:
                     wf.permissions = wf.permissions + (managed_perm['perm'], )
                 perm_roles[managed_perm['perm']] = ()
-
         state.permission_roles = perm_roles
 
     def update_state_properties(self):
@@ -197,12 +225,68 @@ class SaveState(Base):
         state.group_roles = group_roles
 
     def __call__(self):
+        if self.request.get('form-box') is not None:
+            form_data = self.request.get('form-box')
+            form_data = json.loads(form_data)
+
+            for name in form_data: 
+                self.request[name] = form_data[name]
+
         self.authorize()
         self.errors = {}
+
+        wf = self.selected_workflow
+        state = wf.states[self.request.get('selected-state')]
+
+        oldTransitions = state.transitions
 
         self.update_selected_transitions()
         self.update_state_permissions()
         self.update_state_group_roles()
         self.update_state_properties()
 
-        return self.handle_response()
+        newTransitions = state.transitions
+
+        arbitraryStateList = []
+        arbitraryStateList.append(state)
+
+        updated_state = self.updated_state_template(states=arbitraryStateList)
+
+        #transitions that were added...
+        add = list( Set(newTransitions) - Set(oldTransitions) )
+
+        #transitions that were removed
+        remove = list( Set(oldTransitions) - Set(newTransitions) )
+
+        update = dict()
+        update['objectId']=state.id
+        update['action']=u'update'
+        update['type']=u'state'
+        update['element']=updated_state
+        update['add'] = add
+        update['remove'] = remove
+
+        return self.handle_response(
+            graph_updates=update)
+
+class EditState(Base):
+    template = ViewPageTemplateFile('templates/workflow-state.pt')
+
+    def __call__(self):
+        wf = self.selected_workflow
+
+        if (wf == None):
+            return self.handle_response()
+
+        state = self.selected_state
+
+        if( state == None ):
+            return self.handle_response()
+
+        transitions = self.available_transitions
+
+        return self.render_state_template(state, transitions)
+
+    def render_state_template(self, state, transitions):
+        return self.template(state=state,
+            available_transitions=transitions)

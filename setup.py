@@ -1,7 +1,7 @@
 from setuptools import find_packages
 from setuptools import setup
 
-version = '1.0.2dev'
+version = '2.0b1'
 
 setup(name='plone.app.workflowmanager',
       version=version,
@@ -36,8 +36,7 @@ setup(name='plone.app.workflowmanager',
       install_requires=[
           'Plone',
           'setuptools',
-          'plone.app.jquery>=1.7',
-          'plone.app.jquerytools',
+          'plone.app.jquery>=1.7'
       ],
       extras_require={
           'test': [

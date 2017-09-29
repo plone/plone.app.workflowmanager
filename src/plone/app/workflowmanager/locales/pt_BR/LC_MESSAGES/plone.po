@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2015-10-27 17:32+0000\n"
+"POT-Creation-Date: 2013-11-29 17:57+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
-"Last-Translator: Herson Rodrigues <hersonrodrigues@gmail.com>\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -18,111 +18,111 @@ msgstr ""
 #: plone/app/workflowmanager/browser/templates/add-new-transition.pt:44
 #: plone/app/workflowmanager/browser/templates/add-new-workflow.pt:36
 msgid "(Required)"
-msgstr "(Obrigatório)"
+msgstr ""
 
 #: plone/app/workflowmanager/browser/actions.py:22
 msgid "Action has been deleted successfully."
-msgstr "Ação excluída com sucesso."
+msgstr ""
 
 #. Default: "Administrators"
 #: plone/app/workflowmanager/browser/templates/workflow-state.pt
 msgid "Administrators"
-msgstr "Administradores"
+msgstr ""
 
 #: plone/app/workflowmanager/browser/templates/workflow-state.pt
 msgid "Anonymous"
-msgstr "Anônimos"
+msgstr ""
 
 #: plone/app/workflowmanager/browser/templates/workflow-state.pt
 msgid "Authenticated"
-msgstr "Autenticados"
+msgstr ""
 
 #. Default: "Authenticated Users (Virtual Group)"
 #: plone/app/workflowmanager/browser/templates/workflow-state.pt
 msgid "Authenticated Users (Virtual Group)"
-msgstr "Usuários Autenticados (Grupo Virtual)"
+msgstr ""
 
 #. Default: "AuthenticatedUsers"
 #: plone/app/workflowmanager/browser/templates/workflow-state.pt
 msgid "AuthenticatedUsers"
-msgstr "AuthenticatedUsers"
+msgstr ""
 
 #: plone/app/workflowmanager/browser/templates/sanity-check.pt:39
 msgid "Info"
-msgstr "Informação"
+msgstr ""
 
-#: plone/app/workflowmanager/browser/validators.py:26
-msgid "Invalid name. Please try another."
-msgstr "Nome inválido, Por favor tente outro."
+#: plone/app/workflowmanager/browser/validators.py:24
+msgid "Invalid workflow name. Please try another."
+msgstr ""
 
 #: plone/app/workflowmanager/browser/controlpanel.py:59
 msgid "Manage your custom workflows TTW."
-msgstr "Gerenciar seus workflows customizados."
+msgstr ""
 
 #: plone/app/workflowmanager/browser/templates/add-new-state.pt:40
 #: plone/app/workflowmanager/browser/templates/add-new-transition.pt:44
 #: plone/app/workflowmanager/browser/templates/add-new-workflow.pt:36
 msgid "Required"
-msgstr "Obrigatório"
+msgstr ""
 
 #. Default: "Reviewers"
 #: plone/app/workflowmanager/browser/templates/workflow-state.pt
 msgid "Reviewers"
-msgstr "Revisores"
+msgstr ""
 
 #. Default: "Site Administrators"
 #: plone/app/workflowmanager/browser/templates/workflow-state.pt
 msgid "Site Administrators"
-msgstr "Administradores de Site"
+msgstr ""
 
-#: plone/app/workflowmanager/browser/validators.py:12
+#: plone/app/workflowmanager/browser/validators.py:11
 msgid "This field is required."
-msgstr "Este campo é obrigatório."
+msgstr ""
 
 #: plone/app/workflowmanager/browser/templates/sanity-check.pt:13
 msgid "Warning"
-msgstr "Aviso"
+msgstr ""
 
 #: plone/app/workflowmanager/browser/controlpanel.py:58
 msgid "Workflow Manager"
-msgstr "Gerenciar Workflow"
+msgstr ""
 
 #: plone/app/workflowmanager/browser/workflow.py:24
 msgid "You can not delete this workflow until no content types are specified to use this workflow."
-msgstr "Você não pode excluir este workflow, sem especificar um tipo de contrúdo que irá utiliza-lo"
+msgstr ""
 
 #. Default: "Deleting the \"${id}\" transition has been canceled."
-#: plone/app/workflowmanager/browser/transition.py:164
+#: plone/app/workflowmanager/browser/transition.py:162
 msgid "msg_deleting_canceled"
-msgstr "A exclusão da transição \"${id}\" foi cancelada."
+msgstr ""
 
 #. Default: "\"${state_id}\" state successfully created."
 #: plone/app/workflowmanager/browser/state.py:47
 msgid "msg_state_created"
-msgstr "O estado \"${state_id}\" foi criado com sucesso."
+msgstr ""
 
 #. Default: "\"${id}\" state has been successfully deleted."
 #: plone/app/workflowmanager/browser/state.py:92
 msgid "msg_state_deleted"
-msgstr "O extado \"${id}\" foi excluído com sucesso."
+msgstr ""
 
 #. Default: "Deleting the \"${id}\" state has been canceled."
 #: plone/app/workflowmanager/browser/state.py:97
 msgid "msg_state_deletion_canceled"
-msgstr "A exclusão do estado \"${id}\" foi cancelada."
+msgstr ""
 
 #. Default: "\"${transition_id}\" transition successfully created."
-#: plone/app/workflowmanager/browser/transition.py:56
+#: plone/app/workflowmanager/browser/transition.py:54
 msgid "msg_transition_created"
-msgstr "A transição \"${transition_id}\" foi criada com sucesso."
+msgstr ""
 
 #. Default: "\"${id}\" transition has been successfully deleted."
-#: plone/app/workflowmanager/browser/transition.py:159
+#: plone/app/workflowmanager/browser/transition.py:157
 msgid "msg_transition_deleted"
-msgstr "A exclusão da transição \"${id}\" foi cancelada."
+msgstr ""
 
 #. Default: "Updated ${count} objects."
 #: plone/app/workflowmanager/browser/workflow.py:78
 msgid "msg_updated_objects"
-msgstr "${count} objetos atualizados."
+msgstr ""
 

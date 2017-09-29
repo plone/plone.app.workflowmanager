@@ -1,0 +1,234 @@
+#plumb-canvas {
+	height: 500px;
+	width: 80vw;
+	float: right;
+	position: relative;
+	border: 0.1em solid #ddd;
+	margin-top: 5px;
+	overflow-y: scroll;
+	overflow-x: scroll;
+}
+
+#plumb-zoom-box {
+	width: 2000px;
+	height: 1000px;
+	cursor: default
+}
+
+#plumb-zoom-box.design {
+	cursor: move;
+}
+
+#plumb-zoom-box.large {
+	width: 6000px;
+	height: 3000px;
+}
+
+#plumb-canvas div.plumb-path {
+	height: 0px;
+}
+
+#plumb-canvas div.plumb-transition {
+	height: 0px;
+}
+
+.overlay-form .checkbox-holder {
+	overflow: scroll;
+	max-height: 300px;
+	border: 2px solid #ddd;
+}
+
+#plumb-canvas div.plumb-state {
+	width: auto;
+	height: auto;
+	padding: 5px;
+	border: 2px solid black;
+	border-radius: 5px;
+	background-color: #ddd;
+	display:inline;
+	position: absolute;
+	text-align: center;;
+	font-size: 25px;
+}
+
+#plumb-canvas.large div.plumb-state {
+	width: auto;
+	min-width: 150px;
+	padding: 2px;
+	font-size: 10px;
+}
+
+#plumb-canvas div.expanded {
+	font-size: 20px;
+	background-color: white;
+	opacity: 1;
+	width:200px;
+	height: auto;
+	z-index: 5;
+	padding: 8px;
+	border: 5px solid #ddd;
+	border-radius: 10px;
+	box-shadow: 3px 3px 6px black;
+	font-size: 12px;
+	text-align: left;
+}
+
+#plumb-canvas div.plumb-state.expanded:hover {
+	border-color: #ddd;
+}
+
+#plumb-canvas div.exit {
+	border: 1px solid #ddd;
+	color: #ddd;
+}
+
+#plumb-canvas .plumb-label {
+	background: white;
+	opacity:0.7;
+	border: 1px dotted black;
+	display: none;
+}
+
+#plumb-canvas .plumb-label.show-label {
+	opacity: 1;
+	z-index: 2;
+	display: inherit;
+} 
+
+#plumb-canvas div.highlight {
+	border-color: gold;
+	z-index: 2;
+	background-color: white;
+}
+
+#plumb-button-container {
+	width: 100%;
+	text-align: center;
+	padding: 20px 0 20px 0;
+	height: inherit;
+}
+
+#plumb-toolbox {
+	text-align: center;
+	width: 14%;
+	height: inherit;
+	float: left;
+	padding: 5px;
+	z-index: 1;
+	background-color: #f5f5f5;
+	margin: 5px;
+	border: .1em solid #ddd;
+}
+
+#plumb-toolbox fieldset {
+	border: none;
+	outline: 1px solid #e6e6e6;
+	margin-top: 15px;
+	padding: 10px;
+	clear: both;
+}
+
+#plumb-toolbox fieldset select {
+	width: 95%;
+}
+
+#plumb-toolbox input {
+	display: block;
+}
+
+#plumb-toolbox .small-btn {
+	display:inline;
+	font-size: 11px;
+	padding: 2px 4px 2px;
+	float: right;
+}
+
+#plumb-form-holder {
+	background-color: #f5f5f5;
+	border-radius: 10px;
+	padding: 10px;
+	box-shadow: 5px 5px 15px #222
+}
+
+#plumb-canvas .expanded a {
+	color: black;
+	margin: 5px;
+}
+
+#plumb-canvas .plumb-title, #plumb-canvas.expanded.plumb-state-title {
+	padding-bottom: 5px;
+	font-size: 15px;
+}
+
+#plumb-canvas .expanded > .plumb-title {
+	text-decoration: underline;
+}
+
+#plumb-toolbox input {
+	margin-bottom: 8px;
+}
+
+#plumb-canvas .ui-state-disabled {
+	opacity: .5;
+}
+
+#tabbedForm {
+	overflow: auto;
+}
+
+#tabbedForm > ul.formTabs {
+	background-color: #f5f5f5;
+	padding: 3px;
+	border: none;
+	margin-left: 13px;
+}
+
+#tabbedForm > ul.formTabs a {
+	color: #333;
+	padding: 4px 10px 4px;
+	margin: 0px;
+}
+
+#tabbedForm > ul.formTabs a.current {
+	background-color: #e6e6e6;
+	background-image: none;
+	text-decoration: none;
+}
+
+#tabbedForm ul.formTabs a:hover {
+	background-color: #e6e6e6;
+	text-decoration: none !important;
+	color: #333 !important;
+}
+
+#tabbedForm > ul.formTabs li {
+	padding: 0px;
+}
+
+#plumb-toolbox-start > div
+{
+	clear: both;
+	float: left;
+}
+
+#plumb-toolbox-start a {
+	text-decoration: none;
+	color: #333;
+	display: inline-block;
+	float: left;
+	cursor: pointer;
+}
+
+#plumb-toolbox-start a:hover {
+	text-decoration: none;
+	color: #333 !important;
+}
+
+#plumb-toolbox-start a > input {
+	margin-right: 3px;
+}
+
+#plumb-toolbox-start input {
+	display: inline-block;
+	float: left;
+}

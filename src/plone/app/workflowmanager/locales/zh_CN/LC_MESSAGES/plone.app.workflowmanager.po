@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.workflowmanager\n"
-"POT-Creation-Date: 2014-02-18 17:32+0000\n"
+"POT-Creation-Date: 2013-11-29 17:57+0000\n"
 "PO-Revision-Date: 2013-11-04 18:58+0800\n"
 "Last-Translator: Jian Aijun <jianaijun@gmail.com>\n"
 "Language-Team: Plone i18n <plone-i18n@lists.sf.net>\n"
@@ -24,6 +24,10 @@ msgstr "转换的描述。"
 
 #: plone/app/workflowmanager/permissions.py:37
 msgid "Access"
+msgstr ""
+
+#: plone/app/workflowmanager/permissions.py:36
+msgid "Access contents information"
 msgstr ""
 
 #: plone/app/workflowmanager/browser/templates/workflow-state.pt:123
@@ -58,6 +62,10 @@ msgstr "添加新操作"
 
 #: plone/app/workflowmanager/permissions.py:6
 msgid "Add content in this container."
+msgstr ""
+
+#: plone/app/workflowmanager/permissions.py:4
+msgid "Add portal content"
 msgstr ""
 
 #: plone/app/workflowmanager/browser/templates/controlpanel.pt:77
@@ -138,6 +146,10 @@ msgstr "取消"
 msgid "Change Events"
 msgstr ""
 
+#: plone/app/workflowmanager/permissions.py:25
+msgid "Change portal events"
+msgstr ""
+
 #: plone/app/workflowmanager/browser/templates/add-new-state.pt:19
 #: plone/app/workflowmanager/browser/templates/add-new-transition.pt:21
 #: plone/app/workflowmanager/browser/templates/add-new-workflow.pt:17
@@ -214,16 +226,16 @@ msgstr "守卫"
 msgid "Initial State"
 msgstr ""
 
-#: plone/app/workflowmanager/browser/validators.py:26
-msgid "Invalid name. Please try another."
-msgstr ""
-
-#: plone/app/workflowmanager/browser/validators.py
+#: plone/app/workflowmanager/browser/validators.py:24
 msgid "Invalid workflow name. Please try another."
 msgstr "无效的工作流名称。请换一个再试。"
 
 #: plone/app/workflowmanager/permissions.py:31
 msgid "List"
+msgstr ""
+
+#: plone/app/workflowmanager/permissions.py:30
+msgid "List folder contents"
 msgstr ""
 
 #: plone/app/workflowmanager/permissions.py:32
@@ -233,6 +245,10 @@ msgstr ""
 #: plone/app/workflowmanager/browser/controlpanel.py:59
 msgid "Manage your custom workflows TTW."
 msgstr "通过 Web 界面管理您的自定义工作流。"
+
+#: plone/app/workflowmanager/permissions.py:9
+msgid "Modify portal content"
+msgstr ""
 
 #: plone/app/workflowmanager/browser/templates/assign.pt:31
 msgid "Next Step"
@@ -268,8 +284,16 @@ msgstr "属性"
 msgid "Replacement State"
 msgstr ""
 
+#: plone/app/workflowmanager/permissions.py:43
+msgid "Request review"
+msgstr ""
+
 #: plone/app/workflowmanager/permissions.py:21
 msgid "Review"
+msgstr ""
+
+#: plone/app/workflowmanager/permissions.py:20
+msgid "Review portal content"
 msgstr ""
 
 #: plone/app/workflowmanager/browser/templates/workflow-state.pt:108
@@ -366,7 +390,7 @@ msgstr ""
 msgid "This content rule was automatically created the workflow manager to create actions on workflow events. If you want the behavior to work as expected, do not modify this out of the workflow manager."
 msgstr ""
 
-#: plone/app/workflowmanager/browser/validators.py:12
+#: plone/app/workflowmanager/browser/validators.py:11
 msgid "This field is required."
 msgstr "此字段是必需的。"
 
@@ -424,7 +448,7 @@ msgstr "安全更新"
 msgid "Various properties for this transition."
 msgstr "此转换的各种属性。"
 
-#: plone/app/workflowmanager/permissions.py:15
+#: plone/app/workflowmanager/permissions.py:14
 msgid "View"
 msgstr ""
 
@@ -534,7 +558,7 @@ msgid "label_up_to_plone_setup"
 msgstr "网站设置"
 
 #. Default: "Deleting the \"${id}\" transition has been canceled."
-#: plone/app/workflowmanager/browser/transition.py:164
+#: plone/app/workflowmanager/browser/transition.py:162
 msgid "msg_deleting_canceled"
 msgstr "删除 “${id}” 转换 已取消。"
 
@@ -554,12 +578,12 @@ msgid "msg_state_deletion_canceled"
 msgstr "删除 “${id}” 转换 已取消。"
 
 #. Default: "\"${transition_id}\" transition successfully created."
-#: plone/app/workflowmanager/browser/transition.py:56
+#: plone/app/workflowmanager/browser/transition.py:54
 msgid "msg_transition_created"
 msgstr "“${transition_id}” 转换 已创建。"
 
 #. Default: "\"${id}\" transition has been successfully deleted."
-#: plone/app/workflowmanager/browser/transition.py:159
+#: plone/app/workflowmanager/browser/transition.py:157
 msgid "msg_transition_deleted"
 msgstr "“${id}” 转换 已删除。"
 

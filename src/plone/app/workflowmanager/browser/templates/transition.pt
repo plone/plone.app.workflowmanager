@@ -1,0 +1,12 @@
+<div tal:repeat="transition options/transitions" tal:attributes="id string:plumb-transition-${transition/id}" class="plumb-transition" style="display: none;">
+	<div class="transition-id" tal:content="transition/id">
+	</div>
+	<div class="transition-title plumb-title" tal:content="transition/title">
+	</div>
+	<div class="transition-description" tal:content="transition/description">
+	</div>
+	<div class="transition-destination" tal:content="transition/new_state_id">
+	</div>
+	<a class="dialog-box transition-link btn edit" rel="#pb_99999" tal:attributes="href python: view.get_url('@@workflowmanager-edit-transition', transition=transition);">Edit</a>
+	<a class="dialog-box transition-link btn" rel="#pb_99999" tal:attributes="href python: view.get_url('@@workflowmanager-delete-transition', transition=transition);">Delete</a>
+</div>

@@ -10,7 +10,7 @@ from plone.app.contentrules.rule import Rule, get_assignments
 from plone.contentrules.engine.assignments import RuleAssignment
 from Products.CMFCore.interfaces._events import IActionSucceededEvent
 from Products.CMFCore.utils import getToolByName
-from plone.app.workflowmanager.utils import generateRuleName, generateRuleNameOld
+from plone.app.workflowmanager.utils import generateRuleName
 
 from zope.i18nmessageid import MessageFactory
 _ = MessageFactory(u"plone")
@@ -32,6 +32,7 @@ class RuleAdapter(object):
         1) make sure condition is enabled for transition
         2) enable at root and bubble to item below
         """
+
         c = WorkflowTransitionCondition()
         c.wf_transitions = [self.transition.id]
         self.rule.conditions = [c]
@@ -73,10 +74,9 @@ class ActionManager(object):
 
     def get_rule(self, transition):
         rulename = generateRuleName(transition)
-        rulename_old = generateRuleNameOld(transition)
         if self.storage is not None:
             for rule in self.storage.values():
-                if rule.__name__ == rulename or rule.__name__ == rulename_old:
+                if rule.__name__ == rulename:
                     return RuleAdapter(rule, transition)
         return None
 
