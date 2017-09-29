@@ -4,6 +4,9 @@ Changelog
 1.0.2 (unreleased)
 ------------------
 
+- Add missing unittest2 dependency to the test dependencies.
+  [timo]
+
 - install plone.app.jquerytools as a dependency
   [iham]
 
