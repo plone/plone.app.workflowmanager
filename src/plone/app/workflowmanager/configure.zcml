@@ -8,8 +8,6 @@
   <permission id="plone.app.workflowmanager.ManageWorkflows"
     title="plone.app.workflowmanager: Manage Workflows" />
 
-  <include package="plone.app.jquerytools" />
-
   <include package=".browser" />
 
   <i18n:registerTranslations directory="locales"/>
