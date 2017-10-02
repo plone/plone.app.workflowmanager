@@ -2,6 +2,10 @@ Changelog
 =========
 2.1b1 (3/21/2017)
 ------------------
+
+- Add undeclared plone.api dependency.
+  [timo]
+
 - Updated JS to work with modern jQuery
   [obct537]
 - Replaced portal_properties requirement
@@ -13,7 +17,7 @@ Changelog
 -----------------
 - Added in basic QUnit testing setup. Created a few basic tests
   [obct537]
-- Pruned now-defunct code from JS. Fixed various minor UI bugs. 
+- Pruned now-defunct code from JS. Fixed various minor UI bugs.
 
 1.2a1 (2/12/2015)
 -----------------
