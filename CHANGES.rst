@@ -10,6 +10,7 @@ Changelog
 - install plone.app.jquerytools as a dependency
   [iham]
 
+
 1.0.1 (2014-09-25)
 ------------------
 
