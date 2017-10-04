@@ -43,6 +43,7 @@ setup(name='plone.app.workflowmanager',
           'test': [
               'plone.app.testing',
               'interlude',
+              'unittest2',
           ]
       },
       entry_points="""
