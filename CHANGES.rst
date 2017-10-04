@@ -1,5 +1,6 @@
 Changelog
 =========
+
 2.1b1 (3/21/2017)
 ------------------
 
@@ -11,34 +12,45 @@ Changelog
 
 - Updated JS to work with modern jQuery
   [obct537]
+
 - Replaced portal_properties requirement
   [obct537]
+
 - Updated styling/templates to look correct in Plone 5
   [obct537]
 
 1.2a2 (2/26/2015)
 -----------------
+
 - Added in basic QUnit testing setup. Created a few basic tests
   [obct537]
+
 - Pruned now-defunct code from JS. Fixed various minor UI bugs.
+  [obct537]
 
 1.2a1 (2/12/2015)
 -----------------
+
 - Rewrote back-end JS to be more predictable and flexible
   [obct537]
+
 - AJAX calls now return "intelligent" feedback to tell the graph
   how to update itself to reflect changes. [obct537]
 
+
 1.1a4 ~ unreleased
 ------------------
+
 - Updated graph saving system to be far more efficient
   [obct537]
 
 - Graph now updates dynamically whenever changes are saved.
   [obct537]
 
+
 1.1a3 ~ unreleased
 ------------------
+
 - Included Springy.js library
   [obct537]
 
@@ -49,8 +61,9 @@ Changelog
   to help ordering large, complex workflows much easier.
   [obct537]
 
-1.1a2
+1.1a2 ~ unreleased
 ------------------
+
 - Included jsPlumb library.
   [obct537]
 
@@ -61,11 +74,13 @@ Changelog
   Rewrote workflowmanager.js to be more dynamic, to accomodate jsPlumb
   [obct537]
 
+
 1.0a5
-------------------
+-----
 
 - install plone.app.jquerytools as a dependency
   [iham]
+
 
 1.0.1 (2014-09-25)
 ------------------
