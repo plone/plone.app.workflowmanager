@@ -3,6 +3,9 @@ Changelog
 2.1b1 (3/21/2017)
 ------------------
 
+- Make sure plone.app.jquerytools is installed when p.a.workflowmanager is installed.
+  [timo]
+
 - Add undeclared plone.api dependency.
   [timo]
 
