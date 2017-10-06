@@ -33,8 +33,10 @@ There should not be any plone workflows by default listed.
     >>> 'intranet_folder_workflow' in browser.contents
     False
 
+XXX: The plone.app.discussion comment_one_state_workflow bleeds into the Plone test fixture. Therefore this workflow is listed here. This shouldn't happen. See https://github.com/plone/plone.app.contenttypes/issues/432 for details (tisto).
+
     >>> 'one_state_workflow' in browser.contents
-    False
+    True
 
     >>> 'simple_publication_workflow' in browser.contents
     False

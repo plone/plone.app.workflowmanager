@@ -46,6 +46,7 @@ setup(name='plone.app.workflowmanager',
               'plone.app.jquerytools',
               'plone.app.robotframework',
               'interlude',
+              'unittest2',
           ]
       },
       entry_points="""

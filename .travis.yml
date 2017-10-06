@@ -1,0 +1,28 @@
+language: python
+python: 2.7
+cache:
+  pip: true
+  directories:
+    - $HOME/buildout-cache
+env:
+  - PLONE_VERSION=4.3.x
+  - PLONE_VERSION=5.0.x
+  - PLONE_VERSION=5.1.x
+matrix:
+  allow_failures:
+    - env: PLONE_VERSION=5.0.x
+    - env: PLONE_VERSION=5.1.x
+before_install:
+  - mkdir -p $HOME/buildout-cache/{eggs,downloads}
+  - python --version
+  - pip install -r requirements.txt
+install:
+  - sed -ie "s#plone-x.x.x.cfg#plone-$PLONE_VERSION.cfg#" travis.cfg
+  - buildout -N -t 3 -c travis.cfg
+script:
+#  - bin/code-analysis
+  - bin/test
+after_success:
+#  - bin/test-coverage
+#  - pip install coverage==3.7.1 coveralls
+#  - coveralls
