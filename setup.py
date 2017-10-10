@@ -37,7 +37,6 @@ setup(name='plone.app.workflowmanager',
           'Plone',
           'setuptools',
           'plone.app.jquery>=1.7',
-          'plone.app.jquerytools',
       ],
       extras_require={
           'test': [
