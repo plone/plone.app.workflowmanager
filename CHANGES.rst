@@ -8,7 +8,7 @@ Changelog
   [timo]
 
 - Remove plone.app.jquerytools dependency.
-  [iham]
+  [timo]
 
 
 1.0.1 (2014-09-25)
