@@ -7,7 +7,7 @@ Changelog
 - Add missing unittest2 dependency to the test dependencies.
   [timo]
 
-- install plone.app.jquerytools as a dependency
+- Install plone.app.jquerytools as a dependency
   [iham]
 
 
