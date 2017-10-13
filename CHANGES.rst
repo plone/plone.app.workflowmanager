@@ -4,11 +4,14 @@ Changelog
 1.0.2 (unreleased)
 ------------------
 
+- Plone 5.0/5.1 compatibility.
+  [jaroel,timo]
+
 - Add missing unittest2 dependency to the test dependencies.
   [timo]
 
 - Install plone.app.jquerytools as a dependency
-  [iham]
+  [iham, bloodbare]
 
 
 1.0.1 (2014-09-25)
