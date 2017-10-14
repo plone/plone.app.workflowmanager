@@ -15,6 +15,8 @@ from plone.app.workflowmanager.actionmanager import ActionManager
 from plone.app.contentrules.actions.notify import NotifyAction
 from plone.keyring.interfaces import IKeyManager
 
+from plone.protect.authenticator import createToken
+
 import unittest2 as unittest
 
 try:
@@ -95,7 +97,7 @@ class BaseTest(unittest.TestCase):
 
     def getRequest(self, form={}, authentic=False):
         if authentic:
-            form['_authenticator'] = self.genAuthString()
+            form['_authenticator'] = createToken()
 
         req = TestRequest(form=form, environ={
             'SERVER_URL': 'http://nohost',
@@ -103,9 +105,3 @@ class BaseTest(unittest.TestCase):
         })
         alsoProvides(req, IAttributeAnnotatable)
         return req
-
-    def genAuthString(self):
-        manager = getUtility(IKeyManager)
-        secret = manager.secret()
-        user = TEST_USER_NAME
-        return hmac.new(secret, user, sha).hexdigest()
