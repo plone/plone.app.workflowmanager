@@ -75,14 +75,17 @@ Changelog
   [obct537]
 
 
-1.0a5
------
+1.1.0 (2017-10-13)
+------------------
+
+- Plone 5.0/5.1 compatibility.
+  [jaroel,timo]
 
 - Add missing unittest2 dependency to the test dependencies.
   [timo]
 
-- install plone.app.jquerytools as a dependency
-  [iham]
+- Install plone.app.jquerytools as a dependency
+  [iham, bloodbare]
 
 
 1.0.1 (2014-09-25)
