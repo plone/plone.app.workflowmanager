@@ -4,6 +4,9 @@ Changelog
 2.1b1 (3/21/2017)
 ------------------
 
+- add PyPI classifiers for Plone 4.3 and 5.1, document Plone version compatibility, update README
+  [tkimnguyen]
+
 - Make sure plone.app.jquerytools is installed when p.a.workflowmanager is installed.
   [timo]
 
