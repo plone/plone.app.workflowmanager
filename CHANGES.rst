@@ -1,8 +1,8 @@
 Changelog
 =========
 
-2.1 (2019-01-23)
-----------------
+2.1.1 (2019-01-23)
+------------------
 
 - add PyPI classifiers for Plone 4.3 and 5.1, document Plone version compatibility, update README
   [tkimnguyen]
