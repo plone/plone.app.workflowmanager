@@ -4,7 +4,14 @@ Changelog
 2.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- add uninstall profile
+  [tkimnguyen]
+
+- bump buildout Plone versions
+  [tkimnguyen]
+
+- add index and allow-hosts for Travis
+  [tkimnguyen]
 
 
 2.1.1 (2019-01-23)
