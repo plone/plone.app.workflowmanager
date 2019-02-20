@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.1.2 (unreleased)
+2.1.2 (2019-02-20)
 ------------------
 
 - add uninstall profile
