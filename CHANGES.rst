@@ -10,7 +10,7 @@ Changelog
 - bump buildout Plone versions
   [tkimnguyen]
 
-- add mr.developer pin in requirements
+- add pypi to find-links for Travis
   [tkimnguyen]
 
 
