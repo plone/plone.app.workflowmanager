@@ -7,6 +7,9 @@ Changelog
 - add uninstall profile
   [tkimnguyen]
 
+- bump buildout Plone versions
+  [tkimnguyen]
+
 
 2.1.1 (2019-01-23)
 ------------------
