@@ -22,4 +22,11 @@
     provides="Products.GenericSetup.interfaces.EXTENSION"
     for="Products.CMFPlone.interfaces.IPloneSiteRoot" />
 
+  <genericsetup:registerProfile
+    name="uninstall"
+    title="Workflow Manager (uninstall)"
+    directory="profiles/uninstall"
+    description='Uninstalls the Workflow Manager for Plone.'
+    provides="Products.GenericSetup.interfaces.EXTENSION" />
+
 </configure>

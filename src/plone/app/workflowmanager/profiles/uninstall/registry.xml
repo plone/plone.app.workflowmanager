@@ -1,0 +1,9 @@
+<registry>
+    <record remove="True" name="plone.app.workflowmanager.layouts">
+        <field type="plone.registry.field.Dict">
+            <title>Layouts</title>
+            <key_type type="plone.registry.field.TextLine" />
+            <value_type type="plone.registry.field.Text" />
+        </field>
+    </record>
+</registry>

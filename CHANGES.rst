@@ -4,7 +4,8 @@ Changelog
 2.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- add uninstall profile
+  [tkimnguyen]
 
 
 2.1.1 (2019-01-23)
