@@ -10,6 +10,9 @@ Changelog
 - bump buildout Plone versions
   [tkimnguyen]
 
+- add pypi to find-links
+  [tkimnguyen]
+
 
 2.1.1 (2019-01-23)
 ------------------
