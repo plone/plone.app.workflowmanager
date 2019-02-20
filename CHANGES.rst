@@ -10,7 +10,7 @@ Changelog
 - bump buildout Plone versions
   [tkimnguyen]
 
-- add pypi to find-links for Travis
+- add index and allow-hosts for Travis
   [tkimnguyen]
 
 
