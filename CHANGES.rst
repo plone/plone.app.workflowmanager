@@ -4,7 +4,8 @@ Changelog
 2.1.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- update to build on Plone 5.1 latest
+  [tkimnguyen]
 
 
 2.1.2 (2019-02-20)
