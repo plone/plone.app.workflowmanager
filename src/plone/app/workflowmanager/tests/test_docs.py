@@ -1,27 +1,34 @@
-import doctest
-from plone.testing import layered
-import unittest2 as unittest
 from plone.app.workflowmanager.testing import FUNCTIONAL_MANAGER_TESTING
-import pprint
-import interlude
+from plone.testing import layered
 
-optionflags = (doctest.ELLIPSIS | doctest.NORMALIZE_WHITESPACE)
+import doctest
+import interlude
+import pprint
+import unittest2 as unittest
+
+
+optionflags = doctest.ELLIPSIS | doctest.NORMALIZE_WHITESPACE
 normal_testfiles = [
-    '../standardtiles.txt',
-    '../head.txt',
+    "../standardtiles.txt",
+    "../head.txt",
 ]
 testtype_testfiles = [
-    '../field.txt',
+    "../field.txt",
 ]
 
 
 def test_suite():
     suite = unittest.TestSuite()
-    suite.addTests([
-        layered(doctest.DocFileSuite('../browser.txt',
-            optionflags=optionflags,
-            globs={'interact': interlude.interact,
-                   'pprint': pprint.pprint},
-        ),
-        layer=FUNCTIONAL_MANAGER_TESTING)])
+    suite.addTests(
+        [
+            layered(
+                doctest.DocFileSuite(
+                    "../browser.txt",
+                    optionflags=optionflags,
+                    globs={"interact": interlude.interact, "pprint": pprint.pprint},
+                ),
+                layer=FUNCTIONAL_MANAGER_TESTING,
+            )
+        ]
+    )
     return suite

@@ -6,6 +6,8 @@ Changelog
 
 - Code cleanup:
   - Remove bootstrap.py
+  - Format code according to Plone standards: black, isort.
+  [thet]
 
 - update to build on Plone 5.1 latest
   [tkimnguyen]

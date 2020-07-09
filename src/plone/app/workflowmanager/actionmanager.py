@@ -1,23 +1,23 @@
-from zope.component import queryUtility
-
-from plone.memoize.instance import memoize
-from plone.contentrules.engine.interfaces import IRuleStorage
-from plone.contentrules.engine.interfaces import IRuleAssignmentManager
-from plone.app.contentrules.conditions.wftransition import \
-    WorkflowTransitionCondition
+from plone.app.contentrules.conditions.wftransition import WorkflowTransitionCondition
+from plone.app.contentrules.rule import get_assignments
+from plone.app.contentrules.rule import Rule
+from plone.app.workflowmanager.utils import generateRuleName
+from plone.app.workflowmanager.utils import generateRuleNameOld
 from plone.contentrules.engine import utils
-from plone.app.contentrules.rule import Rule, get_assignments
 from plone.contentrules.engine.assignments import RuleAssignment
+from plone.contentrules.engine.interfaces import IRuleAssignmentManager
+from plone.contentrules.engine.interfaces import IRuleStorage
+from plone.memoize.instance import memoize
 from Products.CMFCore.interfaces._events import IActionSucceededEvent
 from Products.CMFCore.utils import getToolByName
-from plone.app.workflowmanager.utils import generateRuleName, generateRuleNameOld
-
+from zope.component import queryUtility
 from zope.i18nmessageid import MessageFactory
+
+
 _ = MessageFactory(u"plone")
 
 
 class RuleAdapter(object):
-
     def __init__(self, rule, transition):
         self.rule = rule
         self.transition = transition
@@ -25,7 +25,7 @@ class RuleAdapter(object):
     @property
     @memoize
     def portal(self):
-        return getToolByName(self.transition, 'portal_url').getPortalObject()
+        return getToolByName(self.transition, "portal_url").getPortalObject()
 
     def activate(self):
         """
@@ -39,9 +39,10 @@ class RuleAdapter(object):
         self.rule.event = IActionSucceededEvent
 
         assignable = IRuleAssignmentManager(self.portal)
-        path = '/'.join(self.portal.getPhysicalPath())
-        assignable[self.rule.__name__] = RuleAssignment(self.rule.id,
-            enabled=True, bubbles=True)
+        path = "/".join(self.portal.getPhysicalPath())
+        assignable[self.rule.__name__] = RuleAssignment(
+            self.rule.id, enabled=True, bubbles=True
+        )
         assignments = get_assignments(self.rule)
         if not path in assignments:
             assignments.insert(path)
@@ -57,10 +58,11 @@ class RuleAdapter(object):
         return self.rule.actions.index(action)
 
     def action_url(self, action):
-        return '%s/%s/++action++%d/edit' % (
+        return "%s/%s/++action++%d/edit" % (
             self.portal.absolute_url(),
             self.rule.id,
-            self.action_index(action), )
+            self.action_index(action),
+        )
 
     def delete_action(self, index):
         self.rule.actions.remove(self.rule.actions[index])
@@ -71,7 +73,6 @@ class RuleAdapter(object):
 
 
 class ActionManager(object):
-
     def get_rule(self, transition):
         rulename = generateRuleName(transition)
         rulename_old = generateRuleNameOld(transition)
@@ -87,11 +88,13 @@ class ActionManager(object):
             rule_id = generateRuleName(transition)
             r = Rule()
             r.title = _(u"%s transition content rule") % transition.id
-            r.description = _(u"This content rule was automatically created "
-                              u"the workflow manager to create actions on "
-                              u"workflow events. If you want the behavior to "
-                              u"work as expected, do not modify this out of "
-                              u"the workflow manager.")
+            r.description = _(
+                u"This content rule was automatically created "
+                u"the workflow manager to create actions on "
+                u"workflow events. If you want the behavior to "
+                u"work as expected, do not modify this out of "
+                u"the workflow manager."
+            )
             self.storage[rule_id] = r
             rule = RuleAdapter(r, transition)
             rule.activate()

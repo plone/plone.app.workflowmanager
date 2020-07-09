@@ -1,7 +1,4 @@
-
-
 class TestResponse(object):
-
     def __init__(self):
         self.headers = {}
         self.redirect = False

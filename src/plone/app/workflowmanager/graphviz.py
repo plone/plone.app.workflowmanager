@@ -2,17 +2,18 @@
 # This code is directly adapted from
 # DCWorkflowGraph and isn't change much at all.
 #
-import os
-from tempfile import mktemp
 from os.path import join
-
 from Products.CMFCore.utils import getToolByName
+from tempfile import mktemp
 
-DOT_EXE = 'dot'
-bin_search_path = ''
+import os
 
-if os.name == 'nt':
-    DOT_EXE = 'dot.exe'
+
+DOT_EXE = "dot"
+bin_search_path = ""
+
+if os.name == "nt":
+    DOT_EXE = "dot.exe"
 
     # patch from Joachim Bauch bauch@struktur.de
     # on Windows, the path to the ATT Graphviz installation
@@ -20,13 +21,15 @@ if os.name == 'nt':
     try:
         import win32api
         import win32con
+
         # make sure that "key" is defined in our except block
         key = None
         try:
             key = win32api.RegOpenKeyEx(
-                win32con.HKEY_LOCAL_MACHINE, r'SOFTWARE\ATT\Graphviz')
-            value, type = win32api.RegQueryValueEx(key, 'InstallPath')
-            bin_search_path = [join(str(value), 'bin')]
+                win32con.HKEY_LOCAL_MACHINE, r"SOFTWARE\ATT\Graphviz"
+            )
+            value, type = win32api.RegQueryValueEx(key, "InstallPath")
+            bin_search_path = [join(str(value), "bin")]
         except:
             if key:
                 win32api.RegCloseKey(key)
@@ -37,7 +40,7 @@ if os.name == 'nt':
         pass
 else:
     # for posix systems
-    DOT_EXE = 'dot'
+    DOT_EXE = "dot"
     path = os.getenv("PATH")
     bin_search_path = path.split(":")
 
@@ -62,6 +65,7 @@ def bin_search(binary):
         raise MissingBinary('Unable to find binary "%s"' % binary)
     return result
 
+
 try:
     bin = bin_search(DOT_EXE)
     HAS_GRAPHVIZ = True
@@ -80,21 +84,21 @@ def getObjectTitle(object):
     if not title:
         title = id
     else:
-        title = '%s\\n(id: %s)' % (title, id)
+        title = "%s\\n(id: %s)" % (title, id)
     return title
 
 
 def getGuardTitle(guard):
-    out = ''
+    out = ""
     if guard is not None:
         if guard.expr:
-            out += 'Expression: %s; ' % guard.expr.text
+            out += "Expression: %s; " % guard.expr.text
         if guard.permissions:
-            out += 'Permissions: %s; ' % ','.join(guard.permissions)
+            out += "Permissions: %s; " % ",".join(guard.permissions)
         if guard.roles:
-            out += 'Roles: %s; ' % ','.join(guard.roles)
+            out += "Roles: %s; " % ",".join(guard.roles)
         if guard.groups:
-            out += 'Groups: %s; ' % ','.join(guard.groups)
+            out += "Groups: %s; " % ",".join(guard.groups)
 
     return out
 
@@ -114,15 +118,17 @@ def getPOT(wf):
         s_id = s.getId()
         s_title = getObjectTitle(s)
         out.append(
-            '"%s" [shape=box,label="%s",style="filled",fillcolor="#ffcc99"];' % (
-                s_id, s_title))
+            '"%s" [shape=box,label="%s",style="filled",fillcolor="#ffcc99"];'
+            % (s_id, s_title)
+        )
         for t_id in s.transitions:
             transitions_with_init_state.append(t_id)
             try:
                 t = wf.transitions[t_id]
             except KeyError:
-                out.append(('# transition "%s" from state "%s" '
-                            'is missing' % (t_id, s_id)))
+                out.append(
+                    ('# transition "%s" from state "%s" ' "is missing" % (t_id, s_id))
+                )
                 continue
 
             new_state_id = t.new_state_id
@@ -153,11 +159,10 @@ def getPOT(wf):
             transitions[key] = value
 
     for k, v in transitions.items():
-        out.append('"%s" -> "%s" [label="%s"];' % (k[0], k[1],
-                                               ',\\n'.join(v)))
+        out.append('"%s" -> "%s" [label="%s"];' % (k[0], k[1], ",\\n".join(v)))
 
-    out.append('}')
-    return '\n'.join(out)
+    out.append("}")
+    return "\n".join(out)
 
 
 def getGraph(workflow, format="gif"):
@@ -166,19 +171,18 @@ def getGraph(workflow, format="gif"):
         http://www.openflow.it/wwwopenflow/Download/OpenFlowEditor_0_4.tgz
     """
     pot = getPOT(workflow)
-    portal_properties = getToolByName(workflow, 'portal_properties')
-    encoding = portal_properties.site_properties.getProperty(
-        'default_charset', 'utf-8')
+    portal_properties = getToolByName(workflow, "portal_properties")
+    encoding = portal_properties.site_properties.getProperty("default_charset", "utf-8")
     if isinstance(pot, unicode):
         pot = pot.encode(encoding)
-    infile = mktemp('.dot')
-    f = open(infile, 'w')
+    infile = mktemp(".dot")
+    f = open(infile, "w")
     f.write(pot)
     f.close()
 
-    outfile = mktemp('.gif')
-    os.system('%s -Tgif -o %s %s' % (bin, outfile, infile))
-    out = open(outfile, 'rb')
+    outfile = mktemp(".gif")
+    os.system("%s -Tgif -o %s %s" % (bin, outfile, infile))
+    out = open(outfile, "rb")
     result = out.read()
     out.close()
     os.remove(outfile)
