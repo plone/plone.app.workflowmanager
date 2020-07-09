@@ -5,7 +5,7 @@ from plone.app.workflowmanager.browser.controlpanel import Base
 from plone.app.workflowmanager.graphviz import getGraph
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from random import randint
-from urllib import urlencode
+from six.moves.urllib.parse import urlencode
 
 
 class DeleteWorkflow(Base):

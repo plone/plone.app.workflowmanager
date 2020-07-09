@@ -10,12 +10,13 @@ from plone.memoize.view import memoize
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from urllib import urlencode
+from six.moves.urllib.parse import urlencode
 from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.schema.interfaces import IVocabularyFactory
 
 import zope.i18n
+import six
 
 
 try:
@@ -345,7 +346,7 @@ class Base(BrowserView):
         elif redirect:
             status["status"] = "redirect"
 
-            if type(redirect) in (str, unicode):
+            if type(redirect) in (str, six.text_type):
                 status["location"] = redirect
             else:
                 status["location"] = self.next_url

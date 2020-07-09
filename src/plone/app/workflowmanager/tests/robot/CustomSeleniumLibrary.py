@@ -1,3 +1,4 @@
+from __future__ import print_function
 from Selenium2Library import Selenium2Library
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support import expected_conditions as EC
@@ -29,7 +30,7 @@ class CustomSeleniumLibrary(Selenium2Library):
 
             alert = self._current_browser().switch_to_alert()
             alert.accept()
-            print "alert accepted"
+            print("alert accepted")
         except TimeoutException:
             raise AssertionError("No confirmation alert.")
 

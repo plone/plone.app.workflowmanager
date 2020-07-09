@@ -1,10 +1,10 @@
-from controlpanel import Base
+from .controlpanel import Base
 from plone.app.contentrules.rule import Rule
 from plone.app.workflowmanager.actionmanager import ActionManager
 from plone.app.workflowmanager.actionmanager import RuleAdapter
 from plone.app.workflowmanager.utils import generateRuleName
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from urllib import urlencode
+from six.moves.urllib.parse import urlencode
 from zope.i18nmessageid import MessageFactory
 
 

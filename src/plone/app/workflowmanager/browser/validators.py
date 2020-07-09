@@ -3,13 +3,14 @@ from plone.app.workflowmanager import WMMessageFactory as _
 from plone.app.workflowmanager.utils import generate_id
 from Products.CMFCore.utils import getToolByName
 from zope.i18n import translate
+import six
 
 
 def not_empty(form, name):
     v = form.request.get(name, "").strip()
     if (
         v is None
-        or (type(v) in (str, unicode) and len(v) == 0)
+        or (type(v) in (str, six.text_type) and len(v) == 0)
         or (type(v) in (tuple, set, list) and len(v) == 0)
     ):
         form.errors[name] = translate(
@@ -23,7 +24,7 @@ def id(form, name, container):
     elt_id = form.request.get(name, "").strip()
     putils = getToolByName(form.context, "plone_utils")
     elt_id = generate_id(
-        putils.normalizeString(unicode(elt_id, encoding="utf-8")), container.objectIds()
+        putils.normalizeString(six.text_type(elt_id, encoding="utf-8")), container.objectIds()
     )
     try:
         checkValidId(container, elt_id)
@@ -38,7 +39,7 @@ def id(form, name, container):
 def parse_set_value(form, key):
     val = form.request.get(key)
     if val:
-        if type(val) in (str, unicode):
+        if type(val) in (str, six.text_type):
             return set(val.split(","))
         elif type(val) in (tuple, list):
             return set(val)

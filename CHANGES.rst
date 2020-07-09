@@ -4,6 +4,9 @@ Changelog
 2.1.3 (unreleased)
 ------------------
 
+- Python 3 compatibility.
+  [thet]
+
 - Code cleanup:
   - Remove bootstrap.py
   - Format code according to Plone standards: black, isort.

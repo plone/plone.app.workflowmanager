@@ -6,7 +6,6 @@ from plone.app.workflowmanager.browser.controlpanel import Base
 from plone.app.workflowmanager.permissions import managed_permissions
 from plone.app.workflowmanager.utils import clone_state
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from sets import Set
 
 import json
 
@@ -266,10 +265,10 @@ class SaveState(Base):
         updated_state = self.updated_state_template(states=arbitraryStateList)
 
         # transitions that were added...
-        add = list(Set(newTransitions) - Set(oldTransitions))
+        add = list(set(newTransitions) - set(oldTransitions))
 
         # transitions that were removed
-        remove = list(Set(oldTransitions) - Set(newTransitions))
+        remove = list(set(oldTransitions) - set(newTransitions))
 
         update = dict()
         update["objectId"] = state.id

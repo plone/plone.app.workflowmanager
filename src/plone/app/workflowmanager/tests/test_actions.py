@@ -45,7 +45,7 @@ class TestActions(BaseTest):
         view = AddActionView(portal, req)
         try:
             view()
-        except AttributeError, ex:
+        except AttributeError as ex:
             self.assertTrue(
                 "'TestRequest' object has no attribute 'RESPONSE'" in str(ex)
             )
@@ -64,7 +64,7 @@ class TestActions(BaseTest):
         view = DeleteActionView(portal, req)
         try:
             view()
-        except AttributeError, ex:
+        except AttributeError as ex:
             self.assertTrue(
                 "'TestRequest' object has no attribute 'RESPONSE'" in str(ex)
             )

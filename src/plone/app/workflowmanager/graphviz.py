@@ -7,6 +7,7 @@ from Products.CMFCore.utils import getToolByName
 from tempfile import mktemp
 
 import os
+import six
 
 
 DOT_EXE = "dot"
@@ -173,7 +174,7 @@ def getGraph(workflow, format="gif"):
     pot = getPOT(workflow)
     portal_properties = getToolByName(workflow, "portal_properties")
     encoding = portal_properties.site_properties.getProperty("default_charset", "utf-8")
-    if isinstance(pot, unicode):
+    if isinstance(pot, six.text_type):
         pot = pot.encode(encoding)
     infile = mktemp(".dot")
     f = open(infile, "w")
