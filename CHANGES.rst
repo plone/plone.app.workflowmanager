@@ -4,6 +4,9 @@ Changelog
 2.1.3 (unreleased)
 ------------------
 
+- Code cleanup:
+  - Remove bootstrap.py
+
 - update to build on Plone 5.1 latest
   [tkimnguyen]
 
