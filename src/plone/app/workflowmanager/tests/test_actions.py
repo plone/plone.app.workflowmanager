@@ -11,7 +11,7 @@ from Products.CMFCore.utils import getToolByName
 from zope.component import getMultiAdapter
 from zope.component import getUtility
 
-import unittest2 as unittest
+import unittest
 
 
 class TestActions(BaseTest):

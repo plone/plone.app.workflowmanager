@@ -43,16 +43,12 @@ setup(
         "Plone",
         "setuptools",
         "plone.api",
-        "plone.app.jquery>=1.7",
-        "plone.app.jquerytools",
     ],
     extras_require={
         "test": [
             "plone.app.testing",
-            "plone.app.jquerytools",
             "plone.app.robotframework",
             "interlude",
-            "unittest2",
         ]
     },
     entry_points="""

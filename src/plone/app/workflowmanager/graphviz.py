@@ -177,7 +177,7 @@ def getGraph(workflow, format="gif"):
     if isinstance(pot, six.text_type):
         pot = pot.encode(encoding)
     infile = mktemp(".dot")
-    f = open(infile, "w")
+    f = open(infile, "wb")
     f.write(pot)
     f.close()
 

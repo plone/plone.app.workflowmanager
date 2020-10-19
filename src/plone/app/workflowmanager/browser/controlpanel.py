@@ -140,24 +140,25 @@ class Base(BrowserView):
     @memoize
     def available_states(self):
         wf = self.selected_workflow
-        if wf is not None:
-            states = [wf.states[state] for state in wf.states.objectIds()]
-            states.sort(lambda x, y: cmp(x.title.lower(), y.title.lower()))
-            return states
-        else:
+        if wf is None:
             return []
+        states = sorted(
+            wf.states.objectValues(),
+            key=lambda x: x.title.lower(),
+        )
+        return states
 
     @property
     @memoize
     def available_transitions(self):
         wf = self.selected_workflow
-        if wf is not None:
-            transitions = wf.transitions.objectIds()
-            transitions = [wf.transitions[t] for t in transitions]
-            transitions.sort(lambda x, y: cmp(x.title.lower(), y.title.lower()))
-            return transitions
-        else:
+        if wf is None:
             return []
+        transitions = sorted(
+            wf.transitions.objectValues(),
+            key=lambda x: x.title.lower(),
+        )
+        return transitions
 
     def authorize(self):
         authenticator = getMultiAdapter(
