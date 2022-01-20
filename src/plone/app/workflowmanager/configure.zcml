@@ -6,8 +6,6 @@
     i18n_domain="plone.app.workflowmanager"
     >
 
-  <include package="plone.app.jquerytools" />
-
   <permission
       id="plone.app.workflowmanager.ManageWorkflows"
       title="plone.app.workflowmanager: Manage Workflows"

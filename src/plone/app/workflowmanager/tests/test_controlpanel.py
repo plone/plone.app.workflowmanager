@@ -3,7 +3,7 @@ from plone.app.workflowmanager.browser.controlpanel import Base
 from plone.app.workflowmanager.testing import BaseTest
 from plone.app.workflowmanager.testing import INTEGRATION_MANAGER_TESTING
 
-import unittest2 as unittest
+import unittest
 
 
 class TestControlPanel(BaseTest):

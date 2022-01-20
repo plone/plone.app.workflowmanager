@@ -22,7 +22,7 @@ from zope.interface.declarations import alsoProvides
 from zope.publisher.browser import TestRequest
 
 import hmac
-import unittest2 as unittest
+import unittest
 
 
 try:

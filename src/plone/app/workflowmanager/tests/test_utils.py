@@ -2,7 +2,7 @@ from plone.app.workflowmanager.testing import BaseTest
 from plone.app.workflowmanager.testing import INTEGRATION_MANAGER_TESTING
 from plone.app.workflowmanager.utils import generate_id
 
-import unittest2 as unittest
+import unittest
 
 
 class TestUtils(BaseTest):
