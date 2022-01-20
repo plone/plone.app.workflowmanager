@@ -1,7 +1,8 @@
+from plone import api
 from Products.Five.browser import BrowserView
 
 import json
-from plone import api
+import six
 
 
 class GraphLayout(BrowserView):
@@ -22,7 +23,7 @@ class GraphLayout(BrowserView):
         self.REGISTRY_KEY = "plone.app.workflowmanager.layouts"
 
         if workflow is None:
-            self.workflow = self.request.form['workflow'] or None
+            self.workflow = self.request.form["workflow"] or None
         else:
             self.workflow = workflow
         self.layout = {}
@@ -32,12 +33,12 @@ class GraphLayout(BrowserView):
             layouts = {}
 
         if self.workflow not in layouts:
-            layouts[unicode(self.workflow)] = u'{}'
+            layouts[six.text_type(self.workflow)] = u"{}"
         else:
             self.layout = json.loads(layouts[self.workflow])
 
     def __call__(self):
-        self.layout = json.loads(self.request.form['layout'])
+        self.layout = json.loads(self.request.form["layout"])
         self.saveLayout()
 
     def getLayouts(self):
@@ -45,11 +46,11 @@ class GraphLayout(BrowserView):
 
     def saveLayout(self):
         layouts = self.getLayouts() or {}
-        layouts[unicode(self.workflow)] = unicode(json.dumps(self.layout))
+        layouts[six.text_type(self.workflow)] = six.text_type(json.dumps(self.layout))
         api.portal.set_registry_record(self.REGISTRY_KEY, layouts)
 
     def getLayout(self):
-        if(self.workflow == ''):
+        if self.workflow == "":
             return False
 
         return json.dumps(self.layout)

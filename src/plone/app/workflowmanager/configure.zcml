@@ -1,32 +1,35 @@
 <configure
-  xmlns="http://namespaces.zope.org/zope"
-  xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
-  xmlns:zcml="http://namespaces.zope.org/zcml"
-  xmlns:i18n="http://namespaces.zope.org/i18n"
-  i18n_domain="plone.app.workflowmanager">
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    i18n_domain="plone.app.workflowmanager"
+    >
 
-  <include package="plone.app.jquerytools" />
-    
-  <permission id="plone.app.workflowmanager.ManageWorkflows"
-    title="plone.app.workflowmanager: Manage Workflows" />
+  <permission
+      id="plone.app.workflowmanager.ManageWorkflows"
+      title="plone.app.workflowmanager: Manage Workflows"
+      />
 
   <include package=".browser" />
 
-  <i18n:registerTranslations directory="locales"/>
+  <i18n:registerTranslations directory="locales" />
 
   <genericsetup:registerProfile
-    name="default"
-    title="Workflow Manager"
-    directory="profiles/default"
-    description='Workflow Manager for Plone.'
-    provides="Products.GenericSetup.interfaces.EXTENSION"
-    for="Products.CMFPlone.interfaces.IPloneSiteRoot" />
+      name="default"
+      title="Workflow Manager"
+      description="Workflow Manager for Plone."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      directory="profiles/default"
+      />
 
   <genericsetup:registerProfile
-    name="uninstall"
-    title="Workflow Manager (uninstall)"
-    directory="profiles/uninstall"
-    description='Uninstalls the Workflow Manager for Plone.'
-    provides="Products.GenericSetup.interfaces.EXTENSION" />
+      name="uninstall"
+      title="Workflow Manager (uninstall)"
+      description="Uninstalls the Workflow Manager for Plone."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/uninstall"
+      />
 
 </configure>

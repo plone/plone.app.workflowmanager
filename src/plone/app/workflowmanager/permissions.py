@@ -8,14 +8,14 @@ def managed_permissions(wfid=None):
         return []
 
     site = getSite()
-    wtool = getToolByName(site, 'portal_workflow')
+    wtool = getToolByName(site, "portal_workflow")
     wf = wtool.get(wfid)
     items = []
     for permission in wf.permissions:
         data = {}
-        data['perm'] = permission
-        data['name'] = _(permission)
-        data['description'] = u''
+        data["perm"] = permission
+        data["name"] = _(permission)
+        data["description"] = u""
         items.append(data)
 
     return items
@@ -24,6 +24,6 @@ def managed_permissions(wfid=None):
 def allowed_guard_permissions(wfid=None):
     res = {}
     for item in managed_permissions(wfid):
-        res[item.get('name')] = item.get('name')
+        res[item.get("name")] = item.get("name")
 
     return res

@@ -2,197 +2,205 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:zcml="http://namespaces.zope.org/zcml"
-    i18n_domain="plone.app.workflowmanager">
+    i18n_domain="plone.app.workflowmanager"
+    >
 
-    <browser:pages
-        for="*"
-        permission="plone.app.workflowmanager.ManageWorkflows"
-        class=".controlpanel.ControlPanel">
-
-       <browser:page name="workflowmanager" />
-       <browser:page attribute="render_content_template"  name="workflowmanager-content" />
-       <browser:page name="workflowmanage-item" attribute="retrieve_item" />
-
-    </browser:pages>
-
-
-    <browser:page
-        for="*"
-        name="workflowmanager-save-state"
-        class=".state.SaveState"
-        permission="plone.app.workflowmanager.ManageWorkflows"
-    />
-    <browser:page
-        for="*"
-        name="workflowmanager-save-transition"
-        class=".transition.SaveTransition"
-        permission="plone.app.workflowmanager.ManageWorkflows"
-    />
-
-    <browser:page
-        for="*"
-        name="workflowmanager-save-graph"
-        class=".layout.GraphLayout"
-        permission="plone.app.workflowmanager.ManageWorkflows"
-    />
-
-    <browser:page
-        for="*"
-        name="workflowmanager-edit-state"
-        class=".state.EditState"
-        permission="plone.app.workflowmanager.ManageWorkflows"
-    />
-
-    <browser:page
-        for="*"
-        name="workflowmanager-edit-transition"
-        class=".transition.EditTransition"
-        permission="plone.app.workflowmanager.ManageWorkflows"
-    />
-
-    <browser:page
-        for="*"
-        name="workflowmanager-add-new-transition"
-        class=".transition.AddTransition"
-        permission="plone.app.workflowmanager.ManageWorkflows"
-    />
-
-    <browser:page
-        for="*"
-        name="workflowmanager-add-new-workflow"
-        class=".workflow.AddWorkflow"
-        permission="plone.app.workflowmanager.ManageWorkflows"
-    />
-
-    <browser:page
-        for="*"
-        name="workflowmanager-add-new-state"
-        class=".state.AddState"
-        permission="plone.app.workflowmanager.ManageWorkflows"
-    />
-
-    <browser:page
-        for="*"
-        name="workflowmanager-graph"
-        class=".layout.GraphLayout"
-        permission="plone.app.workflowmanager.ManageWorkflows"
-    />
-
-    <browser:page
-        for="*"
-        name="workflowmanager-delete-state"
-        class=".state.DeleteState"
-        permission="plone.app.workflowmanager.ManageWorkflows"
-    />
-
-    <browser:page
-        for="*"
-        name="workflowmanager-delete-transition"
-        class=".transition.DeleteTransition"
-        permission="plone.app.workflowmanager.ManageWorkflows"
-    />
-
-    <browser:page
-        for="*"
-        name="workflowmanager-delete-workflow"
-        class=".workflow.DeleteWorkflow"
-        permission="plone.app.workflowmanager.ManageWorkflows"
-    />
-
-    <browser:page
-        for="*"
-        name="workflowmanager-sanity-check"
-        class=".workflow.SanityCheck"
-        permission="plone.app.workflowmanager.ManageWorkflows"
-    />
-
-    <browser:page
-        for="*"
-        name="workflowmanager-assign"
-        class=".workflow.Assign"
-        permission="plone.app.workflowmanager.ManageWorkflows"
-    />
-
-    <browser:page
-        for="*"
-        name="workflowmanager-update-security-settings"
-        class=".workflow.UpdateSecuritySettings"
-        permission="plone.app.workflowmanager.ManageWorkflows"
-    />
-
-    <browser:page
-        for="*"
-        name="workflowmanager-view-graph.gif"
-        class=".workflow.Graph"
-        attribute="image"
-        permission="plone.app.workflowmanager.ManageWorkflows"
-    />
-
-    <browser:page
-        for="*"
-        name="workflowmanager-view-graph"
-        class=".workflow.Graph"
-        permission="plone.app.workflowmanager.ManageWorkflows"
-    />
-
-    <browser:page
+  <browser:pages
       for="*"
+      permission="plone.app.workflowmanager.ManageWorkflows"
+      class=".controlpanel.ControlPanel"
+      >
+
+    <browser:page name="workflowmanager" />
+    <browser:page
+        name="workflowmanager-content"
+        attribute="render_content_template"
+        />
+    <browser:page
+        name="workflowmanage-item"
+        attribute="retrieve_item"
+        />
+
+  </browser:pages>
+
+
+  <browser:page
+      name="workflowmanager-save-state"
+      for="*"
+      permission="plone.app.workflowmanager.ManageWorkflows"
+      class=".state.SaveState"
+      />
+  <browser:page
+      name="workflowmanager-save-transition"
+      for="*"
+      permission="plone.app.workflowmanager.ManageWorkflows"
+      class=".transition.SaveTransition"
+      />
+
+  <browser:page
+      name="workflowmanager-save-graph"
+      for="*"
+      permission="plone.app.workflowmanager.ManageWorkflows"
+      class=".layout.GraphLayout"
+      />
+
+  <browser:page
+      name="workflowmanager-edit-state"
+      for="*"
+      permission="plone.app.workflowmanager.ManageWorkflows"
+      class=".state.EditState"
+      />
+
+  <browser:page
+      name="workflowmanager-edit-transition"
+      for="*"
+      permission="plone.app.workflowmanager.ManageWorkflows"
+      class=".transition.EditTransition"
+      />
+
+  <browser:page
+      name="workflowmanager-add-new-transition"
+      for="*"
+      permission="plone.app.workflowmanager.ManageWorkflows"
+      class=".transition.AddTransition"
+      />
+
+  <browser:page
+      name="workflowmanager-add-new-workflow"
+      for="*"
+      permission="plone.app.workflowmanager.ManageWorkflows"
+      class=".workflow.AddWorkflow"
+      />
+
+  <browser:page
+      name="workflowmanager-add-new-state"
+      for="*"
+      permission="plone.app.workflowmanager.ManageWorkflows"
+      class=".state.AddState"
+      />
+
+  <browser:page
+      name="workflowmanager-graph"
+      for="*"
+      permission="plone.app.workflowmanager.ManageWorkflows"
+      class=".layout.GraphLayout"
+      />
+
+  <browser:page
+      name="workflowmanager-delete-state"
+      for="*"
+      permission="plone.app.workflowmanager.ManageWorkflows"
+      class=".state.DeleteState"
+      />
+
+  <browser:page
+      name="workflowmanager-delete-transition"
+      for="*"
+      permission="plone.app.workflowmanager.ManageWorkflows"
+      class=".transition.DeleteTransition"
+      />
+
+  <browser:page
+      name="workflowmanager-delete-workflow"
+      for="*"
+      permission="plone.app.workflowmanager.ManageWorkflows"
+      class=".workflow.DeleteWorkflow"
+      />
+
+  <browser:page
+      name="workflowmanager-sanity-check"
+      for="*"
+      permission="plone.app.workflowmanager.ManageWorkflows"
+      class=".workflow.SanityCheck"
+      />
+
+  <browser:page
+      name="workflowmanager-assign"
+      for="*"
+      permission="plone.app.workflowmanager.ManageWorkflows"
+      class=".workflow.Assign"
+      />
+
+  <browser:page
+      name="workflowmanager-update-security-settings"
+      for="*"
+      permission="plone.app.workflowmanager.ManageWorkflows"
+      class=".workflow.UpdateSecuritySettings"
+      />
+
+  <browser:page
+      name="workflowmanager-view-graph.gif"
+      for="*"
+      permission="plone.app.workflowmanager.ManageWorkflows"
+      class=".workflow.Graph"
+      attribute="image"
+      />
+
+  <browser:page
+      name="workflowmanager-view-graph"
+      for="*"
+      permission="plone.app.workflowmanager.ManageWorkflows"
+      class=".workflow.Graph"
+      />
+
+  <browser:page
       name="workflowmanager-addaction"
-      class=".actions.AddActionView"
-      permission="plone.app.workflowmanager.ManageWorkflows"
-    />
-
-    <browser:page
       for="*"
-      name="workflowmanager-deleteaction"
-      class=".actions.DeleteActionView"
       permission="plone.app.workflowmanager.ManageWorkflows"
-    />
+      class=".actions.AddActionView"
+      />
 
-    <browser:resource
-        name="workflowmanager.css"
-        file="resources/workflowmanager.css"
-    />
-    <browser:resource
-        name="workflowmanager.js"
-        file="resources/workflowmanager.js"
-    />
-    <browser:resource
-        name="wfmbootstrap-popover.js"
-        file="resources/bootstrap-popover.js"
-    />
-    <browser:resource
-        name="wfmbootstrap.css"
-        file="resources/bootstrap.css"
-    />
+  <browser:page
+      name="workflowmanager-deleteaction"
+      for="*"
+      permission="plone.app.workflowmanager.ManageWorkflows"
+      class=".actions.DeleteActionView"
+      />
 
-    <browser:resource
-        name="workflow-graph.css"
-        file="resources/workflow-graph.css"
-    />
+  <browser:resource
+      name="workflowmanager.css"
+      file="resources/workflowmanager.css"
+      />
+  <browser:resource
+      name="workflowmanager.js"
+      file="resources/workflowmanager.js"
+      />
+  <browser:resource
+      name="wfmbootstrap-popover.js"
+      file="resources/bootstrap-popover.js"
+      />
+  <browser:resource
+      name="wfmbootstrap.css"
+      file="resources/bootstrap.css"
+      />
 
-    <browser:resource
-        name="jsPlumb.js"
-        file="resources/jsPlumb/dom.jsPlumb-1.6.2-min.js"
-    />
+  <browser:resource
+      name="workflow-graph.css"
+      file="resources/workflow-graph.css"
+      />
 
-    <browser:resource
-        name="workflow-graph.js"
-        file="resources/workflow-graph.js"
-    />
+  <browser:resource
+      name="jsPlumb.js"
+      file="resources/jsPlumb/dom.jsPlumb-1.6.2-min.js"
+      />
 
-    <browser:resource
-        name="springy.js"
-        file="resources/springy.js"
-    />
+  <browser:resource
+      name="workflow-graph.js"
+      file="resources/workflow-graph.js"
+      />
 
-    <browser:resource
-        name="springyui.js"
-        file="resources/springyui.js"
-    />
+  <browser:resource
+      name="springy.js"
+      file="resources/springy.js"
+      />
 
-    <browser:resource
-        name="js_tests.js"
-        file="resources/js_tests.js"
-    />
+  <browser:resource
+      name="springyui.js"
+      file="resources/springyui.js"
+      />
+
+  <browser:resource
+      name="js_tests.js"
+      file="resources/js_tests.js"
+      />
 </configure>
